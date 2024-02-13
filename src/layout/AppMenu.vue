@@ -9,12 +9,12 @@ const model = ref([
         items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
     },
     {
-        icon: 'pi-book',
+        icon: 'pi pi-book',
         to: '/pages',
         items: [
             {
                 label: 'Auth',
-                icon: 'pi-book',
+                icon: 'pi pi-book',
                 items: [
                     {
                         label: 'Login',
