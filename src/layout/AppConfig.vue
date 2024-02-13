@@ -53,7 +53,7 @@ const applyScale = () => {
         <i class="pi pi-cog"></i>
     </button>
 
-    <Sidebar v-model:visible="visible" position="right" :transitionOptions="'.3s cubic-bezier(0, 0, 0.2, 1)'" class="layout-config-sidebar w-20rem">
+    <Sidebar v-model:visible="visible" position="right" :transitionOptions="'.3s cubic-bezier(0, 0, 0.2, 1)'" class="flex layout-config-sidebar w-20rem">
         <h5>Scale</h5>
         <div class="flex align-items-center">
             <Button icon="pi pi-minus" type="button" @click="decrementScale()" class="p-button-text p-button-rounded w-2rem h-2rem mr-2" :disabled="layoutConfig.scale.value === scales[0]"></Button>
@@ -96,7 +96,7 @@ const applyScale = () => {
         </template>
 
         <h5>Bootstrap</h5>
-        <div class="grid">
+        <div class="flex">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('bootstrap4-light-blue', 'light')">
                     <img src="/layout/images/themes/bootstrap4-light-blue.svg" class="w-2rem h-2rem" alt="Bootstrap Light Blue" />
@@ -120,7 +120,7 @@ const applyScale = () => {
         </div>
 
         <h5>Material Design</h5>
-        <div class="grid">
+        <div class="flex">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('md-light-indigo', 'light')">
                     <img src="/layout/images/themes/md-light-indigo.svg" class="w-2rem h-2rem" alt="Material Light Indigo" />
@@ -144,7 +144,7 @@ const applyScale = () => {
         </div>
 
         <h5>Material Design Compact</h5>
-        <div class="grid">
+        <div class="flex">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('mdc-light-indigo', 'light')">
                     <img src="/layout/images/themes/md-light-indigo.svg" class="w-2rem h-2rem" alt="Material Light Indigo" />
@@ -168,7 +168,7 @@ const applyScale = () => {
         </div>
 
         <h5>Tailwind</h5>
-        <div class="grid">
+        <div class="flex">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('tailwind-light', 'light')">
                     <img src="/layout/images/themes/tailwind-light.png" class="w-2rem h-2rem" alt="Tailwind Light" />
@@ -177,7 +177,7 @@ const applyScale = () => {
         </div>
 
         <h5>Fluent UI</h5>
-        <div class="grid">
+        <div class="flex">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('fluent-light', 'light')">
                     <img src="/layout/images/themes/fluent-light.png" class="w-2rem h-2rem" alt="Fluent Light" />
@@ -186,7 +186,7 @@ const applyScale = () => {
         </div>
 
         <h5>PrimeOne Design - 2022</h5>
-        <div class="grid">
+        <div class="flex flex-wrap">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('lara-light-indigo', 'light')">
                     <img src="/layout/images/themes/lara-light-indigo.png" class="w-2rem h-2rem" alt="Lara Light Indigo" />
@@ -230,7 +230,7 @@ const applyScale = () => {
         </div>
 
         <h5>PrimeOne Design - 2021</h5>
-        <div class="grid">
+        <div class="flex flex-wrap">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('saga-blue', 'light')">
                     <img src="/layout/images/themes/saga-blue.png" class="w-2rem h-2rem" alt="Saga Blue" />
