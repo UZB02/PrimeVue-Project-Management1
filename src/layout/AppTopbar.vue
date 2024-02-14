@@ -9,12 +9,12 @@ const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
 const router = useRouter();
 const sellectvalue = ref(null);
-const time = ref([
-    { name: 'To day', code: 'TD' },
-    { name: 'This week', code: 'TW' },
-    { name: 'Last week', code: 'LW' },
-    { name: 'This year', code: 'TY' },
-    { name: 'Last year', code: 'LY' }
+const projects = ref([
+    { name: 'Project Management', code: 'PM' },
+    { name: 'Pharmacy', code: 'PH' },
+    { name: 'Ichki Ishlar', code: 'II' },
+    { name: 'MCHS', code: 'MCHS' },
+    { name: 'RRR', code: 'RRR' }
 ]);
 const items = ref([
     {
@@ -151,7 +151,7 @@ const isOutsideClicked = (event) => {
       </div>
         <div class="right flex items-center w-1/2 gap-2">
             <div class="w-full flex items-center justify-end">
-                <Dropdown id="dropdown" v-model="sellectvalue" :options="time" optionLabel="name" class="p-invalid border w-1/3" placeholder="This week" />
+                <Dropdown id="dropdown" v-model="sellectvalue" :options="projects" optionLabel="name" class="p-invalid border w-1/3" placeholder="Project Management" />
             </div>
             <div class="layout-topbar-menu" :class="topbarMenuClasses">
                 <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button">
