@@ -5,31 +5,51 @@ import AppMenuItem from './AppMenuItem.vue';
 
 const model = ref([
     {
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
+        items: [{ label: 'Ish stoli', icon: 'pi pi-fw pi-home', to: '/' }]
     },
     {
         icon: 'pi pi-book',
         to: '/pages',
         items: [
             {
-                label: 'Auth',
-                icon: 'pi pi-book',
+                label: 'Loyihalar',
+                icon: 'pi pi-briefcase',
                 items: [
                     {
-                        label: 'Login',
-                        icon: 'pi pi-fw pi-sign-in',
-                        to: '/auth/login'
+                        label: `Loyihalar ro’yhati`,
+                        icon: 'pi pi-inbox',
+                        to: '/projects_list'
                     },
                     {
-                        label: 'Error',
-                        icon: 'pi pi-fw pi-times-circle',
-                        to: '/auth/error'
+                        label: `Loyiha ko’rsatkichlari`,
+                        icon: 'pi pi-sliders-h',
+                        to: '//'
                     },
                     {
-                        label: 'Access Denied',
-                        icon: 'pi pi-fw pi-lock',
-                        to: '/auth/access'
-                    }
+                        label: `Loyiha bosqichlari`,
+                        icon: 'pi pi-sitemap',
+                        to: '//'
+                    },
+                    {
+                        label: `Loyiha ijrochilari`,
+                        icon: 'pi pi-users',
+                        to: '//'
+                    },
+                    {
+                        label: `Loyiha moliyaviy ko’rsatkichlari`,
+                        icon: 'pi pi-credit-card',
+                        to: '//'
+                    },
+                    {
+                        label: `Loyihalarni rejalashtirish`,
+                        icon: 'pi pi-file-edit',
+                        to: '//'
+                    },
+                    {
+                        label: `Loyiha hisobotlar`,
+                        icon: 'pi pi-database',
+                        to: '//'
+                    },
                 ]
             },
         ]
