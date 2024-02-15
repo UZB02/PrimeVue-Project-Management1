@@ -18,60 +18,22 @@ const projects = ref([
 ]);
 const items = ref([
     {
-        label: 'Users',
-        items: [
-            // {
-            //     label: 'New',
-            //     icon: 'pi pi-plus'
-            // },
-            {
-                label: 'Developer',
-                icon: 'pi pi-user'
-            },
-            {
-                label: 'Project managers',
-                icon: 'pi pi-user'
-            },
-            {
-                label: 'Data analyzers',
-                icon: 'pi pi-user'
-            },
-            // {
-            //     label: 'Search',
-            //     icon: 'pi pi-search'
-            // }
-        ]
+        label: 'Developer',
+        icon: 'pi pi-user',
+        route: '/'
     },
     {
-        label: 'Profile',
-        items: [
-            {
-                label: 'Settings',
-                icon: 'pi pi-cog'
-            },
-            {
-                label: 'Logout',
-                icon: 'pi pi-sign-out'
-            }
-        ]
-    }
+        label: 'Manager',
+        icon: 'pi pi-user',
+        route: '/dashboard_manager'
+    },
+    {
+        label: 'Analyst',
+        icon: 'pi pi-user',
+        route: '/dashboard_analyst'
+    },
 ]);
 const menu = ref();
-const profil = ref([
-    {
-        label: 'Profil',
-        items: [
-            {
-                label: 'Refresh',
-                icon: 'pi pi-refresh'
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-upload'
-            }
-        ]
-    }
-]);
 
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -135,8 +97,8 @@ const isOutsideClicked = (event) => {
 
 <template>
     <div class="layout-topbar flex items-center justify-between">
-      <div class="left flex">
-          <router-link to="/" class="layout-topbar-logo">
+        <div class="left flex">
+            <router-link to="/" class="layout-topbar-logo">
                 <img :src="logoUrl" alt="logo" />
                 <span>SAKAI</span>
             </router-link>
@@ -148,21 +110,37 @@ const isOutsideClicked = (event) => {
             <button class="p-link layout-topbar-menu-button layout-topbar-button" @click="onTopBarMenuButton()">
                 <i class="pi pi-ellipsis-v"></i>
             </button>
-      </div>
+        </div>
         <div class="right flex items-center w-1/2 gap-2">
             <div class="w-full flex items-center justify-end">
-                <Dropdown id="dropdown" v-model="sellectvalue" :options="projects" optionLabel="name" class="p-invalid border w-1/3" placeholder="Project Management" />
+                <Dropdown id="dropdown" v-model="sellectvalue" :options="projects" optionLabel="name"
+                    class="p-invalid border w-1/3" placeholder="Project Management" />
             </div>
             <div class="layout-topbar-menu" :class="topbarMenuClasses">
                 <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button">
                     <i class="pi pi-calendar"></i>
                     <span>Calendar</span>
                 </button>
-                <button type="button" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"  class="p-link layout-topbar-button">
+                <button type="button" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                    class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
-                    <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true" />
-                    <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
-                </button> 
+                    <!-- <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true"  />
+                    <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" /> -->
+                </button>
+               <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="translate-y-2">
+                    <template #item="{ item, props }">
+                        <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                            <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                                <span :class="item.icon" />
+                                <span class="ml-2">{{ item.label }}</span>
+                            </a>
+                        </router-link>
+                        <!-- <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+                            <span :class="item.icon" />
+                            <span class="ml-2">{{ item.label }}</span>
+                        </a> -->
+                    </template>
+                </Menu>
                 <button @click="onSettingsClick()" class="p-link layout-topbar-button">
                     <i class="pi pi-cog"></i>
                     <span>Settings</span>

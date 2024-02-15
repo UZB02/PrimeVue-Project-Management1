@@ -120,25 +120,25 @@ const comuniti = ref([
         img: `https://avatars.mds.yandex.net/i?id=c96f74047facf42a702af4f3c4707ad8eff4552f-5324799-images-thumbs&ref=rim&n=33&w=250&h=250`,
         name: `Alex Jordan`,
         position: `Front-End Developer `,
-        points:`50`,
+        points: `50`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=b8f1fb2dd1dea71d1e91e47ee84ce44844dae807-7020937-images-thumbs&ref=rim&n=33&w=250&h=250`,
         name: `Muhsinbek Mirzamatov`,
         position: `Front-End Developer `,
-        points:`47`,
+        points: `47`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=cfb61e705cbc7609562b986b936f4431-4361307-images-thumbs&ref=rim&n=33&w=250&h=250`,
         name: `Javohir Bozorboyev`,
         position: `Front-End Developer `,
-        points:`40`,
+        points: `40`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=0fd3e6f94eb22e51a43738500fb93d89caf13d6b-9264723-images-thumbs&ref=rim&n=33&w=235&h=250`,
         name: `Javohir Bozorboyev`,
         position: `Front-End Developer `,
-        points:`34`,
+        points: `34`,
     },
 ])
 const comunitiCard = ref([
@@ -146,29 +146,29 @@ const comunitiCard = ref([
         img: `https://avatars.mds.yandex.net/i?id=ee81aed641f0e39576f73c988ba5dd89d07c3dd0-8071172-images-thumbs&ref=rim&n=33&w=250&h=250`,
         name: `John's`,
         rols: `Front-End Developer`,
-        tell:`+99893-123-45-67`
+        tell: `+99893-123-45-67`
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13`,
-         name: `John's`,
+        name: `John's`,
         rols: `Back-End Developer`,
         tell: `+99893-123-45-67`
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=8ca5af00308aefc9251d900bc01f1533-4964375-images-thumbs&n=13`,
-         name: `John's`,
+        name: `John's`,
         rols: `UX Designer`,
         tell: `+99893-123-45-67`
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=86fc28cdbf257da6f0a95597c2365cadafb1fd73-12463617-images-thumbs&n=13`,
-       name: `John's`,
+        name: `John's`,
         rols: `Testter`,
         tell: `+99893-123-45-67`
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=acbfee42774c5aa3e27945f662baf23aeb608c8b-3788438-images-thumbs&n=13`,
-         name: `John's`,
+        name: `John's`,
         rols: `Front-End Developer`,
         tell: `+99893-123-45-67`
     },
@@ -178,19 +178,22 @@ const notifications = ref([
         name: `Project Name`,
         status: `Bugun kechgacha bajarilishi zarur`,
         svg: `pi pi-bookmark`,
-        term: `15.02.2024`,
+        term: `09:30`,
+        time:`15:30`
     },
     {
         name: `Project Name`,
         status: `Ertaga kechgacha bajarilishi zarur`,
         svg: `pi pi-bookmark`,
-        term: `14.02.2024`,
+        term: `09:00`,
+        time: `12:00`
     },
     {
         name: `Project Name`,
         status: `12.03.2024 gacha bajarilishi zarur`,
         svg: `pi pi-bookmark`,
-        term: `10.02.2024`,
+        term: `11:00`,
+        time: `13:06`
     },
 ])
 
@@ -256,10 +259,10 @@ const lineData = reactive({
         }
     ]
 });
-const items = ref([
-    { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-    { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-]);
+// const items = ref([
+//     { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+//     { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+// ]);
 const lineOptions = ref(null);
 const productService = new ProductService();
 
@@ -351,7 +354,7 @@ watch(
     <div class="flex flex-col">
         <div class="top flex gap-2">
             <div v-for="item in data"
-                class="w-1/4 h-52 card cursor-pointer hover:scale-105 bg-white flex gap-5 flex-col p-4 rounded-xl"
+                class="w-1/4 h-52  cursor-pointer hover:scale-105 bg-white flex gap-5 flex-col p-4 rounded-xl"
                 data-aos="flip-right">
                 <div class="top flex w-full items-center justify-between border-b-2 pb-1">
                     <div class="left flex items-center justify-center gap-4">
@@ -371,9 +374,9 @@ watch(
                 </div>
             </div>
         </div>
-        <div class="bottom flex flex-col max-md:flex-col">
+        <div class="bottom flex flex-col lg:flex-col">
             <div class="top flex max-md:flex-col">
-                     <div class="col-12 xl:col-6">
+                <div class="col-12 xl:col-6 w-full">
                     <div class="card flex flex-col gap-4">
                         <div class="top flex align-items-center justify-content-between">
                             <h5>Joriy haftadagi topshiriqlar ro’yxati paneli</h5>
@@ -445,11 +448,12 @@ watch(
                         </div> -->
                         </div>
                         <ul class="list-none flex flex-col p-0 m-0">
-                            <li v-for="item in comuniti" class="flex flex-column bg-slate-50 p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
-                               <div class="cards w-full flex items-center justify-between">
-                                 <div class="w-[70%] flex items-center gap-3">
-                                        <img :src="item.img" alt="" class="w-[15%]">
-                                         <div class="">
+                            <li v-for="item in comuniti"
+                                class="flex flex-column bg-slate-50 p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                <div class="cards w-full flex items-center justify-between">
+                                    <div class="w-[70%] flex items-center gap-3">
+                                        <img :src="item.img" alt="" class="w-[10%]">
+                                        <div class="">
                                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.name }}</span>
                                             <div class="mt-1 text-600">{{ item.position }}</div>
                                         </div>
@@ -458,62 +462,56 @@ watch(
                                         <i class="pi pi-star"></i>
                                         <span class="text-orange-500 ml-3 font-medium">{{ item.points }}</span>
                                     </div>
-                               </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
                 </div>
-            <div class="col-12 xl:col-6">
-                    <div class="card">
-                        <div class="top flex items-center justify-between">
-                            <h5>Sales Overview</h5>
-                            <div class="link flex items-center justify-center gap-3">
-                                <button class="font-bold">Deyly</button>
-                                <button class="font-bold">Weekly</button>
-                                <button style="border-bottom: 3px solid rgb(1, 181, 1);" class="font-bold">Montly</button>
+            </div>
+            <section class="flex flex-col gap-3">
+                <div class="top">
+                    <div class="card flex flex-col gap-4 p-3 rounded">
+                        <div class="flex align-items-center justify-content-between">
+                            <h5>Loyiha jamoasi a’zolari ma’lumoti paneli</h5>
+                        </div>
+                        <div class="bottom flex items-center gap-3 flex-wrap">
+                            <div v-for="item in comunitiCard"
+                                class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 bg-gray-50 rounded-xl p-3 w-[19%]">
+                                <img :src="item.img" class="w-32 card-img  h-32 rounded-[50%]" alt="">
+                                <h1 class="font-bold">{{ item.name }}</h1>
+                                <h4>{{ item.rols }}</h4>
+                                <h5 class="text-gray-500 font-italic">{{ item.tell }}</h5>
                             </div>
                         </div>
-                        <Chart type="line" :data="lineData" :options="lineOptions" />
                     </div>
-                    <div class="card">
-                        <div class="flex align-items-center justify-content-between mb-4">
-                            <h5>Bugungi topshiriqlar va bildirishnomalar paneli</h5>
-                        </div>
-                        <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
-                            <li class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
-                               <div class="flex items-center justify-center">
-                                 <div
-                                        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                        <i :class="item.svg" class="text-xl text-blue-500"></i>
+                </div>
+                <div class="bottom">
+                       <div class="card">
+                            <div class="flex align-items-center justify-content-between mb-4">
+                                <h5>Bildirishnomalar paneli</h5>
+                            </div>
+                            <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
+                                <li
+                                    class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
+                                    <div class="flex items-center justify-center">
+                                        <div
+                                            class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                            <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                        </div>
+                                        <span class="text-900 line-height-3 flex flex-col gap-2">
+                                            <h1 class="font-bold">{{ item.name }}</h1>
+                                            <h4>{{ item.status }}</h4>
+                                        </span>
                                     </div>
-                                    <span class="text-900 line-height-3 flex flex-col gap-2">
-                                        <h1 class="font-bold">{{ item.name }}</h1>
-                                        <h4>{{ item.status }}</h4>
-                                    </span>
-                               </div>
-                               <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term }}</span>
-                            </li>
-                        </ul>
-                    </div>
-            </div>
-            </div>
-        <section>
-            <div class="top">
-                <div class="card flex flex-col gap-4 p-3 rounded">
-                    <div class="flex align-items-center justify-content-between">
-                                <h5>Loyiha jamoasi a’zolari ma’lumoti paneli</h5>
-                    </div>
-                          <div class="bottom flex items-center gap-3 flex-wrap">
-                            <div v-for="item in comunitiCard" class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 bg-gray-50 rounded-xl p-3 w-[19%]">
-                                    <img :src="item.img" class="w-32 card-img  h-32 rounded-[50%]" alt="">
-                                    <h1 class="font-bold">{{ item.name }}</h1>
-                                        <h4>{{ item.rols }}</h4>
-                                        <h5 class="text-gray-500 font-italic">{{ item.tell }}</h5>
-                            </div>
-                          </div> 
+                                  <div class="flex flex-col gap-2 items-center justify-center">
+                                      <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
+                                      }}-{{ item.time }}</span>
+                                         <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl"></span>
+                                  </div>
+                                </li>
+                            </ul>
+                        </div>
                 </div>
-            </div>
-        </section>
+            </section>
     </div>
-</div>
-</template>
+</div></template>
