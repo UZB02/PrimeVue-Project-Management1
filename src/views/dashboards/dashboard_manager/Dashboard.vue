@@ -178,21 +178,21 @@ const notifications = ref([
         name: `Project Name`,
         status: `Bugun kechgacha bajarilishi zarur`,
         svg: `pi pi-bookmark`,
-        term: `15.02.2024`,
-        time:`15:30`
+        term: `12.01.2024`,
+        time: `15:30`
     },
     {
         name: `Project Name`,
         status: `Ertaga kechgacha bajarilishi zarur`,
         svg: `pi pi-bookmark`,
-        term: `14.02.2024`,
-        time: `09:15`
+        term: `28.01.2024`,
+        time: `12:00`
     },
     {
         name: `Project Name`,
         status: `12.03.2024 gacha bajarilishi zarur`,
         svg: `pi pi-bookmark`,
-        term: `10.02.2024`,
+        term: `03.02.2024`,
         time: `13:06`
     },
 ])
@@ -270,9 +270,9 @@ onMounted(() => {
     productService.getProductsSmall().then((data) => (products.value = data));
 });
 
-function changeLineData(newData) {
-    lineData = newData;
-}
+// function changeLineData(newData) {
+//     lineData = newData;
+// }
 
 // const formatCurrency = (value) => {
 //     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -480,30 +480,29 @@ watch(
                         <Chart type="line" :data="lineData" :options="lineOptions" />
                     </div>
                     <div class="card">
-                        <div class="flex align-items-center justify-content-between mb-4">
-                            <h5>Bugungi topshiriqlar va bildirishnomalar paneli</h5>
-                        </div>
-                        <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
-                            <li
-                                class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
-                                <div class="flex items-center justify-center">
-                                    <div
-                                        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                        <i :class="item.svg" class="text-xl text-blue-500"></i>
+                            <div class="flex align-items-center justify-content-between mb-4">
+                                <h5>Bugungi topshiriqlar va bildirishnomalar paneli</h5>
+                            </div>
+                            <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
+                                <li
+                                    class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
+                                    <div class="flex items-center justify-center">
+                                        <div
+                                            class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                            <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                        </div>
+                                        <span class="text-900 line-height-3 flex flex-col gap-2">
+                                            <h1 class="font-bold">{{ item.name }}</h1>
+                                            <h4>{{ item.status }}</h4>
+                                        </span>
                                     </div>
-                                    <span class="text-900 line-height-3 flex flex-col gap-2">
-                                        <h1 class="font-bold">{{ item.name }}</h1>
-                                        <h4>{{ item.status }}</h4>
-                                    </span>
-                                </div>
-                                <div class="flex flex-col gap-1 items-center justify-center">
-                                    <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
-                                    }}</span>
-                                    <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl">{{ item.time }}</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                                    <div class="flex flex-col gap-1 items-center justify-center">
+                                        <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
+                                        }}  {{ item.time }}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                 </div>
             </div>
             <section class="flex flex-col gap-3">
@@ -524,31 +523,37 @@ watch(
                     </div>
                 </div>
                 <div class="bottom">
-                       <div class="card">
-                            <div class="flex align-items-center justify-content-between mb-4">
-                                <h5>Bildirishnomalar paneli</h5>
-                            </div>
-                            <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
-                                <li
-                                    class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
-                                    <div class="flex items-center justify-center">
-                                        <div
-                                            class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                            <i :class="item.svg" class="text-xl text-blue-500"></i>
+                         <div class="card">
+                                <div class="flex align-items-center justify-content-between mb-4">
+                                    <h5>Bildirishnomalar paneli</h5>
+                                </div>
+                                <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
+                                    <li
+                                        class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
+                                        <div class="flex items-center justify-center">
+                                            <div
+                                                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                                <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                            </div>
+                                            <span class="text-900 line-height-3 flex flex-col gap-2">
+                                                <h1 class="font-bold">{{ item.name }}</h1>
+                                                <h4>{{ item.status }}</h4>
+                                            </span>
                                         </div>
-                                        <span class="text-900 line-height-3 flex flex-col gap-2">
-                                            <h1 class="font-bold">{{ item.name }}</h1>
-                                            <h4>{{ item.status }}</h4>
-                                        </span>
-                                    </div>
-                                  <div class="flex flex-col gap-2 items-center justify-center">
-                                      <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
-                                      }}</span>
-                                         <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl">{{ item.time }}</span>
-                                  </div>
-                                </li>
-                            </ul>
-                        </div>
+
+                                      <div class="flex flex-col gap-2 items-center justify-center">
+                                          <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
+                                          }} {{ item.time }}</span>
+                                             <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl"></span>
+                                      </div>
+                                      <div class="flex flex-col gap-2 items-center justify-center">
+                                          <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
+                                          }} {{ item.time }}</span>
+                                             <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl"></span>
+                                      </div>
+                                    </li>
+                                </ul>
+                            </div>
                 </div>
             </section>
     </div>
