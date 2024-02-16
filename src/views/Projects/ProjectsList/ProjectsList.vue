@@ -10,14 +10,14 @@
     </header> -->
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div v-for="item in cardinfo" class="card1 bg-white shadow-md p-3 rounded-lg w-[30%] flex flex-col gap-2">
-                <img class="rounded-xl w-full h-44" :src="item.img" alt="">
+            <div v-for="item in cardinfo" class="card1 shadow-md p-3 rounded-lg w-[30%] flex flex-col gap-2">
+                <img class="rounded-xl w-full h-40" :src="item.img" alt="">
                 <div class="bottom">
                     <span class="flex flex-col gap-2">
                         <h1 class="text-2xl font-bold">{{ item.name }}</h1>
                         <div class="flex items-center justify-between gap-3">
-                          <div class="flex items-center justify-center gap-3">
-                              <span class="flex items-center justify-center gap-1">
+                            <div class="flex items-center justify-center gap-3">
+                                <span class="flex items-center justify-center gap-1">
                                     <i class="pi pi-calendar"></i>
                                     <h2>{{ item.data }}</h2>
                                 </span>
@@ -29,7 +29,23 @@
                                     <i class="pi pi-verified"></i>
                                     <h2>{{ item.checked }}</h2>
                                 </span>
-                          </div>
+                            </div>
+                             <div class="">
+                                        <AvatarGroup class="mb-3">
+                                            <Avatar :image="'demo/images/avatar/amyelsner.png'" size="large" shape="circle">
+                                            </Avatar>
+                                            <Avatar :image="'demo/images/avatar/asiyajavayant.png'" size="large" shape="circle">
+                                            </Avatar>
+                                            <Avatar :image="'demo/images/avatar/onyamalimba.png'" size="large" shape="circle">
+                                            </Avatar>
+                                        </AvatarGroup>
+                                    </div>
+                        </div>
+                        <div class="w-full flex items-center  justify-center gap-3">
+                            <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                            </span>
+                            <span class="text-sm">{{ item.score }}</span>
                         </div>
                     </span>
                 </div>
@@ -47,6 +63,7 @@ const cardinfo = ref([
         data: `15.02.2024`,
         file: `3`,
         checked: `10`,
+        score: `60%`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=7c4c2aa230b67b544a95f2286ee29ed6c996f423-10592644-images-thumbs&n=13`,
@@ -54,6 +71,7 @@ const cardinfo = ref([
         data: `01.01.2024`,
         file: `6`,
         checked: `15`,
+        score: `30%`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=5fb3c020c70b83301b406e1c86205abd2c575c99-10577947-images-thumbs&n=13`,
@@ -61,6 +79,7 @@ const cardinfo = ref([
         data: `24.12.2023`,
         file: `2`,
         checked: `7`,
+        score: `80%`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=7f5751d9137e5a8be456a4a493af77ba5c1c9086-9820447-images-thumbs&n=13`,
@@ -68,6 +87,7 @@ const cardinfo = ref([
         data: `16.11.2023`,
         file: `8`,
         checked: `17`,
+        score: `50%`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=ea521d74d36ab6fb17921bd72528292049e1fdef-8272935-images-thumbs&n=13`,
@@ -75,6 +95,7 @@ const cardinfo = ref([
         data: `26.10.2023`,
         file: `3`,
         checked: `10`,
+        score: `48%`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
@@ -82,6 +103,7 @@ const cardinfo = ref([
         data: `10.10.2023`,
         file: `3`,
         checked: `10`,
+        score: `97%`,
     },
 ])
 
