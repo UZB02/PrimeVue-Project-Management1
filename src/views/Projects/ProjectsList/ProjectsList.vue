@@ -10,7 +10,7 @@
     </header> -->
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div v-for="item in cardinfo" class="card1 shadow-md p-3 rounded-lg w-[30%] flex flex-col gap-2">
+            <div v-for="item in cardinfo" class="card1 shadow-md p-3 rounded-lg w-[32%] flex flex-col gap-2">
                 <img class="rounded-xl w-full h-40" :src="item.img" alt="">
                 <div class="bottom">
                     <span class="flex flex-col gap-2">
@@ -30,16 +30,16 @@
                                     <h2>{{ item.checked }}</h2>
                                 </span>
                             </div>
-                             <div class="">
-                                        <AvatarGroup class="mb-3">
-                                            <Avatar :image="'demo/images/avatar/amyelsner.png'" size="large" shape="circle">
-                                            </Avatar>
-                                            <Avatar :image="'demo/images/avatar/asiyajavayant.png'" size="large" shape="circle">
-                                            </Avatar>
-                                            <Avatar :image="'demo/images/avatar/onyamalimba.png'" size="large" shape="circle">
-                                            </Avatar>
-                                        </AvatarGroup>
-                                    </div>
+                            <div class="">
+                                <AvatarGroup class="mb-3">
+                                    <Avatar :image="'demo/images/avatar/amyelsner.png'" shape="circle">
+                                    </Avatar>
+                                    <Avatar :image="'demo/images/avatar/asiyajavayant.png'" shape="circle">
+                                    </Avatar>
+                                    <Avatar :image="'demo/images/avatar/onyamalimba.png'"  shape="circle">
+                                    </Avatar>
+                                </AvatarGroup>
+                            </div>
                         </div>
                         <div class="w-full flex items-center  justify-center gap-3">
                             <span class="bg-gray-200 flex items-center rounded-xl w-full">
@@ -50,11 +50,69 @@
                     </span>
                 </div>
             </div>
+            <div class="list w-full">
+                <div class="card">
+                    <div class="flex align-items-center justify-content-between mb-4">
+                        <h5 class="text-4xl font-medium">4 Tasks</h5>
+                        <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
+                            class="w-1/2 md:w-14rem border" />
+                    </div>
+                    <ul v-for="item in list" class="p-0 mx-0 mt-0 mb-4 list-none">
+                        <li
+                            class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
+                            <div class="flex items-center justify-center">
+                                <div
+                                    class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                    <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                </div>
+                                <span class="text-900 line-height-3 flex flex-col gap-2">
+                                    <h1 class="font-bold">{{ item.project_name }}</h1>
+                                    <h4 class="text-slate-400">{{ item.status }}</h4>
+                                </span>
+                            </div>
+
+                            <div class="w-1/2 flex  gap-6 items-center justify-center">
+                                <span class="flex w-1/4 items-center justify-center gap-2">
+                                    <Avatar :image="item.avatar" size="large" shape="circle">
+                                    </Avatar>
+                                    <h1 class="text-slate-500 font-medium">{{ item.avatar_name }}</h1>
+                                </span>
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="pi pi-calendar"></i>
+                                    <span class="w-40 font-semibold">
+                                        {{ item.month }} - {{ item.term }}
+                                    </span>
+                                </span>
+
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="pi pi-paperclip"></i>
+                                    <h3>{{ item.files }}</h3>
+                                </span>
+                                <span class="w-1/4 flex items-center  justify-center gap-3">
+                                      <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                    <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                </span>
+                                <span class="text-sm">{{ item.score }}</span>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 </template>
 <script setup>
 import { ref } from 'vue';
+
+const selectedCity = ref();
+const cities = ref([
+    { name: 'This Week', code: 'TW' },
+    { name: 'To Day', code: 'TD' },
+    { name: 'Last Week', code: 'LW' },
+    { name: 'Last Day', code: 'LD' },
+    { name: 'This Month', code: 'TM' }
+]);
 
 const cardinfo = ref([
     {
@@ -104,6 +162,53 @@ const cardinfo = ref([
         file: `3`,
         checked: `10`,
         score: `97%`,
+    },
+])
+
+const list = ref([
+   {
+        project_name: `Project Name`,
+        status: `14 Tasks`,
+        svg: `pi pi-qrcode`,
+        term: `5,2024`,
+        month: `Okt 31`,
+        avatar_name: `Julia`,
+        score: `95%`,
+        files:`6`,
+        avatar:`https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`
+    },
+   {
+         project_name: `Project Name`,
+        status: `14 Tasks`,
+        svg: `pi pi-chart-line`,
+       term: `4,2024`,
+         month: `Avg 12`,
+       files: `3`,
+       score: `47%`,
+        avatar_name: `Jhonsn`,
+        avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
+    },
+   {
+         project_name: `Project Name`,
+        status: `14 Tasks`,
+        svg: `pi pi-chart-pie`,
+       term: `1,2024`,
+         month: `Mar 26`,
+       files: `7`,
+       score: `81%`,
+        avatar_name: `Andrey`,
+        avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
+    },
+   {
+        name: `Project Name`,
+        status: `14 Tasks`,
+        svg: `pi pi-star`,
+       term: `10,2023`,
+         month: `Yan 31`,
+       score: `53%`,
+       files: `12`,
+       avatar_name: `Watson`,
+         avatar:`https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`
     },
 ])
 
