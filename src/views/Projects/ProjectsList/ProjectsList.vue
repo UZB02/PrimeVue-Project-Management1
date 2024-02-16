@@ -200,7 +200,7 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
     },
    {
-        name: `Project Name`,
+        project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-star`,
        term: `10,2023`,
