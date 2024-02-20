@@ -30,7 +30,11 @@ const items = ref([
     {
         label: 'Analyst',
         icon: 'pi pi-user',
-        route: '/dashboard_analyst'
+        route: [
+            {
+                path:'/dashboard_analyst'
+            }
+        ]
     },
 ]);
 const menu = ref();
@@ -135,10 +139,6 @@ const isOutsideClicked = (event) => {
                                 <span class="ml-2">{{ item.label }}</span>
                             </a>
                         </router-link>
-                        <!-- <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-                            <span :class="item.icon" />
-                            <span class="ml-2">{{ item.label }}</span>
-                        </a> -->
                     </template>
                 </Menu>
                 <button @click="onSettingsClick()" class="p-link layout-topbar-button">

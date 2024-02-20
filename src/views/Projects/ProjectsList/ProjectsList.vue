@@ -1,16 +1,39 @@
 <template>
-    <!-- <header class="w-full bg-white dark:bg-black">
-        <div class="w-full flex items-center justify-between">
-            <button>ADD Project</button>
-                <span class="p-input-icon-right">
-                    <InputText type="text" placeholder="Search" />
-                    <i class="pi pi-search" />
+    <header class="w-full flex items-center justify-center">
+        <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
+            <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD Project</button>
+            <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
+                <span class="flex items-center justify-center gap-3 p-input-icon-right">
+                   <button type="button" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                        class="p-link layout-topbar-button">
+                        <i class="pi pi-user"></i>
+                        <!-- <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true"  />
+                    <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" /> -->
+                    </button>
+                   <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="translate-y-2">
+                        <template #item="{ item, props }">
+                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                                    <span :class="item.icon" />
+                                    <span class="ml-2">{{ item.label }}</span>
+                                </a>
+                            </router-link>
+                        </template>
+                    </Menu>
+                    <span @click="cardFunction" class=" hover:scale-105 flex cursor-pointer items-center justify-center gap-1">
+                        <i  class="pi pi-th-large cursor-pointer" />
+                        <h3 class="font-semibold">Card</h3>
+                    </span>
+                    <span @click="tableFunction" class="flex hover:scale-105 cursor-pointer items-center justify-center gap-1">
+                        <i  class="pi pi-table cursor-pointer" />
+                        <h3 class="font-semibold">Table</h3>
+                    </span>
                 </span>
         </div>
-    </header> -->
+    </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div v-for="item in cardinfo" class="card1 shadow-md p-3 rounded-lg w-[32%] flex flex-col gap-2">
+            <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] flex flex-col gap-2' : 'hidden' " v-for="item in cardinfo">
                 <img class="rounded-xl w-full h-40" :src="item.img" alt="">
                 <div class="bottom">
                     <span class="flex flex-col gap-2">
@@ -50,15 +73,15 @@
                     </span>
                 </div>
             </div>
-            <div class="list w-full">
+            <div :class="card_table ? 'hidden' : 'list w-full'" class="list w-full">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">4 Tasks</h5>
+                        <h5 class="text-4xl font-medium">4 Projects</h5>
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
                             class="w-1/2 md:w-14rem border" />
                     </div>
-                    <ul v-for="item in list" class="p-0 mx-0 mt-0 mb-4 list-none">
-                        <li
+                    <ul v-for="item in list" :key="item.id" class="p-0 mx-0 mt-0 mb-4 list-none">
+                        <li @click="() => modalOpen(JSON.stringify(item))"
                             class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
                             <div class="flex items-center justify-center">
                                 <div
@@ -97,15 +120,80 @@
                             </div>
                         </li>
                     </ul>
+                    <Dialog v-model:visible="modalOpend" maximizable modal header="Header" :style="{ width: '50rem' }"
+                             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                             <ul  class="list-none p-0 m-0">
+                                 <li
+                                     class="flex cursor-pointer border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                     <div class=" flex">
+                                         <img :src="fullTable.avatar" width="50" />
+                                     </div>
+                                     <div class="w-1/2 flex items-center justify-center">
+                                         <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ fullTable.avatar_name }}</span>
+                                         <!-- <div class="mt-1 text-600">Clothing</div> -->
+                                     </div>
+                                     <div class="mt-2 md:mt-0 flex align-items-center">
+                                         <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                                             style="height: 8px">
+                                             <div class="bg-orange-500 h-full" style="width: 50%"></div>
+                                         </div>
+                                         <span class="text-orange-500 ml-3 font-medium">%50</span>
+                                     </div>
+                                 </li>
+                             </ul>
+                         </Dialog>
                 </div>
             </div>
         </div>
     </section>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref,reactive } from 'vue';
+import router from '@/router';
+const eId = ref(null)
+const modalOpend = ref(false)
+const fullTable = ref(
+    {
+            project_name: ``,
+        status: ``,
+        svg: ``,
+        term: ``,
+        month: ``,
+        avatar_name: ``,
+        score: ``,
+        files: ``,
+        avatar: ``,
+    }
+)
+
+function modalOpen(item) {
+    modalOpend.value = true
+    let data = JSON.parse(item)
+    console.log(data);
+    fullTable.value = data
+    eId.value = data.id
+}
 
 const selectedCity = ref();
+const card_table = ref(true);
+const menu = ref();
+const items = ref([
+    {
+        label: 'Developer',
+        icon: 'pi pi-user',
+        route: '/'
+    },
+    {
+        label: 'Manager',
+        icon: 'pi pi-user',
+        route: '/dashboard_manager'
+    },
+    {
+        label: 'Analyst',
+        icon: 'pi pi-user',
+        route: '/addProject'
+    },
+]);
 const cities = ref([
     { name: 'This Week', code: 'TW' },
     { name: 'To Day', code: 'TD' },
@@ -164,9 +252,8 @@ const cardinfo = ref([
         score: `97%`,
     },
 ])
-
 const list = ref([
-   {
+    {
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-qrcode`,
@@ -174,43 +261,71 @@ const list = ref([
         month: `Okt 31`,
         avatar_name: `Julia`,
         score: `95%`,
-        files:`6`,
-        avatar:`https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`
+        files: `6`,
+        avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
     },
-   {
-         project_name: `Project Name`,
+    {
+        project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-line`,
-       term: `4,2024`,
-         month: `Avg 12`,
-       files: `3`,
-       score: `47%`,
+        term: `4,2024`,
+        month: `Avg 12`,
+        files: `3`,
+        score: `47%`,
         avatar_name: `Jhonsn`,
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
     },
-   {
-         project_name: `Project Name`,
+    {
+        project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-pie`,
-       term: `1,2024`,
-         month: `Mar 26`,
-       files: `7`,
-       score: `81%`,
+        term: `1,2024`,
+        month: `Mar 26`,
+        files: `7`,
+        score: `81%`,
         avatar_name: `Andrey`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
     },
-   {
+    {
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-star`,
-       term: `10,2023`,
-         month: `Yan 31`,
-       score: `53%`,
-       files: `12`,
-       avatar_name: `Watson`,
-         avatar:`https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`
+        term: `10,2023`,
+        month: `Yan 31`,
+        score: `53%`,
+        files: `12`,
+        avatar_name: `Watson`,
+        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`
     },
 ])
+const listId=('')
+
+const modalList = (item) => {
+    list.value.sort((a, b) => (a.status > b.status ? 1 : -1))
+    console.log(list.value.sort((a, b) => (a.status > b.status ? 1 : -1)));
+}
+const addProject = () => {
+    router.push('/addProject');
+}
+
+const toggle = (event) => {
+    menu.value.toggle(event);
+};
+// const modalList = () => {
+//     console.log(list.value);
+//   list = JSON.parse(JSON.stringify(lis))
+// }
+
+
+const cardFunction = () => {
+    card_table.value=true
+}
+const tableFunction = () => {
+    card_table.value = false
+}
+
+
+
 
 // const autoValue = ref(null);
 // const autoFilteredValue = ref([]);
