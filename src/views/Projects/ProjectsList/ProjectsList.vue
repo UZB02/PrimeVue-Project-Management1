@@ -120,25 +120,58 @@
                             </div>
                         </li>
                     </ul>
-                    <Dialog v-model:visible="modalOpend" maximizable modal header="Header" :style="{ width: '50rem' }"
+                    <Dialog v-model:visible="modalOpend" maximizable modal header="Header" :style="{ width: '90%' }"
                              :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                              <ul  class="list-none p-0 m-0">
                                  <li
-                                     class="flex cursor-pointer border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                                     <div class=" flex">
-                                         <img :src="fullTable.avatar" width="50" />
-                                     </div>
-                                     <div class="w-1/2 flex items-center justify-center">
-                                         <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ fullTable.avatar_name }}</span>
-                                         <!-- <div class="mt-1 text-600">Clothing</div> -->
-                                     </div>
-                                     <div class="mt-2 md:mt-0 flex align-items-center">
-                                         <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                                             style="height: 8px">
-                                             <div class="bg-orange-500 h-full" style="width: 50%"></div>
-                                         </div>
-                                         <span class="text-orange-500 ml-3 font-medium">%50</span>
-                                     </div>
+                                     class="flex border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                       <div class="w-1/2 flex items-center justify-between">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <p class="font-medium">{{ fullTable.id }}.</p>
+                                        <div
+                                            class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                            <i :class="fullTable.svg" class="text-xl text-blue-500"></i>
+                                        </div>
+                                        <span class="text-900 line-height-3 flex flex-col gap-2">
+                                            <h1 class="font-bold">{{ fullTable.project_name }}</h1>
+                                            <h4 class="text-slate-400">{{ fullTable.status }}</h4>
+                                        </span>
+                                    </div>
+                                     <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="w-40 font-semibold">
+                                                {{ fullTable.createTime }}
+                                            </span>
+                                        </span>
+                                </div>
+
+                                <div class="w-1/2 flex  gap-6 items-center justify-center">
+                                    <span class="flex w-1/4 items-center justify-center gap-2">
+                                        <Avatar :image="fullTable.avatar" size="large" shape="circle">
+                                        </Avatar>
+                                        <h1 class="text-slate-500 font-medium">{{ fullTable.avatar_name }}</h1>
+                                    </span>
+                                    <span class="flex items-center justify-center gap-2">
+                                        <i class="pi pi-calendar"></i>
+                                        <span class="w-40 font-semibold">
+                                            {{ fullTable.month }} - {{ fullTable.term }}
+                                        </span>
+                                    </span>
+
+                                    <span class="flex cursor-pointer items-center justify-center gap-2">
+                                        <i class="pi pi-paperclip"></i>
+                                        <h3>{{ fullTable.files }}</h3>
+                                    </span>
+                                    <span class="flex items-center cursor-pointer justify-center gap-2">
+                                        <i class="pi pi-dollar"></i>
+                                    </span>
+                                    <span class="w-1/4 flex items-center  justify-center gap-3">
+                                          <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                        <div :style="{ width: `${fullTable.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                    </span>
+                                    <span class="text-sm">{{ fullTable.score }}</span>
+                                    </span>
+                                </div>
                                  </li>
                              </ul>
                          </Dialog>
@@ -154,6 +187,7 @@ const eId = ref(null)
 const modalOpend = ref(false)
 const fullTable = ref(
     {
+        id:``,
             project_name: ``,
         status: ``,
         svg: ``,
@@ -163,6 +197,7 @@ const fullTable = ref(
         score: ``,
         files: ``,
         avatar: ``,
+        createTime: ``,
     }
 )
 
@@ -254,6 +289,7 @@ const cardinfo = ref([
 ])
 const list = ref([
     {
+        id: `1`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-qrcode`,
@@ -262,9 +298,11 @@ const list = ref([
         avatar_name: `Julia`,
         score: `95%`,
         files: `6`,
+         createTime: `01.02.2024 -07:00`,
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
     },
     {
+        id: `2`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-line`,
@@ -272,10 +310,12 @@ const list = ref([
         month: `Avg 12`,
         files: `3`,
         score: `47%`,
+        createTime: `01.02.2024 -07:00`,
         avatar_name: `Jhonsn`,
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
     },
     {
+        id: `3`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-pie`,
@@ -283,10 +323,12 @@ const list = ref([
         month: `Mar 26`,
         files: `7`,
         score: `81%`,
+        createTime: `01.02.2024 -07:00`,
         avatar_name: `Andrey`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
     },
     {
+        id: `4`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-star`,
@@ -294,11 +336,12 @@ const list = ref([
         month: `Yan 31`,
         score: `53%`,
         files: `12`,
+        createTime: `01.02.2024 -07:00`,
         avatar_name: `Watson`,
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`
     },
 ])
-const listId=('')
+
 
 const modalList = (item) => {
     list.value.sort((a, b) => (a.status > b.status ? 1 : -1))
