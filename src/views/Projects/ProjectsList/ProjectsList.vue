@@ -1,39 +1,41 @@
 <template>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD Project</button>
+            <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD
+                Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
-                <span class="flex items-center justify-center gap-3 p-input-icon-right">
-                   <button type="button" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
-                        class="p-link layout-topbar-button">
-                        <i class="pi pi-user"></i>
-                        <!-- <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true"  />
+            <span class="flex items-center justify-center gap-3 p-input-icon-right">
+                <button type="button" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                    class="p-link layout-topbar-button">
+                    <i class="pi pi-user"></i>
+                    <!-- <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true"  />
                     <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" /> -->
-                    </button>
-                   <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="translate-y-2">
-                        <template #item="{ item, props }">
-                            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-                                <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                                    <span :class="item.icon" />
-                                    <span class="ml-2">{{ item.label }}</span>
-                                </a>
-                            </router-link>
-                        </template>
-                    </Menu>
-                    <span @click="cardFunction" class=" hover:scale-105 flex cursor-pointer items-center justify-center gap-1">
-                        <i  class="pi pi-th-large cursor-pointer" />
-                        <h3 class="font-semibold">Card</h3>
-                    </span>
-                    <span @click="tableFunction" class="flex hover:scale-105 cursor-pointer items-center justify-center gap-1">
-                        <i  class="pi pi-table cursor-pointer" />
-                        <h3 class="font-semibold">Table</h3>
-                    </span>
+                </button>
+                <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="translate-y-2">
+                    <template #item="{ item, props }">
+                        <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                            <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                                <span :class="item.icon" />
+                                <span class="ml-2">{{ item.label }}</span>
+                            </a>
+                        </router-link>
+                    </template>
+                </Menu>
+                <span @click="cardFunction" class=" hover:scale-105 flex cursor-pointer items-center justify-center gap-1">
+                    <i class="pi pi-th-large cursor-pointer" />
+                    <h3 class="font-semibold">Card</h3>
                 </span>
+                <span @click="tableFunction" class="flex hover:scale-105 cursor-pointer items-center justify-center gap-1">
+                    <i class="pi pi-table cursor-pointer" />
+                    <h3 class="font-semibold">Table</h3>
+                </span>
+            </span>
         </div>
     </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] flex flex-col gap-2' : 'hidden' " v-for="item in cardinfo">
+            <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] flex flex-col gap-2' : 'hidden'"
+                v-for="item in cardinfo">
                 <img class="rounded-xl w-full h-40" :src="item.img" alt="">
                 <div class="bottom">
                     <span class="flex flex-col gap-2">
@@ -59,7 +61,7 @@
                                     </Avatar>
                                     <Avatar :image="'demo/images/avatar/asiyajavayant.png'" shape="circle">
                                     </Avatar>
-                                    <Avatar :image="'demo/images/avatar/onyamalimba.png'"  shape="circle">
+                                    <Avatar :image="'demo/images/avatar/onyamalimba.png'" shape="circle">
                                     </Avatar>
                                 </AvatarGroup>
                             </div>
@@ -112,97 +114,116 @@
                                     <h3>{{ item.files }}</h3>
                                 </span>
                                 <span class="w-1/4 flex items-center  justify-center gap-3">
-                                      <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
-                                </span>
-                                <span class="text-sm">{{ item.score }}</span>
+                                    <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                        <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2">
+                                        </div>
+                                    </span>
+                                    <span class="text-sm">{{ item.score }}</span>
                                 </span>
                             </div>
                         </li>
                     </ul>
                     <Dialog v-model:visible="modalOpend" maximizable modal header="Header" :style="{ width: '90%' }"
-                             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                             <ul  class="list-none p-0 m-0">
-                                 <li
-                                     class="flex border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                                       <div class="w-1/2 flex items-center justify-between">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <p class="font-medium">{{ fullTable.id }}.</p>
-                                        <div
-                                            class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                            <i :class="fullTable.svg" class="text-xl text-blue-500"></i>
+                        :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                        <ul class="list-none p-0 m-0">
+                            <li class="">
+                                <div
+                                    class="flex border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                    <div class="w-1/2 flex items-center justify-between">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <p class="font-medium">{{ fullTable.id }}.</p>
+                                            <div
+                                                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                                <i :class="fullTable.svg" class="text-xl text-blue-500"></i>
+                                            </div>
+                                            <span class="text-900 line-height-3 flex flex-col gap-2">
+                                                <h1 class="font-bold">{{ fullTable.project_name }}</h1>
+                                                <h4 class="text-slate-400">{{ fullTable.status }}</h4>
+                                            </span>
                                         </div>
-                                        <span class="text-900 line-height-3 flex flex-col gap-2">
-                                            <h1 class="font-bold">{{ fullTable.project_name }}</h1>
-                                            <h4 class="text-slate-400">{{ fullTable.status }}</h4>
+                                        <span class="flex font-semibold items-center justify-center">
+                                            {{ fullTable.category }}
                                         </span>
-                                    </div>
-                                     <span class="flex items-center justify-center gap-2">
+                                        <span class="flex items-center justify-center gap-2">
                                             <i class="pi pi-calendar"></i>
                                             <span class="w-40 font-semibold">
                                                 {{ fullTable.createTime }}
                                             </span>
                                         </span>
-                                </div>
+                                    </div>
 
-                                <div class="w-1/2 flex  gap-6 items-center justify-center">
-                                    <span class="flex w-1/4 items-center justify-center gap-2">
-                                        <Avatar :image="fullTable.avatar" size="large" shape="circle">
-                                        </Avatar>
-                                        <h1 class="text-slate-500 font-medium">{{ fullTable.avatar_name }}</h1>
-                                    </span>
-                                    <span class="flex items-center justify-center gap-2">
-                                        <i class="pi pi-calendar"></i>
-                                        <span class="w-40 font-semibold">
-                                            {{ fullTable.month }} - {{ fullTable.term }}
+                                    <div class="w-1/2 flex  gap-6 items-center justify-center">
+                                        <span class="flex w-1/4 items-center justify-center gap-2">
+                                            <Avatar :image="fullTable.avatar" size="large" shape="circle">
+                                            </Avatar>
+                                            <h1 class="text-slate-500 font-medium">{{ fullTable.avatar_name }}</h1>
                                         </span>
-                                    </span>
-
-                                    <span class="flex cursor-pointer items-center justify-center gap-2">
-                                        <i class="pi pi-paperclip"></i>
-                                        <h3>{{ fullTable.files }}</h3>
-                                    </span>
-                                    <span class="flex items-center cursor-pointer justify-center gap-1">
-                                        <i class="pi pi-dollar"></i>
-                                        <span>{{ fullTable.cost }}</span>
-                                    </span>
-                                    <span class="w-1/4 flex flex-col  gap-3">
-                                         <div class="w-full flex items-center justify-center gap-3">
-                                             <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `${fullTable.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                        <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="w-40 font-semibold">
+                                                {{ fullTable.month }} - {{ fullTable.term }}
+                                            </span>
                                         </span>
-                                        <span class="text-sm">{{ fullTable.score }}</span>
-                                         </div>
-                                          <Tag :severity="fullTable.severity" :value="fullTable.icon_value"></Tag>
-                                    </span>
+                                        <span class="flex items-center cursor-pointer justify-center gap-1">
+                                            <i class="pi pi-dollar"></i>
+                                            <span>{{ fullTable.cost }}</span>
+                                        </span>
+                                        <span class="w-1/4 flex flex-col  gap-3">
+                                            <div class="w-full flex items-center justify-center gap-3">
+                                                <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                                    <div :style="{ width: `${fullTable.score}` }"
+                                                        class="score rounded-xl bg-green-500 h-2"></div>
+                                                </span>
+                                                <span class="text-sm">{{ fullTable.score }}</span>
+                                            </div>
+                                            <Tag :severity="fullTable.severity" :value="fullTable.icon_value"></Tag>
+                                        </span>
+                                    </div>
                                 </div>
-                                 </li>
-                             </ul>
-                         </Dialog>
+                                <div class="flex flex-col gap-2">
+                                   <div v-for="item in list" class="flex items-center justify-between">
+                                     <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-file"></i>
+                                            <h1 class="font-medium">{{ fullTable.file_name }}</h1>
+                                        </span>
+                                        <button
+                                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                                            <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20">
+                                                <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                                            </svg>
+                                            <span>Download</span>
+                                        </button>
+                                   </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </Dialog>
                 </div>
             </div>
         </div>
     </section>
 </template>
 <script setup>
-import { ref,reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import router from '@/router';
 const eId = ref(null)
 const modalOpend = ref(false)
 const fullTable = ref(
     {
-        id:``,
-            project_name: ``,
+        id: ``,
+        project_name: ``,
         status: ``,
         svg: ``,
         term: ``,
         month: ``,
         avatar_name: ``,
         score: ``,
-        files: ``,
+        file_name: ``,
         avatar: ``,
         createTime: ``,
         cost: ``,
+        category: ``,
     }
 )
 
@@ -301,12 +322,13 @@ const list = ref([
         term: `5,2024`,
         month: `Okt 31`,
         avatar_name: `Julia`,
-         severity: "success",
-        icon_value: "Success",
-        score: `95%`,
-        files: `6`,
+        severity: "success",
+        icon_value: "Done",
+        category: `It`,
+        score: `100%`,
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         createTime: `01.02.2024 -07:00`,
-         cost:"5000",
+        cost: "5000",
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
     },
     {
@@ -322,7 +344,9 @@ const list = ref([
         avatar_name: `Jhonsn`,
         cost: "3000",
         severity: "danger",
-        icon_value: "Pause",
+        icon_value: "Stopped",
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
+        category: `SMM`,
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
     },
     {
@@ -336,8 +360,10 @@ const list = ref([
         score: `81%`,
         cost: "7000",
         severity: "warning",
-        icon_value: "Warning",
+        icon_value: "Suspended",
+        category: `Marketing`,
         createTime: `01.02.2024 -07:00`,
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         avatar_name: `Andrey`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
     },
@@ -351,19 +377,16 @@ const list = ref([
         score: `53%`,
         files: `12`,
         cost: "2000",
-        severity: "info",
-        icon_value: "Finished",
+        severity: "primary",
+        icon_value: "Draft ",
+        category: `It`,
         createTime: `01.02.2024 -07:00`,
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         avatar_name: `Watson`,
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`
     },
 ])
 
-
-const modalList = (item) => {
-    list.value.sort((a, b) => (a.status > b.status ? 1 : -1))
-    console.log(list.value.sort((a, b) => (a.status > b.status ? 1 : -1)));
-}
 const addProject = () => {
     router.push('/addProject');
 }
@@ -378,7 +401,7 @@ const toggle = (event) => {
 
 
 const cardFunction = () => {
-    card_table.value=true
+    card_table.value = true
 }
 const tableFunction = () => {
     card_table.value = false
