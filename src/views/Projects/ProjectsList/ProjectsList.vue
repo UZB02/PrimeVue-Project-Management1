@@ -123,8 +123,8 @@
                             </div>
                         </li>
                     </ul>
-                    <Dialog v-model:visible="modalOpend" maximizable modal header="Header" :style="{ width: '90%' }"
-                        :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                    <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
+                        :style="{ width: '90%' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                         <ul class="list-none p-0 m-0">
                             <li class="">
                                 <div
@@ -164,10 +164,10 @@
                                                 {{ fullTable.month }} - {{ fullTable.term }}
                                             </span>
                                         </span>
-                                        <span class="flex items-center cursor-pointer justify-center gap-1">
+                                        <!-- <span class="flex items-center cursor-pointer justify-center gap-1">
                                             <i class="pi pi-dollar"></i>
-                                            <span>{{ fullTable.cost }}</span>
-                                        </span>
+                                            <span>{{ fullTable.cost_usd }}</span>
+                                        </span> -->
                                         <span class="w-1/4 flex flex-col  gap-3">
                                             <div class="w-full flex items-center justify-center gap-3">
                                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
@@ -181,20 +181,45 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-2">
-                                   <div v-for="item in list" class="flex items-center justify-between">
-                                     <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-file"></i>
-                                            <h1 class="font-medium">{{ fullTable.file_name }}</h1>
-                                        </span>
-                                        <button
-                                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
-                                            <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20">
-                                                <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-                                            </svg>
-                                            <span>Download</span>
-                                        </button>
-                                   </div>
+                                    <div class="flex gap-5">
+                                        <div class="flex items-center justify-between gap-3 w-1/2">
+                                            <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
+                                                <Avatar :image="fullTable.avatar" size="xlarge" shape="circle"></Avatar>
+                                                <h1 class="font-bold">{{ fullTable.avatar_name }}</h1>
+                                                <!-- <h4>{{ item.rols }}</h4> -->
+                                                <h5 class="text-gray-500 font-italic">{{ fullTable.tell }}</h5>
+                                            </div>
+                                            <div class="card flex items-center justify-between gap-3">
+                                                <span class="">
+                                                    <label>USD-Cost</label>
+                                                    <p class="font-medium">{{ fullTable.cost_usd }} USD</p>
+                                                </span>
+                                                <i class="pi pi-arrow-right-arrow-left"></i>
+                                                <span>
+                                                    <label>UZS-Cost</label>
+                                                    <p class="font-medium">{{ fullTable.cost_uzs }} UZS</p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="w-1/2 flex flex-col gap-2">
+                                            <div v-for="item in list" class="flex items-center justify-between flex-col">
+                                                <div class="w-full flex items-center justify-between">
+                                                    <span class="flex items-center justify-center gap-2">
+                                                        <i class="pi pi-file"></i>
+                                                        <h1 class="font-medium">{{ fullTable.file_name }}</h1>
+                                                    </span>
+                                                    <button
+                                                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                                                        <svg class="fill-current w-4 h-4 mr-2"
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                                                        </svg>
+                                                        <span>Download</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -222,8 +247,11 @@ const fullTable = ref(
         file_name: ``,
         avatar: ``,
         createTime: ``,
-        cost: ``,
+        company: ``,
         category: ``,
+        cost_usd: ``,
+        cost_uzs: ``,
+        tell: ``,
     }
 )
 
@@ -328,7 +356,10 @@ const list = ref([
         score: `100%`,
         file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         createTime: `01.02.2024 -07:00`,
-        cost: "5000",
+        cost_usd: `5000`,
+        company: `Bisyor`,
+        cost_uzs: `50000000`,
+        tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
     },
     {
@@ -342,11 +373,14 @@ const list = ref([
         score: `47%`,
         createTime: `01.02.2024 -07:00`,
         avatar_name: `Jhonsn`,
-        cost: "3000",
+        cost_usd: `3000`,
+        cost_uzs: `30000000`,
         severity: "danger",
+        company: `Epan`,
         icon_value: "Stopped",
         file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         category: `SMM`,
+        tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
     },
     {
@@ -358,13 +392,16 @@ const list = ref([
         month: `Mar 26`,
         files: `7`,
         score: `81%`,
-        cost: "7000",
+        cost_usd: `7000`,
+        cost_uzs: `70000000`,
         severity: "warning",
         icon_value: "Suspended",
         category: `Marketing`,
+        company: `UITC`,
         createTime: `01.02.2024 -07:00`,
         file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         avatar_name: `Andrey`,
+        tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
     },
     {
@@ -376,13 +413,16 @@ const list = ref([
         month: `Yan 31`,
         score: `53%`,
         files: `12`,
-        cost: "2000",
+        cost_usd: `7000`,
+        cost_uzs: `70000000`,
         severity: "primary",
         icon_value: "Draft ",
         category: `It`,
+        company: `Global`,
         createTime: `01.02.2024 -07:00`,
         file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         avatar_name: `Watson`,
+        tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`
     },
 ])
