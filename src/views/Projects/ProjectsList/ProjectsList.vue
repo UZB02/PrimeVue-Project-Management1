@@ -162,14 +162,18 @@
                                         <i class="pi pi-paperclip"></i>
                                         <h3>{{ fullTable.files }}</h3>
                                     </span>
-                                    <span class="flex items-center cursor-pointer justify-center gap-2">
+                                    <span class="flex items-center cursor-pointer justify-center gap-1">
                                         <i class="pi pi-dollar"></i>
+                                        <span>{{ fullTable.cost }}</span>
                                     </span>
-                                    <span class="w-1/4 flex items-center  justify-center gap-3">
-                                          <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                        <div :style="{ width: `${fullTable.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
-                                    </span>
-                                    <span class="text-sm">{{ fullTable.score }}</span>
+                                    <span class="w-1/4 flex flex-col  gap-3">
+                                         <div class="w-full flex items-center justify-center gap-3">
+                                             <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                            <div :style="{ width: `${fullTable.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                        </span>
+                                        <span class="text-sm">{{ fullTable.score }}</span>
+                                         </div>
+                                          <Tag :severity="fullTable.severity" :value="fullTable.icon_value"></Tag>
                                     </span>
                                 </div>
                                  </li>
@@ -198,6 +202,7 @@ const fullTable = ref(
         files: ``,
         avatar: ``,
         createTime: ``,
+        cost: ``,
     }
 )
 
@@ -296,9 +301,12 @@ const list = ref([
         term: `5,2024`,
         month: `Okt 31`,
         avatar_name: `Julia`,
+         severity: "success",
+        icon_value: "Success",
         score: `95%`,
         files: `6`,
-         createTime: `01.02.2024 -07:00`,
+        createTime: `01.02.2024 -07:00`,
+         cost:"5000",
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
     },
     {
@@ -312,6 +320,9 @@ const list = ref([
         score: `47%`,
         createTime: `01.02.2024 -07:00`,
         avatar_name: `Jhonsn`,
+        cost: "3000",
+        severity: "danger",
+        icon_value: "Pause",
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
     },
     {
@@ -323,6 +334,9 @@ const list = ref([
         month: `Mar 26`,
         files: `7`,
         score: `81%`,
+        cost: "7000",
+        severity: "warning",
+        icon_value: "Warning",
         createTime: `01.02.2024 -07:00`,
         avatar_name: `Andrey`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
@@ -336,6 +350,9 @@ const list = ref([
         month: `Yan 31`,
         score: `53%`,
         files: `12`,
+        cost: "2000",
+        severity: "info",
+        icon_value: "Finished",
         createTime: `01.02.2024 -07:00`,
         avatar_name: `Watson`,
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`
