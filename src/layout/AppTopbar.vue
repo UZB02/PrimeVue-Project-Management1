@@ -30,11 +30,12 @@ const items = ref([
     {
         label: 'Analyst',
         icon: 'pi pi-user',
-        route: [
-            {
-                path:'/dashboard_analyst'
-            }
-        ]
+        route: '/dashboard_analyst',
+    },
+    {
+        label: 'Sign Out',
+        icon: 'pi pi-sign-out',
+        route: '/auth/login',
     },
 ]);
 const menu = ref();

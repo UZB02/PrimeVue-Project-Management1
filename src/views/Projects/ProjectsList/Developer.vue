@@ -1,8 +1,8 @@
 <template>
     <header class="w-full flex items-center justify-center">
-        <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD
-                Project</button>
+        <div class="w-[96%] flex items-center justify-end pb-3 pt-2">
+            <!-- <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD
+                Project</button> -->
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
@@ -69,7 +69,8 @@
                             </div>
                             <div class="w-full flex items-center  justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                    <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2">
+                                    </div>
                                 </span>
                                 <span class="text-sm">{{ item.score }}</span>
                             </div>
@@ -77,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'" >
+            <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
                         <h5 class="text-4xl font-medium">4 Projects</h5>
@@ -185,7 +186,8 @@
                                 <div class="flex flex-col gap-2">
                                     <div class="flex gap-5">
                                         <div class="flex items-center justify-between gap-3 w-1/2">
-                                            <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
+                                            <div
+                                                class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
                                                 <Avatar :image="fullTable.avatar" size="xlarge" shape="circle"></Avatar>
                                                 <h1 class="font-bold">{{ fullTable.avatar_name }}</h1>
                                                 <!-- <h4>{{ item.rols }}</h4> -->
@@ -429,9 +431,9 @@ const list = ref([
     },
 ])
 
-const addProject = () => {
-    router.push('/addProject');
-}
+// const addProject = () => {
+//     router.push('/addProject');
+// }
 
 const toggle = (event) => {
     menu.value.toggle(event);

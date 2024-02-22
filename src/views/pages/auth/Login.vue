@@ -4,7 +4,7 @@ import { ref, computed } from 'vue';
 import AppConfig from '@/layout/AppConfig.vue';
 
 const { layoutConfig } = useLayout();
-const email = ref('');
+const name = ref('');
 const password = ref('');
 const checked = ref(false);
 
@@ -14,38 +14,38 @@ const logoUrl = computed(() => {
 </script>
 
 <template>
-    <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-        <div class="flex flex-column align-items-center justify-content-center">
-            <img :src="logoUrl" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0" />
-            <div style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
-                <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
-                    <div class="text-center mb-5">
-                        <img src="/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3" />
-                        <div class="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
-                        <span class="text-600 font-medium">Sign in to continue</span>
-                    </div>
-
-                    <div>
-                        <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                        <InputText id="email1" type="text" placeholder="Email address" class="w-full md:w-30rem mb-5" style="padding: 1rem" v-model="email" />
-
-                        <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                        <Password id="password1" v-model="password" placeholder="Password" :toggleMask="true" class="w-full mb-3" inputClass="w-full" :inputStyle="{ padding: '1rem' }"></Password>
-
-                        <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                            <div class="flex align-items-center">
-                                <Checkbox v-model="checked" id="rememberme1" binary class="mr-2"></Checkbox>
-                                <label for="rememberme1">Remember me</label>
-                            </div>
-                            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
-                        </div>
-                        <Button label="Sign In" class="w-full p-3 text-xl"></Button>
-                    </div>
-                </div>
-            </div>
-        </div>
+   <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    	<div class="w-1/2 relative py-3 sm:max-w-xl sm:mx-auto">
+    		<div
+    			class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
+    		</div>
+    		<div class="relative px-4 py-7 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+    			<div class="max-w-md mx-auto">
+    				<div class="text-center">
+						      <Avatar :image="'demo/images/avatar/amyelsner.png'" size="xlarge" shape="circle"></Avatar>
+						 <h1 class="text-2xl font-semibold">Welcome, Isabel!</h1>
+    					<h1>Sign in to continue</h1>
+    				</div>
+    				<div class="divide-y  divide-gray-200">
+    						<form class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+								<div class="relative">
+	    							<input autocomplete="off" v-model="name" id="name" name="name" type="text" class="peer placeholder-transparent h-12 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600" placeholder="Email address" />
+	    							<label for="text" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Name</label>
+	    						</div>
+	    						<div class="relative">
+	    							<input autocomplete="off" v-model="password" id="password" name="password" type="password" class="peer placeholder-transparent h-12 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600" placeholder="Password" />
+	    							<label for="password" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Password</label>
+	    						</div>
+	    						<div class="relative w-full">
+	    							<button class="bg-blue-500 w-full text-white rounded-md px-2 py-3">Submit</button>
+	    						</div>
+							</form>
+    					
+    				</div>
+    			</div>
+    		</div>
+    	</div>
     </div>
-    <AppConfig simple />
 </template>
 
 <style scoped>
