@@ -23,7 +23,7 @@ const logoUrl = computed(() => {
     			<div class="max-w-md mx-auto">
     				<div class="text-center">
 						      <Avatar :image="'demo/images/avatar/amyelsner.png'" size="xlarge" shape="circle"></Avatar>
-						 <h1 class="text-2xl font-semibold">Welcome, Isabel!</h1>
+						 <h1 class="text-2xl font-semibold">Welcome</h1>
     					<h1>Sign in to continue</h1>
     				</div>
     				<div class="divide-y  divide-gray-200">
