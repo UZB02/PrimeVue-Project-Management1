@@ -54,6 +54,11 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/Tasks/tasks.vue')
                 },
                 {
+                    path: '/kanban',
+                    name: 'Kanban',
+                    component: () => import('@/views/Projects/ProjectsList/Kanban_Board/Kanban.vue')
+                },
+                {
                     path: '/timeline_information',
                     name: 'TimelineInformation',
                     component: () => import('@/views/Projects/ProjectsList/TimelineInformation/timelineInformation.vue')

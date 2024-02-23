@@ -270,9 +270,9 @@ onMounted(() => {
     productService.getProductsSmall().then((data) => (products.value = data));
 });
 
-// function changeLineData(newData) {
-//     lineData = newData;
-// }
+function changeLineData(newData) {
+    lineData = newData;
+}
 
 // const formatCurrency = (value) => {
 //     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -354,7 +354,7 @@ watch(
     <div class="flex flex-col">
         <div class="top flex gap-2">
             <div v-for="item in data"
-                class="w-1/4 h-52  cursor-pointer hover:scale-105 bg-white flex gap-5 flex-col p-4 rounded-xl"
+                class="w-1/4 h-52  cursor-pointer hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
                 data-aos="flip-right">
                 <div class="top flex w-full items-center justify-between border-b-2 pb-1">
                     <div class="left flex items-center justify-center gap-4">
@@ -376,8 +376,8 @@ watch(
         </div>
         <div class="bottom flex flex-col lg:flex-col">
             <div class="top flex max-md:flex-col">
-                <div class="col-12 xl:col-6">
-                    <div class="card flex flex-col gap-4">
+                <div class="flex flex-col gap-2 col-12 xl:col-6">
+                    <div class="border p-3 rounded-xl flex flex-col gap-4">
                         <div class="top flex align-items-center justify-content-between">
                             <h5>Joriy haftadagi topshiriqlar ro’yxati paneli</h5>
                             <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
@@ -414,7 +414,7 @@ watch(
                                     </tr>
                                 </tbody>
                             </table>
-                            <Dialog v-model:visible="visible" maximizable modal header="Header" :style="{ width: '50rem' }"
+                            <!-- <Dialog v-model:visible="visible" maximizable modal header="Header" :style="{ width: '50rem' }"
                                 :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                                 <ul v-for="item in comment" class="list-none p-0 m-0">
                                     <li
@@ -424,7 +424,6 @@ watch(
                                         </div>
                                         <div class="w-1/2 flex items-center justify-center">
                                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.message }}</span>
-                                            <!-- <div class="mt-1 text-600">Clothing</div> -->
                                         </div>
                                         <div class="mt-2 md:mt-0 flex align-items-center">
                                             <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
@@ -435,10 +434,10 @@ watch(
                                         </div>
                                     </li>
                                 </ul>
-                            </Dialog>
+                            </Dialog> -->
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="shadow-md border p-3 rounded-xl">
                         <div class="flex justify-content-between align-items-center mb-5">
                             <h5>Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
                             <!-- <div>
@@ -449,7 +448,7 @@ watch(
                         </div>
                         <ul class="list-none flex flex-col p-0 m-0">
                             <li v-for="item in comuniti"
-                                class="flex flex-column bg-slate-50 p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                class="flex flex-column shadow-md p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div class="cards w-full flex items-center justify-between">
                                     <div class="w-[70%] flex items-center gap-3">
                                         <img :src="item.img" alt="" class="w-[15%]">
@@ -467,8 +466,8 @@ watch(
                         </ul>
                     </div>
                 </div>
-                <div class="col-12 xl:col-6">
-                    <div class="card">
+                <div class="flex flex-col gap-2 col-12 xl:col-6">
+                    <div class=" border p-2 rounded-xl">
                         <div class="top flex items-center justify-between">
                             <h5>Sales Overview</h5>
                             <div class="link flex items-center justify-center gap-3">
@@ -479,41 +478,41 @@ watch(
                         </div>
                         <Chart type="line" :data="lineData" :options="lineOptions" />
                     </div>
-                    <div class="card">
-                            <div class="flex align-items-center justify-content-between mb-4">
-                                <h5>Bugungi topshiriqlar va bildirishnomalar paneli</h5>
-                            </div>
-                            <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
-                                <li
-                                    class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
-                                    <div class="flex items-center justify-center">
-                                        <div
-                                            class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                            <i :class="item.svg" class="text-xl text-blue-500"></i>
-                                        </div>
-                                        <span class="text-900 line-height-3 flex flex-col gap-2">
-                                            <h1 class="font-bold">{{ item.name }}</h1>
-                                            <h4>{{ item.status }}</h4>
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col gap-1 items-center justify-center">
-                                        <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
-                                        }}  {{ item.time }}</span>
-                                    </div>
-                                </li>
-                            </ul>
+                    <div class="shadow-xl border p-3 rounded-xl">
+                        <div class="flex align-items-center justify-content-between mb-4">
+                            <h5>Bugungi topshiriqlar va bildirishnomalar paneli</h5>
                         </div>
+                        <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
+                            <li
+                                class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
+                                <div class="flex items-center justify-center">
+                                    <div
+                                        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                        <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                    </div>
+                                    <span class="text-900 line-height-3 flex flex-col gap-2">
+                                        <h1 class="font-bold">{{ item.name }}</h1>
+                                        <h4>{{ item.status }}</h4>
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-1 items-center justify-center">
+                                    <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
+                                    }} {{ item.time }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <section class="flex flex-col gap-3">
                 <div class="top">
-                    <div class="card flex flex-col gap-4 p-3 rounded">
+                    <div class="shadow-sm border p-3 rounded-xl flex flex-col gap-4">
                         <div class="flex align-items-center justify-content-between">
                             <h5>Loyiha jamoasi a’zolari ma’lumoti paneli</h5>
                         </div>
                         <div class="bottom flex items-center gap-3 flex-wrap">
                             <div v-for="item in comunitiCard"
-                                class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 bg-gray-50 rounded-xl p-3 w-[19%]">
+                                class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 shadow-md rounded-xl p-3 w-[19%]">
                                 <img :src="item.img" class="w-32 card-img  h-32 rounded-[50%]" alt="">
                                 <h1 class="font-bold">{{ item.name }}</h1>
                                 <h4>{{ item.rols }}</h4>
@@ -523,38 +522,39 @@ watch(
                     </div>
                 </div>
                 <div class="bottom">
-                         <div class="card">
-                                <div class="flex align-items-center justify-content-between mb-4">
-                                    <h5>Bildirishnomalar paneli</h5>
+                    <div class="shadow-xl border p-3 rounded-xl">
+                        <div class="flex align-items-center justify-content-between mb-4">
+                            <h5>Bildirishnomalar paneli</h5>
+                        </div>
+                        <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
+                            <li
+                                class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
+                                <div class="flex items-center justify-center">
+                                    <div
+                                        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                        <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                    </div>
+                                    <span class="text-900 line-height-3 flex flex-col gap-2">
+                                        <h1 class="font-bold">{{ item.name }}</h1>
+                                        <h4>{{ item.status }}</h4>
+                                    </span>
                                 </div>
-                                <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
-                                    <li
-                                        class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
-                                        <div class="flex items-center justify-center">
-                                            <div
-                                                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                                <i :class="item.svg" class="text-xl text-blue-500"></i>
-                                            </div>
-                                            <span class="text-900 line-height-3 flex flex-col gap-2">
-                                                <h1 class="font-bold">{{ item.name }}</h1>
-                                                <h4>{{ item.status }}</h4>
-                                            </span>
-                                        </div>
 
-                                      <div class="flex flex-col gap-2 items-center justify-center">
-                                          <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
-                                          }} {{ item.time }}</span>
-                                             <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl"></span>
-                                      </div>
-                                      <div class="flex flex-col gap-2 items-center justify-center">
-                                          <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
-                                          }} {{ item.time }}</span>
-                                             <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl"></span>
-                                      </div>
-                                    </li>
-                                </ul>
-                            </div>
+                                <div class="flex flex-col gap-2 items-center justify-center">
+                                    <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
+                                    }} {{ item.time }}</span>
+                                    <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl"></span>
+                                </div>
+                                <div class="flex flex-col gap-2 items-center justify-center">
+                                    <span class="pr-3 pl-3 font-semibold bg-green-400 text-white rounded-2xl">{{ item.term
+                                    }} {{ item.time }}</span>
+                                    <span class="pr-3 pl-3 font-semibold bg-green-600 text-white rounded-2xl"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </section>
+        </div>
     </div>
-</div></template>
+</template>

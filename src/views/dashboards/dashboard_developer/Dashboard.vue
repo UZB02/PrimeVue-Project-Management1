@@ -376,8 +376,8 @@ watch(
         </div>
         <div class="bottom flex flex-col lg:flex-col">
             <div class="top flex max-md:flex-col">
-                <div class="col-12 xl:col-6">
-                    <div class="card flex flex-col gap-4">
+                <div class="flex flex-col gap-2 col-12 xl:col-6">
+                    <div class="border p-3 rounded-xl flex flex-col gap-4">
                         <div class="top flex align-items-center justify-content-between">
                             <h5>Joriy haftadagi topshiriqlar ro’yxati paneli</h5>
                             <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
@@ -437,7 +437,7 @@ watch(
                             </Dialog> -->
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="shadow-md border p-3 rounded-xl">
                         <div class="flex justify-content-between align-items-center mb-5">
                             <h5>Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
                             <!-- <div>
@@ -448,7 +448,7 @@ watch(
                         </div>
                         <ul class="list-none flex flex-col p-0 m-0">
                             <li v-for="item in comuniti"
-                                class="flex flex-column bg-slate-50 p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                class="flex flex-column shadow-md p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div class="cards w-full flex items-center justify-between">
                                     <div class="w-[70%] flex items-center gap-3">
                                         <img :src="item.img" alt="" class="w-[15%]">
@@ -466,8 +466,8 @@ watch(
                         </ul>
                     </div>
                 </div>
-                <div class="col-12 xl:col-6">
-                    <div class="card">
+                <div class="flex flex-col gap-2 col-12 xl:col-6">
+                    <div class=" border p-2 rounded-xl">
                         <div class="top flex items-center justify-between">
                             <h5>Sales Overview</h5>
                             <div class="link flex items-center justify-center gap-3">
@@ -478,7 +478,7 @@ watch(
                         </div>
                         <Chart type="line" :data="lineData" :options="lineOptions" />
                     </div>
-                    <div class="card">
+                    <div class="shadow-xl border p-3 rounded-xl">
                         <div class="flex align-items-center justify-content-between mb-4">
                             <h5>Bugungi topshiriqlar va bildirishnomalar paneli</h5>
                         </div>
@@ -506,13 +506,13 @@ watch(
             </div>
             <section class="flex flex-col gap-3">
                 <div class="top">
-                    <div class="card flex flex-col gap-4 p-3 rounded">
+                    <div class="shadow-sm border p-3 rounded-xl flex flex-col gap-4">
                         <div class="flex align-items-center justify-content-between">
                             <h5>Loyiha jamoasi a’zolari ma’lumoti paneli</h5>
                         </div>
                         <div class="bottom flex items-center gap-3 flex-wrap">
                             <div v-for="item in comunitiCard"
-                                class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 bg-gray-50 rounded-xl p-3 w-[19%]">
+                                class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 shadow-md rounded-xl p-3 w-[19%]">
                                 <img :src="item.img" class="w-32 card-img  h-32 rounded-[50%]" alt="">
                                 <h1 class="font-bold">{{ item.name }}</h1>
                                 <h4>{{ item.rols }}</h4>
@@ -522,7 +522,7 @@ watch(
                     </div>
                 </div>
                 <div class="bottom">
-                       <div class="card">
+                       <div class="shadow-xl border p-3 rounded-xl">
                             <div class="flex align-items-center justify-content-between mb-4">
                                 <h5>Bildirishnomalar paneli</h5>
                             </div>

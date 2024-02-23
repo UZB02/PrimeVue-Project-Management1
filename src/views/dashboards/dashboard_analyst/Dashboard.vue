@@ -354,7 +354,7 @@ watch(
     <div class="flex flex-col">
         <div class="top flex gap-2">
             <div v-for="item in data"
-                class="w-1/4 h-52  cursor-pointer hover:scale-105 bg-white flex gap-5 flex-col p-4 rounded-xl"
+                class="w-1/4 h-52  cursor-pointer hover:scale-105 border shadow flex gap-5 flex-col p-4 rounded-xl"
                 data-aos="flip-right">
                 <div class="top flex w-full items-center justify-between border-b-2 pb-1">
                     <div class="left flex items-center justify-center gap-4">
@@ -449,7 +449,7 @@ watch(
                         </div>
                         <ul class="list-none flex flex-col p-0 m-0">
                             <li v-for="item in comuniti"
-                                class="flex flex-column bg-slate-50 p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                class="flex flex-column border p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div class="cards w-full flex items-center justify-between">
                                     <div class="w-[70%] flex items-center gap-3">
                                         <img :src="item.img" alt="" class="w-[10%]">
@@ -470,13 +470,13 @@ watch(
             </div>
             <section class="flex flex-col gap-3">
                 <div class="top">
-                    <div class="card flex flex-col gap-4 p-3 rounded">
+                    <div class="border flex flex-col gap-4 p-3 rounded">
                         <div class="flex align-items-center justify-content-between">
                             <h5>Loyiha jamoasi a’zolari ma’lumoti paneli</h5>
                         </div>
                         <div class="bottom flex items-center gap-3 flex-wrap">
                             <div v-for="item in comunitiCard"
-                                class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 bg-gray-50 rounded-xl p-3 w-[19%]">
+                                class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%]">
                                 <img :src="item.img" class="w-32 card-img  h-32 rounded-[50%]" alt="">
                                 <h1 class="font-bold">{{ item.name }}</h1>
                                 <h4>{{ item.rols }}</h4>
@@ -486,7 +486,7 @@ watch(
                     </div>
                 </div>
                 <div class="bottom">
-                       <div class="card">
+                       <div class="border p-2 rounded-xl">
                                 <div class="flex align-items-center justify-content-between mb-4">
                                     <h5>Bildirishnomalar paneli</h5>
                                 </div>

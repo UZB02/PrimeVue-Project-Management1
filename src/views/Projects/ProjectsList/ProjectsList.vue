@@ -275,7 +275,7 @@ const items = ref([
     },
     {
         label: 'Loyihaning qism loyihalari',
-        route: '/part_projects',
+        route: '/kanban',
     },
 ]);
 const menu = ref();
