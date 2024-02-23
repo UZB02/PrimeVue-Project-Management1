@@ -1,16 +1,18 @@
 <script setup>
-import { useLayout } from '@/layout/composables/layout';
+// import { useLayout } from '@/layout/composables/layout';
 import { ref, computed } from 'vue';
-import AppConfig from '@/layout/AppConfig.vue';
+import router from '@/router';
 
-const { layoutConfig } = useLayout();
+// const { layoutConfig } = useLayout();
 const name = ref('');
 const password = ref('');
-const checked = ref(false);
+const LogIn = () => {
+	router.push('/')
+}
 
-const logoUrl = computed(() => {
-    return `layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
-});
+// const logoUrl = computed(() => {
+//     return `layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
+// });
 </script>
 
 <template>
@@ -37,10 +39,9 @@ const logoUrl = computed(() => {
 	    							<label for="password" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Password</label>
 	    						</div>
 	    						<div class="relative w-full">
-	    							<button class="bg-blue-500 w-full text-white rounded-md px-2 py-3">Submit</button>
+	    							<button type="submit" @click="LogIn" class="bg-blue-500 w-full text-white rounded-md px-2 py-3">Submit</button>
 	    						</div>
 							</form>
-    					
     				</div>
     			</div>
     		</div>

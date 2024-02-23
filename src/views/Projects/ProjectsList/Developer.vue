@@ -5,13 +5,13 @@
                 Project</button> -->
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
-                <button type="button" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
                     class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
                     <!-- <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true"  />
                     <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" /> -->
                 </button>
-                <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="translate-y-2">
+                <Menu ref="rolsMenu" id="overlay_menu" :model="rolsItems" :popup="true" class="translate-y-2">
                     <template #item="{ item, props }">
                         <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                             <a v-ripple :href="href" v-bind="props.action" @click="navigate">
@@ -34,18 +34,24 @@
     </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div class="container flex flex-wrap items-center justify-center gap-2">
+            <div class="container flex flex-wrap items-center  gap-2">
                 <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[900px]:w-[40%] flex flex-col gap-2' : 'hidden'"
-                    v-for="item in cardinfo">
+                    v-for="item in list">
                     <img class="rounded-xl w-full h-40" :src="item.img" alt="">
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
-                            <h1 class="text-2xl font-bold">{{ item.name }}</h1>
+                            <div class="flex items-center justify-between">
+                                <h1 @click="generalinformation" class="cursor-pointer text-2xl font-bold">{{
+                                    item.project_name }}</h1>
+                                <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                    class="pi pi-ellipsis-h cursor-pointer"></i>
+                            </div>
+
                             <div class="flex items-center justify-between gap-3">
                                 <div class="flex items-center justify-center gap-3">
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2>{{ item.data }}</h2>
+                                        <h2>{{ item.createTime }}</h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -59,10 +65,6 @@
                                 <div class="">
                                     <AvatarGroup class="mb-3">
                                         <Avatar :image="'demo/images/avatar/amyelsner.png'" shape="circle">
-                                        </Avatar>
-                                        <Avatar :image="'demo/images/avatar/asiyajavayant.png'" shape="circle">
-                                        </Avatar>
-                                        <Avatar :image="'demo/images/avatar/onyamalimba.png'" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
                                 </div>
@@ -81,23 +83,27 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">4 Projects</h5>
+                        <h5 class="text-4xl font-medium">6 Projects</h5>
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
                             class="w-1/2 md:w-14rem border" />
                     </div>
                     <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
-                        <li @click="() => modalOpen(JSON.stringify(item))"
-                            class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
+                        <li
+                            class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
                             <div class="flex items-center justify-center">
                                 <div
                                     class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
                                     <i :class="item.svg" class="text-xl text-blue-500"></i>
                                 </div>
-                                <span class="text-900 line-height-3 flex flex-col gap-2">
+
+                                <span @click="generalinformation"
+                                    class="cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold">{{ item.project_name }}</h1>
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>
                             </div>
+                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                class="pi pi-ellipsis-h cursor-pointer"></i>
 
                             <div class="w-1/2 flex  gap-6 items-center justify-center">
                                 <span class="flex w-1/4 items-center justify-center gap-2">
@@ -129,7 +135,7 @@
                     <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
                         class="w-[90%] max-[900px]:w-[100%]" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                         <ul class="list-none p-0 m-0">
-                            <li class="">
+                            <li>
                                 <div
                                     class="flex border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                                     <div class="w-1/2 flex items-center justify-between">
@@ -231,6 +237,16 @@
                 </div>
             </div>
         </div>
+        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
+            <template #item="{ item, props }">
+                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                    <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                        <span class="pi pi-server" />
+                        <span class="ml-2">{{ item.label }}</span>
+                    </a>
+                </router-link>
+            </template>
+        </Menu>
     </section>
 </template>
 <script setup>
@@ -238,6 +254,45 @@ import { ref, reactive } from 'vue';
 import router from '@/router';
 const eId = ref(null)
 const modalOpend = ref(false)
+const items = ref([
+    {
+        label: `Umumiy ma'lumotlar`,
+        route: '/general_information'
+    },
+    {
+        label: 'Loyihaga biriktirilgan fayllar',
+        route: '/files'
+    },
+    {
+        label: 'Loyiha ijrochilari',
+        route: '/performers',
+    },
+    {
+        label: 'Loyiha bosqichlari',
+        route: '/stages',
+    },
+    {
+        label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
+        route: '/tasks',
+    },
+    {
+        label: 'Loyiha xronologiya ma’lumoti',
+        route: '/timeline_information',
+    },
+    {
+        label: 'Loyihaning qism loyihalari',
+        route: '/part_projects',
+    },
+]);
+const menu = ref();
+
+const generalinformation = () => {
+    router.push('/general_information')
+}
+const toggle = (event) => {
+    menu.value.toggle(event);
+};
+
 const fullTable = ref(
     {
         id: ``,
@@ -256,21 +311,24 @@ const fullTable = ref(
         cost_usd: ``,
         cost_uzs: ``,
         tell: ``,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
     }
 )
 
-function modalOpen(item) {
-    modalOpend.value = true
-    let data = JSON.parse(item)
-    console.log(data);
-    fullTable.value = data
-    eId.value = data.id
-}
+// function modalOpen(item) {
+//     modalOpend.value = true
+//     let data = JSON.parse(item)
+//     console.log(data);
+//     fullTable.value = data
+//     eId.value = data.id
+// }
 
 const selectedCity = ref();
 const card_table = ref(true);
-const menu = ref();
-const items = ref([
+const rolsMenu = ref();
+const rolsItems = ref([
     {
         label: 'Developer',
         icon: 'pi pi-user',
@@ -295,76 +353,30 @@ const cities = ref([
     { name: 'This Month', code: 'TM' }
 ]);
 
-const cardinfo = ref([
-    {
-        img: `https://avatars.mds.yandex.net/i?id=aa49b4e49613f6b614a24a35c22dbf35780a229f-10852653-images-thumbs&n=13`,
-        name: `IMG`,
-        data: `15.02.2024`,
-        file: `3`,
-        checked: `10`,
-        score: `60%`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=7c4c2aa230b67b544a95f2286ee29ed6c996f423-10592644-images-thumbs&n=13`,
-        name: `DELTA`,
-        data: `01.01.2024`,
-        file: `6`,
-        checked: `15`,
-        score: `30%`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=5fb3c020c70b83301b406e1c86205abd2c575c99-10577947-images-thumbs&n=13`,
-        name: `NU INVEST`,
-        data: `24.12.2023`,
-        file: `2`,
-        checked: `7`,
-        score: `80%`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=7f5751d9137e5a8be456a4a493af77ba5c1c9086-9820447-images-thumbs&n=13`,
-        name: `PS5`,
-        data: `16.11.2023`,
-        file: `8`,
-        checked: `17`,
-        score: `50%`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=ea521d74d36ab6fb17921bd72528292049e1fdef-8272935-images-thumbs&n=13`,
-        name: `ALEGRO`,
-        data: `26.10.2023`,
-        file: `3`,
-        checked: `10`,
-        score: `48%`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        name: `MIMSAN`,
-        data: `10.10.2023`,
-        file: `3`,
-        checked: `10`,
-        score: `97%`,
-    },
-])
 const list = ref([
     {
-        id: `1`,
+        id: `2`,
         project_name: `Project Name`,
         status: `14 Tasks`,
-        svg: `pi pi-qrcode`,
-        term: `5,2024`,
-        month: `Okt 31`,
-        avatar_name: `Julia`,
-        severity: "success",
-        icon_value: "Done",
-        category: `It`,
-        score: `100%`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
+        svg: `pi pi-chart-line`,
+        term: `4,2024`,
+        month: `Avg 12`,
+        files: `3`,
+        score: `63%`,
         createTime: `01.02.2024 -07:00`,
-        cost_usd: `5000`,
-        company: `Bisyor`,
-        cost_uzs: `50000000`,
+        avatar_name: `Julia`,
+        cost_usd: `3000`,
+        cost_uzs: `30000000`,
+        severity: "danger",
+        company: `Epan`,
+        icon_value: "Stopped",
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
+        category: `SMM`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
     },
     {
         id: `2`,
@@ -386,6 +398,9 @@ const list = ref([
         category: `SMM`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
     },
     {
         id: `3`,
@@ -407,6 +422,9 @@ const list = ref([
         avatar_name: `Andrey`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
     },
     {
         id: `4`,
@@ -427,7 +445,58 @@ const list = ref([
         file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         avatar_name: `Watson`,
         tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`
+        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
+    },
+    {
+        id: `3`,
+        project_name: `Project Name`,
+        status: `14 Tasks`,
+        svg: `pi pi-chart-pie`,
+        term: `1,2024`,
+        month: `Mar 26`,
+        files: `7`,
+        score: `81%`,
+        cost_usd: `7000`,
+        cost_uzs: `70000000`,
+        severity: "warning",
+        icon_value: "Suspended",
+        category: `Marketing`,
+        company: `UITC`,
+        createTime: `01.02.2024 -07:00`,
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
+        avatar_name: `Andrey`,
+        tell: `+99890-123-45-67`,
+        avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
+    },
+    {
+        id: `4`,
+        project_name: `Project Name`,
+        status: `14 Tasks`,
+        svg: `pi pi-star`,
+        term: `10,2023`,
+        month: `Yan 31`,
+        score: `53%`,
+        files: `12`,
+        cost_usd: `7000`,
+        cost_uzs: `70000000`,
+        severity: "primary",
+        icon_value: "Draft ",
+        category: `It`,
+        company: `Global`,
+        createTime: `01.02.2024 -07:00`,
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
+        avatar_name: `Watson`,
+        tell: `+99890-123-45-67`,
+        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
     },
 ])
 
@@ -435,15 +504,9 @@ const list = ref([
 //     router.push('/addProject');
 // }
 
-const toggle = (event) => {
-    menu.value.toggle(event);
+const rolsToggle = (event) => {
+    rolsMenu.value.toggle(event);
 };
-// const modalList = () => {
-//     console.log(list.value);
-//   list = JSON.parse(JSON.stringify(lis))
-// }
-
-
 const cardFunction = () => {
     card_table.value = true
 }

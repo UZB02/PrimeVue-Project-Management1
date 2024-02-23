@@ -29,6 +29,41 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/ProjectsList.vue')
                 },
                 {
+                    path: '/general_information',
+                    name: 'general_information',
+                    component: () => import('@/views/Projects/ProjectsList/GeneralInformation/General_information.vue')
+                },
+                {
+                    path: '/files',
+                    name: 'files',
+                    component: () => import('@/views/Projects/ProjectsList/Files/files.vue')
+                },
+                {
+                    path: '/performers',
+                    name: 'performers',
+                    component: () => import('@/views/Projects/ProjectsList/Performers/performers.vue')
+                },
+                {
+                    path: '/stages',
+                    name: 'Stages',
+                    component: () => import('@/views/Projects/ProjectsList/Stages/stages.vue')
+                },
+                {
+                    path: '/tasks',
+                    name: 'Tasks',
+                    component: () => import('@/views/Projects/ProjectsList/Tasks/tasks.vue')
+                },
+                {
+                    path: '/timeline_information',
+                    name: 'TimelineInformation',
+                    component: () => import('@/views/Projects/ProjectsList/TimelineInformation/timelineInformation.vue')
+                },
+                {
+                    path: '/part_projects',
+                    name: 'PartProjects',
+                    component: () => import('@/views/Projects/ProjectsList/PartProjects/partProjects.vue')
+                },
+                {
                     path: '/addProject',
                     name: 'addProject',
                     component: () => import('@/views/Projects/ProjectsList/AddProject.vue')
