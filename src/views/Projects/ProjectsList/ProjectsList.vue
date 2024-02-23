@@ -274,7 +274,7 @@ const items = ref([
         route: '/timeline_information',
     },
     {
-        label: 'Loyihaning qism loyihalari',
+        label: 'Kanban Doska',
         route: '/kanban',
     },
 ]);

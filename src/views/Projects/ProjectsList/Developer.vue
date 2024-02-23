@@ -280,8 +280,8 @@ const items = ref([
         route: '/timeline_information',
     },
     {
-        label: 'Loyihaning qism loyihalari',
-        route: '/part_projects',
+        label: 'Kanban Doska',
+        route: '/kanban',
     },
 ]);
 const menu = ref();

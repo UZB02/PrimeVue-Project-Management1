@@ -104,6 +104,7 @@ import BlockViewer from '@/components/BlockViewer.vue';
 
 import '@/assets/styles.scss';
 
+
 const app = createApp(App);
 
 app.use(router);

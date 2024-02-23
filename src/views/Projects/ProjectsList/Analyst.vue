@@ -280,8 +280,8 @@ const items = ref([
         route: '/timeline_information',
     },
     {
-        label: 'Loyihaning qism loyihalari',
-        route: '/part_projects',
+        label: 'Kanban Doska',
+        route: '/kanban',
     },
 ]);
 const menu = ref();
@@ -317,13 +317,13 @@ const fullTable = ref(
     }
 )
 
-function modalOpen(item) {
-    modalOpend.value = true
-    let data = JSON.parse(item)
-    console.log(data);
-    fullTable.value = data
-    eId.value = data.id
-}
+// function modalOpen(item) {
+//     modalOpend.value = true
+//     let data = JSON.parse(item)
+//     console.log(data);
+//     fullTable.value = data
+//     eId.value = data.id
+// }
 
 const selectedCity = ref();
 const card_table = ref(true);
