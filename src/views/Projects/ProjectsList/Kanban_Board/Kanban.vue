@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="font-sans">
-    <!-- <header class="bg-gray-800 text-white p-4">
+    <header class="bg-gray-800 text-white p-4">
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
-    </header> -->
+    </header>
     <main class="flex p-4">
       <section class="w-1/3 p-4">
         <h2 class="font-semibold font-mono text-2xl mb-4">Task</h2>
@@ -20,29 +20,11 @@
             <form class="flex flex-col gap-2">
               <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
                 placeholder="Add New Task" autofocus>
-              <!-- <div class="">
-                <span class="text-gray-700 font-medium">Muhumlilik Darajasi</span>
-                <div class="mt-2 flex items-center justify-between gap-2">
-                  <label class="inline-flex items-center">
-                    <input type="radio" class="form-radio cursor-pointer" @change="changeHeight('red')"  name="accountType" value="muhum">
-                    <span class="text-sm font-medium">Muhum</span>
-                  </label>
-                  <label class="inline-flex items-center">
-                    <input type="radio" class="form-radio cursor-pointer" @change="changeMedium('blue')" name="accountType" value="ortacha">
-                    <span class="text-sm font-medium">O'rtach</span>
-                  </label>
-                  <label class="inline-flex items-center">
-                    <input type="radio" class="form-radio cursor-pointer" @change="changeEasy('gray')" name="accountType" value="ortacha">
-                    <span class="text-sm font-medium">Eslatma</span>
-                  </label>
-                </div>
-              </div> -->
-              <div class="actions flex items-center justify-between">
+              <div class="actions flex items-center gap-3">
                 <button @click.prevent="AddTask"
-                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
                   Task</button>
-                <button @click="CancelNewTask" type="button"
-                  class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
+                  <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewTask"></i>
               </div>
             </form>
           </div>
@@ -68,12 +50,11 @@
             <form class="flex flex-col gap-2">
               <input v-model="addProgresValue" class="w-full transition outline-none p-2 border rounded shadow"
                 type="text" placeholder="Add New Task" autofocus>
-              <div class="actions flex items-center justify-between">
+              <div class="actions flex items-center gap-3">
                 <button @click.prevent="AddProgres"
-                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
                   Task</button>
-                <button @click="CancelNewProgres" type="button"
-                  class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
+                   <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewProgres"></i>
               </div>
             </form>
           </div>
@@ -100,12 +81,11 @@
             <form class="flex flex-col gap-2">
               <input v-model="addDoneValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
                 placeholder="Add New Task" autofocus>
-              <div class="actions flex items-center justify-between">
+              <div class="actions flex items-center gap-3">
                 <button @click.prevent="AddDone"
-                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
                   Task</button>
-                <button @click="CancelNewDone" type="button"
-                  class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
+                  <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewDone"></i>
               </div>
             </form>
           </div>
