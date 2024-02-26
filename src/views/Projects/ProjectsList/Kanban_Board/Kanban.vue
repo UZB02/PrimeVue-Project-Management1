@@ -1,15 +1,15 @@
 <template>
   <div id="app" class="font-sans">
-    <header class="bg-gray-800 text-white p-4">
+    <header class="bg-gray-800 text-white p-2">
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
     </header>
     <main class="flex p-4">
       <section class="w-1/3 p-4">
         <h2 class="font-semibold font-mono text-2xl mb-4">Task</h2>
-        <draggable class="border p-2 rounded shadow" :list="tasks.todo" group="tasks" @change="updateTasks">
-          <div v-for="task in tasks.todo" :key="task.id" id="dragble" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
-            class="flex flex-wrap justify-between active:bg-gray-100 active:shadow-2xl active:text-blue-500 overflow-auto mb-2 p-2 border rounded shadow">
-            <div>{{ task.title }}</div>
+        <draggable drag-class="drag" ghost-class="ghost" class="border p-2 rounded shadow" :list="tasks.todo" group="tasks" @change="updateTasks">
+          <div v-for="task in tasks.todo" :key="task.id" id="dragble"
+            class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
+            <div class="h-10 flex items-center">{{ task.title }}</div>
             <div id="actions" class="flex items-center justify-center gap-2">
               <i @click="editTask" class="editTask pi pi-pencil cursor-pointer"></i>
               <i @click="deleteTodo" class="delite pi pi-trash cursor-pointer"></i>
@@ -28,7 +28,7 @@
               </div>
             </form>
           </div>
-          <div @click="addTaskModal" class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
+          <div @click="addTaskModal" class="flex h-10 items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
             <i class="pi pi-plus"></i>
             <h2>Add Task</h2>
           </div>
@@ -36,10 +36,10 @@
       </section>
       <section class="w-1/3 p-4">
         <h2 class="text-2xl font-semibold mb-4">On Process</h2>
-        <draggable class="border p-2 rounded shadow" :list="tasks.inProgress" group="tasks" @change="updateTasks">
+        <draggable drag-class="drag" ghost-class="ghost" class="border p-2 rounded shadow" :list="tasks.inProgress" group="tasks" @change="updateTasks">
           <div v-for="task in tasks.inProgress" :key="task.id" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
             class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
-            <div>{{ task.title }}</div>
+            <div class="h-10 flex items-center">{{ task.title }}</div>
             <div id="actions" class="flex items-center justify-center gap-2">
               <i @click="editDone" class="editTask pi pi-pencil cursor-pointer"></i>
               <i @click="removeProgres" class="editTask pi pi-trash cursor-pointer"></i>
@@ -59,7 +59,7 @@
             </form>
           </div>
           <div @click="addProgreskModal"
-            class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
+            class="flex h-10 items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
             <i class="pi pi-plus"></i>
             <h2>Add Task</h2>
           </div>
@@ -67,10 +67,10 @@
       </section>
       <section class="w-1/3 p-4">
         <h2 class="text-2xl font-semibold mb-4">Done</h2>
-        <draggable class="border p-2 rounded shadow" :list="tasks.done" group="tasks" @change="updateTasks">
+        <draggable drag-class="drag" ghost-class="ghost" class="border p-2 rounded shadow" :list="tasks.done" group="tasks" @change="updateTasks">
           <div v-for="task in tasks.done" :key="task.id" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
             class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
-            <div>{{ task.title }}</div>
+            <div class="h-10 flex items-center">{{ task.title }}</div>
             <div id="actions" class="flex items-center justify-center gap-2">
               <i @click="editDone" class="editTask pi pi-pencil cursor-pointer"></i>
               <i @click="removeDone" class="editTask pi pi-trash cursor-pointer"></i>
@@ -89,7 +89,7 @@
               </div>
             </form>
           </div>
-          <div @click="addDoneModal" class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
+          <div @click="addDoneModal" class="h-10 flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
             <i class="pi pi-plus"></i>
             <h2>Add Task</h2>
           </div>
@@ -109,7 +109,6 @@ const addProgresmodal = ref(false)
 const addProgresValue = ref('')
 const addDonemodal = ref(false)
 const addDoneValue = ref('')
-const textColor = ref('white')
 
 const tasks = ref({
   todo: [
@@ -199,7 +198,7 @@ const AddProgres = () => {
     console.log(newTask);
   }
 }
-const AddDone = (e) => {
+const AddDone = () => {
   if (addDoneValue.value === '') {
     alert(`Maydonni To'ldiring`)
   }
@@ -230,4 +229,20 @@ const removeTask = (task) => {
 
 
 <style scoped>
+.drag{
+  background-color: grey;
+  transform: rotate(5deg);
+  color: white;
+}
+.drag >div{
+  transform: rotate(5deg);
+}
+.ghost{
+  background-color: lightgray;
+  border-radius: 5px;
+}
+.ghost >div{
+  visibility: hidden;
+}
+
 </style>
