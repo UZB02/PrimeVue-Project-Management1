@@ -12,7 +12,7 @@
             <div>{{ task.title }}</div>
             <div id="actions" class="flex items-center justify-center gap-2">
               <i @click="editTask" class="editTask pi pi-pencil cursor-pointer"></i>
-              <i @click="removeTask" class="editTask pi pi-trash cursor-pointer"></i>
+              <i @click="deleteTodo" class="delite pi pi-trash cursor-pointer"></i>
             </div>
           </div>
           <div
@@ -110,19 +110,6 @@ const addProgresValue = ref('')
 const addDonemodal = ref(false)
 const addDoneValue = ref('')
 const textColor = ref('white')
-// const height = ref('red')
-// const medium = ref('blue')
-// const easy = ref('gray')
-
-// const changeMedium = (color) => {
-//   height.value = color;
-// };
-// const changeHeight= (color) => {
-//   height.value = color;
-// };
-// const changeEasy= (color) => {
-//   height.value = color;
-// };
 
 const tasks = ref({
   todo: [
@@ -230,25 +217,17 @@ const CancelNewDone = () => {
 }
 
 
-const removeDone = (task) => {
-  tasks.value.done.splice(tasks.value.done.indexOf(task), 1);
-};
+// const deleteTodo = (list,todoId) => {
+//   console.log(tasks.todo[list].id);
+// };
 const removeProgres = (task) => {
   tasks.value.inProgress.splice(tasks.value.inProgress.indexOf(task), 1);
 };
 const removeTask = (task) => {
   tasks.value.todo.splice(tasks.value.todo.indexOf(task), 1);
 };
-// const editTask = (list, taskId) => {
-//   const taskIndex = tasks.value.todo[list].findIndex((task) => task.id === taskId);
-//   const newTitle = prompt('Enter new title:', tasks.value.todo[list][taskIndex].title);
-//   if (newTitle !== null) {
-//     tasks.value.todo[list][taskIndex].title = newTitle;
-//   }
-// };
 </script>
 
 
-<style>
-/* Add Tailwind CSS styles here */
+<style scoped>
 </style>
