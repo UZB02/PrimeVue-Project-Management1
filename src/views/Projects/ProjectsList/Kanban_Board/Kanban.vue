@@ -5,78 +5,114 @@
     </header> -->
     <main class="flex p-4">
       <section class="w-1/3 p-4">
-        <h2 class="text-lg font-semibold mb-4">Task</h2>
-        <draggable class="bg-white p-2 rounded shadow" :list="tasks.todo" group="tasks" @change="updateTasks">
-          <div v-for="task in tasks.todo" :key="task.id" class="flex flex-wrap justify-between overflow-auto mb-2 p-2 bg-gray-100 rounded shadow">
+        <h2 class="font-semibold font-mono text-2xl mb-4">Task</h2>
+        <draggable class="border p-2 rounded shadow" :list="tasks.todo" group="tasks" @change="updateTasks">
+          <div v-for="task in tasks.todo" :key="task.id" id="dragble" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
+            class="flex flex-wrap justify-between active:bg-gray-100 active:shadow-2xl active:text-blue-500 overflow-auto mb-2 p-2 border rounded shadow">
             <div>{{ task.title }}</div>
             <div id="actions" class="flex items-center justify-center gap-2">
               <i @click="editTask" class="editTask pi pi-pencil cursor-pointer"></i>
               <i @click="removeTask" class="editTask pi pi-trash cursor-pointer"></i>
             </div>
           </div>
-         <div :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 bg-gray-100 rounded shadow` : 'hidden'">
-          <form class="flex flex-col gap-2">
-             <input v-model="addTaskValue" class="w-full transition outline-none p-2 bg-gray-100 rounded shadow"  type="text" placeholder="Add New Task" autofocus >
-             <div class="actions flex items-center justify-between">
-              <button @click.prevent="AddTask" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add Task</button>
-              <button @click="CancelNewTask" class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
-             </div>
-          </form>
-         </div>
-          <div @click="addTaskModal" class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 bg-gray-100 rounded shadow">
+          <div
+            :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
+            <form class="flex flex-col gap-2">
+              <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
+                placeholder="Add New Task" autofocus>
+              <!-- <div class="">
+                <span class="text-gray-700 font-medium">Muhumlilik Darajasi</span>
+                <div class="mt-2 flex items-center justify-between gap-2">
+                  <label class="inline-flex items-center">
+                    <input type="radio" class="form-radio cursor-pointer" @change="changeHeight('red')"  name="accountType" value="muhum">
+                    <span class="text-sm font-medium">Muhum</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="radio" class="form-radio cursor-pointer" @change="changeMedium('blue')" name="accountType" value="ortacha">
+                    <span class="text-sm font-medium">O'rtach</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="radio" class="form-radio cursor-pointer" @change="changeEasy('gray')" name="accountType" value="ortacha">
+                    <span class="text-sm font-medium">Eslatma</span>
+                  </label>
+                </div>
+              </div> -->
+              <div class="actions flex items-center justify-between">
+                <button @click.prevent="AddTask"
+                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                  Task</button>
+                <button @click="CancelNewTask" type="button"
+                  class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
+              </div>
+            </form>
+          </div>
+          <div @click="addTaskModal" class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
             <i class="pi pi-plus"></i>
             <h2>Add Task</h2>
           </div>
         </draggable>
       </section>
       <section class="w-1/3 p-4">
-        <h2 class="text-lg font-semibold mb-4">On Process</h2>
-        <draggable class="bg-white p-2 rounded shadow" :list="tasks.inProgress" group="tasks" @change="updateTasks">
-          <div v-for="task in tasks.inProgress" :key="task.id" class="flex flex-wrap justify-between overflow-auto mb-2 p-2 bg-gray-100 rounded shadow">
-           <div>{{ task.title }}</div>
-                <div id="actions" class="flex items-center justify-center gap-2">
-                  <i @click="editDone" class="editTask pi pi-pencil cursor-pointer"></i>
-                  <i @click="removeProgres" class="editTask pi pi-trash cursor-pointer"></i>
-                </div>
-          </div>
-             <div :class="addProgresmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 bg-gray-100 rounded shadow` : 'hidden'">
-            <form class="flex flex-col gap-2">
-               <input v-model="addProgresValue" class="w-full transition outline-none p-2 bg-gray-100 rounded shadow"  type="text" placeholder="Add New Task" autofocus >
-               <div class="actions flex items-center justify-between">
-                <button @click.prevent="AddProgres" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add Task</button>
-                <button @click="CancelNewProgres" class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
-               </div>
-            </form>
-           </div>
-            <div @click="addProgreskModal" class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 bg-gray-100 rounded shadow">
-              <i class="pi pi-plus"></i>
-              <h2>Add Task</h2>
+        <h2 class="text-2xl font-semibold mb-4">On Process</h2>
+        <draggable class="border p-2 rounded shadow" :list="tasks.inProgress" group="tasks" @change="updateTasks">
+          <div v-for="task in tasks.inProgress" :key="task.id" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
+            class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
+            <div>{{ task.title }}</div>
+            <div id="actions" class="flex items-center justify-center gap-2">
+              <i @click="editDone" class="editTask pi pi-pencil cursor-pointer"></i>
+              <i @click="removeProgres" class="editTask pi pi-trash cursor-pointer"></i>
             </div>
+          </div>
+          <div
+            :class="addProgresmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
+            <form class="flex flex-col gap-2">
+              <input v-model="addProgresValue" class="w-full transition outline-none p-2 border rounded shadow"
+                type="text" placeholder="Add New Task" autofocus>
+              <div class="actions flex items-center justify-between">
+                <button @click.prevent="AddProgres"
+                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                  Task</button>
+                <button @click="CancelNewProgres" type="button"
+                  class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
+              </div>
+            </form>
+          </div>
+          <div @click="addProgreskModal"
+            class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
+            <i class="pi pi-plus"></i>
+            <h2>Add Task</h2>
+          </div>
         </draggable>
       </section>
       <section class="w-1/3 p-4">
-        <h2 class="text-lg font-semibold mb-4">Done</h2>
-        <draggable class="bg-white p-2 rounded shadow" :list="tasks.done" group="tasks" @change="updateTasks">
-          <div v-for="task in tasks.done" :key="task.id" class="flex flex-wrap justify-between overflow-auto mb-2 p-2 bg-gray-100 rounded shadow">
-         <div>{{ task.title }}</div>
-              <div id="actions" class="flex items-center justify-center gap-2">
-                <i @click="editDone" class="editTask pi pi-pencil cursor-pointer"></i>
-                <i @click="removeDone" class="editTask pi pi-trash cursor-pointer"></i>
-              </div>
-          </div>
-          <div :class="addDonemodal ? `w-full flex flex-col gap-2 transition outline-none p-2 bg-gray-100 rounded shadow` : 'hidden'">
-            <form class="flex flex-col gap-2">
-               <input v-model="addDoneValue" class="w-full transition outline-none p-2 bg-gray-100 rounded shadow"  type="text" placeholder="Add New Task" autofocus >
-               <div class="actions flex items-center justify-between">
-                <button @click.prevent="AddDone" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add Task</button>
-                <button @click="CancelNewDone" class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
-               </div>
-            </form>
-           </div>
-            <div @click="addDoneModal" class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 bg-gray-100 rounded shadow">
-              <i class="pi pi-plus"></i>
-              <h2>Add Task</h2>
+        <h2 class="text-2xl font-semibold mb-4">Done</h2>
+        <draggable class="border p-2 rounded shadow" :list="tasks.done" group="tasks" @change="updateTasks">
+          <div v-for="task in tasks.done" :key="task.id" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
+            class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
+            <div>{{ task.title }}</div>
+            <div id="actions" class="flex items-center justify-center gap-2">
+              <i @click="editDone" class="editTask pi pi-pencil cursor-pointer"></i>
+              <i @click="removeDone" class="editTask pi pi-trash cursor-pointer"></i>
             </div>
+          </div>
+          <div
+            :class="addDonemodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
+            <form class="flex flex-col gap-2">
+              <input v-model="addDoneValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
+                placeholder="Add New Task" autofocus>
+              <div class="actions flex items-center justify-between">
+                <button @click.prevent="AddDone"
+                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                  Task</button>
+                <button @click="CancelNewDone" type="button"
+                  class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded">Cancel</button>
+              </div>
+            </form>
+          </div>
+          <div @click="addDoneModal" class="flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
+            <i class="pi pi-plus"></i>
+            <h2>Add Task</h2>
+          </div>
         </draggable>
       </section>
     </main>
@@ -93,27 +129,41 @@ const addProgresmodal = ref(false)
 const addProgresValue = ref('')
 const addDonemodal = ref(false)
 const addDoneValue = ref('')
+const textColor = ref('white')
+// const height = ref('red')
+// const medium = ref('blue')
+// const easy = ref('gray')
 
+// const changeMedium = (color) => {
+//   height.value = color;
+// };
+// const changeHeight= (color) => {
+//   height.value = color;
+// };
+// const changeEasy= (color) => {
+//   height.value = color;
+// };
 
 const tasks = ref({
   todo: [
     {
-      id: 1, title: 'Task 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, expedita.' },
-    { id: 2, title: 'Task 2' },
-    { id: 3, title: 'Task 3' },
-    { id: 4, title: 'Task 4' },
-    { id: 5, title: 'Task 5' },
+      id: 1, title: 'Task 1',
+    },
+    { id: 2, title: 'Task 2', },
+    { id: 3, title: 'Task 3',  },
+    { id: 4, title: 'Task 4',  },
+    { id: 5, title: 'Task 5',},
     // Add more tasks as needed
   ],
   inProgress: [
-    { id: 6, title: 'Task 6' },
-    { id: 7, title: 'Task 7' },
-    { id: 8, title: 'Task 8' },
+    { id: 6, title: 'Task 6',},
+    { id: 7, title: 'Task 7',},
+    { id: 8, title: 'Task 8', },
     // Add more tasks as needed
   ],
   done: [
-    { id: 9, title: 'Task 9' },
-    { id: 10, title: 'Task 10' },
+    { id: 9, title: 'Task 9',},
+    { id: 10, title: 'Task 10',},
     // Add more tasks as needed
   ],
 });
@@ -133,18 +183,28 @@ const updateTasks = (event) => {
 
 const addProgreskModal = () => {
   addProgresmodal.value = !addProgresmodal.value
-  addProgresValue.value=''
+  addProgresValue.value = ''
+  addTaskmodal.value = false
+  addDonemodal.value = false
 };
 const addTaskModal = () => {
   addTaskmodal.value = !addTaskmodal.value
-  addTaskValue.value=''
+  addTaskValue.value = ''
+  addDonemodal.value = false
+  addProgresmodal.value = false
+};
+const addDoneModal = () => {
+  addDonemodal.value = !addDonemodal.value
+  addDoneValue.value = ''
+  addProgresmodal.value = false
+  addTaskmodal.value = false
 };
 const AddTask = () => {
   if (addTaskValue.value === '') {
     alert(`Maydonni To'ldiring`)
   }
   else {
-    const newTask = { id: Date.now(), title: `${addTaskValue.value}` };
+    const newTask = { id: Date.now(), title: `${addTaskValue.value}`};
     tasks.value.todo.push(newTask);
     addTaskValue.value = ''
     addTaskmodal.value = false
@@ -160,7 +220,7 @@ const CancelNewProgres = () => {
   addProgresmodal.value = false
   addProgresValue.value = ''
 }
-const AddProgres = () => { 
+const AddProgres = () => {
   if (addProgresValue.value === '') {
     alert(`Maydonni To'ldiring`)
   }
@@ -168,14 +228,10 @@ const AddProgres = () => {
     const newTask = { id: Date.now(), title: `${addProgresValue.value}` };
     tasks.value.inProgress.push(newTask);
     addProgresValue.value = ''
-     addProgresmodal.value=false
+    addProgresmodal.value = false
     console.log(newTask);
   }
 }
-const addDoneModal = () => {
-  addDonemodal.value = !addDonemodal.value
-  addDoneValue.value = ''
-};
 const AddDone = (e) => {
   if (addDoneValue.value === '') {
     alert(`Maydonni To'ldiring`)
