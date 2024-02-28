@@ -4,14 +4,14 @@
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
     </header>
     <main class="flex p-4">
-      <section class="w-1/3 p-4">
-        <h2 class="font-semibold font-mono text-2xl mb-4">Task</h2>
+      <section v-for="(task, index) in tasks" :key="index" class="w-1/3 p-4">
+        <h2 class="font-semibold font-mono text-2xl mb-4">{{ task.title }}</h2>
         <draggable drag-class="drag" ghost-class="ghost" class="border p-2 rounded shadow" :list="tasks.todo" group="tasks" @change="updateTasks">
-          <div v-for="task in tasks.todo" :key="task.id" id="dragble"
+          <div v-for="(card, cardIndex) in task.cards" :key="cardIndex"
             class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
-            <div class="h-10 flex items-center">{{ task.title }}</div>
+            <div class="h-10 flex items-center">{{ card.title }}</div>
             <div id="actions" class="flex items-center justify-center gap-2">
-              <i @click="editTask" class="editTask pi pi-pencil cursor-pointer"></i>
+              <i @click="() => modalEdit(JSON.stringify(card))" class="editTask pi pi-pencil cursor-pointer"></i>
               <i @click="deleteTodo" class="delite pi pi-trash cursor-pointer"></i>
             </div>
           </div>
@@ -34,7 +34,7 @@
           </div>
         </draggable>
       </section>
-      <section class="w-1/3 p-4">
+      <!-- <section class="w-1/3 p-4">
         <h2 class="text-2xl font-semibold mb-4">On Process</h2>
         <draggable drag-class="drag" ghost-class="ghost" class="border p-2 rounded shadow" :list="tasks.inProgress" group="tasks" @change="updateTasks">
           <div v-for="task in tasks.inProgress" :key="task.id" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
@@ -94,13 +94,24 @@
             <h2>Add Task</h2>
           </div>
         </draggable>
+      </section> -->
+      <section class="w-1/5 p-4">
+        <div class="container transition bg-slate-200 hover:bg-slate-100 cursor-pointer p-2 rounded-sm flex items-center justify-center gap-2">
+          <i class="pi pi-plus font-bold"></i>
+          <h1 class="font-semibold">Add New Card</h1>
+        </div>
       </section>
+      <template>
+      <div class="card">
+          <Editor v-model="value" editorStyle="height: 320px" />
+      </div>
+  </template>
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref,reactive } from 'vue';
 import { VueDraggableNext as draggable } from 'vue-draggable-next';
 
 const addTaskmodal = ref(false)
@@ -109,31 +120,57 @@ const addProgresmodal = ref(false)
 const addProgresValue = ref('')
 const addDonemodal = ref(false)
 const addDoneValue = ref('')
+const EditModalOpend = ref(false)
+const editInputValue = reactive({
+title:''
+})
+const eId = ref(null)
 
-const tasks = ref({
-  todo: [
-    {
-      id: 1, title: 'Task 1',
-    },
-    { id: 2, title: 'Task 2', },
-    { id: 3, title: 'Task 3',  },
-    { id: 4, title: 'Task 4',  },
-    { id: 5, title: 'Task 5',},
-    // Add more tasks as needed
-  ],
-  inProgress: [
-    { id: 6, title: 'Task 6',},
-    { id: 7, title: 'Task 7',},
-    { id: 8, title: 'Task 8', },
-    // Add more tasks as needed
-  ],
-  done: [
-    { id: 9, title: 'Task 9',},
-    { id: 10, title: 'Task 10',},
-    // Add more tasks as needed
-  ],
-});
+const value = ref('');
 
+const tasks = ref([
+  {title:'Task',
+    cards: [
+      {
+        id: 1, title: 'Task 1',
+      },
+      { id: 2, title: 'Task 2', },
+      { id: 3, title: 'Task 3', },
+      { id: 4, title: 'Task 4', },
+      { id: 5, title: 'Task 5', },
+      // Add more tasks as needed
+    ],
+  },
+  {title:'In Progress',
+    cards: [
+      {
+        id: 1, title: 'Task 1',
+      },
+      { id: 2, title: 'Task 2', },
+      { id: 3, title: 'Task 3', },
+      // Add more tasks as needed
+    ],
+  },
+  {title:'done',
+    cards: [
+      {
+        id: 1, title: 'Task 1',
+      },
+      { id: 2, title: 'Task 2', },
+      // Add more tasks as needed
+    ],
+  },
+]);
+
+function modalEdit(card) {
+  EditModalOpend.value = true
+  let data = JSON.parse(card)
+  console.log(data);
+  eId.value = data.id
+  for (let key in data) {
+    editInputValue[key] = data[key]
+  }
+}
 const updateTasks = (event) => {
   const { from, to, item } = event;
 
@@ -147,12 +184,12 @@ const updateTasks = (event) => {
   }
 };
 
-const addProgreskModal = () => {
-  addProgresmodal.value = !addProgresmodal.value
-  addProgresValue.value = ''
-  addTaskmodal.value = false
-  addDonemodal.value = false
-};
+// const addProgreskModal = () => {
+//   addProgresmodal.value = !addProgresmodal.value
+//   addProgresValue.value = ''
+//   addTaskmodal.value = false
+//   addDonemodal.value = false
+// };
 const addTaskModal = () => {
   addTaskmodal.value = !addTaskmodal.value
   addTaskValue.value = ''
@@ -216,8 +253,11 @@ const CancelNewDone = () => {
 }
 
 
-// const deleteTodo = (list,todoId) => {
-//   console.log(tasks.todo[list].id);
+// const deleteTodo = (list, todoId) => {
+//   const taskIndex = tasks.value[list].findIndex((task) => task.id === todoId);
+//   if (taskIndex !== -1) {
+//     tasks.value[list].splice(taskIndex, 1);
+//   }
 // };
 const removeProgres = (task) => {
   tasks.value.inProgress.splice(tasks.value.inProgress.indexOf(task), 1);

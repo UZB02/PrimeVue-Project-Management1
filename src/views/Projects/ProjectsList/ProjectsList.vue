@@ -1,7 +1,7 @@
 <template>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD
+            <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i class="pi pi-plus"></i> ADD
                 Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
@@ -34,8 +34,8 @@
     </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div class="container flex flex-wrap items-center  gap-2">
-                <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[900px]:w-[40%] flex flex-col gap-2' : 'hidden'"
+            <div class="container flex flex-wrap items-center justify-center gap-2">
+                <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2 ' : 'hidden'"
                     v-for="item in list">
                     <img class="rounded-xl w-full h-40" :src="item.img" alt="">
                     <div class="bottom">
@@ -98,9 +98,7 @@
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>
                             </div>
-                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
-
-                            <div class="w-1/2 flex  gap-6 items-center justify-center">
+                            <div class="w-[55%] flex  gap-6 items-center justify-center">
                                 <span class="flex w-1/4 items-center justify-center gap-2">
                                     <Avatar :image="item.avatar" size="large" shape="circle">
                                     </Avatar>
@@ -124,10 +122,12 @@
                                     </span>
                                     <span class="text-sm">{{ item.score }}</span>
                                 </span>
+                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+
                             </div>
                         </li>
                     </ul>
-                    <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
+                    <!-- <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
                         class="w-[90%] max-[900px]:w-[100%]" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                         <ul class="list-none p-0 m-0">
                             <li>
@@ -168,10 +168,6 @@
                                                 {{ fullTable.month }} - {{ fullTable.term }}
                                             </span>
                                         </span>
-                                        <!-- <span class="flex items-center cursor-pointer justify-center gap-1">
-                                            <i class="pi pi-dollar"></i>
-                                            <span>{{ fullTable.cost_usd }}</span>
-                                        </span> -->
                                         <span class="w-1/4 flex flex-col  gap-3">
                                             <div class="w-full flex items-center justify-center gap-3">
                                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
@@ -190,7 +186,6 @@
                                             <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
                                                 <Avatar :image="fullTable.avatar" size="xlarge" shape="circle"></Avatar>
                                                 <h1 class="font-bold">{{ fullTable.avatar_name }}</h1>
-                                                <!-- <h4>{{ item.rols }}</h4> -->
                                                 <h5 class="text-gray-500 font-italic">{{ fullTable.tell }}</h5>
                                             </div>
                                             <div class="card flex items-center justify-between gap-3">
@@ -227,7 +222,7 @@
                                 </div>
                             </li>
                         </ul>
-                    </Dialog>
+                    </Dialog> -->
                 </div>
             </div>
         </div>
