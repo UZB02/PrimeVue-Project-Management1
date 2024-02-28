@@ -36,9 +36,19 @@
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center  gap-2">
-                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-80 max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
+                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
                     v-for="item in list">
-                    <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" :src="item.img" alt="">
+                    <div class="actions flex items-center justify-end gap-2">
+                        <span>
+                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                        </span>
+                        <span>
+                            <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }" class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                        </span>
+                    </div>
+                    <div class="image">
+                        <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" :src="item.img" alt="">
+                    </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
@@ -60,20 +70,14 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h2>{{ item.checked }}</h2>
-                                    </span>
-                                    <span class="flex items-center justify-center gap-1">
-                                        <i class="pi pi-pencil cursor-pointer"></i>
-                                    </span>
-                                    <span class="flex items-center justify-center gap-1">
-                                        <i class="pi pi-folder-open cursor-pointer"></i>
+                                        <h3>{{ item.completed_task }}/{{ item.all_task }}</h3>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                        <Tag class="mr-2 w-16" :severity="item.severity" :value="item.icon_value"></Tag>
                                     </span>
                                 </div>
-                                <div class="">
-                                    <AvatarGroup class="mb-3">
+                                <div class="flex items-center justify-center">
+                                    <AvatarGroup>
                                         <Avatar @click="modalOpen(list)" :image="item.avatar" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
@@ -309,7 +313,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=8dfbfd449b8c6f99a5fcc1770cdc123a7d55b352-10547508-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+        completed_task: `10`,
+        all_task:`13`,
     },
     {
         id: `2`,
@@ -334,7 +339,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=be7f7bcfde85f7898245477c115c2849ac283f3f-10525373-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+       completed_task: `10`,
+        all_task: `13`,
     },
     {
         id: `2`,
@@ -359,7 +365,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=c0885138a400441d6da47af8da065c1cefda3027-6824808-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+         completed_task: `10`,
+        all_task: `13`,
     },
     {
         id: `2`,
@@ -384,7 +391,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=c001447f1d6639b86182aa0f958374cd-4843938-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+         completed_task: `10`,
+        all_task: `13`,
     },
     {
         id: `2`,
@@ -409,7 +417,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=aa19b7b0ff7963ebc3eb8e8efdb980e55a866f00-9185064-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+        completed_task: `10`,
+        all_task: `13`,
     },
     {
         id: `2`,
@@ -434,7 +443,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=fca4c43d5d6c11ff5470ce6f7f6d7bff5fae9605-8159518-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+         completed_task: `10`,
+        all_task: `13`,
     },
 ])
 
