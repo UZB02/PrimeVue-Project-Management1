@@ -146,8 +146,8 @@
                                             </span>
                                 </span>
                               <div class="actions flex items-center justify-between gap-3">
-                                  <i class="pi pi-pencil cursor-pointer"></i>
-                                    <i class="pi pi-folder-open cursor-pointer"></i>
+                                  <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer"></i>
+                                    <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }" class="pi pi-folder-open cursor-pointer"></i>
                                     <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                         class="pi pi-ellipsis-h cursor-pointer"></i>
                               </div>

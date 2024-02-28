@@ -1,7 +1,9 @@
 <template>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i class="pi pi-plus"></i> ADD
+            <button @click="addProject"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
+                    class="pi pi-plus"></i> ADD
                 Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
@@ -37,14 +39,23 @@
             <div class="container flex flex-wrap items-center justify-center gap-2">
                 <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2 ' : 'hidden'"
                     v-for="item in list">
-                    <img class="rounded-xl w-full h-40" :src="item.img" alt="">
+                    <div class="actions flex items-center justify-end gap-2">
+                        <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                        <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
+                            class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                    </div>
+                    <div class="image">
+                        <img class="rounded-xl w-full h-40" :src="item.img" alt="">
+                    </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
-                           <div class="flex items-center justify-between">
-                             <h1 @click="generalinformation" class="cursor-pointer text-2xl font-bold">{{ item.project_name }}</h1>
-                             <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
-                           </div>
-                 
+                            <div class="flex items-center justify-between">
+                                <h1 @click="generalinformation" class="cursor-pointer text-2xl font-bold">{{
+                                    item.project_name }}</h1>
+                                <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                    class="pi pi-ellipsis-h cursor-pointer"></i>
+                            </div>
+
                             <div class="flex items-center justify-between gap-3">
                                 <div class="flex items-center justify-center gap-3">
                                     <span class="flex items-center justify-center gap-1">
@@ -60,6 +71,9 @@
                                         <h2>{{ item.checked }}</h2>
                                     </span>
                                 </div>
+                                <span class="flex items-center justify-center gap-1">
+                                                   <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
+                                                </span>
                                 <div class="">
                                     <AvatarGroup class="mb-3">
                                         <Avatar :image="'demo/images/avatar/amyelsner.png'" shape="circle">
@@ -69,7 +83,8 @@
                             </div>
                             <div class="w-full flex items-center  justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                    <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2">
+                                    </div>
                                 </span>
                                 <span class="text-sm">{{ item.score }}</span>
                             </div>
@@ -77,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'" >
+            <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
                         <h5 class="text-4xl font-medium">6 Projects</h5>
@@ -85,20 +100,21 @@
                             class="w-1/2 md:w-14rem border" />
                     </div>
                     <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
-                        <li 
+                        <li
                             class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
                             <div class="flex items-center justify-center">
                                 <div
                                     class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
                                     <i :class="item.svg" class="text-xl text-blue-500"></i>
                                 </div>
-                                
-                                <span @click="generalinformation" class="cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+
+                                <span @click="generalinformation"
+                                    class="cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold">{{ item.project_name }}</h1>
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>
                             </div>
-                            <div class="w-[55%] flex  gap-6 items-center justify-center">
+                            <div class="w-[60%] flex  gap-6 items-center justify-center">
                                 <span class="flex w-1/4 items-center justify-center gap-2">
                                     <Avatar :image="item.avatar" size="large" shape="circle">
                                     </Avatar>
@@ -115,14 +131,25 @@
                                     <i class="pi pi-paperclip"></i>
                                     <h3>{{ item.files }}</h3>
                                 </span>
-                                <span class="w-1/4 flex items-center  justify-center gap-3">
-                                    <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                        <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2">
+                                  <span class="w-1/4 flex flex-col items-center  justify-center gap-1">
+                                        <div class=" w-full flex  items-center  justify-center gap-3">
+                                            <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                                <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2">
+                                                </div>
+                                            </span>
+                                            <span class="text-sm">{{ item.score }}</span>
                                         </div>
+                                         <span class="flex items-center justify-center gap-1">
+                                                   <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
+                                                </span>
                                     </span>
-                                    <span class="text-sm">{{ item.score }}</span>
-                                </span>
-                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+                                 <div class="actions flex items-center justify-center gap-3">
+                                      <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                                <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
+                                    class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                        class="pi pi-ellipsis-h cursor-pointer"></i>
+                                 </div>
 
                             </div>
                         </li>
@@ -226,16 +253,16 @@
                 </div>
             </div>
         </div>
-          <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
-                            <template #item="{ item, props }">
-                                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-                                    <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                                        <span class="pi pi-server" />
-                                        <span class="ml-2">{{ item.label }}</span>
-                                    </a>
-                                </router-link>
-                            </template>
-                        </Menu>
+        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
+            <template #item="{ item, props }">
+                <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+                    <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                        <span class="pi pi-ellipsis-v" />
+                        <span class="ml-2">{{ item.label }}</span>
+                    </a>
+                </router-link>
+            </template>
+        </Menu>
     </section>
 </template>
 <script setup>
@@ -300,7 +327,7 @@ const fullTable = ref(
         cost_usd: ``,
         cost_uzs: ``,
         tell: ``,
-          img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
         checked: `10`,
     }
@@ -363,7 +390,7 @@ const list = ref([
         category: `SMM`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-            img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
         checked: `10`,
     },
@@ -387,7 +414,7 @@ const list = ref([
         category: `SMM`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
-          img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
         checked: `10`,
     },
@@ -411,7 +438,7 @@ const list = ref([
         avatar_name: `Andrey`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
-          img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
         checked: `10`,
     },
@@ -435,7 +462,7 @@ const list = ref([
         avatar_name: `Watson`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
-          img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
         checked: `10`,
     },
@@ -459,7 +486,7 @@ const list = ref([
         avatar_name: `Andrey`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
-          img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
         checked: `10`,
     },
@@ -483,7 +510,7 @@ const list = ref([
         avatar_name: `Watson`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
-          img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
         checked: `10`,
     },
