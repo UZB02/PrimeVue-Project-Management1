@@ -1,38 +1,46 @@
 <template>
   <div id="app" class="font-sans">
-    <header class="bg-gray-800 text-white p-2">
+    <header class="bg-black text-white p-2">
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
     </header>
     <main class="flex p-4">
-      <section v-for="(task, index) in tasks" :key="index" class="w-1/3 p-4">
-        <h2 class="font-semibold font-mono text-2xl mb-4">{{ task.title }}</h2>
-        <draggable drag-class="drag" ghost-class="ghost" class="border p-2 rounded shadow" :list="tasks.todo" group="tasks" @change="updateTasks">
-          <div v-for="(card, cardIndex) in task.cards" :key="cardIndex"
-            class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
-            <div class="h-10 flex items-center">{{ card.title }}</div>
-            <div id="actions" class="flex items-center justify-center gap-2">
-              <i @click="() => modalEdit(JSON.stringify(card))" class="editTask pi pi-pencil cursor-pointer"></i>
-              <i @click="deleteTodo" class="delite pi pi-trash cursor-pointer"></i>
-            </div>
-          </div>
-          <div
-            :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
-            <form class="flex flex-col gap-2">
-              <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
-                placeholder="Add New Task" autofocus>
-              <div class="actions flex items-center gap-3">
-                <button @click.prevent="AddTask"
-                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
-                  Task</button>
-                  <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewTask"></i>
+      <section v-for="(task, index) in tasks" :key="index" class="w-1/3 p-2">
+     <div class="w-full bg-gray-400 rounded-2xl text-white p-1 flex flex-col items-center gap-3">
+         <div class="top flex items-center justify-between w-[80%]">
+          <h2 class="font-semibold font-mono text-2xl text-white">{{ task.title }}</h2>
+          <i class="pi pi-ellipsis-h cursor-pointer"></i>
+         </div>
+          <div class="w-full flex flex-col h-[60vh] p-4 overflow-scroll">
+            <draggable drag-class="drag" ghost-class="ghost" class="w-full flex flex-col gap-1 p-2 rounded" :list="tasks.todo" group="tasks" @change="updateTasks">
+              <div v-for="(card, cardIndex) in task.cards" :key="cardIndex"
+                class="bg-gray-500 flex flex-wrap justify-between overflow-auto p-1 rounded">
+                <img :src="card.file" alt="">
+                <div class="h-10 flex items-center">{{ card.title }}</div>
+                <div id="actions" class="flex items-center justify-center gap-2">
+                  <i @click="() => modalEdit(JSON.stringify(card))" class="editTask pi pi-pencil cursor-pointer"></i>
+                  <i @click="deleteTodo" class="delite pi pi-trash cursor-pointer"></i>
+                </div>
               </div>
-            </form>
+              <div
+                :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
+                <form class="flex flex-col gap-2">
+                  <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
+                    placeholder="Add New Task" autofocus>
+                  <div class="actions flex items-center gap-3">
+                    <button @click.prevent="AddTask"
+                      class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                      Task</button>
+                      <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewTask"></i>
+                  </div>
+                </form>
+              </div>
+            </draggable>
           </div>
           <div @click="addTaskModal" class="flex h-10 items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
-            <i class="pi pi-plus"></i>
-            <h2>Add Task</h2>
-          </div>
-        </draggable>
+                <i class="pi pi-plus"></i>
+                <h2>Add Task</h2>
+              </div>
+     </div>
       </section>
       <!-- <section class="w-1/3 p-4">
         <h2 class="text-2xl font-semibold mb-4">On Process</h2>
@@ -101,11 +109,6 @@
           <h1 class="font-semibold">Add New Card</h1>
         </div>
       </section>
-      <template>
-      <div class="card">
-          <Editor v-model="value" editorStyle="height: 320px" />
-      </div>
-  </template>
     </main>
   </div>
 </template>
@@ -132,7 +135,7 @@ const tasks = ref([
   {title:'Task',
     cards: [
       {
-        id: 1, title: 'Task 1',
+        id: 1, title: 'Task 1',file:`https://avatars.mds.yandex.net/i?id=db5f483fcb826da65ad804f9fdb1526c0687ce3e-10995513-images-thumbs&n=13`
       },
       { id: 2, title: 'Task 2', },
       { id: 3, title: 'Task 3', },
@@ -283,6 +286,13 @@ const removeTask = (task) => {
 }
 .ghost >div{
   visibility: hidden;
+}
+::-webkit-scrollbar{
+  width: 5px;
+}
+::-webkit-scrollbar-thumb{
+  background-color: gainsboro;
+  border-radius: 20px;
 }
 
 </style>

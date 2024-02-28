@@ -76,7 +76,7 @@
                                                 </span>
                                 <div class="">
                                     <AvatarGroup class="mb-3">
-                                        <Avatar :image="'demo/images/avatar/amyelsner.png'" shape="circle">
+                                        <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }" :image="item.avatar" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
                                 </div>

@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="flex items-center justify-center">
                                     <AvatarGroup>
-                                        <Avatar @click="modalOpen(list)" :image="item.avatar" shape="circle">
+                                        <Avatar  v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"  :image="item.avatar" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
                                 </div>
@@ -192,8 +192,6 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import router from '@/router';
-const eId = ref(null)
-const modalOpend = ref(false)
 const items = ref([
     {
         label: `Umumiy ma'lumotlar`,
@@ -448,13 +446,6 @@ const list = ref([
     },
 ])
 
-function modalOpen(list) {
-    modalOpend.value = true
-    let data = JSON.parse(list)
-    console.log(data);
-    fullTable.value = data
-    eId.value = data.id
-}
 
 const addProject = () => {
     router.push('/addProject');
