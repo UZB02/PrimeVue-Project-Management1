@@ -1,9 +1,10 @@
 <template>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addProject" class="flex items-center justify-center gap-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <i class="pi pi-plus"></i>
-                Add Stage</button>
+            <button @click="addProject"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
+                    class="pi pi-plus"></i> ADD
+                Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
@@ -35,24 +36,24 @@
     </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div class="container flex flex-wrap justify-center  gap-2">
-                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
+            <div class="container flex flex-wrap items-center justify-center gap-2">
+                <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2 ' : 'hidden'"
                     v-for="item in list">
                     <div class="actions flex items-center justify-end gap-2">
-                        <span>
-                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                        </span>
-                        <span>
-                            <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }" class="pi pi-folder-open cursor-pointer text-slate-400"></i>
-                        </span>
+                        <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
+                            class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                        <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
+                            class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                        <i @click="(()=>{router.push('/kanban')})" v-tooltip.top="{ value: `Ko'rish`, autoHide: false }"
+                            class="pi pi-eye cursor-pointer text-slate-400"></i>
                     </div>
                     <div class="image">
-                        <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" :src="item.img" alt="">
+                        <img class="rounded-xl w-full h-40" :src="item.img" alt="">
                     </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
-                                <h1 @click="generalinformation" class="w-[75%]  whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{
+                                <h1 @click="generalinformation" class="cursor-pointer text-2xl font-bold">{{
                                     item.project_name }}</h1>
                                 <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                     class="pi pi-ellipsis-h cursor-pointer"></i>
@@ -62,7 +63,7 @@
                                 <div class="flex items-center justify-center gap-3">
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2 class="flex flex-col justify-center max-[900px]:text-sm">{{ item.createTime }} <span class="text-sm text-gray-500 max-[900px]:text-xs">{{ item.endTime }}</span></h2>
+                                        <h2>{{ item.createTime }}</h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -70,15 +71,16 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h3>{{ item.completed_task }}/{{ item.all_task }}</h3>
-                                    </span>
-                                    <span class="flex items-center justify-center gap-1">
-                                       <Tag class="mr-2 w-16" :severity="item.severity" :value="item.icon_value"></Tag>
+                                        <h2>{{ item.checked }}</h2>
                                     </span>
                                 </div>
-                                <div class="flex items-center justify-center">
-                                    <AvatarGroup>
-                                        <Avatar  v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"  :image="item.avatar" shape="circle">
+                                <span class="flex items-center justify-center gap-1">
+                                    <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
+                                </span>
+                                <div class="">
+                                    <AvatarGroup class="mb-3">
+                                        <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"
+                                            :image="item.avatar" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
                                 </div>
@@ -97,7 +99,7 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">6 Stages</h5>
+                        <h5 class="text-4xl font-medium">6 Projects</h5>
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
                             class="w-1/2 md:w-14rem border" />
                     </div>
@@ -136,21 +138,25 @@
                                 <span class="w-1/4 flex flex-col items-center  justify-center gap-1">
                                     <div class=" w-full flex  items-center  justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2">
+                                            <div :style="{ width: `${item.score}` }"
+                                                class="score rounded-xl bg-green-500 h-2">
                                             </div>
                                         </span>
                                         <span class="text-sm">{{ item.score }}</span>
                                     </div>
-                                     <span class="flex items-center justify-center gap-1">
-                                               <Tag class="mr-2 w-16" :severity="item.severity" :value="item.icon_value"></Tag>
-                                            </span>
+                                    <span class="flex items-center justify-center gap-1">
+                                        <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
+                                    </span>
                                 </span>
-                              <div class="actions flex items-center justify-between gap-3">
-                                  <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer"></i>
-                                    <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }" class="pi pi-folder-open cursor-pointer"></i>
+                                <div class="actions flex items-center justify-center gap-3">
+                                    <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
+                                        class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                                    <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
+                                        class="pi pi-folder-open cursor-pointer text-slate-400"></i>
                                     <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                         class="pi pi-ellipsis-h cursor-pointer"></i>
-                              </div>
+                                </div>
+
                             </div>
                         </li>
                     </ul>
@@ -165,8 +171,84 @@
                                             <p class="font-medium">{{ fullTable.id }}.</p>
                                             <div
                                                 class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                                    <Avatar :image="fullTable.avatar" size="large" shape="circle">
-                                        </Avatar>
+                                                <i :class="fullTable.svg" class="text-xl text-blue-500"></i>
+                                            </div>
+                                            <span class="text-900 line-height-3 flex flex-col gap-2">
+                                                <h1 class="font-bold">{{ fullTable.project_name }}</h1>
+                                                <h4 class="text-slate-400">{{ fullTable.status }}</h4>
+                                            </span>
+                                        </div>
+                                        <span class="flex font-semibold items-center justify-center">
+                                            {{ fullTable.category }}
+                                        </span>
+                                        <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="w-40 font-semibold">
+                                                {{ fullTable.createTime }}
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <div class="w-1/2 flex  gap-6 items-center justify-center">
+                                        <span class="flex w-1/4 items-center justify-center gap-2">
+                                            <Avatar :image="fullTable.avatar" size="large" shape="circle">
+                                            </Avatar>
+                                            <h1 class="text-slate-500 font-medium">{{ fullTable.avatar_name }}</h1>
+                                        </span>
+                                        <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="w-40 font-semibold">
+                                                {{ fullTable.month }} - {{ fullTable.term }}
+                                            </span>
+                                        </span>
+                                        <span class="w-1/4 flex flex-col  gap-3">
+                                            <div class="w-full flex items-center justify-center gap-3">
+                                                <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                                    <div :style="{ width: `${fullTable.score}` }"
+                                                        class="score rounded-xl bg-green-500 h-2"></div>
+                                                </span>
+                                                <span class="text-sm">{{ fullTable.score }}</span>
+                                            </div>
+                                            <Tag :severity="fullTable.severity" :value="fullTable.icon_value"></Tag>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex gap-5">
+                                        <div class="flex items-center justify-between gap-3 w-1/2">
+                                            <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
+                                                <Avatar :image="fullTable.avatar" size="xlarge" shape="circle"></Avatar>
+                                                <h1 class="font-bold">{{ fullTable.avatar_name }}</h1>
+                                                <h5 class="text-gray-500 font-italic">{{ fullTable.tell }}</h5>
+                                            </div>
+                                            <div class="card flex items-center justify-between gap-3">
+                                                <span class="">
+                                                    <label>USD-Cost</label>
+                                                    <p class="font-medium">{{ fullTable.cost_usd }} USD</p>
+                                                </span>
+                                                <i class="pi pi-arrow-right-arrow-left"></i>
+                                                <span>
+                                                    <label>UZS-Cost</label>
+                                                    <p class="font-medium">{{ fullTable.cost_uzs }} UZS</p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="w-1/2 flex flex-col gap-2">
+                                            <div v-for="item in list" class="flex items-center justify-between flex-col">
+                                                <div class="w-full flex items-center justify-between">
+                                                    <span class="flex items-center justify-center gap-2">
+                                                        <i class="pi pi-file"></i>
+                                                        <h1 class="font-medium">{{ fullTable.file_name }}</h1>
+                                                    </span>
+                                                    <button
+                                                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                                                        <svg class="fill-current w-4 h-4 mr-2"
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                                                        </svg>
+                                                        <span>Download</span>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -192,14 +274,16 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import router from '@/router';
+const eId = ref(null)
+const modalOpend = ref(false)
 const items = ref([
     {
         label: `Umumiy ma'lumotlar`,
         route: '/general_information'
     },
     {
-        label: 'Loyiha sprintlari',
-        route: '/Sprint'
+        label: 'Loyihaga biriktirilgan fayllar',
+        route: '/files'
     },
     {
         label: 'Loyiha ijrochilari',
@@ -233,31 +317,35 @@ const toggle = (event) => {
 
 const fullTable = ref(
     {
-           id: ``,
+        id: ``,
         project_name: ``,
         status: ``,
         svg: ``,
         term: ``,
         month: ``,
-        files: ``,
-        score: ``,
-        createTime: '',
-        endTime: ``,
         avatar_name: ``,
+        score: ``,
+        file_name: ``,
+        avatar: ``,
+        createTime: ``,
+        company: ``,
+        category: ``,
         cost_usd: ``,
         cost_uzs: ``,
-        severity: "",
-        company: ``,
-        icon_value: "",
-        file_name: ``,
-        category: ``,
         tell: ``,
-        avatar: ``,
-        img: ``,
-        file: ``,
-        checked: ``,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
     }
 )
+
+function modalOpen(item) {
+    modalOpend.value = true
+    let data = JSON.parse(item)
+    console.log(data);
+    fullTable.value = data
+    eId.value = data.id
+}
 
 const selectedCity = ref();
 const card_table = ref(true);
@@ -290,162 +378,149 @@ const cities = ref([
 const list = ref([
     {
         id: `2`,
-        project_name: `Texnik loyihalashtirish bosqichi`,
+        project_name: `Sprint 1`,
         status: `14 Tasks`,
         svg: `pi pi-chart-line`,
         term: `4,2024`,
         month: `Avg 12`,
         files: `3`,
-        score: `78%`,
-        createTime:'01.02.2024',
-        endTime:`01.04.2024`,
+        score: `63%`,
+        createTime: `01.02.2024 -07:00`,
         avatar_name: `Julia`,
         cost_usd: `3000`,
         cost_uzs: `30000000`,
         severity: "danger",
         company: `Epan`,
-        icon_value: "Danger",
+        icon_value: "Stopped",
         file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         category: `SMM`,
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=8dfbfd449b8c6f99a5fcc1770cdc123a7d55b352-10547508-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-        completed_task: `10`,
-        all_task:`13`,
+        checked: `10`,
     },
     {
         id: `2`,
-        project_name: `Loyihani yaratish bosqichi`,
+        project_name: `Sprint 2`,
         status: `14 Tasks`,
         svg: `pi pi-chart-line`,
         term: `4,2024`,
         month: `Avg 12`,
         files: `3`,
-        score: `26%`,
-        createTime: `01.02.2024`,
-         endTime: `01.04.2024`,
-        avatar_name: `Julia`,
-        cost_usd: `3000`,
-        cost_uzs: `30000000`,
-        severity: "info",
-        company: `Epan`,
-        icon_value: "Info",
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        category: `SMM`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=be7f7bcfde85f7898245477c115c2849ac283f3f-10525373-images-thumbs&n=13`,
-        file: `3`,
-       completed_task: `10`,
-        all_task: `13`,
-    },
-    {
-        id: `2`,
-        project_name: `Loyihani ishga tushirish bosqichi`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-line`,
-        term: `4,2024`,
-        month: `Avg 12`,
-        files: `3`,
-        score: `97%`,
-        createTime: `01.02.2024`,
-         endTime: `01.04.2024`,
-        avatar_name: `Julia`,
-        cost_usd: `3000`,
-        cost_uzs: `30000000`,
-        severity: "warning",
-        company: `Epan`,
-        icon_value: "Warning",
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        category: `SMM`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=c0885138a400441d6da47af8da065c1cefda3027-6824808-images-thumbs&n=13`,
-        file: `3`,
-         completed_task: `10`,
-        all_task: `13`,
-    },
-    {
-        id: `2`,
-        project_name: `Loyihaga texnik xizmat ko’rsatish bosqichi`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-line`,
-        term: `4,2024`,
-        month: `Avg 12`,
-        files: `3`,
-        score: `13%`,
-        createTime: `01.02.2024`,
-         endTime: `01.04.2024`,
-        avatar_name: `Julia`,
+        score: `47%`,
+        createTime: `01.02.2024 -07:00`,
+        avatar_name: `Jhonsn`,
         cost_usd: `3000`,
         cost_uzs: `30000000`,
         severity: "danger",
         company: `Epan`,
-        icon_value: "Danger",
+        icon_value: "Stopped",
         file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
         category: `SMM`,
         tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=c001447f1d6639b86182aa0f958374cd-4843938-images-thumbs&n=13`,
+        avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-         completed_task: `10`,
-        all_task: `13`,
+        checked: `10`,
     },
     {
-        id: `2`,
-        project_name: `Stage name`,
+        id: `3`,
+        project_name: `Sprint 3`,
         status: `14 Tasks`,
-        svg: `pi pi-chart-line`,
-        term: `4,2024`,
-        month: `Avg 12`,
-        files: `3`,
-        score: `99%`,
-        createTime: `01.02.2024`,
-         endTime: `01.04.2024`,
-        avatar_name: `Julia`,
-        cost_usd: `3000`,
-        cost_uzs: `30000000`,
-        severity: "success",
-        company: `Epan`,
-        icon_value: "Success",
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        category: `SMM`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=aa19b7b0ff7963ebc3eb8e8efdb980e55a866f00-9185064-images-thumbs&n=13`,
-        file: `3`,
-        completed_task: `10`,
-        all_task: `13`,
-    },
-    {
-        id: `2`,
-        project_name: `Stage Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-line`,
-        term: `4,2024`,
-        month: `Avg 12`,
-        files: `3`,
-        score: `57%`,
-        createTime: `01.02.2024`,
-         endTime: `01.04.2024`,
-        avatar_name: `Julia`,
-        cost_usd: `3000`,
-        cost_uzs: `30000000`,
+        svg: `pi pi-chart-pie`,
+        term: `1,2024`,
+        month: `Mar 26`,
+        files: `7`,
+        score: `81%`,
+        cost_usd: `7000`,
+        cost_uzs: `70000000`,
         severity: "warning",
-        company: `Epan`,
-        icon_value: "Warning",
+        icon_value: "Suspended",
+        category: `Marketing`,
+        company: `UITC`,
+        createTime: `01.02.2024 -07:00`,
         file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        category: `SMM`,
+        avatar_name: `Andrey`,
         tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=fca4c43d5d6c11ff5470ce6f7f6d7bff5fae9605-8159518-images-thumbs&n=13`,
+        avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-         completed_task: `10`,
-        all_task: `13`,
+        checked: `10`,
+    },
+    {
+        id: `4`,
+        project_name: `Sprint 4`,
+        status: `14 Tasks`,
+        svg: `pi pi-star`,
+        term: `10,2023`,
+        month: `Yan 31`,
+        score: `53%`,
+        files: `12`,
+        cost_usd: `7000`,
+        cost_uzs: `70000000`,
+        severity: "primary",
+        icon_value: "Draft ",
+        category: `It`,
+        company: `Global`,
+        createTime: `01.02.2024 -07:00`,
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
+        avatar_name: `Watson`,
+        tell: `+99890-123-45-67`,
+        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
+    },
+    {
+        id: `3`,
+        project_name: `Sprint 5`,
+        status: `14 Tasks`,
+        svg: `pi pi-chart-pie`,
+        term: `1,2024`,
+        month: `Mar 26`,
+        files: `7`,
+        score: `81%`,
+        cost_usd: `7000`,
+        cost_uzs: `70000000`,
+        severity: "warning",
+        icon_value: "Suspended",
+        category: `Marketing`,
+        company: `UITC`,
+        createTime: `01.02.2024 -07:00`,
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
+        avatar_name: `Andrey`,
+        tell: `+99890-123-45-67`,
+        avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
+    },
+    {
+        id: `4`,
+        project_name: `Sprint 6`,
+        status: `14 Tasks`,
+        svg: `pi pi-star`,
+        term: `10,2023`,
+        month: `Yan 31`,
+        score: `53%`,
+        files: `12`,
+        cost_usd: `7000`,
+        cost_uzs: `70000000`,
+        severity: "primary",
+        icon_value: "Draft ",
+        category: `It`,
+        company: `Global`,
+        createTime: `01.02.2024 -07:00`,
+        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
+        avatar_name: `Watson`,
+        tell: `+99890-123-45-67`,
+        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
+        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
+        file: `3`,
+        checked: `10`,
     },
 ])
-
 
 const addProject = () => {
     router.push('/addProject');

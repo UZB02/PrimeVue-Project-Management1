@@ -49,6 +49,11 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/Stages/stages.vue')
                 },
                 {
+                    path: '/sprint',
+                    name: 'Sprint',
+                    component: () => import('@/views/Projects/ProjectsList/Sprint/Sprint.vue')
+                },
+                {
                     path: '/tasks',
                     name: 'Tasks',
                     component: () => import('@/views/Projects/ProjectsList/Tasks/tasks.vue')
