@@ -4,7 +4,7 @@
             <button @click="addProject"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
                     class="pi pi-plus"></i> ADD
-                Project</button>
+                Sprint</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
@@ -39,13 +39,16 @@
             <div class="container flex flex-wrap items-center justify-center gap-2">
                 <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2 ' : 'hidden'"
                     v-for="item in list">
-                    <div class="actions flex items-center justify-end gap-2">
-                        <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
-                            class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                        <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
-                            class="pi pi-folder-open cursor-pointer text-slate-400"></i>
-                        <i @click="(()=>{router.push('/kanban')})" v-tooltip.top="{ value: `Ko'rish`, autoHide: false }"
-                            class="pi pi-eye cursor-pointer text-slate-400"></i>
+                    <div class="actions flex items-center justify-between gap-2">
+                        <h2 class="font-bold text-sm text-slate-400">{{ item.id }}</h2>
+                        <div class="svg flex items-center justify-end gap-2">
+                            <i @click="(() => { router.push('/sprint_info') })" v-tooltip.top="{ value: `Ko'rish`, autoHide: false }"
+                                class="pi pi-eye cursor-pointer text-slate-400"></i>
+                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
+                                class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                            <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
+                                class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                        </div>
                     </div>
                     <div class="image">
                         <img class="rounded-xl w-full h-40" :src="item.img" alt="">
@@ -53,17 +56,17 @@
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
-                                <h1 @click="generalinformation" class="cursor-pointer text-2xl font-bold">{{
+                                <h1 @click="generalinformation" class="w-[75%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{
                                     item.project_name }}</h1>
                                 <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                     class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
 
-                            <div class="flex items-center justify-between gap-3">
-                                <div class="flex items-center justify-center gap-3">
-                                    <span class="flex items-center justify-center gap-1">
+                            <div class="flex items-center justify-between gap-1">
+                                <div class="flex items-center justify-between gap-[10px]">
+                                    <span class="flex items-center  gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2>{{ item.createTime }}</h2>
+                                        <h2 class=" whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.createTime }}</h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -71,19 +74,15 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h2>{{ item.checked }}</h2>
+                                        <h2>{{ item.checked1 }}/{{ item.checked2 }}</h2>
                                     </span>
+                                    <span class="flex items-center justify-center gap-1">
+                                           <Tag class="w-[63px]" :severity="item.severity" :value="item.icon_value"></Tag>
+                                       </span>
                                 </div>
-                                <span class="flex items-center justify-center gap-1">
-                                    <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
-                                </span>
-                                <div class="">
-                                    <AvatarGroup class="mb-3">
                                         <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"
-                                            :image="item.avatar" shape="circle">
+                                            :image="item.avatar" class="-translate-y-1" shape="circle">
                                         </Avatar>
-                                    </AvatarGroup>
-                                </div>
                             </div>
                             <div class="w-full flex items-center  justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
@@ -99,26 +98,30 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">6 Projects</h5>
+                        <h5 class="text-4xl font-medium">6 Sprints</h5>
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
                             class="w-1/2 md:w-14rem border" />
                     </div>
                     <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
                         <li
                             class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
-                            <div class="flex items-center justify-center">
+                            <div class="w-[35%] flex items-center gap-2">
+                                <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
                                 <div
                                     class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
                                     <i :class="item.svg" class="text-xl text-blue-500"></i>
                                 </div>
 
                                 <span @click="generalinformation"
-                                    class="cursor-pointer text-900 line-height-3 flex flex-col gap-2">
-                                    <h1 class="font-bold">{{ item.project_name }}</h1>
+                                    class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                    <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.project_name }}</h1>
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>
                             </div>
-                            <div class="w-[60%] flex  gap-6 items-center justify-center">
+                            <div class="w-[65%] flex  gap-3 items-center justify-center">
+                                <span class="flex items-center justify-center gap-1">
+                                            <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
+                                        </span>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
                                     <Avatar :image="item.avatar" size="large" shape="circle">
                                     </Avatar>
@@ -144,9 +147,6 @@
                                         </span>
                                         <span class="text-sm">{{ item.score }}</span>
                                     </div>
-                                    <span class="flex items-center justify-center gap-1">
-                                        <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
-                                    </span>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
                                     <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
@@ -377,7 +377,7 @@ const cities = ref([
 
 const list = ref([
     {
-        id: `2`,
+        id: `1`,
         project_name: `Sprint 1`,
         status: `14 Tasks`,
         svg: `pi pi-chart-line`,
@@ -398,7 +398,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+        checked1: `5`,
+        checked2: `8`,
     },
     {
         id: `2`,
@@ -422,7 +423,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+         checked1: `3`,
+         checked2: `7`,
     },
     {
         id: `3`,
@@ -445,8 +447,9 @@ const list = ref([
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
+        file: `15`,
+         checked1: `12`,
+        checked2: `15`,
     },
     {
         id: `4`,
@@ -470,10 +473,11 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-        checked: `10`,
+        checked1: `2`,
+        checked2: `5`,
     },
     {
-        id: `3`,
+        id: `5`,
         project_name: `Sprint 5`,
         status: `14 Tasks`,
         svg: `pi pi-chart-pie`,
@@ -493,11 +497,12 @@ const list = ref([
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
+        file: `11`,
+        checked1: `5`,
+        checked2: `7`,
     },
     {
-        id: `4`,
+        id: `6`,
         project_name: `Sprint 6`,
         status: `14 Tasks`,
         svg: `pi pi-star`,
@@ -517,8 +522,9 @@ const list = ref([
         tell: `+99890-123-45-67`,
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
+        file: `4`,
+         checked1: `3`,
+        checked2: `7`,
     },
 ])
 
