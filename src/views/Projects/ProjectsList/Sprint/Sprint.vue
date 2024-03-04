@@ -37,10 +37,10 @@
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap items-center justify-center gap-2">
-                <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2 ' : 'hidden'"
-                    v-for="item in list">
+                <div  :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2 ' : 'hidden'"
+                    v-for="(item,itemId) in list" :key="itemId">
                     <div class="actions flex items-center justify-between gap-2">
-                        <h2 class="font-bold text-sm text-slate-400">{{ item.id }}</h2>
+                        <h2 class="font-bold text-sm text-slate-400">{{ itemId +1 }}</h2>
                         <div class="svg flex items-center justify-end gap-2">
                             <i @click="(() => { router.push('/sprint_info') })" v-tooltip.top="{ value: `Ko'rish`, autoHide: false }"
                                 class="pi pi-eye cursor-pointer text-slate-400"></i>
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="image">
-                        <img class="rounded-xl w-full h-40" :src="item.img" alt="">
+                        <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40" :src="item.img" alt="">
                     </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
@@ -309,7 +309,7 @@ const items = ref([
 const menu = ref();
 
 const generalinformation = () => {
-    router.push('/general_information')
+    router.push('/kanban')
 }
 const toggle = (event) => {
     menu.value.toggle(event);

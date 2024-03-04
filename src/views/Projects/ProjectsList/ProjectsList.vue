@@ -39,19 +39,24 @@
             <div class="container flex flex-wrap items-center justify-center gap-2">
                 <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2 ' : 'hidden'"
                     v-for="item in list">
-                    <div class="actions flex items-center justify-end gap-2">
-                        <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                        <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
-                            class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                    <div class="actions flex items-center justify-between">
+                        <h2 class="font-bold text-sm text-slate-400">{{ item.id }}</h2>
+                        <div class="svg flex items-center justify-end gap-2">
+                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
+                                class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                            <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
+                                class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                        </div>
                     </div>
                     <div class="image">
-                        <img class="rounded-xl w-full h-40" :src="item.img" alt="">
+                        <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" :src="item.img" alt="">
                     </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
-                                <h1 @click="generalinformation" class="whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{
-                                    item.project_name }}</h1>
+                                <h1 @click="generalinformation"
+                                    class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
+                                    {{item.project_name}}</h1>
                                 <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                     class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
@@ -60,7 +65,8 @@
                                 <div class="flex items-center justify-center gap-3">
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2>{{ item.createTime }}</h2>
+                                        <h2 class="whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
+                                            item.createTime }}</h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -72,11 +78,12 @@
                                     </span>
                                 </div>
                                 <span class="flex items-center justify-center gap-1">
-                                                   <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
-                                                </span>
+                                    <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
+                                </span>
                                 <div class="">
-                                    <AvatarGroup class="mb-3">
-                                        <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }" :image="item.avatar" shape="circle">
+                                    <AvatarGroup class="mb-2">
+                                        <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"
+                                            :image="item.avatar" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
                                 </div>
@@ -93,71 +100,72 @@
                 </div>
             </div>
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
-                        <div class="card">
-                            <div class="flex align-items-center justify-content-between mb-4">
-                                <h5 class="text-4xl font-medium">6 Sprints</h5>
-                                <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
-                                    class="w-1/2 md:w-14rem border" />
+                <div class="card">
+                    <div class="flex align-items-center justify-content-between mb-4">
+                        <h5 class="text-4xl font-medium">6 Sprints</h5>
+                        <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
+                            class="w-1/2 md:w-14rem border" />
+                    </div>
+                    <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
+                        <li
+                            class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
+                            <div class="w-[35%] flex items-center gap-2">
+                                <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
+                                <div
+                                    class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                    <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                </div>
+
+                                <span @click="generalinformation"
+                                    class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                    <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
+                                        item.project_name }}</h1>
+                                    <h4 class="text-slate-400">{{ item.status }}</h4>
+                                </span>
                             </div>
-                            <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
-                                <li
-                                    class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
-                                    <div class="w-[35%] flex items-center gap-2">
-                                        <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
-                                        <div
-                                            class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                            <i :class="item.svg" class="text-xl text-blue-500"></i>
-                                        </div>
+                            <div class="w-[65%] flex  gap-3 items-center justify-center">
+                                <span class="flex items-center justify-center gap-1">
+                                    <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
+                                </span>
+                                <span class="flex w-1/4 items-center justify-center gap-2">
+                                    <Avatar :image="item.avatar" size="large" shape="circle">
+                                    </Avatar>
+                                    <h1 class="text-slate-500 font-medium">{{ item.avatar_name }}</h1>
+                                </span>
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="pi pi-calendar"></i>
+                                    <span class="w-40 font-semibold">
+                                        {{ item.month }} - {{ item.term }}
+                                    </span>
+                                </span>
 
-                                        <span @click="generalinformation"
-                                            class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
-                                            <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.project_name }}</h1>
-                                            <h4 class="text-slate-400">{{ item.status }}</h4>
-                                        </span>
-                                    </div>
-                                    <div class="w-[65%] flex  gap-3 items-center justify-center">
-                                        <span class="flex items-center justify-center gap-1">
-                                                    <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
-                                                </span>
-                                        <span class="flex w-1/4 items-center justify-center gap-2">
-                                            <Avatar :image="item.avatar" size="large" shape="circle">
-                                            </Avatar>
-                                            <h1 class="text-slate-500 font-medium">{{ item.avatar_name }}</h1>
-                                        </span>
-                                        <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-calendar"></i>
-                                            <span class="w-40 font-semibold">
-                                                {{ item.month }} - {{ item.term }}
-                                            </span>
-                                        </span>
-
-                                        <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-paperclip"></i>
-                                            <h3>{{ item.files }}</h3>
-                                        </span>
-                                        <span class="w-1/4 flex flex-col items-center  justify-center gap-1">
-                                            <div class=" w-full flex  items-center  justify-center gap-3">
-                                                <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                                    <div :style="{ width: `${item.score}` }"
-                                                        class="score rounded-xl bg-green-500 h-2">
-                                                    </div>
-                                                </span>
-                                                <span class="text-sm">{{ item.score }}</span>
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="pi pi-paperclip"></i>
+                                    <h3>{{ item.files }}</h3>
+                                </span>
+                                <span class="w-1/4 flex flex-col items-center  justify-center gap-1">
+                                    <div class=" w-full flex  items-center  justify-center gap-3">
+                                        <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                            <div :style="{ width: `${item.score}` }"
+                                                class="score rounded-xl bg-green-500 h-2">
                                             </div>
                                         </span>
-                                        <div class="actions flex items-center justify-center gap-3">
-                                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
-                                                class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                                            <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
-                                                class="pi pi-folder-open cursor-pointer text-slate-400"></i>
-                                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
-                                                class="pi pi-ellipsis-h cursor-pointer"></i>
-                                        </div>
-
+                                        <span class="text-sm">{{ item.score }}</span>
                                     </div>
-                                </li>
-                            </ul>
-                            <!-- <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
+                                </span>
+                                <div class="actions flex items-center justify-center gap-3">
+                                    <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
+                                        class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                                    <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
+                                        class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                        class="pi pi-ellipsis-h cursor-pointer"></i>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
                         class="w-[90%] max-[900px]:w-[100%]" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                         <ul class="list-none p-0 m-0">
                             <li>
@@ -253,8 +261,8 @@
                             </li>
                         </ul>
                     </Dialog> -->
-                        </div>
-                    </div>
+                </div>
+            </div>
         </div>
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
             <template #item="{ item, props }">
@@ -306,7 +314,7 @@ const items = ref([
 const menu = ref();
 
 const generalinformation = () => {
-    router.push('/general_information')
+    router.push('/stages')
 }
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -374,7 +382,7 @@ const cities = ref([
 
 const list = ref([
     {
-        id: `2`,
+        id: `1`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-line`,
@@ -470,7 +478,7 @@ const list = ref([
         checked: `10`,
     },
     {
-        id: `3`,
+        id: `5`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-pie`,
@@ -494,7 +502,7 @@ const list = ref([
         checked: `10`,
     },
     {
-        id: `4`,
+        id: `6`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-star`,

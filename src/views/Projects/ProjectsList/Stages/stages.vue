@@ -37,14 +37,17 @@
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center  gap-2">
                 <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
-                    v-for="item in list">
-                    <div class="actions flex items-center justify-end gap-2">
-                        <span>
-                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                        </span>
-                        <span>
-                            <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }" class="pi pi-folder-open cursor-pointer text-slate-400"></i>
-                        </span>
+                    v-for="(item,itemId) in list" :key="itemId">
+                    <div class="actions flex items-center justify-between gap-2">
+                       <h2 class="font-bold text-sm text-slate-400">{{ itemId + 1 }}</h2>
+                      <div class="flex items-center justify-center gap-2">
+                          <span>
+                                <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                            </span>
+                            <span>
+                                <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }" class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                            </span>
+                      </div>
                     </div>
                     <div class="image">
                         <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" :src="item.img" alt="">
@@ -101,11 +104,11 @@
                             <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
                                 class="w-1/2 md:w-14rem border" />
                         </div>
-                        <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
+                        <ul v-for="(item, itemId) in list" :key="itemId" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
                             <li
                                 class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
                                 <div class="w-[35%] flex items-center gap-2">
-                                    <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
+                                    <h1 class="font-bold text-gray-500">{{ itemId +1 }}.</h1>
                                     <div
                                         class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
                                         <i :class="item.svg" class="text-xl text-blue-500"></i>
@@ -258,6 +261,21 @@
                     </div>
                 </div>
         </div>
+      <div class="flex items-center justify-center gap-2">
+        <div class="w-1/2 h-[26rem]">
+                        <div class="card h-full">
+                            <h5>Vaqt va Resurs ko'rsatkichlari</h5>
+                            <Chart type="line" :data="lineData" :options="lineOptions"></Chart>
+                        </div>
+                    </div>
+
+                    <div class="w-1/2 h-[26rem]">
+                    <div class="card h-full flex flex-column align-items-center">
+                        <h5 class="text-left w-full">Moliyaviy ko'rsatkich</h5>
+                        <Chart type="pie" :data="pieData" :options="pieOptions"></Chart>
+                    </div>
+                </div>
+      </div>
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
             <template #item="{ item, props }">
                 <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
@@ -306,7 +324,7 @@ const items = ref([
 const menu = ref();
 
 const generalinformation = () => {
-    router.push('/general_information')
+    router.push('/Sprint')
 }
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -542,5 +560,90 @@ const tableFunction = () => {
     card_table.value = false
 }
 
+
+const lineData = ref(null);
+const pieData = ref(null);
+const lineOptions = ref(null);
+const pieOptions = ref(null);
+
+
+let documentStyle = getComputedStyle(document.documentElement);
+let textColor = documentStyle.getPropertyValue('--text-color');
+let textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+let surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+lineData.value = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+        {
+            label: 'First Dataset',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            backgroundColor: documentStyle.getPropertyValue('--primary-500'),
+            borderColor: documentStyle.getPropertyValue('--primary-500'),
+            tension: 0.4
+        },
+        {
+            label: 'Second Dataset',
+            data: [28, 48, 40, 19, 86, 27, 90],
+            fill: false,
+            backgroundColor: documentStyle.getPropertyValue('--primary-200'),
+            borderColor: documentStyle.getPropertyValue('--primary-200'),
+            tension: 0.4
+        }
+    ]
+};
+
+lineOptions.value = {
+    plugins: {
+        legend: {
+            labels: {
+                fontColor: textColor
+            }
+        }
+    },
+    scales: {
+        x: {
+            ticks: {
+                color: textColorSecondary
+            },
+            grid: {
+                color: surfaceBorder,
+                drawBorder: false
+            }
+        },
+        y: {
+            ticks: {
+                color: textColorSecondary
+            },
+            grid: {
+                color: surfaceBorder,
+                drawBorder: false
+            }
+        }
+    }
+};
+
+pieData.value = {
+    labels: [`J'ami Ma'blag`, `Xarajatlar`],
+    datasets: [
+        {
+            data: [540, 325],
+            backgroundColor: [documentStyle.getPropertyValue('--red-500'), documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--teal-500')],
+            hoverBackgroundColor: [documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--teal-400')]
+        }
+    ]
+};
+
+pieOptions.value = {
+    plugins: {
+        legend: {
+            labels: {
+                usePointStyle: true,
+                color: textColor
+            }
+        }
+    }
+};
 </script>
 <style></style>
