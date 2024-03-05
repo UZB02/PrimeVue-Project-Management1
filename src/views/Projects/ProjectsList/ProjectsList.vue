@@ -36,8 +36,8 @@
     </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div class="container flex flex-wrap items-center justify-center gap-2">
-                <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2 ' : 'hidden'"
+            <div class="container flex flex-wrap justify-center gap-2">
+                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
                     v-for="item in list">
                     <div class="actions flex items-center justify-between">
                         <h2 class="font-bold text-sm text-slate-400">{{ item.id }}</h2>
