@@ -1,19 +1,19 @@
 <template>
   <div id="app" class="font-sans">
-    <header class="bg-black text-white p-2">
+    <!-- <header class="bg-black text-white p-2">
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
-    </header>
+    </header> -->
     <main class="flex p-4">
       <section v-for="(task, index) in tasks" :key="index" class="w-1/3 p-2">
-     <div class="w-full bg-gray-400 rounded-2xl text-white p-1 flex flex-col items-center gap-3">
+     <div class="card w-full rounded-2xl p-2 flex flex-col items-center gap-3">
          <div class="top flex items-center justify-between w-[80%]">
-          <h2 class="font-semibold font-mono text-2xl text-white">{{ task.title }}</h2>
+          <h2 class="font-semibold font-mono text-2xl">{{ task.title }}</h2>
           <i class="pi pi-ellipsis-h cursor-pointer"></i>
          </div>
-          <div class="w-full flex flex-col h-[60vh] p-4 overflow-scroll">
-            <draggable drag-class="drag" ghost-class="ghost" class="w-full flex flex-col gap-1 p-2 rounded" :list="tasks.todo" group="tasks" @change="updateTasks">
+          <div class="w-full flex flex-col h-[60vh]  overflow-scroll">
+            <draggable drag-class="drag" ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="tasks.todo" group="tasks" @change="updateTasks">
               <div v-for="(card, cardIndex) in task.cards" :key="cardIndex"
-                class="bg-gray-500 flex flex-wrap justify-between overflow-auto p-1 rounded">
+                class="shadow border flex flex-wrap justify-between overflow-auto p-1 rounded">
                 <img :src="card.file" alt="">
                 <div class="h-10 flex items-center">{{ card.title }}</div>
                 <div id="actions" class="flex items-center justify-center gap-2">
@@ -21,24 +21,40 @@
                   <i @click="deleteTodo" class="delite pi pi-trash cursor-pointer"></i>
                 </div>
               </div>
-              <div
-                :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
-                <form class="flex flex-col gap-2">
-                  <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
-                    placeholder="Add New Task" autofocus>
-                  <div class="actions flex items-center gap-3">
-                    <button @click.prevent="AddTask"
-                      class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
-                      Task</button>
-                      <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewTask"></i>
-                  </div>
-                </form>
-              </div>
             </draggable>
           </div>
-          <div @click="addTaskModal" class="flex h-10 items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
-                <i class="pi pi-plus"></i>
-                <h2>Add Task</h2>
+          <div
+            :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
+            <form class="flex flex-col gap-2">
+              <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
+                placeholder="Add New Task" autofocus>
+              <div class="actions flex items-center gap-3">
+                <button @click.prevent="AddTask"
+                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                  Task</button>
+                  <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewTask"></i>
+              </div>
+            </form>
+          </div>
+          <div
+            :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
+            <form class="flex flex-col gap-2">
+              <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
+                placeholder="Add New Task" autofocus>
+              <div class="actions flex items-center gap-3">
+                <button @click.prevent="AddTask"
+                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
+                  Task</button>
+                  <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewTask"></i>
+              </div>
+            </form>
+          </div>
+          <div  class="w-full flex  items-center justify-between gap-3  p-2 border rounded shadow">
+              <div @click="addTaskModal" class="left transition p-2 w-[60%] flex items-center cursor-pointer rounded-lg  gap-3 hover:bg-slate-300">
+                  <i class="pi pi-plus"></i>
+                  <h2 class="font-medium font-sans">Add Task</h2>
+              </div>
+              <i @click="addTaskModal2" class="p-2 rounded-lg transition text-end hover:bg-slate-300 pi pi-box cursor-pointer"></i>
               </div>
      </div>
       </section>
@@ -110,12 +126,15 @@
         </div>
       </section>
     </main>
+    <Charts/>
   </div>
+
 </template>
 
 <script setup>
 import { ref,reactive } from 'vue';
 import { VueDraggableNext as draggable } from 'vue-draggable-next';
+import Charts from './charts.vue'
 
 const addTaskmodal = ref(false)
 const addTaskValue = ref('')
@@ -199,11 +218,11 @@ const addTaskModal = () => {
   addDonemodal.value = false
   addProgresmodal.value = false
 };
-const addDoneModal = () => {
-  addDonemodal.value = !addDonemodal.value
-  addDoneValue.value = ''
+const addTaskModal2 = () => {
+  addTaskmodal.value = !addTaskmodal.value
+  addTaskValue.value = ''
+  addDonemodal.value = false
   addProgresmodal.value = false
-  addTaskmodal.value = false
 };
 const AddTask = () => {
   if (addTaskValue.value === '') {
@@ -222,52 +241,6 @@ const CancelNewTask = () => {
   addTaskmodal.value = false
   addTaskValue.value = ''
 }
-const CancelNewProgres = () => {
-  addProgresmodal.value = false
-  addProgresValue.value = ''
-}
-const AddProgres = () => {
-  if (addProgresValue.value === '') {
-    alert(`Maydonni To'ldiring`)
-  }
-  else {
-    const newTask = { id: Date.now(), title: `${addProgresValue.value}` };
-    tasks.value.inProgress.push(newTask);
-    addProgresValue.value = ''
-    addProgresmodal.value = false
-    console.log(newTask);
-  }
-}
-const AddDone = () => {
-  if (addDoneValue.value === '') {
-    alert(`Maydonni To'ldiring`)
-  }
-  else {
-    const newTask = { id: Date.now(), title: `${addDoneValue.value}` };
-    tasks.value.done.push(newTask);
-    addDoneValue.value = ''
-    addDonemodal.value = false
-    console.log(newTask);
-  }
-}
-const CancelNewDone = () => {
-  addDonemodal.value = false
-  addDoneValue.value = ''
-}
-
-
-// const deleteTodo = (list, todoId) => {
-//   const taskIndex = tasks.value[list].findIndex((task) => task.id === todoId);
-//   if (taskIndex !== -1) {
-//     tasks.value[list].splice(taskIndex, 1);
-//   }
-// };
-const removeProgres = (task) => {
-  tasks.value.inProgress.splice(tasks.value.inProgress.indexOf(task), 1);
-};
-const removeTask = (task) => {
-  tasks.value.todo.splice(tasks.value.todo.indexOf(task), 1);
-};
 </script>
 
 
