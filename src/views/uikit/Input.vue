@@ -76,12 +76,12 @@ const searchCountry = (event) => {
 };
 </script>
 <template>
-    <div class="grid p-fluid">
-        <div class="col-12 md:col-6">
-            <div class="card">
+    <div class="flex">
+        <div class="flex flex-wrap">
+            <div class="card flex flex-col gap-2">
                 <h5>InputText</h5>
-                <div class="grid formgrid">
-                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <div class="flex items-center justify-center">
+                    <div class="flex flex-col">
                         <InputText type="text" placeholder="Default"></InputText>
                     </div>
                     <div class="col-12 mb-2 lg:col-4 lg:mb-0">
@@ -93,8 +93,8 @@ const searchCountry = (event) => {
                 </div>
 
                 <h5>Icons</h5>
-                <div class="grid formgrid">
-                    <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <div class="flex items-center justify-center">
+                    <div class="flex items-center gap-3">
                         <span class="p-input-icon-left">
                             <i class="pi pi-user" />
                             <InputText type="text" placeholder="Username" />

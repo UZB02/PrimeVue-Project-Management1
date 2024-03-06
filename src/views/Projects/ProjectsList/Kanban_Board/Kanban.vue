@@ -139,9 +139,7 @@ import Charts from './charts.vue'
 const addTaskmodal = ref(false)
 const addTaskValue = ref('')
 const addProgresmodal = ref(false)
-const addProgresValue = ref('')
 const addDonemodal = ref(false)
-const addDoneValue = ref('')
 const EditModalOpend = ref(false)
 const editInputValue = reactive({
 title:''
