@@ -75,8 +75,16 @@
                     <div class="card">
                         <div class="flex align-items-center justify-content-between mb-4">
                             <h5 class="text-4xl font-medium">6 Sprints</h5>
-                            <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
-                                class="w-1/2 md:w-14rem border" />
+                             <span class="flex items-center justify-center gap-2">
+                            <div class="flex cursor-pointer items-center justify-center gap-1">
+                                <span class="p-input-icon-right bg-white shadow rounded">
+                                    <InputText type="text" placeholder="Search" class="p-2" />
+                                    <i class="pi pi-search" />
+                                </span>
+                            </div>
+                            <i class="pi pi-sort-amount-up text-2xl cursor-pointer transition hover:text-gray-400"></i>
+                            <i class="pi pi-sort-amount-down-alt text-2xl cursor-pointer transition hover:text-gray-400"></i>
+                        </span>
                         </div>
                         <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
                             <li
