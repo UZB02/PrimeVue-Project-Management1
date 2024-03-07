@@ -39,9 +39,9 @@
             </span>
         </div>
     </header>
-    <section class="flex max-[900px]:flex-col gap-2">
-        <div class="top w-[60%] max-[900px]:w-full">
-            <div class="card border flex flex-col gap-4 p-3 rounded-2xl">
+    <section :class="card_table ? `flex max-[900px]:flex-col gap-2` : `flex-row`">
+        <div :class="card_table ? `top w-[60%] max-[900px]:w-full` : `w-full`">
+            <div :class="card_table ? 'card border flex flex-col gap-4 p-3 rounded-2xl' : 'hidden'">
                 <div class="flex align-items-center justify-content-between">
                     <h1 class="text-2xl">Loyiha ijrochilari paneli</h1>
                     <span class="flex items-center justify-center gap-2">
@@ -71,8 +71,167 @@
              <Menu ref="menu" :model="overlayMenuItems" :popup="true" />
                 </div>
             </div>
+             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
+                    <div class="card">
+                        <div class="flex align-items-center justify-content-between mb-4">
+                            <h5 class="text-4xl font-medium">6 Sprints</h5>
+                            <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
+                                class="w-1/2 md:w-14rem border" />
+                        </div>
+                        <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
+                            <li
+                                class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
+                                <div class="w-[35%] flex items-center gap-2">
+                                    <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
+                                    <div
+                                        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                        <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                    </div>
+
+                                    <span @click="generalinformation"
+                                        class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                        <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
+                                            item.project_name }}</h1>
+                                        <h4 class="text-slate-400">{{ item.status }}</h4>
+                                    </span>
+                                </div>
+                                <div class="w-[65%] flex  gap-3 items-center justify-center">
+                                    <span class="flex items-center justify-center gap-1">
+                                        <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
+                                    </span>
+                                    <span class="flex w-1/4 items-center justify-center gap-2">
+                                        <Avatar :image="item.avatar" size="large" shape="circle">
+                                        </Avatar>
+                                        <h1 class="text-slate-500 font-medium">{{ item.avatar_name }}</h1>
+                                    </span>
+                                    <span class="flex items-center justify-center gap-2">
+                                        <i class="pi pi-calendar"></i>
+                                        <span class="w-40 font-semibold">
+                                            {{ item.month }} - {{ item.term }}
+                                        </span>
+                                    </span>
+
+                                    <span class="flex items-center justify-center gap-2">
+                                        <i class="pi pi-paperclip"></i>
+                                        <h3>{{ item.files }}</h3>
+                                    </span>
+                                    <span class="w-1/4 flex flex-col items-center  justify-center gap-1">
+                                        <div class=" w-full flex  items-center  justify-center gap-3">
+                                            <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                                <div :style="{ width: `${item.score}` }"
+                                                    class="score rounded-xl bg-green-500 h-2">
+                                                </div>
+                                            </span>
+                                            <span class="text-sm">{{ item.score }}</span>
+                                        </div>
+                                    </span>
+                                    <div class="actions flex items-center justify-center gap-3">
+                                          <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu1" class="pi pi-ellipsis-h cursor-pointer"></i>
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
+                        class="w-[90%] max-[900px]:w-[100%]" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                        <ul class="list-none p-0 m-0">
+                            <li>
+                                <div
+                                    class="flex border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                    <div class="w-1/2 flex items-center justify-between">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <p class="font-medium">{{ fullTable.id }}.</p>
+                                            <div
+                                                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                                <i :class="fullTable.svg" class="text-xl text-blue-500"></i>
+                                            </div>
+                                            <span class="text-900 line-height-3 flex flex-col gap-2">
+                                                <h1 class="font-bold">{{ fullTable.project_name }}</h1>
+                                                <h4 class="text-slate-400">{{ fullTable.status }}</h4>
+                                            </span>
+                                        </div>
+                                        <span class="flex font-semibold items-center justify-center">
+                                            {{ fullTable.category }}
+                                        </span>
+                                        <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="w-40 font-semibold">
+                                                {{ fullTable.createTime }}
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <div class="w-1/2 flex  gap-6 items-center justify-center">
+                                        <span class="flex w-1/4 items-center justify-center gap-2">
+                                            <Avatar :image="fullTable.avatar" size="large" shape="circle">
+                                            </Avatar>
+                                            <h1 class="text-slate-500 font-medium">{{ fullTable.avatar_name }}</h1>
+                                        </span>
+                                        <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="w-40 font-semibold">
+                                                {{ fullTable.month }} - {{ fullTable.term }}
+                                            </span>
+                                        </span>
+                                        <span class="w-1/4 flex flex-col  gap-3">
+                                            <div class="w-full flex items-center justify-center gap-3">
+                                                <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                                    <div :style="{ width: `${fullTable.score}` }"
+                                                        class="score rounded-xl bg-green-500 h-2"></div>
+                                                </span>
+                                                <span class="text-sm">{{ fullTable.score }}</span>
+                                            </div>
+                                            <Tag :severity="fullTable.severity" :value="fullTable.icon_value"></Tag>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex gap-5">
+                                        <div class="flex items-center justify-between gap-3 w-1/2">
+                                            <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
+                                                <Avatar :image="fullTable.avatar" size="xlarge" shape="circle"></Avatar>
+                                                <h1 class="font-bold">{{ fullTable.avatar_name }}</h1>
+                                                <h5 class="text-gray-500 font-italic">{{ fullTable.tell }}</h5>
+                                            </div>
+                                            <div class="card flex items-center justify-between gap-3">
+                                                <span class="">
+                                                    <label>USD-Cost</label>
+                                                    <p class="font-medium">{{ fullTable.cost_usd }} USD</p>
+                                                </span>
+                                                <i class="pi pi-arrow-right-arrow-left"></i>
+                                                <span>
+                                                    <label>UZS-Cost</label>
+                                                    <p class="font-medium">{{ fullTable.cost_uzs }} UZS</p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="w-1/2 flex flex-col gap-2">
+                                            <div v-for="item in list" class="flex items-center justify-between flex-col">
+                                                <div class="w-full flex items-center justify-between">
+                                                    <span class="flex items-center justify-center gap-2">
+                                                        <i class="pi pi-file"></i>
+                                                        <h1 class="font-medium">{{ fullTable.file_name }}</h1>
+                                                    </span>
+                                                    <button
+                                                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                                                        <svg class="fill-current w-4 h-4 mr-2"
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                                                        </svg>
+                                                        <span>Download</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </Dialog> -->
+                    </div>
+                </div>
         </div>
-        <div class="bottom w-[40%] max-[900px]:w-full">
+        <div :class="card_table ? `bottom w-[40%] max-[900px]:w-full` : `w-full`" >
               <div class="card border flex flex-col gap-4 p-3 rounded-2xl">
                             <div class="flex justify-content-between align-items-center mb-5">
                                 <h5 class="text-2xl">Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
@@ -265,6 +424,12 @@ const comuniti = ref([
         name: `Javohir Bozorboyev`,
         position: `Front-End Developer `,
         points: `34`,
+    },
+       {
+        img: `https://avatars.mds.yandex.net/i?id=b8f1fb2dd1dea71d1e91e47ee84ce44844dae807-7020937-images-thumbs&ref=rim&n=33&w=250&h=250`,
+        name: `Muhsinbek Mirzamatov`,
+        position: `Front-End Developer `,
+        points: `47`,
     },
 ])
 
