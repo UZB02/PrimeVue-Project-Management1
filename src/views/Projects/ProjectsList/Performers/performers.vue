@@ -39,9 +39,9 @@
             </span>
         </div>
     </header>
-    <section>
-        <div class="top">
-            <div class="border flex flex-col gap-4 p-3 rounded">
+    <section class="flex max-[900px]:flex-col gap-2">
+        <div class="top w-[60%] max-[900px]:w-full">
+            <div class="card border flex flex-col gap-4 p-3 rounded-2xl">
                 <div class="flex align-items-center justify-content-between">
                     <h1 class="text-2xl">Loyiha ijrochilari paneli</h1>
                     <span class="flex items-center justify-center gap-2">
@@ -57,24 +57,50 @@
                 </div>
                 <div class="bottom flex items-center gap-3 flex-wrap">
                     <div v-for="item in comunitiCard"
-                        class="card1 transition hover:scale-[1.02] flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%]">
+                        class="card1 transition hover:scale-[1.02] flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[30%]">
                         <div class="action w-full flex items-center justify-end gap-2">
-                            <i @click="visible = true" v-tooltip.top="{ value: `Topshiriqlar`, autoHide: false }"
-                                class="pi pi-eye cursor-pointer text-slate-400 hover:text-teal-400"></i>
-                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
-                                class="pi pi-pencil cursor-pointer text-slate-400 hover:text-amber-600"></i>
-                            <i v-tooltip.top="{ value: `O'chirish`, autoHide: false }"
-                                class="pi pi-trash cursor-pointer text-slate-400 hover:text-red-500"></i>
+                             <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu1" class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
-                            <img :src="item.img" class="w-32 card-img  h-32 rounded-[50%]" alt="">
+                            <img :src="item.img" class="w-24 card-img  h-24 rounded-[50%]" alt="">
                             <h1 class="font-bold">{{ item.name }}</h1>
                             <h4>{{ item.rols }}</h4>
                             <h5 class="text-gray-500 font-italic">{{ item.tell }}</h5>
                         </span>
                     </div>
+             <Menu ref="menu" :model="overlayMenuItems" :popup="true" />
                 </div>
             </div>
+        </div>
+        <div class="bottom w-[40%] max-[900px]:w-full">
+              <div class="card border flex flex-col gap-4 p-3 rounded-2xl">
+                            <div class="flex justify-content-between align-items-center mb-5">
+                                <h5 class="text-2xl">Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
+                                <!-- <div>
+                            <Button icon="pi pi-ellipsis-v" class="p-button-text p-button-plain p-button-rounded"
+                                @click="$refs.menu2.toggle($event)"></Button>
+                            <Menu ref="menu2" :popup="true" :model="items"></Menu>
+                        </div> -->
+                            </div>
+                            <ul class="list-none flex flex-col p-0 m-0">
+                                <li v-for="item in comuniti"
+                                    class="flex flex-column border p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                    <div class="cards w-full flex items-center justify-between">
+                                        <div class="w-[70%] flex items-center gap-3">
+                                            <img :src="item.img" alt="" class="w-[10%]">
+                                            <div class="">
+                                                <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.name }}</span>
+                                                <div class="mt-1 text-600">{{ item.position }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 pr-5 md:mt-0 flex align-items-center">
+                                            <i class="pi pi-star"></i>
+                                            <span class="text-orange-500 ml-3 font-medium">{{ item.points }}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
         </div>
         <Dialog v-model:visible="visible" maximizable modal header="Header" :style="{ width: '70rem' }"
             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
@@ -159,7 +185,7 @@
 import { ref } from 'vue';
 import router from '@/router';
 
-const visible = ref(false);
+// const visible = ref(false);
 
 const eId = ref(null)
 const modalOpend = ref(false)
@@ -215,41 +241,55 @@ const comunitiCard = ref([
         tell: `+99893-123-45-67`
     },
 ])
-const items = ref([
+const comuniti = ref([
     {
-        label: `Umumiy ma'lumotlar`,
-        route: '/general_information'
+        img: `https://avatars.mds.yandex.net/i?id=c96f74047facf42a702af4f3c4707ad8eff4552f-5324799-images-thumbs&ref=rim&n=33&w=250&h=250`,
+        name: `Alex Jordan`,
+        position: `Front-End Developer `,
+        points: `50`,
     },
     {
-        label: 'Loyihaga biriktirilgan fayllar',
-        route: '/files'
+        img: `https://avatars.mds.yandex.net/i?id=b8f1fb2dd1dea71d1e91e47ee84ce44844dae807-7020937-images-thumbs&ref=rim&n=33&w=250&h=250`,
+        name: `Muhsinbek Mirzamatov`,
+        position: `Front-End Developer `,
+        points: `47`,
     },
     {
-        label: 'Loyiha ijrochilari',
-        route: '/performers',
+        img: `https://avatars.mds.yandex.net/i?id=cfb61e705cbc7609562b986b936f4431-4361307-images-thumbs&ref=rim&n=33&w=250&h=250`,
+        name: `Javohir Bozorboyev`,
+        position: `Front-End Developer `,
+        points: `40`,
     },
     {
-        label: 'Loyiha bosqichlari',
-        route: '/stages',
+        img: `https://avatars.mds.yandex.net/i?id=0fd3e6f94eb22e51a43738500fb93d89caf13d6b-9264723-images-thumbs&ref=rim&n=33&w=235&h=250`,
+        name: `Javohir Bozorboyev`,
+        position: `Front-End Developer `,
+        points: `34`,
     },
-    {
-        label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
-        route: '/tasks',
-    },
-    {
-        label: 'Loyiha xronologiya ma’lumoti',
-        route: '/timeline_information',
-    },
-    {
-        label: 'Kanban Doska',
-        route: '/kanban',
-    },
-]);
-const menu = ref();
+])
 
-const generalinformation = () => {
-    router.push('/stages')
-}
+const visible = ref(false);
+
+const menu = ref(null);
+
+const overlayMenuItems = [
+    {
+        label: 'Topshiriqlar',
+        icon: 'pi pi-eye',
+         command: () => {
+            visible.value = true;
+        }
+    },
+    {
+        label: 'Taxrirlash',
+        icon: 'pi pi-pencil'
+    },
+    {
+        label: 'Delete',
+        icon: 'pi pi-trash'
+    },
+];
+
 const toggle = (event) => {
     menu.value.toggle(event);
 };
@@ -286,7 +326,6 @@ function modalOpen(item) {
     eId.value = data.id
 }
 
-const selectedCity = ref();
 const card_table = ref(true);
 const rolsMenu = ref();
 const rolsItems = ref([
@@ -305,13 +344,6 @@ const rolsItems = ref([
         icon: 'pi pi-user',
         route: '/analyst'
     },
-]);
-const cities = ref([
-    { name: 'This Week', code: 'TW' },
-    { name: 'To Day', code: 'TD' },
-    { name: 'Last Week', code: 'LW' },
-    { name: 'Last Day', code: 'LD' },
-    { name: 'This Month', code: 'TM' }
 ]);
 
 const list = ref([
