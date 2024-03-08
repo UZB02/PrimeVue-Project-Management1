@@ -127,7 +127,7 @@
                                     <span class="flex w-1/4 items-center justify-center gap-2">
                                         <Avatar :image="item.avatar" size="large" shape="circle">
                                         </Avatar>
-                                        <h1 class="text-slate-500 font-medium">{{ item.avatar_name }}</h1>
+                                        <h1 class="w-1/2 text-slate-500 font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.avatar_name }}</h1>
                                     </span>
                                     <span class="flex items-center justify-center gap-2">
                                         <i class="pi pi-calendar"></i>
