@@ -57,7 +57,7 @@
                 </div>
                 <div class="bottom flex items-center gap-3 flex-wrap">
                     <div v-for="item in comunitiCard"
-                        class="card1 transition hover:scale-[1.02] flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%]">
+                        class="card1 transition hover:scale-[1.02] flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%] max-[900px]:w-[30%] max-[1030px]:w-[45%]">
                         <div class="action w-full flex items-center justify-end gap-2">
                              <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu1" class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
@@ -239,8 +239,8 @@
                     </div>
                 </div>
         </div>
-        <div class="flex gap-2" >
-              <div class="card border flex-col gap-4 p-3 rounded-2xl bottom w-[50%] max-[900px]:w-full flex">
+        <div class="flex gap-2 max-[900px]:flex-col max-[1030px]:flex-col" >
+              <div class="card border flex-col gap-4 p-3 rounded-2xl bottom w-[50%] max-[1030px]:w-full  flex">
                             <div class="flex justify-content-between align-items-center mb-5">
                                 <h5 class="text-2xl">Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
                             </div>
