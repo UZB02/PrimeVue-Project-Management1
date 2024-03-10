@@ -39,8 +39,8 @@
             </span>
         </div>
     </header>
-    <section :class="card_table ? `flex max-[900px]:flex-col gap-2` : `flex-row`">
-        <div :class="card_table ? `top w-[60%] max-[900px]:w-full` : `w-full`">
+    <section class="flex flex-col gap-2">
+        <div :class="card_table ? `top max-[900px]:w-full` : `w-full`">
             <div :class="card_table ? 'card border flex flex-col gap-4 p-3 rounded-2xl' : 'hidden'">
                 <div class="flex align-items-center justify-content-between">
                     <h1 class="text-2xl">Loyiha ijrochilari paneli</h1>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="bottom flex items-center gap-3 flex-wrap">
                     <div v-for="item in comunitiCard"
-                        class="card1 transition hover:scale-[1.02] flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[30%]">
+                        class="card1 transition hover:scale-[1.02] flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%]">
                         <div class="action w-full flex items-center justify-end gap-2">
                              <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu1" class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
@@ -239,15 +239,10 @@
                     </div>
                 </div>
         </div>
-        <div :class="card_table ? `bottom w-[40%] max-[900px]:w-full` : `w-full`" >
-              <div class="card border flex flex-col gap-4 p-3 rounded-2xl">
+        <div class="flex gap-2" >
+              <div class="card border flex-col gap-4 p-3 rounded-2xl bottom w-[50%] max-[900px]:w-full flex">
                             <div class="flex justify-content-between align-items-center mb-5">
                                 <h5 class="text-2xl">Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
-                                <!-- <div>
-                            <Button icon="pi pi-ellipsis-v" class="p-button-text p-button-plain p-button-rounded"
-                                @click="$refs.menu2.toggle($event)"></Button>
-                            <Menu ref="menu2" :popup="true" :model="items"></Menu>
-                        </div> -->
                             </div>
                             <ul class="list-none flex flex-col p-0 m-0">
                                 <li v-for="item in comuniti"
@@ -268,7 +263,11 @@
                                 </li>
                             </ul>
                         </div>
+                        <div>
+                            <levelPerformers/>
+                        </div>
         </div>
+
         <Dialog v-model:visible="visible" maximizable modal header="Header" :style="{ width: '70rem' }"
             :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
            <div class="container flex flex-col gap-3">
@@ -351,6 +350,7 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
+import levelPerformers from './levelPerformers.vue';
 
 // const visible = ref(false);
 
@@ -385,29 +385,39 @@ const comunitiCard = ref([
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13`,
-        name: `John's`,
+        name: `Alex`,
         rols: `Back-End Developer`,
-        tell: `+99893-123-45-67`
+        tell: `+99820-123-45-67`
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=8ca5af00308aefc9251d900bc01f1533-4964375-images-thumbs&n=13`,
-        name: `John's`,
+        name: `Andrsan`,
         rols: `UX Designer`,
-        tell: `+99893-123-45-67`
+        tell: `+99833-123-45-67`
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=86fc28cdbf257da6f0a95597c2365cadafb1fd73-12463617-images-thumbs&n=13`,
-        name: `John's`,
+        name: `Oleg`,
         rols: `Testter`,
-        tell: `+99893-123-45-67`
+        tell: `+99891-123-45-67`
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=acbfee42774c5aa3e27945f662baf23aeb608c8b-3788438-images-thumbs&n=13`,
-        name: `John's`,
+        name: `Lyutsefer`,
         rols: `Front-End Developer`,
-        tell: `+99893-123-45-67`
+        tell: `+99890-469-45-67`
     },
 ])
+
+
+const findCommunityByName = (name) => {
+    return comunitiCard.value.find(card => card.name === name);
+};
+
+// funksiyani ishga tushirish
+const foundCommunity = findCommunityByName(`Oleg`);
+console.log(foundCommunity,);
+
 const comuniti = ref([
     {
         img: `https://avatars.mds.yandex.net/i?id=c96f74047facf42a702af4f3c4707ad8eff4552f-5324799-images-thumbs&ref=rim&n=33&w=250&h=250`,
@@ -494,7 +504,7 @@ const fullTable = ref(
 function modalOpen(item) {
     modalOpend.value = true
     let data = JSON.parse(item)
-    console.log(data);
+    // console.log(data);
     fullTable.value = data
     eId.value = data.id
 }
@@ -675,10 +685,10 @@ const rolsToggle = (event) => {
 };
 const cardFunction = () => {
     card_table.value = true
+    
 }
 const tableFunction = () => {
     card_table.value = false
 }
-
 </script>
 <style></style>
