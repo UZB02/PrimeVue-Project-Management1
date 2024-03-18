@@ -86,10 +86,10 @@
                                     class="pi pi-sort-amount-down-alt text-2xl cursor-pointer transition hover:text-gray-400"></i>
                             </span>
 
-                            <div class="flex align-items-center justify-content-between">
-                                <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="Middle"
-                                    class="w-1/2 md:w-14rem border" />
-                            </div>
+                            <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
+                            <input type="text" class="p-3 outline-none" placeholder="Search...">
+                            <i class="pi pi-search mr-2 cursor-pointer"></i>
+                        </div>
                         </div>
                     </div>
                     <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
@@ -436,13 +436,6 @@ const comunitiCard = ref([
 const findCommunityByName = (name) => {
     return comunitiCard.value.find(card => card.name === name);
 };
-
-const cities = ref([
-    { name: 'Sinior', code: 'S', },
-    { name: 'Middle', code: 'M' },
-    { name: 'Junior', code: 'J' },
-]);
-
 
 const comuniti = ref([
     {
