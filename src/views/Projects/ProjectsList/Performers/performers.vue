@@ -44,10 +44,10 @@
             <div :class="card_table ? 'card border flex flex-col gap-4 p-3 rounded-2xl' : 'hidden'">
                 <div class="flex align-items-center justify-content-between">
                     <h1 class="text-2xl">Loyiha ijrochilari paneli</h1>
-                    <span class="flex flex-row-reverse items-center justify-center gap-3">
-                        <div class="flex align-items-center justify-content-between">
-                            <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="Middle"
-                                class="w-1/2 md:w-14rem border" />
+                    <span class="flex flex-row-reverse items-center justify-between gap-3">
+                        <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
+                            <input type="text" class="p-3 outline-none" placeholder="Search...">
+                            <i class="pi pi-search mr-2 cursor-pointer"></i>
                         </div>
                         <span class="flex items-center justify-center gap-3">
                             <i class="pi pi-sort-amount-up text-2xl cursor-pointer transition hover:text-gray-400"></i>
@@ -64,8 +64,10 @@
                                 class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
-                            <img @click="router.push(`/performersinfo`)" :src="item.img" class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
+                            <img @click="router.push(`/performersinfo`)" :src="item.img"
+                                class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
                             <h1 class="font-bold">{{ item.name }}</h1>
+                            <h2 class="font-sans font-medium">{{ item.level }}</h2>
                             <h4>{{ item.rols }}</h4>
                             <h5 class="text-gray-500 font-italic">{{ item.tell }}</h5>
                         </span>
@@ -273,8 +275,10 @@
             <div class="container flex flex-col gap-3">
                 <div class="flex items-center justify-center flex-col outline-none">
                     <span class="flex items-center justify-center gap-2">
-                        <h1 class="bg-indigo-600 text-white p-1 rounded-md text-lg font-medium">Jami berilgan topshiriqlar {{ allTask }}</h1>
-                    <h1 class="bg-indigo-600 text-white p-1 rounded-md text-lg font-medium">Bajarilgan topshiriqlar {{ doneTask }}</h1>
+                        <h1 class="bg-indigo-600 text-white p-1 rounded-md text-lg font-medium">Jami berilgan topshiriqlar
+                            {{ allTask }}</h1>
+                        <h1 class="bg-indigo-600 text-white p-1 rounded-md text-lg font-medium">Bajarilgan topshiriqlar {{
+                            doneTask }}</h1>
                     </span>
                     <span class="flex items-center justify-center translate-x-4">
                         <Knob v-model="value" valueTemplate="{value}%" readonly />
@@ -378,6 +382,7 @@ const comunitiCard = ref([
         name: `John's`,
         rols: `Front-End Developer`,
         tell: `+99893-123-45-67`,
+        level:`Senior`,
         task: [
             {
                 id: 1,
@@ -403,25 +408,29 @@ const comunitiCard = ref([
         img: `https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13`,
         name: `Alex`,
         rols: `Back-End Developer`,
-        tell: `+99820-123-45-67`
+        tell: `+99820-123-45-67`,
+        level:`Junior`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=8ca5af00308aefc9251d900bc01f1533-4964375-images-thumbs&n=13`,
         name: `Andrsan`,
         rols: `UX Designer`,
-        tell: `+99833-123-45-67`
+        tell: `+99833-123-45-67`,
+        level:`Middle`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=86fc28cdbf257da6f0a95597c2365cadafb1fd73-12463617-images-thumbs&n=13`,
         name: `Oleg`,
         rols: `Testter`,
-        tell: `+99891-123-45-67`
+        tell: `+99891-123-45-67`,
+        level:`Junior`,
     },
     {
         img: `https://avatars.mds.yandex.net/i?id=acbfee42774c5aa3e27945f662baf23aeb608c8b-3788438-images-thumbs&n=13`,
         name: `Lyutsefer`,
         rols: `Front-End Developer`,
-        tell: `+99890-469-45-67`
+        tell: `+99890-469-45-67`,
+        level:`Middle`,
     },
 ])
 const findCommunityByName = (name) => {
