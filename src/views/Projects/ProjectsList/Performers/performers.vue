@@ -98,7 +98,7 @@
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
-                                    <Avatar :image="item.avatar" size="large" shape="circle">
+                                    <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer" :image="item.avatar" size="large" shape="circle">
                                     </Avatar>
                                 </span>
 
