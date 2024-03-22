@@ -3,7 +3,7 @@
         <Map />
     </header> -->
     <section class="flex flex-col gap-2">
-        <div class="left ">
+        <div class="left">
             <div class="card p-2 flex flex-col gap-3">
                 <div class="top flex items-center justify-between gap-2">
                     <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
@@ -16,17 +16,17 @@
                     </div>
                 </div>
                 <Accordion :activeIndex="0">
-                    <AccordionTab v-for="tab in tabs" :key="tab.title" :header="tab.title">
+                    <AccordionTab v-for="task in tasks" :key="task.title" :header="task.title">
                         <section class="flex flex-col gap-2">
                             <div class="top flex gap-2">
                                 <div class="left flex items-center w-1/3">
-                                    <Image :src="tab.img" alt="Image" preview class="
+                                    <Image :src="task.img" alt="Image" preview class="
                                          w-full object-cover text-white rounded-3xl" />
                                 </div>
                                 <div class="right flex gap-2 w-[75%]">
                                     <ScrollPanel style="width: 100%; height: 150px">
                                         <p>
-                                            {{ tab.content }}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                            {{ task.content }}Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                                             veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                                             consequat.
@@ -37,7 +37,7 @@
                                     </ScrollPanel>
                                 </div>
                             </div>
-                            <ProgressBar :value="tab.value"></ProgressBar>
+                            <ProgressBar :value="task.value"></ProgressBar>
                         </section>
                     </AccordionTab>
                 </Accordion>
@@ -85,7 +85,7 @@ const times = ref([
     { name: '2024-yil', code: '2024', },
 ]);
 
-const tabs = ref([
+const tasks = ref([
     {
         title: 'Loyiha ijrochilari ish samarasini kuzatib borish qismi',
         content: 'Bu yerda topshiriq haqida qisqacha malumot kiritiladi',

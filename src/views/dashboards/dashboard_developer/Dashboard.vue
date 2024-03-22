@@ -59,7 +59,7 @@ const data = ref([
 `,
     },
     {
-        name: "Project Done",
+        name: "Task Done",
         number: 15,
         svg: 'pi pi-star text-blue-500 text-xl',
         statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +83,7 @@ const data = ref([
     },
     {
         name: "Orders",
-        number: 152,
+        number: 2,
         svg: 'pi pi-star text-blue-500 text-xl',
         statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2_65)">
@@ -354,7 +354,7 @@ watch(
     <div class="flex flex-col">
         <div class="top flex gap-2">
             <div v-for="item in data"
-                class="w-1/4 h-52  cursor-pointer hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
+                class="w-1/4 h-52  cursor-pointer transition hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
                 data-aos="flip-right">
                 <div class="top flex w-full items-center justify-between border-b-2 pb-1">
                     <div class="left flex items-center justify-center gap-4">
@@ -473,7 +473,7 @@ watch(
                             <div class="link flex items-center justify-center gap-3">
                                 <button class="font-bold">Deyly</button>
                                 <button class="font-bold">Weekly</button>
-                                <button style="border-bottom: 3px solid rgb(1, 181, 1);" class="font-bold">Montly</button>
+                                <button style="border-bottom: 3px solid rgb(1, 181, 1);" class="font-bold text-green-500">Montly</button>
                             </div>
                         </div>
                         <Chart type="line" :data="lineData" :options="lineOptions" />

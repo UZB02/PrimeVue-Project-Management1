@@ -239,19 +239,19 @@ const { isDarkTheme } = useLayout();
 
 const products = ref(null);
 const lineData = reactive({
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul','Avgust','Sentyabr','Oktyabr','Noyabr','Dekabr'],
     datasets: [
         {
-            label: 'First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            label: 'Rejalangan vaqt',
+            data: [65, 59, 80, 81, 56, 55, 40,90,70,30,50,100],
             fill: false,
             backgroundColor: '#2f4860',
             borderColor: '#2f4860',
             tension: 0.4
         },
         {
-            label: 'Second Dataset',
-            data: [28, 48, 40, 19, 86, 27, 90],
+            label: 'Sarflangan vaqt',
+            data: [28, 48, 40, 19, 86, 27, 90,18,63,85,15,13],
             fill: false,
             backgroundColor: '#00bb7e',
             borderColor: '#00bb7e',
@@ -354,7 +354,7 @@ watch(
     <div class="flex flex-col">
         <div class="top flex gap-2">
             <div v-for="item in data"
-                class="w-1/4 h-52  cursor-pointer hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
+                class="w-1/4 h-52  cursor-pointer transition hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
                 data-aos="flip-right">
                 <div class="top flex w-full items-center justify-between border-b-2 pb-1">
                     <div class="left flex items-center justify-center gap-4">
@@ -473,7 +473,7 @@ watch(
                             <div class="link flex items-center justify-center gap-3">
                                 <button class="font-bold">Deyly</button>
                                 <button class="font-bold">Weekly</button>
-                                <button style="border-bottom: 3px solid rgb(1, 181, 1);" class="font-bold">Montly</button>
+                                <button style="border-bottom: 3px solid rgb(1, 181, 1);" class="font-bold text-green-500">Montly</button>
                             </div>
                         </div>
                         <Chart type="line" :data="lineData" :options="lineOptions" />

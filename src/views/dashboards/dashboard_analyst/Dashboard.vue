@@ -354,7 +354,7 @@ watch(
     <div class="flex flex-col">
         <div class="top flex gap-2">
             <div v-for="item in data"
-                class="w-1/4 h-52  cursor-pointer hover:scale-105 border shadow flex gap-5 flex-col p-4 rounded-xl"
+                class="w-1/4 h-52  cursor-pointer transition hover:scale-105 border shadow flex gap-5 flex-col p-4 rounded-xl"
                 data-aos="flip-right">
                 <div class="top flex w-full items-center justify-between border-b-2 pb-1">
                     <div class="left flex items-center justify-center gap-4">
