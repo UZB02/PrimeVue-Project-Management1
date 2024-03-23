@@ -26,16 +26,20 @@
           <h1 class="font-sans font-bold">Dek</h1>
         </div>
         <div class="info flex flex-wrap gap-1">
-    <div v-for="number in year" :key="number" :class="day" id="day" v-tooltip.bottom="`${number}`"></div>
+    <div v-for="number in year" :key="number" :class="test ? `hidden` : `block`" id="day" v-tooltip.bottom="`${number}`"></div>
+    <div v-for="number in year2" :key="number" :class="test ? `day block` : `hidden`" id="day" v-tooltip.bottom="`${number}`"></div>
         </div>
       </div>
     </div>
   </section>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref , watchEffect} from 'vue';
 
 const year=ref(365)
+const year2=ref(366)
+const test=ref(false)
+
 const selectedTime = ref();
 const times = ref([
     { name: '2021-yil', code: '2021', },
@@ -43,6 +47,14 @@ const times = ref([
     { name: '2023-yil', code: '2023', },
     { name: '2024-yil', code: '2024', },
 ]);
+
+watchEffect(() => {
+    if (selectedTime.value && selectedTime.value.code === '2023') {
+        test.value = true;
+    } else {
+        test.value = false;
+    }
+});
 
 const info=ref([
   {
