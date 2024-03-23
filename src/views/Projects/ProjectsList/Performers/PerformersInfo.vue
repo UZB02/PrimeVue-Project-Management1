@@ -54,6 +54,7 @@
             </div>
             <span class="h-[68vh] w-1/2">
                 <Map></Map>
+                <!-- <Davomat></Davomat> -->
             </span>
         </div>
     </section>
@@ -61,6 +62,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Map from "../../../../components/map.vue"
+// import Davomat from "../../../../components/gantChart.vue"
 
 onMounted(() => {
     chartData.value = setChartData();
