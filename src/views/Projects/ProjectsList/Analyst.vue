@@ -251,7 +251,7 @@
             <template #item="{ item, props }">
                 <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                     <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                        <span class="pi pi-server" />
+                        <span class="pi pi-ellipsis-v" />
                         <span class="ml-2">{{ item.label }}</span>
                     </a>
                 </router-link>
@@ -269,26 +269,30 @@ const items = ref([
         label: `Umumiy ma'lumotlar`,
         route: '/general_information'
     },
-    {
-        label: 'Loyihaga biriktirilgan fayllar',
-        route: '/files'
-    },
+    // {
+    //     label: 'Loyihaga biriktirilgan fayllar',
+    //     route: '/files'
+    // },
     {
         label: 'Loyiha ijrochilari',
         route: '/performers',
     },
     {
+        label: 'Loyiha moliyaviy ko’rsatkichlari',
+        route: '/financial',
+    },
+    {
         label: 'Loyiha bosqichlari',
         route: '/stages',
     },
-    {
-        label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
-        route: '/tasks',
-    },
-    {
-        label: 'Loyiha xronologiya ma’lumoti',
-        route: '/timeline_information',
-    },
+    // {
+    //     label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
+    //     route: '/tasks',
+    // },
+    // {
+    //     label: 'Loyiha xronologiya ma’lumoti',
+    //     route: '/timeline_information',
+    // },
     {
         label: 'Kanban Doska',
         route: '/kanban',

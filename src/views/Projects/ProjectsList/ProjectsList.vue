@@ -286,10 +286,10 @@ const items = ref([
         label: `Umumiy ma'lumotlar`,
         route: '/general_information'
     },
-    {
-        label: 'Loyihaga biriktirilgan fayllar',
-        route: '/files'
-    },
+    // {
+    //     label: 'Loyihaga biriktirilgan fayllar',
+    //     route: '/files'
+    // },
     {
         label: 'Loyiha ijrochilari',
         route: '/performers',
@@ -302,14 +302,14 @@ const items = ref([
         label: 'Loyiha bosqichlari',
         route: '/stages',
     },
-    {
-        label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
-        route: '/tasks',
-    },
-    {
-        label: 'Loyiha xronologiya ma’lumoti',
-        route: '/timeline_information',
-    },
+    // {
+    //     label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
+    //     route: '/tasks',
+    // },
+    // {
+    //     label: 'Loyiha xronologiya ma’lumoti',
+    //     route: '/timeline_information',
+    // },
     {
         label: 'Kanban Doska',
         route: '/kanban',

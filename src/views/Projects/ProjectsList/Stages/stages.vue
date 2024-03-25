@@ -304,18 +304,18 @@ const items = ref([
         label: 'Loyiha ijrochilari',
         route: '/performers',
     },
-    {
-        label: 'Loyiha bosqichlari',
-        route: '/stages',
-    },
-    {
-        label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
-        route: '/tasks',
-    },
-    {
-        label: 'Loyiha xronologiya ma’lumoti',
-        route: '/timeline_information',
-    },
+    // {
+    //     label: 'Loyiha bosqichlari',
+    //     route: '/stages',
+    // },
+    // {
+    //     label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
+    //     route: '/tasks',
+    // },
+    // {
+    //     label: 'Loyiha xronologiya ma’lumoti',
+    //     route: '/timeline_information',
+    // },
     {
         label: 'Kanban Doska',
         route: '/kanban',
@@ -329,34 +329,6 @@ const generalinformation = () => {
 const toggle = (event) => {
     menu.value.toggle(event);
 };
-
-const fullTable = ref(
-    {
-           id: ``,
-        project_name: ``,
-        status: ``,
-        svg: ``,
-        term: ``,
-        month: ``,
-        files: ``,
-        score: ``,
-        createTime: '',
-        endTime: ``,
-        avatar_name: ``,
-        cost_usd: ``,
-        cost_uzs: ``,
-        severity: "",
-        company: ``,
-        icon_value: "",
-        file_name: ``,
-        category: ``,
-        tell: ``,
-        avatar: ``,
-        img: ``,
-        file: ``,
-        checked: ``,
-    }
-)
 
 const selectedCity = ref();
 const card_table = ref(true);
@@ -625,7 +597,7 @@ lineOptions.value = {
 };
 
 pieData.value = {
-    labels: [`J'ami Ma'blag`, `Xarajatlar`],
+    labels: [`J'ami Mablag`, `Xarajatlar`],
     datasets: [
         {
             data: [540, 325],
