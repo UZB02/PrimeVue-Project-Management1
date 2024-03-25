@@ -36,37 +36,37 @@
     </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div class="container flex flex-wrap justify-center gap-2">
-                <div  :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
+            <div class="container flex flex-wrap justify-center  gap-2">
+                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
                     v-for="(item,itemId) in list" :key="itemId">
                     <div class="actions flex items-center justify-between gap-2">
-                        <h2 class="font-bold text-sm text-slate-400">{{ itemId +1 }}</h2>
-                        <div class="svg flex items-center justify-end gap-2">
-                            <i @click="(() => { router.push('/sprint_info') })" v-tooltip.top="{ value: `Ko'rish`, autoHide: false }"
-                                class="pi pi-eye cursor-pointer text-slate-400"></i>
-                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
-                                class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                            <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
-                                class="pi pi-folder-open cursor-pointer text-slate-400"></i>
-                        </div>
+                       <h2 class="font-bold text-sm text-slate-400">{{ itemId + 1 }}</h2>
+                      <div class="flex items-center justify-center gap-2">
+                          <span>
+                                <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
+                            </span>
+                            <span>
+                                <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }" class="pi pi-folder-open cursor-pointer text-slate-400"></i>
+                            </span>
+                      </div>
                     </div>
                     <div class="image">
-                        <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40" :src="item.img" alt="">
+                        <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" :src="item.img" alt="">
                     </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
-                                <h1 @click="generalinformation" class="w-[75%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{
+                                <h1 @click="generalinformation" class="w-[75%]  whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{
                                     item.project_name }}</h1>
                                 <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                     class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
 
                             <div class="flex items-center justify-between gap-1">
-                                <div class="flex items-center justify-between gap-[10px]">
-                                    <span class="flex items-center  gap-1">
+                                <div class="flex items-center justify-center gap-2">
+                                    <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2 class=" whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.createTime }}</h2>
+                                        <h2 class="flex flex-col justify-center max-[900px]:text-sm">{{ item.createTime }} <span class="text-sm text-gray-500 max-[900px]:text-xs">{{ item.endTime }}</span></h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -74,15 +74,18 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h2>{{ item.checked1 }}/{{ item.checked2 }}</h2>
+                                        <h3>{{ item.completed_task }}/{{ item.all_task }}</h3>
                                     </span>
-                                    <span class="flex items-center justify-center gap-1">
-                                           <Tag class="w-[63px]" :severity="item.severity" :value="item.icon_value"></Tag>
-                                       </span>
                                 </div>
-                                        <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"
-                                            :image="item.avatar" class="-translate-y-1" shape="circle">
+                                <div class="flex items-center justify-center">
+                                    <span class="flex items-center justify-center gap-1">
+                                       <Tag class="mr-2 w-16" :severity="item.severity" :value="item.icon_value"></Tag>
+                                    </span>
+                                    <AvatarGroup>
+                                        <Avatar  v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"  :image="item.avatar" shape="circle">
                                         </Avatar>
+                                    </AvatarGroup>
+                                </div>
                             </div>
                             <div class="w-full flex items-center  justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
@@ -398,8 +401,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-        checked1: `5`,
-        checked2: `8`,
+        all_task:`13`,
+        completed_task: `10`,
     },
     {
         id: `2`,
@@ -423,8 +426,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-         checked1: `3`,
-         checked2: `7`,
+        all_task:`13`,
+        completed_task: `10`,
     },
     {
         id: `3`,
@@ -448,8 +451,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `15`,
-         checked1: `12`,
-        checked2: `15`,
+        all_task:`13`,
+        completed_task: `10`,
     },
     {
         id: `4`,
@@ -473,8 +476,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `3`,
-        checked1: `2`,
-        checked2: `5`,
+        all_task:`13`,
+        completed_task: `10`,
     },
     {
         id: `5`,
@@ -498,8 +501,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `11`,
-        checked1: `5`,
-        checked2: `7`,
+        all_task:`13`,
+        completed_task: `10`,
     },
     {
         id: `6`,
@@ -523,8 +526,8 @@ const list = ref([
         avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
         img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
         file: `4`,
-         checked1: `3`,
-        checked2: `7`,
+        all_task:`13`,
+        completed_task: `10`,
     },
 ])
 

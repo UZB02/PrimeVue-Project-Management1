@@ -1,11 +1,15 @@
 <template>
     <!-- <header class="mb-2">
-        <Map />
+        <Map></Map>
     </header> -->
     <section class="flex flex-col gap-2">
-        <div class="left">
-            <div class="card p-2 flex flex-col gap-3">
+        <div class="left flex gap-2 justify-between">
+            <div class="card p-2 w-1/2 flex flex-col gap-3">
                 <div class="top flex items-center justify-between gap-2">
+                    <button @click="addProject"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded flex items-center justify-center gap-1"><i
+                    class="pi pi-plus"></i><h3 class="text-white">ADD
+                task</h3></button>
                     <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
                         <input type="text" class="p-[10px] outline-none" placeholder="Search...">
                         <i class="pi pi-search mr-2 cursor-pointer"></i>
@@ -43,18 +47,17 @@
                 </Accordion>
                 <Paginator :rows="10" :totalRecords="120" :rowsPerPageOptions="[10, 20, 30]"></Paginator>
             </div>
-        </div>
-        <div class="right flex gap-2">
-            <div class="card p-2 w-1/2">
+            <div class="card h-[48rem] p-2 w-1/2">
                 <span class="flex items-center justify-end">
                     <Dropdown v-model="selectedTime" :options="times" optionLabel="name"
                             placeholder="2024-yil" class=" font-bold md:w-14rem border" />
                 </span>
                 <Chart type="bar" :data="chartData" :options="chartOptions" class="h-[30rem]" />
             </div>
-            <span class="h-[68vh] w-1/2">
-                <Map></Map>
-                <!-- <Davomat></Davomat> -->
+        </div>
+        <div class="right flex gap-2 w-full">
+            <span class="flex justify-center">
+                <Davomat></Davomat>
             </span>
         </div>
     </section>
@@ -62,7 +65,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Map from "../../../../components/map.vue"
-// import Davomat from "../../../../components/gantChart.vue"
+import Davomat from "../../../../components/gantChart.vue"
 
 onMounted(() => {
     chartData.value = setChartData();

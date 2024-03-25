@@ -20,36 +20,36 @@ const model = ref([
                         icon: 'pi pi-inbox',
                         to: '/projects_list'
                     },
-                    {
-                        label: `Loyiha ko’rsatkichlari`,
-                        icon: 'pi pi-sliders-h',
-                        to: '//'
-                    },
+                    // {
+                    //     label: `Loyiha ko’rsatkichlari`,
+                    //     icon: 'pi pi-sliders-h',
+                    //     to: '//'
+                    // },
                     {
                         label: `Loyiha bosqichlari`,
                         icon: 'pi pi-sitemap',
-                        to: '//'
+                        to: '/stages'
                     },
                     {
                         label: `Loyiha ijrochilari`,
                         icon: 'pi pi-users',
-                        to: '//'
+                        to: '/performers'
                     },
                     {
                         label: `Loyiha moliyaviy ko’rsatkichlari`,
                         icon: 'pi pi-credit-card',
-                        to: '//'
+                        to: '/financial'
                     },
-                    {
-                        label: `Loyihalarni rejalashtirish`,
-                        icon: 'pi pi-file-edit',
-                        to: '//'
-                    },
-                    {
-                        label: `Loyiha hisobotlar`,
-                        icon: 'pi pi-database',
-                        to: '//'
-                    },
+                    // {
+                    //     label: `Loyihalarni rejalashtirish`,
+                    //     icon: 'pi pi-file-edit',
+                    //     to: '//'
+                    // },
+                    // {
+                    //     label: `Loyiha hisobotlar`,
+                    //     icon: 'pi pi-database',
+                    //     to: '//'
+                    // },
                 ]
             },
         ]

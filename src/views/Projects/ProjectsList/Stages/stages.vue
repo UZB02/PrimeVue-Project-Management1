@@ -36,7 +36,7 @@
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center  gap-2">
-                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
+                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
                     v-for="(item,itemId) in list" :key="itemId">
                     <div class="actions flex items-center justify-between gap-2">
                        <h2 class="font-bold text-sm text-slate-400">{{ itemId + 1 }}</h2>
@@ -61,8 +61,8 @@
                                     class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
 
-                            <div class="flex items-center justify-between gap-3">
-                                <div class="flex items-center justify-center gap-3">
+                            <div class="flex items-center justify-between gap-1">
+                                <div class="flex items-center justify-center gap-2">
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
                                         <h2 class="flex flex-col justify-center max-[900px]:text-sm">{{ item.createTime }} <span class="text-sm text-gray-500 max-[900px]:text-xs">{{ item.endTime }}</span></h2>

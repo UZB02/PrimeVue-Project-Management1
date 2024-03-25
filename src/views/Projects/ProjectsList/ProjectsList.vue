@@ -37,7 +37,7 @@
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center gap-2">
-                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[900px]:w-[43%] max-[900px]:h-[300px] max-[770px]:w-[100%] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
+                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px]   flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]' : 'hidden'"
                     v-for="item in list">
                     <div class="actions flex items-center justify-between">
                         <h2 class="font-bold text-sm text-slate-400">{{ item.id }}</h2>
@@ -61,11 +61,11 @@
                                     class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
 
-                            <div class="flex items-center justify-between gap-3">
-                                <div class="flex items-center justify-center gap-3">
+                            <div class="flex items-center justify-between gap-1">
+                                <div class="flex items-center justify-center gap-2">
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2 class="whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
+                                        <h2 class="whitespace-nowrap  overflow-hidden text-overflow-ellipsis">{{
                                             item.createTime }}</h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
@@ -78,7 +78,7 @@
                                     </span>
                                 </div>
                                 <span class="flex items-center justify-center gap-1">
-                                    <Tag class="mr-2" :severity="item.severity" :value="item.icon_value"></Tag>
+                                    <Tag class="" :severity="item.severity" :value="item.icon_value"></Tag>
                                 </span>
                                 <div class="">
                                     <AvatarGroup class="mb-2">
@@ -293,6 +293,10 @@ const items = ref([
     {
         label: 'Loyiha ijrochilari',
         route: '/performers',
+    },
+    {
+        label: 'Loyiha moliyaviy ko’rsatkichlari',
+        route: '/financial',
     },
     {
         label: 'Loyiha bosqichlari',
