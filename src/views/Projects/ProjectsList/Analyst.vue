@@ -1,8 +1,10 @@
 <template>
     <header class="w-full flex items-center justify-center">
-        <div class="w-[96%] flex items-center justify-end pb-3 pt-2">
-            <!-- <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD
-                Project</button> -->
+        <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
+            <button @click="addProject"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
+                    class="pi pi-plus"></i> ADD
+                Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
@@ -34,26 +36,33 @@
     </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div class="container flex flex-wrap items-center  gap-2">
-                <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[900px]:w-[40%] flex flex-col gap-2' : 'hidden'"
+            <div class="container flex flex-wrap justify-center gap-2">
+                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px]   flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]' : 'hidden'"
                     v-for="item in list">
-                    <img class="rounded-xl w-full h-40" :src="item.img" alt="">
+                    <div class="actions flex items-center justify-between">
+                        <h2 class="font-bold text-sm text-slate-400">{{ item.id }}</h2>
+                        <div class="svg flex items-center justify-end gap-2">
+                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                    class="pi pi-ellipsis-h cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="image">
+                        <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" :src="item.img" alt="">
+                    </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
                                 <h1 @click="generalinformation"
-                                    class="whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
-                                    {{
-                                        item.project_name }}</h1>
-                                <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
-                                    class="pi pi-ellipsis-h cursor-pointer"></i>
+                                    class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
+                                    {{item.project_name}}</h1>
                             </div>
 
-                            <div class="flex items-center justify-between gap-3">
-                                <div class="flex items-center justify-center gap-3">
+                            <div class="flex items-center justify-between gap-1">
+                                <div class="flex items-center justify-center gap-2">
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2>{{ item.createTime }}</h2>
+                                        <h2 class="whitespace-nowrap  overflow-hidden text-overflow-ellipsis">{{
+                                            item.createTime }}</h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -64,9 +73,13 @@
                                         <h2>{{ item.checked }}</h2>
                                     </span>
                                 </div>
+                                <span class="flex items-center justify-center gap-1">
+                                    <Tag class="" :severity="item.severity" :value="item.icon_value"></Tag>
+                                </span>
                                 <div class="">
-                                    <AvatarGroup class="mb-3">
-                                        <Avatar :image="'demo/images/avatar/amyelsner.png'" shape="circle">
+                                    <AvatarGroup class="mb-2">
+                                        <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"
+                                            :image="item.avatar" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
                                 </div>
@@ -83,7 +96,7 @@
                 </div>
             </div>
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
-                <div class="card">
+                <div class="card p-3">
                     <div class="flex align-items-center justify-content-between mb-4">
                         <h5 class="text-4xl font-medium">6 Sprints</h5>
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
@@ -137,10 +150,6 @@
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
-                                    <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
-                                        class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                                    <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
-                                        class="pi pi-folder-open cursor-pointer text-slate-400"></i>
                                     <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                         class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
@@ -251,7 +260,7 @@
             <template #item="{ item, props }">
                 <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                     <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                        <span class="pi pi-ellipsis-v" />
+                        <span :class="item.icon" />
                         <span class="ml-2">{{ item.label }}</span>
                     </a>
                 </router-link>
@@ -265,8 +274,24 @@ import router from '@/router';
 const eId = ref(null)
 const modalOpend = ref(false)
 const items = ref([
+    // {
+    //     label: `Taxrirlash`,
+    //     icon: 'pi pi-pencil',
+    //     route: '/general_information'
+    // },
+    // {
+    //     label: `O'chirish`,
+    //     icon: 'pi pi-trash',
+    //     route: '/general_information'
+    // },
+    {
+        label: `Arxivlash`,
+        icon: 'pi pi-server',
+        route: '/general_information'
+    },
     {
         label: `Umumiy ma'lumotlar`,
+        icon: 'pi pi-list',
         route: '/general_information'
     },
     // {
@@ -276,14 +301,17 @@ const items = ref([
     {
         label: 'Loyiha ijrochilari',
         route: '/performers',
+        icon: 'pi pi-users'
     },
     {
         label: 'Loyiha moliyaviy ko’rsatkichlari',
         route: '/financial',
+        icon: 'pi pi-wallet'
     },
     {
         label: 'Loyiha bosqichlari',
         route: '/stages',
+        icon: 'pi pi-database'
     },
     // {
     //     label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
@@ -296,12 +324,13 @@ const items = ref([
     {
         label: 'Kanban Doska',
         route: '/kanban',
+        icon: 'pi pi-sliders-v'
     },
 ]);
 const menu = ref();
 
 const generalinformation = () => {
-    router.push('/general_information')
+    router.push('/stages')
 }
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -331,13 +360,13 @@ const fullTable = ref(
     }
 )
 
-// function modalOpen(item) {
-//     modalOpend.value = true
-//     let data = JSON.parse(item)
-//     console.log(data);
-//     fullTable.value = data
-//     eId.value = data.id
-// }
+function modalOpen(item) {
+    modalOpend.value = true
+    let data = JSON.parse(item)
+    console.log(data);
+    fullTable.value = data
+    eId.value = data.id
+}
 
 const selectedCity = ref();
 const card_table = ref(true);
@@ -369,7 +398,7 @@ const cities = ref([
 
 const list = ref([
     {
-        id: `2`,
+        id: `1`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-line`,
@@ -465,7 +494,7 @@ const list = ref([
         checked: `10`,
     },
     {
-        id: `3`,
+        id: `5`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-pie`,
@@ -489,7 +518,7 @@ const list = ref([
         checked: `10`,
     },
     {
-        id: `4`,
+        id: `6`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-star`,
@@ -514,9 +543,9 @@ const list = ref([
     },
 ])
 
-// const addProject = () => {
-//     router.push('/addProject');
-// }
+const addProject = () => {
+    router.push('/addProject');
+}
 
 const rolsToggle = (event) => {
     rolsMenu.value.toggle(event);

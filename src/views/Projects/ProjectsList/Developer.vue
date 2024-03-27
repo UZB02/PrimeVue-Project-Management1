@@ -1,8 +1,10 @@
 <template>
     <header class="w-full flex items-center justify-center">
-        <div class="w-[96%] flex items-center justify-end pb-3 pt-2">
-            <!-- <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ADD
-                Project</button> -->
+        <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
+            <button @click="addProject"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
+                    class="pi pi-plus"></i> ADD
+                Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
@@ -34,24 +36,33 @@
     </header>
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div class="container flex flex-wrap items-center  gap-2">
-                <div :class="card_table ? 'card1 shadow-md p-3 rounded-lg w-[32%] max-[900px]:w-[40%] flex flex-col gap-2' : 'hidden'"
+            <div class="container flex flex-wrap justify-center gap-2">
+                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px]   flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]' : 'hidden'"
                     v-for="item in list">
-                    <img class="rounded-xl w-full h-40" :src="item.img" alt="">
+                    <div class="actions flex items-center justify-between">
+                        <h2 class="font-bold text-sm text-slate-400">{{ item.id }}</h2>
+                        <div class="svg flex items-center justify-end gap-2">
+                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                    class="pi pi-ellipsis-h cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="image">
+                        <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" :src="item.img" alt="">
+                    </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
-                                <h1 @click="generalinformation" class="whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{
-                                    item.project_name }}</h1>
-                                <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
-                                    class="pi pi-ellipsis-h cursor-pointer"></i>
+                                <h1 @click="generalinformation"
+                                    class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
+                                    {{item.project_name}}</h1>
                             </div>
 
-                            <div class="flex items-center justify-between gap-3">
-                                <div class="flex items-center justify-center gap-3">
+                            <div class="flex items-center justify-between gap-1">
+                                <div class="flex items-center justify-center gap-2">
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2>{{ item.createTime }}</h2>
+                                        <h2 class="whitespace-nowrap  overflow-hidden text-overflow-ellipsis">{{
+                                            item.createTime }}</h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -62,9 +73,13 @@
                                         <h2>{{ item.checked }}</h2>
                                     </span>
                                 </div>
+                                <span class="flex items-center justify-center gap-1">
+                                    <Tag class="" :severity="item.severity" :value="item.icon_value"></Tag>
+                                </span>
                                 <div class="">
-                                    <AvatarGroup class="mb-3">
-                                        <Avatar :image="'demo/images/avatar/amyelsner.png'" shape="circle">
+                                    <AvatarGroup class="mb-2">
+                                        <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"
+                                            :image="item.avatar" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
                                 </div>
@@ -80,175 +95,76 @@
                     </div>
                 </div>
             </div>
-    <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
-                        <div class="card">
-                            <div class="flex align-items-center justify-content-between mb-4">
-                                <h5 class="text-4xl font-medium">6 Sprints</h5>
-                                <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
-                                    class="w-1/2 md:w-14rem border" />
-                            </div>
-                            <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
-                                <li
-                                    class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
-                                    <div class="w-[35%] flex items-center gap-2">
-                                        <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
-                                        <div
-                                            class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                            <i :class="item.svg" class="text-xl text-blue-500"></i>
-                                        </div>
-
-                                        <span @click="generalinformation"
-                                            class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
-                                            <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.project_name }}</h1>
-                                            <h4 class="text-slate-400">{{ item.status }}</h4>
-                                        </span>
-                                    </div>
-                                    <div class="w-[65%] flex  gap-3 items-center justify-center">
-                                        <span class="flex items-center justify-center gap-1">
-                                                    <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
-                                                </span>
-                                        <span class="flex w-1/4 items-center justify-center gap-2">
-                                            <Avatar :image="item.avatar" size="large" shape="circle">
-                                            </Avatar>
-                                            <h1 class="w-1/2 text-slate-500 font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.avatar_name }}</h1>
-                                        </span>
-                                        <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-calendar"></i>
-                                            <span class="w-40 font-semibold">
-                                                {{ item.month }} - {{ item.term }}
-                                            </span>
-                                        </span>
-
-                                        <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-paperclip"></i>
-                                            <h3>{{ item.files }}</h3>
-                                        </span>
-                                        <span class="w-1/4 flex flex-col items-center  justify-center gap-1">
-                                            <div class=" w-full flex  items-center  justify-center gap-3">
-                                                <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                                    <div :style="{ width: `${item.score}` }"
-                                                        class="score rounded-xl bg-green-500 h-2">
-                                                    </div>
-                                                </span>
-                                                <span class="text-sm">{{ item.score }}</span>
-                                            </div>
-                                        </span>
-                                        <div class="actions flex items-center justify-center gap-3">
-                                            <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
-                                                class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                                            <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
-                                                class="pi pi-folder-open cursor-pointer text-slate-400"></i>
-                                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
-                                                class="pi pi-ellipsis-h cursor-pointer"></i>
-                                        </div>
-
-                                    </div>
-                                </li>
-                            </ul>
-                            <!-- <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
-                        class="w-[90%] max-[900px]:w-[100%]" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                        <ul class="list-none p-0 m-0">
-                            <li>
-                                <div
-                                    class="flex border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                                    <div class="w-1/2 flex items-center justify-between">
-                                        <div class="flex items-center justify-center gap-2">
-                                            <p class="font-medium">{{ fullTable.id }}.</p>
-                                            <div
-                                                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                                <i :class="fullTable.svg" class="text-xl text-blue-500"></i>
-                                            </div>
-                                            <span class="text-900 line-height-3 flex flex-col gap-2">
-                                                <h1 class="font-bold">{{ fullTable.project_name }}</h1>
-                                                <h4 class="text-slate-400">{{ fullTable.status }}</h4>
-                                            </span>
-                                        </div>
-                                        <span class="flex font-semibold items-center justify-center">
-                                            {{ fullTable.category }}
-                                        </span>
-                                        <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-calendar"></i>
-                                            <span class="w-40 font-semibold">
-                                                {{ fullTable.createTime }}
-                                            </span>
-                                        </span>
-                                    </div>
-
-                                    <div class="w-1/2 flex  gap-6 items-center justify-center">
-                                        <span class="flex w-1/4 items-center justify-center gap-2">
-                                            <Avatar :image="fullTable.avatar" size="large" shape="circle">
-                                            </Avatar>
-                                            <h1 class="text-slate-500 font-medium">{{ fullTable.avatar_name }}</h1>
-                                        </span>
-                                        <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-calendar"></i>
-                                            <span class="w-40 font-semibold">
-                                                {{ fullTable.month }} - {{ fullTable.term }}
-                                            </span>
-                                        </span>
-                                        <span class="w-1/4 flex flex-col  gap-3">
-                                            <div class="w-full flex items-center justify-center gap-3">
-                                                <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                                    <div :style="{ width: `${fullTable.score}` }"
-                                                        class="score rounded-xl bg-green-500 h-2"></div>
-                                                </span>
-                                                <span class="text-sm">{{ fullTable.score }}</span>
-                                            </div>
-                                            <Tag :severity="fullTable.severity" :value="fullTable.icon_value"></Tag>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <div class="flex gap-5">
-                                        <div class="flex items-center justify-between gap-3 w-1/2">
-                                            <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
-                                                <Avatar :image="fullTable.avatar" size="xlarge" shape="circle"></Avatar>
-                                                <h1 class="font-bold">{{ fullTable.avatar_name }}</h1>
-                                                <h5 class="text-gray-500 font-italic">{{ fullTable.tell }}</h5>
-                                            </div>
-                                            <div class="card flex items-center justify-between gap-3">
-                                                <span class="">
-                                                    <label>USD-Cost</label>
-                                                    <p class="font-medium">{{ fullTable.cost_usd }} USD</p>
-                                                </span>
-                                                <i class="pi pi-arrow-right-arrow-left"></i>
-                                                <span>
-                                                    <label>UZS-Cost</label>
-                                                    <p class="font-medium">{{ fullTable.cost_uzs }} UZS</p>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="w-1/2 flex flex-col gap-2">
-                                            <div v-for="item in list" class="flex items-center justify-between flex-col">
-                                                <div class="w-full flex items-center justify-between">
-                                                    <span class="flex items-center justify-center gap-2">
-                                                        <i class="pi pi-file"></i>
-                                                        <h1 class="font-medium">{{ fullTable.file_name }}</h1>
-                                                    </span>
-                                                    <button
-                                                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                                                        <svg class="fill-current w-4 h-4 mr-2"
-                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-                                                        </svg>
-                                                        <span>Download</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </Dialog> -->
-                        </div>
+            <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
+                <div class="card p-3">
+                    <div class="flex align-items-center justify-content-between mb-4">
+                        <h5 class="text-4xl font-medium">6 Sprints</h5>
+                        <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
+                            class="w-1/2 md:w-14rem border" />
                     </div>
+                    <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
+                        <li
+                            class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
+                            <div class="w-[35%] flex items-center gap-2">
+                                <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
+                                <div
+                                    class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                    <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                </div>
+
+                                <span @click="generalinformation"
+                                    class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                    <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
+                                        item.project_name }}</h1>
+                                    <h4 class="text-slate-400">{{ item.status }}</h4>
+                                </span>
+                            </div>
+                            <div class="w-[65%] flex  gap-3 items-center justify-center">
+                                <span class="flex items-center justify-center gap-1">
+                                    <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
+                                </span>
+                                <span class="flex w-1/4 items-center justify-center gap-2">
+                                    <Avatar :image="item.avatar" size="large" shape="circle">
+                                    </Avatar>
+                                    <h1 class="w-1/2 text-slate-500 font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.avatar_name }}</h1>
+                                </span>
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="pi pi-calendar"></i>
+                                    <span class="w-40 font-semibold">
+                                        {{ item.month }} - {{ item.term }}
+                                    </span>
+                                </span>
+
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="pi pi-paperclip"></i>
+                                    <h3>{{ item.files }}</h3>
+                                </span>
+                                <span class="w-1/4 flex flex-col items-center  justify-center gap-1">
+                                    <div class=" w-full flex  items-center  justify-center gap-3">
+                                        <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                            <div :style="{ width: `${item.score}` }"
+                                                class="score rounded-xl bg-green-500 h-2">
+                                            </div>
+                                        </span>
+                                        <span class="text-sm">{{ item.score }}</span>
+                                    </div>
+                                </span>
+                                <div class="actions flex items-center justify-center gap-3">
+                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                        class="pi pi-ellipsis-h cursor-pointer"></i>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
             <template #item="{ item, props }">
                 <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                     <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                        <span class="pi pi-ellipsis-v" />
+                        <span :class="item.icon" />
                         <span class="ml-2">{{ item.label }}</span>
                     </a>
                 </router-link>
@@ -263,7 +179,23 @@ const eId = ref(null)
 const modalOpend = ref(false)
 const items = ref([
     {
+        label: `Taxrirlash`,
+        icon: 'pi pi-pencil',
+        route: '/general_information'
+    },
+    {
+        label: `O'chirish`,
+        icon: 'pi pi-trash',
+        route: '/general_information'
+    },
+    {
+        label: `Arxivlash`,
+        icon: 'pi pi-server',
+        route: '/general_information'
+    },
+    {
         label: `Umumiy ma'lumotlar`,
+        icon: 'pi pi-list',
         route: '/general_information'
     },
     // {
@@ -273,14 +205,17 @@ const items = ref([
     {
         label: 'Loyiha ijrochilari',
         route: '/performers',
+        icon: 'pi pi-users'
     },
     {
         label: 'Loyiha moliyaviy ko’rsatkichlari',
         route: '/financial',
+        icon: 'pi pi-wallet'
     },
     {
         label: 'Loyiha bosqichlari',
         route: '/stages',
+        icon: 'pi pi-database'
     },
     // {
     //     label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
@@ -293,12 +228,13 @@ const items = ref([
     {
         label: 'Kanban Doska',
         route: '/kanban',
+        icon: 'pi pi-sliders-v'
     },
 ]);
 const menu = ref();
 
 const generalinformation = () => {
-    router.push('/general_information')
+    router.push('/stages')
 }
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -328,13 +264,13 @@ const fullTable = ref(
     }
 )
 
-// function modalOpen(item) {
-//     modalOpend.value = true
-//     let data = JSON.parse(item)
-//     console.log(data);
-//     fullTable.value = data
-//     eId.value = data.id
-// }
+function modalOpen(item) {
+    modalOpend.value = true
+    let data = JSON.parse(item)
+    console.log(data);
+    fullTable.value = data
+    eId.value = data.id
+}
 
 const selectedCity = ref();
 const card_table = ref(true);
@@ -366,7 +302,7 @@ const cities = ref([
 
 const list = ref([
     {
-        id: `2`,
+        id: `1`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-line`,
@@ -462,7 +398,7 @@ const list = ref([
         checked: `10`,
     },
     {
-        id: `3`,
+        id: `5`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-chart-pie`,
@@ -486,7 +422,7 @@ const list = ref([
         checked: `10`,
     },
     {
-        id: `4`,
+        id: `6`,
         project_name: `Project Name`,
         status: `14 Tasks`,
         svg: `pi pi-star`,
@@ -511,9 +447,9 @@ const list = ref([
     },
 ])
 
-// const addProject = () => {
-//     router.push('/addProject');
-// }
+const addProject = () => {
+    router.push('/addProject');
+}
 
 const rolsToggle = (event) => {
     rolsMenu.value.toggle(event);

@@ -71,7 +71,7 @@
   </script>
   <style>
     #day{
-      background-color: gainsboro;
+      background-color: rgb(249, 248, 248);
       width: 10px;
       height: 10px;
       border-radius: 2px;

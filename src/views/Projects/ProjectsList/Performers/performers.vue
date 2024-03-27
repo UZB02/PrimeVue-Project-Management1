@@ -248,7 +248,7 @@
                 </div>
                 <ul class="list-none flex flex-col p-0 m-0">
                     <li v-for="item in comuniti"
-                        class="flex flex-column border p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div class="cards w-full flex items-center justify-between">
                             <div class="w-[70%] flex items-center gap-3">
                                 <img :src="item.img" alt="" class="w-[10%]">
@@ -487,7 +487,7 @@ const overlayMenuItems = [
         icon: 'pi pi-pencil'
     },
     {
-        label: 'Delete',
+        label: `O'chirish`,
         icon: 'pi pi-trash',
         command: () => {
             console.log(652);

@@ -42,12 +42,8 @@
                     <div class="actions flex items-center justify-between gap-2">
                        <h2 class="font-bold text-sm text-slate-400">{{ itemId + 1 }}</h2>
                       <div class="flex items-center justify-center gap-2">
-                          <span>
-                                <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }" class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                            </span>
-                            <span>
-                                <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }" class="pi pi-folder-open cursor-pointer text-slate-400"></i>
-                            </span>
+                        <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
+                                    class="pi pi-ellipsis-h cursor-pointer"></i>
                       </div>
                     </div>
                     <div class="image">
@@ -58,8 +54,6 @@
                             <div class="flex items-center justify-between">
                                 <h1 @click="generalinformation" class="w-[75%]  whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{
                                     item.project_name }}</h1>
-                                <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
-                                    class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
 
                             <div class="flex items-center justify-between gap-1">
@@ -152,10 +146,6 @@
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
-                                    <i v-tooltip.top="{ value: 'Taxrirlash', autoHide: false }"
-                                        class="pi pi-pencil cursor-pointer text-slate-400"></i>
-                                    <i v-tooltip.top="{ value: 'Arxivlash', autoHide: false }"
-                                        class="pi pi-folder-open cursor-pointer text-slate-400"></i>
                                     <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                         class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
@@ -266,7 +256,7 @@
             <template #item="{ item, props }">
                 <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                     <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                        <span class="pi pi-ellipsis-v" />
+                        <span :class="item.icon" />
                         <span class="ml-2">{{ item.label }}</span>
                     </a>
                 </router-link>
@@ -281,7 +271,23 @@ const eId = ref(null)
 const modalOpend = ref(false)
 const items = ref([
     {
+        label: `Taxrirlash`,
+        icon: 'pi pi-pencil',
+        route: '/general_information'
+    },
+    {
+        label: `O'chirish`,
+        icon: 'pi pi-trash',
+        route: '/general_information'
+    },
+    {
+        label: `Arxivlash`,
+        icon: 'pi pi-server',
+        route: '/general_information'
+    },
+    {
         label: `Umumiy ma'lumotlar`,
+        icon: 'pi pi-list',
         route: '/general_information'
     },
     // {
@@ -291,10 +297,17 @@ const items = ref([
     {
         label: 'Loyiha ijrochilari',
         route: '/performers',
+        icon: 'pi pi-users'
+    },
+    {
+        label: 'Loyiha moliyaviy ko’rsatkichlari',
+        route: '/financial',
+        icon: 'pi pi-wallet'
     },
     {
         label: 'Loyiha bosqichlari',
         route: '/stages',
+        icon: 'pi pi-database'
     },
     // {
     //     label: 'Loyihada ijrochilarga biriktirilgan topshiriqlar',
@@ -307,6 +320,7 @@ const items = ref([
     {
         label: 'Kanban Doska',
         route: '/kanban',
+        icon: 'pi pi-sliders-v'
     },
 ]);
 const menu = ref();

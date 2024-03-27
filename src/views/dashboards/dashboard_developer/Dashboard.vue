@@ -393,16 +393,16 @@ watch(
                                         </td>
                                         <td class="w-1/2 flex items-center justify-between gap-3">
                                             <span @click="visible = true"
-                                                class="w-1/6 cursor-pointer flex items-center justify-center gap-1">
-                                                <i class="pi pi-book cursor-pointer"></i>
+                                                class="w-1/6 flex items-center justify-center gap-1">
+                                                <i class="pi pi-book"></i>
                                                 <span class="font-bold">{{ item.coment }}</span>
                                             </span>
-                                            <span class="w-1/6 cursor-pointer flex items-center justify-center gap-1">
-                                                <i class="pi pi-paperclip cursor-pointer"></i>
+                                            <span class="w-1/6 flex items-center justify-center gap-1">
+                                                <i class="pi pi-paperclip"></i>
                                                 <span class="font-bold">{{ item.number }}</span>
                                             </span>
-                                            <span class="w-1/2 cursor-pointer flex items-center gap-1">
-                                                <i class="pi pi-calendar cursor-pointer"></i>
+                                            <span class="w-1/2 flex items-center gap-1">
+                                                <i class="pi pi-calendar "></i>
                                                 <span class="font-bold">{{ item.time }}</span>
                                             </span>
                                         </td>
@@ -437,18 +437,13 @@ watch(
                             </Dialog> -->
                         </div>
                     </div>
-                    <div class="shadow-md border p-3 rounded-xl">
+                    <div class="border p-3 rounded-xl">
                         <div class="flex justify-content-between align-items-center mb-5">
                             <h5>Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
-                            <!-- <div>
-                            <Button icon="pi pi-ellipsis-v" class="p-button-text p-button-plain p-button-rounded"
-                                @click="$refs.menu2.toggle($event)"></Button>
-                            <Menu ref="menu2" :popup="true" :model="items"></Menu>
-                        </div> -->
                         </div>
                         <ul class="list-none flex flex-col p-0 m-0">
                             <li v-for="item in comuniti"
-                                class="flex flex-column shadow-md p-2 rounded-2xl flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                class="flex flex-column border-b p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div class="cards w-full flex items-center justify-between">
                                     <div class="w-[70%] flex items-center gap-3">
                                         <img :src="item.img" alt="" class="w-[15%]">
@@ -478,13 +473,13 @@ watch(
                         </div>
                         <Chart type="line" :data="lineData" :options="lineOptions" />
                     </div>
-                    <div class="shadow-xl border p-3 rounded-xl">
+                    <div class=" border p-3 rounded-xl">
                         <div class="flex align-items-center justify-content-between mb-4">
                             <h5>Bugungi topshiriqlar va bildirishnomalar paneli</h5>
                         </div>
                         <ul v-for="item in notifications" class="p-0 mx-0 mt-0 mb-4 list-none">
                             <li
-                                class="flex items-center cursor-pointer justify-between align-items-center py-2 border-bottom-1 surface-border">
+                                class="flex items-center justify-between align-items-center py-2 border-bottom-1 surface-border">
                                 <div class="flex items-center justify-center">
                                     <div
                                         class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
@@ -506,7 +501,7 @@ watch(
             </div>
             <section class="flex flex-col gap-3">
                 <div class="top">
-                    <div class="shadow-sm border p-3 rounded-xl flex flex-col gap-4">
+                    <div class="p-1 flex flex-col gap-4">
                         <div class="flex align-items-center justify-content-between">
                             <h5>Loyiha jamoasi a’zolari ma’lumoti paneli</h5>
                         </div>
@@ -522,7 +517,7 @@ watch(
                     </div>
                 </div>
                 <div class="bottom">
-                       <div class="shadow-xl border p-3 rounded-xl">
+                       <div class=" border p-3 rounded-xl">
                             <div class="flex align-items-center justify-content-between mb-4">
                                 <h5>Bildirishnomalar paneli</h5>
                             </div>
