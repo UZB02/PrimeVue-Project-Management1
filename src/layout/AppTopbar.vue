@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import axios from 'axios';
 import { useLayout } from '@/layout/composables/layout';
 import { useRouter } from 'vue-router';
 
@@ -18,36 +19,62 @@ const projects = ref([
 ]);
 const items = ref([
     {
-        label: 'Developer',
-        icon: 'pi pi-user',
-        route: '/'
-    },
-    {
-        label: 'Manager',
-        icon: 'pi pi-user',
-        route: '/dashboard_manager'
-    },
-    {
-        label: 'Analyst',
-        icon: 'pi pi-user',
-        route: '/dashboard_analyst',
-    },
-    {
-        label: 'Sign Out',
-        icon: 'pi pi-sign-out',
-        route: '/auth/login',
-    },
+        label: 'Profile',
+        items: [
+            {
+                label: 'Developer',
+                icon: 'pi pi-user',
+                command: () => {
+                    router.push('/');
+                }
+            },
+            {
+                label: 'Analyst',
+                icon: 'pi pi-user',
+                command: () => {
+                    router.push('/dashboard_analyst');
+                }
+            },
+            
+            {
+                label: 'Manager',
+                icon: 'pi pi-user',
+                command: () => {
+                    router.push('/dashboard_manager');
+                }
+            },
+            {
+                label: 'Logout',
+                icon: 'pi pi-sign-out',
+                command:
+                ()=>{
+                    localStorage.removeItem('token');
+                    router.push('/auth/login');
+                }
+    //              async () => {
+    //     try {
+    //         const response = await axios.delete('https://pm-api.essential.uz/api/logout',{
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem('token')}`
+    //             }
+    //         });
+    //         console.log(response);
+    //         localStorage.removeItem('token');
+    //         router.push('/auth/login');
+    //     } catch (err) {
+    //         console.log(err.response.data.errors);
+    //     } finally {
+    //     }
+    // }
+            }
+        ]
+    }
 ]);
 const menu = ref();
 
 const toggle = (event) => {
     menu.value.toggle(event);
 };
-
-// const modalProfil = ref(false)
-// const onmodalProfil = (() => {
-//     modalProfil.value=!modalProfil.value
-// })
 
 onMounted(() => {
     bindOutsideClickListener();
@@ -133,6 +160,9 @@ const isOutsideClicked = (event) => {
                     <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" /> -->
                 </button>
                <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="translate-y-2">
+                <Menu :model="items" />
+                </Menu>
+               <!-- <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="translate-y-2">
                     <template #item="{ item, props }">
                         <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
                             <a v-ripple :href="href" v-bind="props.action" @click="navigate">
@@ -141,7 +171,7 @@ const isOutsideClicked = (event) => {
                             </a>
                         </router-link>
                     </template>
-                </Menu>
+                </Menu> -->
                 <button @click="onSettingsClick()" class="p-link layout-topbar-button">
                     <i class="pi pi-cog"></i>
                     <span>Settings</span>
