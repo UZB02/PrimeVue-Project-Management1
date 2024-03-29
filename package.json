@@ -14,6 +14,7 @@
         "primeicons": "^6.0.1",
         "primevue": "3.39.0",
         "qalendar": "^3.8.1",
+        "sweetalert2": "^11.10.7",
         "vue": "^3.2.41",
         "vue-draggable-next": "^2.2.1",
         "vue-gantt-chart": "^1.0.11",
