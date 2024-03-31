@@ -34,27 +34,41 @@
             </span>
         </div>
     </header>
+    <!-- <section class="container flex flex-wrap items-center justify-center gap-2">
+            <div class="flex items-center justify-center w-full h-full bg-red-500">
+	<div class="flex justify-center items-center w-full space-x-1 text-sm text-gray-700">
+		 
+				<svg fill='none' class="w-6 h-6 animate-spin" viewBox="0 0 32 32" xmlns='http://www.w3.org/2000/svg'>
+					<path clip-rule='evenodd'
+						d='M15.165 8.53a.5.5 0 01-.404.58A7 7 0 1023 16a.5.5 0 011 0 8 8 0 11-9.416-7.874.5.5 0 01.58.404z'
+						fill='currentColor' fill-rule='evenodd' />
+				</svg>
+		<div>Loading ...</div>
+	</div>
+</div>
+    </section> -->
     <section>
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center gap-2">
                 <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px]   flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]' : 'hidden'"
-                    v-for="item in list">
+                    v-for="(item,ItemKey) in data" :key="ItemKey">
                     <div class="actions flex items-center justify-between">
-                        <h2 class="font-bold text-sm text-slate-400">{{ item.id }}</h2>
+                        <h2 class="font-bold text-sm text-slate-400">{{ ItemKey + 1 }}</h2>
+                        <i class="pi pi-trash cursor-pointer" @click="deletCategory(item.id)"></i>
                         <div class="svg flex items-center justify-end gap-2">
                             <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
                                     class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
                     </div>
                     <div class="image">
-                        <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" :src="item.img" alt="">
+                        <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" :src="item.logo" alt="Rasm">
                     </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
                                 <h1 @click="generalinformation"
                                     class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
-                                    {{item.project_name}}</h1>
+                                    {{item.name}}</h1>
                             </div>
 
                             <div class="flex items-center justify-between gap-1">
@@ -62,7 +76,7 @@
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
                                         <h2 class="whitespace-nowrap  overflow-hidden text-overflow-ellipsis">{{
-                                            item.createTime }}</h2>
+                                            item.date_create }}</h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -102,11 +116,11 @@
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
                             class="w-1/2 md:w-14rem border" />
                     </div>
-                    <ul v-for="item in list" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
+                    <ul v-for="(item , ItemKey) in data" :key="ItemKey" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
                         <li
                             class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
                             <div class="w-[35%] flex items-center gap-2">
-                                <h1 class="font-bold text-gray-500">{{ item.id }}.</h1>
+                                <h1 class="font-bold text-gray-500">{{ ItemKey + 1 }}.</h1>
                                 <div
                                     class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
                                     <i :class="item.svg" class="text-xl text-blue-500"></i>
@@ -115,7 +129,7 @@
                                 <span @click="generalinformation"
                                     class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
-                                        item.project_name }}</h1>
+                                        item.name }}</h1>
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>
                             </div>
@@ -131,7 +145,7 @@
                                 <span class="flex items-center justify-center gap-2">
                                     <i class="pi pi-calendar"></i>
                                     <span class="w-40 font-semibold">
-                                        {{ item.month }} - {{ item.term }}
+                                        {{ item.date_create }}
                                     </span>
                                 </span>
 
@@ -171,12 +185,14 @@
             </template>
         </Menu>
     </section>
+    
 </template>
 <script setup>
 import { ref, reactive } from 'vue';
 import router from '@/router';
+import axios from 'axios';
 const eId = ref(null)
-const modalOpend = ref(false)
+const data=ref({})
 const items = ref([
     {
         label: `Taxrirlash`,
@@ -233,6 +249,47 @@ const items = ref([
 ]);
 const menu = ref();
 
+function fetchData() {
+  axios
+    .get('https://pm-api.essential.uz/api/project', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+    .then(res => {
+      console.log(res.data);
+      data.value=res.data // Ma'lumotlarni ko'rish uchun
+    })
+    .catch(err => {
+      console.error(err); // Xatoni chiqarish uchun
+    });
+}
+fetchData()
+
+const deletCategory = (id) => {
+    eId.value = id
+    console.log(id);
+  axios
+    .delete(`https://pm-api.essential.uz/api/project/${eId.value}/delete`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+    .then(result => {
+        if (result.status === 200) {
+            Swal.fire({
+                position: 'top-center',
+                icon: 'success',
+                title: 'Bajarildi',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            fetchData()
+        }
+        console.log(result);
+    })
+}
+
 const generalinformation = () => {
     router.push('/stages')
 }
@@ -263,14 +320,6 @@ const fullTable = ref(
         checked: `10`,
     }
 )
-
-function modalOpen(item) {
-    modalOpend.value = true
-    let data = JSON.parse(item)
-    console.log(data);
-    fullTable.value = data
-    eId.value = data.id
-}
 
 const selectedCity = ref();
 const card_table = ref(true);
@@ -462,4 +511,5 @@ const tableFunction = () => {
 }
 
 </script>
-<style></style>
+<style scoped>
+</style>

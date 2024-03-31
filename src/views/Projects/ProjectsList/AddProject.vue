@@ -30,6 +30,7 @@
                             id="file_input"
                             @change="handleFileChange"
                             type="file"
+                            ref="file"
                         />
                     </div>
                     <div>
@@ -39,8 +40,6 @@
                             v-model="date_create"
                             id="startT"
                             class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="123-45-678"
-                            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                         />
                     </div>
                     <div>
@@ -50,8 +49,6 @@
                             v-model="end_date"
                             id="EndT"
                             class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="123-45-678"
-                            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                         />
                     </div>
                     <div>
@@ -101,7 +98,8 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
+import axios from 'axios'
+import router from '@/router';
 import Swal from 'sweetalert2';
 const name = ref('');
 const shortname = ref('');
@@ -111,15 +109,21 @@ const budget = ref('');
 const color = ref('');
 const logo = ref('');
 
-// let data=({
-//     name: '',
-//     shortname: '',
-//     date_create: '',
-//     end_date: '',
-//     budget: '',
-//     logo: '',
-//     color: '',
-// })
+
+
+function handleFileChange(event) {
+  const file = event.target.files[0];
+  
+  if (file) {
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      logo.value = e.target.result;
+    };
+    
+    reader.readAsText(file);
+  }
+}
 
 const addproject = () => {
     axios
@@ -156,6 +160,7 @@ const addproject = () => {
                 budget.value = '';
                 logo.value = '';
                 color.value = '';
+                router.push({ path: '/projects_list' });
             }
         })
         .catch((err) => {
