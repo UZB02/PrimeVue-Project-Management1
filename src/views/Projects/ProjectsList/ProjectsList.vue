@@ -41,7 +41,7 @@
                         <div class="actions flex items-center justify-between">
                             <h2 class="font-bold text-sm text-slate-400">{{ ItemKey + 1 }}</h2>
                             <div class="svg flex items-center justify-end gap-2">
-                                <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer"></i>
+                                <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                                 <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
                                 <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
@@ -139,7 +139,7 @@
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
-                                    <i v-tooltip.top="`Taxrirlash`" class="pi pi-pencil cursor-pointer"></i>
+                               <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                                     <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
                                     <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
@@ -152,13 +152,14 @@
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
             <Menu :model="items" />
         </Menu>
-        <Dialog v-model:visible="deletModal" header="Edit Profile" :style="{ width: '25rem' }">
+        <!-- Begin Modal Delet -->
+        <Dialog v-model:visible="deletModal" header="Delet Project" :style="{ width: '25rem' }">
             <div class="p-2 pt-0 text-center">
                 <svg class="w-20 h-20 text-red-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">O'chirishni istaysizmi?</h3>
-                <button @click="deletCategory" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                <button @click="deletProject" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                     <ProgressSpinner style="width: 20px; height: 20px" :class="loadingDel ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
                     <span :class="loadingDel ? 'block' : 'hidden'">Loading...</span> <span :class="loadingDel ? 'hidden' : 'block'">O'chirish</span>
                 </button>
@@ -167,8 +168,107 @@
                 </button>
             </div>
         </Dialog>
-        <!-- Begin Modal Delet -->
         <!-- End Modal Delet -->
+        <!-- Begin Edit Modal -->
+        <Dialog v-model:visible="editModal" header="Edit Profile" class="w-1/2">
+            <div class="p-1 pt-0 text-center w-full">
+                <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col  gap-3 p-6">
+                    <div class="grid gap-2 md:grid-cols-2">
+                        <div>
+                            <label for="first_name" class="block mb-2 text-sm text-start font-medium text-gray-900 dark:text-white">Loyiha nomi</label>
+                            <input
+                                v-model="editName"
+                                type="text"
+                                id="first_name"
+                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Project Menagment"
+                            />
+                        </div>
+                        <div>
+                            <label for="last_name" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">Loyiha nomi qisqartmasi</label>
+                            <input
+                                v-model="editShortname"
+                                type="text"
+                                id="last_name"
+                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="PM"
+                            />
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm text-start  font-medium text-gray-900 dark:text-gray-300" for="file_input">Logo</label>
+                            <input
+                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                id="file_input"
+                                @change="handleFileChange"
+                                type="file"
+                                ref="file"
+                            />
+                        </div>
+                        <div>
+                            <label for="startT" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editDate_create"
+                                id="startT"
+                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label for="EndT" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editEnd_date"
+                                id="EndT"
+                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label for="summ" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihanin ralizatsiyasiga ajratilgan summa</label>
+                            <input
+                                type="number"
+                                v-model="editBudget"
+                                id="summ"
+                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="500 000"
+                                min="0"
+                            />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="visitors" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyiha belgilangan rangi </label>
+                            <span class="flex items-center justify-center"> <ColorPicker v-model="editColor" /></span>
+                        </div>
+                        <div>
+                            <select
+                                name=""
+                                id=""
+                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 mt-4 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
+                                <option value="manolith">Manolith</option>
+                                <option value="subsystem">Sub-sytem</option>
+                            </select>
+                        </div>
+                    </div>
+                    <span class="w-full flex gap-2">
+                        <button
+                        @click="editProject()"
+                            type="button"
+                            class="text-white flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            <ProgressSpinner style="width: 20px; height: 20px" :class="editLoadings ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
+                        <span :class="editLoadings ? 'block' : 'hidden'">Loading...</span> <span :class="editLoadings ? 'hidden' : 'block'">Add</span>
+                        </button>
+                        <button
+                            type="button"
+                            @click="Cencel"
+                            class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                        >
+                            Cencel
+                        </button>
+                    </span>
+                </form>
+            </div>
+        </Dialog>
+        <!-- End Edit Modal -->
     </section>
 </template>
 <script setup>
@@ -178,15 +278,31 @@ import axios from 'axios';
 import loading from '@/components/loading.vue';
 const loadingDel = ref(false);
 const deletModal = ref(false);
+const editModal = ref(false);
+const editLoadings = ref(false);
 const eId = ref(null);
+const editId = ref(null);
+const isloading = ref(false);
+const menu = ref();
+const selectedCity = ref();
+const card_table = ref(true);
+const rolsMenu = ref();
+const data = ref({});
+const editName=ref('');
+const editColor=ref('');
+const editLogo=ref('');
+const editShortname=ref('');
+const editBudget=ref('');
+const editDate_create=ref('');
+const editEnd_date=ref('');
+const editCreated_at=ref('');
+
+
 const modalDelet = (id) => {
     eId.value = id;
     deletModal.value = true;
 };
 
-const isloading = ref(false);
-
-const data = ref({});
 const items = ref([
     {
         label: `Arxivlash`,
@@ -232,7 +348,18 @@ const items = ref([
     }
 ]);
 
-const menu = ref();
+function modalEdit(item) {
+    editModal.value = true;
+    let data = JSON.parse(item);
+    editId.value = data.id;
+    editName.value = data.name;
+   editDate_create.value= data.date_create;
+    editCreated_at.value = data.created_at;
+    editEnd_date.value = data.end_date;
+    editBudget.value= data.budget;
+    editLogo.value = data.logo;
+    editColor.value= data.color;
+}
 
 function fetchData() {
     axios
@@ -254,7 +381,7 @@ function fetchData() {
 }
 fetchData();
 
-const deletCategory = () => {
+const deletProject = () => {
     loadingDel.value = true;
     axios
         .delete(`https://pm-api.essential.uz/api/project/${eId.value}/delete`, {
@@ -264,7 +391,7 @@ const deletCategory = () => {
         })
         .then((result) => {
             if (result.status === 200) {
-                      loadingDel.value = false;
+                loadingDel.value = false;
                 Swal.fire({
                     position: 'top-center',
                     icon: 'success',
@@ -274,9 +401,52 @@ const deletCategory = () => {
                 });
                 fetchData();
                 deletModal.value = false;
-          
             }
             console.log(result);
+        });
+};
+const editProject = (id) => {
+    editLoadings.value = true;
+    console.log(id);
+    const token = localStorage.getItem('token');
+    const headers = {
+        Accept: '*/*',
+        'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+        Authorization: `Bearer ${token}`
+    };
+
+    axios
+        .post(
+            `https://pm-api.essential.uz/api/project/${editId.value}/update`,
+            {
+                name: editName.value,
+                date_create: editDate_create.value,
+                created_at: editCreated_at.value,
+                end_date: editEnd_date.value,
+                budget: editBudget.value,
+                logo: editLogo.value,
+                color: editColor.value
+            },
+            { headers }
+        )
+        .then((result) => {
+            if (result.status === 200) {
+                  editModal.value = false;
+                 Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Taxrirlandi',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                editLoadings.value = false;
+                fetchData();
+            }
+            console.log(result, id);
+        })
+        .catch((error) => {
+            editLoadings.value = false;
+            console.error(error);
         });
 };
 
@@ -287,31 +457,6 @@ const toggle = (event) => {
     menu.value.toggle(event);
 };
 
-const fullTable = ref({
-    id: ``,
-    project_name: ``,
-    status: ``,
-    svg: ``,
-    term: ``,
-    month: ``,
-    avatar_name: ``,
-    score: ``,
-    file_name: ``,
-    avatar: ``,
-    createTime: ``,
-    company: ``,
-    category: ``,
-    cost_usd: ``,
-    cost_uzs: ``,
-    tell: ``,
-    img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-    file: `3`,
-    checked: `10`
-});
-
-const selectedCity = ref();
-const card_table = ref(true);
-const rolsMenu = ref();
 const rolsItems = ref([
     {
         label: 'Developer',
@@ -335,153 +480,6 @@ const cities = ref([
     { name: 'Last Week', code: 'LW' },
     { name: 'Last Day', code: 'LD' },
     { name: 'This Month', code: 'TM' }
-]);
-
-const list = ref([
-    {
-        id: `1`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-line`,
-        term: `4,2024`,
-        month: `Avg 12`,
-        files: `3`,
-        score: `63%`,
-        createTime: `01.02.2024 -07:00`,
-        avatar_name: `Julia`,
-        cost_usd: `3000`,
-        cost_uzs: `30000000`,
-        severity: 'danger',
-        company: `Epan`,
-        icon_value: 'Stopped',
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        category: `SMM`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`
-    },
-    {
-        id: `2`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-line`,
-        term: `4,2024`,
-        month: `Avg 12`,
-        files: `3`,
-        score: `47%`,
-        createTime: `01.02.2024 -07:00`,
-        avatar_name: `Jhonsn`,
-        cost_usd: `3000`,
-        cost_uzs: `30000000`,
-        severity: 'danger',
-        company: `Epan`,
-        icon_value: 'Stopped',
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        category: `SMM`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`
-    },
-    {
-        id: `3`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-pie`,
-        term: `1,2024`,
-        month: `Mar 26`,
-        files: `7`,
-        score: `81%`,
-        cost_usd: `7000`,
-        cost_uzs: `70000000`,
-        severity: 'warning',
-        icon_value: 'Suspended',
-        category: `Marketing`,
-        company: `UITC`,
-        createTime: `01.02.2024 -07:00`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        avatar_name: `Andrey`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`
-    },
-    {
-        id: `4`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-star`,
-        term: `10,2023`,
-        month: `Yan 31`,
-        score: `53%`,
-        files: `12`,
-        cost_usd: `7000`,
-        cost_uzs: `70000000`,
-        severity: 'primary',
-        icon_value: 'Draft ',
-        category: `It`,
-        company: `Global`,
-        createTime: `01.02.2024 -07:00`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        avatar_name: `Watson`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`
-    },
-    {
-        id: `5`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-pie`,
-        term: `1,2024`,
-        month: `Mar 26`,
-        files: `7`,
-        score: `81%`,
-        cost_usd: `7000`,
-        cost_uzs: `70000000`,
-        severity: 'warning',
-        icon_value: 'Suspended',
-        category: `Marketing`,
-        company: `UITC`,
-        createTime: `01.02.2024 -07:00`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        avatar_name: `Andrey`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`
-    },
-    {
-        id: `6`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-star`,
-        term: `10,2023`,
-        month: `Yan 31`,
-        score: `53%`,
-        files: `12`,
-        cost_usd: `7000`,
-        cost_uzs: `70000000`,
-        severity: 'primary',
-        icon_value: 'Draft ',
-        category: `It`,
-        company: `Global`,
-        createTime: `01.02.2024 -07:00`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        avatar_name: `Watson`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`
-    }
 ]);
 
 const addProject = () => {
