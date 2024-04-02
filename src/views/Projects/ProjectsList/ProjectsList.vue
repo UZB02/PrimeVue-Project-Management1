@@ -111,7 +111,7 @@
                             </div>
                             <div class="w-[65%] flex gap-3 items-center justify-center">
                                 <span class="flex items-center justify-center gap-1">
-                                    <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
+                                      <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
                                 </span>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
                                     <Avatar :image="item.avatar" size="large" shape="circle"> </Avatar>
