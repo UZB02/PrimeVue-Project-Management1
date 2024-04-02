@@ -6,8 +6,6 @@
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu" class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
-                    <!-- <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true"  />
-                    <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" /> -->
                 </button>
                 <Menu ref="rolsMenu" id="overlay_menu" :model="rolsItems" :popup="true" class="translate-y-2">
                     <template #item="{ item, props }">
@@ -73,7 +71,7 @@
                                         </span>
                                     </div>
                                     <span class="flex items-center justify-center gap-1">
-                                        <Tag class="" :severity="item.severity" :value="item.icon_value"></Tag>
+                                        <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
                                     </span>
                                     <div class="">
                                         <AvatarGroup class="mb-2">
@@ -216,7 +214,7 @@
                         <div>
                             <label for="EndT" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
                             <input
-                                type="datetime-local"
+                                type="date"
                                 v-model="editEnd_date"
                                 id="EndT"
                                 class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -297,7 +295,6 @@ const editDate_create=ref('');
 const editEnd_date=ref('');
 const editCreated_at=ref('');
 
-
 const modalDelet = (id) => {
     eId.value = id;
     deletModal.value = true;
@@ -358,6 +355,7 @@ function modalEdit(item) {
     editEnd_date.value = data.end_date;
     editBudget.value= data.budget;
     editLogo.value = data.logo;
+    editShortname.value = data.prefix;
     editColor.value= data.color;
 }
 
@@ -425,7 +423,8 @@ const editProject = (id) => {
                 end_date: editEnd_date.value,
                 budget: editBudget.value,
                 logo: editLogo.value,
-                color: editColor.value
+                color: editColor.value,
+                prefix:editShortname.value,
             },
             { headers }
         )

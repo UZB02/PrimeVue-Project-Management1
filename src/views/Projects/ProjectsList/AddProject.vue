@@ -143,7 +143,7 @@ const addproject = () => {
             'https://pm-api.essential.uz/api/project/create?name%20=Project1',
             {
                 name: name.value,
-                shortname: shortname.value,
+                prefix: shortname.value,
                 date_create: date_create.value,
                 end_date: end_date.value,
                 budget: budget.value,
