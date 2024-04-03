@@ -43,7 +43,7 @@
                         />
                     </div>
                     <div>
-                        <label for="EndT" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
+                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
                         <input
                             type="date"
                             v-model="end_date"
@@ -52,7 +52,7 @@
                         />
                     </div>
                     <div>
-                        <label for="summ" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihanin ralizatsiyasiga ajratilgan summa</label>
+                        <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihanin ralizatsiyasiga ajratilgan summa</label>
                         <input
                             type="number"
                             v-model="budget"
@@ -78,19 +78,39 @@
                         </select>
                     </div>
                 </div>
-                <span class="w-full flex items-center justify-end  gap-2">
+               <span class="w-full flex items-center justify-end gap-2">
                     <button
                         @click="addproject"
                         type="button"
-                        class="text-white w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        class="text-white w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                        <ProgressSpinner style="width: 20px; height: 20px" :class="isloading ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
-                        <span :class="isloading ? 'block' : 'hidden'">Loading...</span> <span :class="isloading ? 'hidden' : 'block'">Add</span>
+                        <span :class="isloading ? 'block' : 'hidden'">
+                                  <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+    <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
+        <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+    </svg>
+    <span class="text-xl font-medium text-white">Loading...</span>
+</div>
+                        </span>                    
+                         <span :class="isloading ? 'hidden' : 'block text-xl'">Add</span>
                     </button>
                     <button
                         type="button"
                         @click="Cencel"
-                        class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                        class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full text-xl px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                     >
                         Cencel
                     </button>

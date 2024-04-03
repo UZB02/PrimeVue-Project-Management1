@@ -3,11 +3,11 @@
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addProject" class="flex items-center justify-center gap-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 <i class="pi pi-plus"></i>
-                Add Stage</button>
+                Add Stage
+            </button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
-                <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
-                    class="p-link layout-topbar-button">
+                <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu" class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
                     <!-- <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true"  />
                     <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" /> -->
@@ -22,7 +22,7 @@
                         </router-link>
                     </template>
                 </Menu>
-                <span @click="cardFunction" class=" hover:scale-105 flex cursor-pointer items-center justify-center gap-1">
+                <span @click="cardFunction" class="hover:scale-105 flex cursor-pointer items-center justify-center gap-1">
                     <i class="pi pi-th-large cursor-pointer" />
                     <h3 class="font-semibold">Card</h3>
                 </span>
@@ -33,37 +33,37 @@
             </span>
         </div>
     </header>
-     <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
+    <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
         <loading></loading>
     </section>
     <section :class="isloading ? 'container flex flex-wrap items-center justify-center gap-2' : 'hidden'">
         <div class="container flex flex-wrap items-center justify-center gap-2">
-            <div class="container flex flex-wrap justify-center  gap-2">
-                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'"
-                    v-for="(item,itemId) in data" :key="itemId">
+            <div class="container flex flex-wrap gap-2">
+                <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'" v-for="(item, itemId) in data" :key="itemId">
                     <div class="actions flex items-center justify-between gap-2">
-                       <h2 class="font-bold text-sm text-slate-400">{{ itemId + 1 }}</h2>
-                      <div class="flex items-center justify-center gap-2">
+                        <h2 class="font-bold text-sm text-slate-400">{{ itemId + 1 }}</h2>
+                        <div class="flex items-center justify-center gap-2">
+                            <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                             <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
-                        <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
-                                    class="pi pi-ellipsis-h cursor-pointer"></i>
-                      </div>
+                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+                        </div>
                     </div>
                     <div class="image">
-                        <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=04cb0170b6dacf1c71482d60515b32d26ef8f346-12314646-images-thumbs&n=13" alt="">
+                        <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=04cb0170b6dacf1c71482d60515b32d26ef8f346-12314646-images-thumbs&n=13" alt="" />
                     </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
-                                <h1 @click="generalinformation" class="w-[75%]  whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{
-                                    item.name }}</h1>
+                                <h1 @click="generalinformation" class="w-[75%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{ item.name }}</h1>
                             </div>
 
                             <div class="flex items-center justify-between gap-1">
                                 <div class="flex items-center justify-center gap-2">
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-calendar"></i>
-                                        <h2 class="flex flex-col justify-center max-[900px]:text-sm">{{ item.createTime }} <span class="text-sm text-gray-500 max-[900px]:text-xs">{{ item.start_date }}</span></h2>
+                                        <h2 class="flex flex-col justify-center max-[900px]:text-sm">
+                                            {{ item.createTime }} <span class="text-sm text-gray-500 max-[900px]:text-xs">{{ item.start_date }}</span>
+                                        </h2>
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-paperclip"></i>
@@ -76,18 +76,17 @@
                                 </div>
                                 <div class="flex items-center justify-center gap-2">
                                     <span class="flex items-center justify-center gap-1">
-                                      <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
+                                        <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
                                     </span>
                                     <AvatarGroup>
-                                        <Avatar  v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }"  image="https://avatars.mds.yandex.net/i?id=844943df4705fa02dbdbeffd899b1780b329ff55-12422342-images-thumbs&n=13" shape="circle">
+                                        <Avatar v-tooltip.bottom="{ value: `${item.avatar_name}`, autoHide: false }" image="https://avatars.mds.yandex.net/i?id=844943df4705fa02dbdbeffd899b1780b329ff55-12422342-images-thumbs&n=13" shape="circle">
                                         </Avatar>
                                     </AvatarGroup>
                                 </div>
                             </div>
-                            <div class="w-full flex items-center  justify-center gap-3">
+                            <div class="w-full flex items-center justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `75%` }" class="score rounded-xl bg-green-500 h-2">
-                                    </div>
+                                    <div :style="{ width: `75%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
                                 <span class="text-sm">75%</span>
                             </div>
@@ -96,84 +95,62 @@
                 </div>
             </div>
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
-                    <div class="card">
-                        <div class="flex align-items-center justify-content-between mb-4">
-                            <h5 class="text-4xl font-medium">6 Sprints</h5>
-                            <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week"
-                                class="w-1/2 md:w-14rem border" />
-                        </div>
-                        <ul v-for="(item, itemId) in list" :key="itemId" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
-                            <li
-                                class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
-                                <div class="w-[35%] flex items-center gap-2">
-                                    <h1 class="font-bold text-gray-500">{{ itemId +1 }}.</h1>
-                                    <div
-                                        class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                        <i :class="item.svg" class="text-xl text-blue-500"></i>
-                                    </div>
-
-                                    <span @click="generalinformation"
-                                        class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
-                                        <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.project_name }}</h1>
-                                        <h4 class="text-slate-400">{{ item.status }}</h4>
-                                    </span>
+                <div class="card">
+                    <div class="flex align-items-center justify-content-between mb-4">
+                        <h5 class="text-4xl font-medium">{{ data.length }} Sprints</h5>
+                        <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week" class="w-1/2 md:w-14rem border" />
+                    </div>
+                    <ul v-for="(item, itemId) in data" :key="itemId" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
+                        <li class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
+                            <div class="w-[35%] flex items-center gap-2">
+                                <h1 class="font-bold text-gray-500">{{ itemId + 1 }}.</h1>
+                                <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                    <i class="pi pi-table text-xl text-blue-500"></i>
                                 </div>
-                                <div class="w-[65%] flex  gap-3 items-center justify-center">
-                                    <span class="flex items-center justify-center gap-1">
-                                                <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
-                                            </span>
-                                    <span class="flex w-1/4 items-center justify-center gap-2">
-                                        <Avatar :image="item.avatar" size="large" shape="circle">
-                                        </Avatar>
-                                        <h1 class="w-1/2 text-slate-500 font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.avatar_name }}</h1>
+
+                                <span @click="generalinformation" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                    <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.name }}</h1>
+                                    <h4 class="text-slate-400">{{ item.status }}</h4>
+                                </span>
+                            </div>
+                            <div class="w-[65%] flex gap-3 items-center justify-center">
+                                <span class="flex items-center justify-center gap-1">
+                                    <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
+                                </span>
+                                <span class="flex w-1/4 items-center justify-center gap-2">
+                                    <Avatar image="https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13" size="large" shape="circle"> </Avatar>
+                                    <h1 class="w-1/2 text-slate-500 font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.avatar_name }}</h1>
+                                </span>
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="pi pi-calendar"></i>
+                                    <span class="w-40 font-semibold">
+                                        {{ item.start_date }}
                                     </span>
-                                    <span class="flex items-center justify-center gap-2">
-                                        <i class="pi pi-calendar"></i>
-                                        <span class="w-40 font-semibold">
-                                            {{ item.month }} - {{ item.term }}
+                                </span>
+
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="pi pi-paperclip"></i>
+                                    <h3>8</h3>
+                                </span>
+                                <span class="w-1/4 flex flex-col items-center justify-center gap-1">
+                                    <div class="w-full flex items-center justify-center gap-3">
+                                        <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                            <div :style="{ width: `86%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                    </span>
-
-                                    <span class="flex items-center justify-center gap-2">
-                                        <i class="pi pi-paperclip"></i>
-                                        <h3>{{ item.files }}</h3>
-                                    </span>
-                                    <span class="w-1/4 flex flex-col items-center  justify-center gap-1">
-                                        <div class=" w-full flex  items-center  justify-center gap-3">
-                                            <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                                <div :style="{ width: `${item.score}` }"
-                                                    class="score rounded-xl bg-green-500 h-2">
-                                                </div>
-                                            </span>
-                                            <span class="text-sm">{{ item.score }}</span>
-                                        </div>
-                                    </span>
-                                    <div class="actions flex items-center justify-center gap-3">
-                                        <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu"
-                                            class="pi pi-ellipsis-h cursor-pointer"></i>
+                                        <span class="text-sm">86%</span>
                                     </div>
-
+                                </span>
+                                <div class="actions flex items-center justify-center gap-3">
+                                    <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
+                                    <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
+                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
+            </div>
         </div>
-      <!-- <div class="flex items-center justify-center gap-2">
-        <div class="w-1/2 h-[26rem]">
-                        <div class="card h-full">
-                            <h5>Vaqt va Resurs ko'rsatkichlari</h5>
-                            <Chart type="line" :data="lineData" :options="lineOptions"></Chart>
-                        </div>
-                    </div>
-
-                    <div class="w-1/2 h-[26rem]">
-                    <div class="card h-full flex flex-column align-items-center">
-                        <h5 class="text-left w-full">Moliyaviy ko'rsatkich</h5>
-                        <Chart type="pie" :data="pieData" :options="pieOptions"></Chart>
-                    </div>
-                </div>
-      </div> -->
         <!-- Begin Modal Delet -->
         <Dialog v-model:visible="deletModal" header="Delet Project" :style="{ width: '25rem' }">
             <div class="p-2 pt-0 text-center">
@@ -181,17 +158,115 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">O'chirishni istaysizmi?</h3>
-                <button @click="deletProject" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
-                    O'chirish
-                </button>
+                <button @click="deletProject" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">O'chirish</button>
                 <button @click="deletModal = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
                     Bekor qilish
                 </button>
             </div>
         </Dialog>
         <!-- End Modal Delet -->
+        <!-- Begin Edit Modal -->
+        <Dialog v-model:visible="editModal" header="Edit Profile" class="w-[70%]">
+            <div class="p-[1px] pt-0 text-center w-full">
+                <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
+                    <div class="grid gap-2 md:grid-cols-2">
+                        <div class="w-full">
+                            <label for="first_name" class="block text-start mb-2 font-medium text-gray-900 dark:text-white">Bosqich nomi</label>
+                            <input
+                                v-model="editName"
+                                type="text"
+                                id="first_name"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Project Menagment"
+                            />
+                        </div>
+                        <div>
+                            <label for="summ" class="block mb-2 font-medium text-start text-gray-900 dark:text-white">Bosqich tartib raqami</label>
+                            <input
+                                type="number"
+                                v-model="editOrder_by"
+                                id="summ"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="1"
+                                min="0"
+                            />
+                        </div>
+                        <div class="w-full">
+                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Bosqich davomida topshirilishi zarur bo'lgan ishlar</label>
+                            <textarea
+                                id="message"
+                                rows="4"
+                                v-model="editWorks"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Bosqich davomida topshirilishi zarur bo'lgan ishlar haqida umumiy ma'lumot..."
+                            ></textarea>
+                        </div>
+                        <div class="w-full">
+                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Bosqich so'ngida topshirilishi zauru bo'lgan ishlar</label>
+                            <textarea
+                                id="message"
+                                rows="4"
+                                v-model="editResults"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Bosqich so'ngida topshirilishi zauru bo'lgan ishlar haqida umumiy ma'lumot..."
+                            ></textarea>
+                        </div>
+                        <div class="w-full">
+                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Bosqich haqida umumiy ma'lumot</label>
+                            <textarea
+                                id="message"
+                                rows="4"
+                                v-model="editAbout"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Bosqich haqida umumiy ma'lumot..."
+                            ></textarea>
+                        </div>
+                        <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editStart_date"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label for="EndT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editEnd_date"
+                                id="EndT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="visitors" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyiha belgilangan rangi </label>
+                            <span class="flex items-center justify-center"> <ColorPicker v-model="editColor" /></span>
+                        </div>
+                    </div>
+                    <span class="w-full flex items-center justify-end gap-2">
+                        <button
+                            @click="editProject()"
+                            type="button"
+                            class="text-white w-full flex items-center text-xl justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                        Add
+                            <!-- <span :class="editisloading ? 'hidden' : 'block text-xl'">Add</span> -->
+                        </button>
+                        <button
+                            type="button"
+                            @click="editModal = false"
+                            class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg w-full text-xl px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                        >
+                            Cencel
+                        </button>
+                    </span>
+                </form>
+            </div>
+        </Dialog>
+        <!-- End Edit Modal -->
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
-         <Menu :model="items" />
+            <Menu :model="items" />
         </Menu>
     </section>
 </template>
@@ -201,7 +276,18 @@ import { ref, reactive } from 'vue';
 import router from '@/router';
 import axios from 'axios';
 const deletModal = ref(false);
-
+const editModal = ref(false);
+const editId = ref(null);
+const editName = ref('');
+const editColor = ref('');
+const editAbout = ref('');
+const editCreated_at = ref('');
+const editEnd_date = ref('');
+const editOrder_by = ref('');
+const editResults = ref('');
+const editStart_date = ref('');
+const editWorks = ref('');
+// const editisloading = ref(false);
 const items = ref([
     {
         label: `Arxivlash`,
@@ -247,13 +333,13 @@ const items = ref([
     }
 ]);
 const menu = ref();
-const  eId = ref(null);
+const eId = ref(null);
 const isloading = ref(false);
 const data = ref({});
 
 const generalinformation = () => {
-    router.push('/Sprint')
-}
+    router.push('/Sprint');
+};
 const toggle = (event) => {
     menu.value.toggle(event);
 };
@@ -276,7 +362,7 @@ const rolsItems = ref([
         label: 'Analyst',
         icon: 'pi pi-user',
         route: '/analyst'
-    },
+    }
 ]);
 const cities = ref([
     { name: 'This Week', code: 'TW' },
@@ -286,11 +372,28 @@ const cities = ref([
     { name: 'This Month', code: 'TM' }
 ]);
 
+function modalEdit(item) {
+    editModal.value = true;
+    let data = JSON.parse(item);
+    // console.log(data);
+    editId.value = data.id;
+    editAbout.value = data.about;
+    editColor.value = data.color;
+    editCreated_at.value = data.created_at;
+    editEnd_date.value = data.end_date;
+    editName.value = data.name;
+    editOrder_by.value = data.order_by;
+    editResults.value = data.results;
+    editStart_date.value = data.start_date;
+    editWorks.value = data.works;
+}
+
 const modalDelet = (id) => {
     eId.value = id;
     console.log(eId.value);
     deletModal.value = true;
 };
+
 
 const deletProject = () => {
     axios
@@ -313,9 +416,10 @@ const deletProject = () => {
                 deletModal.value = false;
             }
             console.log(result);
-        }).catch((error) => {
-            console.error(error);  
-         })
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 };
 function fetchData() {
     axios
@@ -337,26 +441,67 @@ function fetchData() {
 }
 fetchData();
 
+const editProject = (id) => {
+    const token = localStorage.getItem('token');
+    const headers = {
+        Accept: '*/*',
+        'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+        Authorization: `Bearer ${token}`
+    };
+
+    axios
+        .post(
+            `https://pm-api.essential.uz/api/milestone/${editId.value}/update`,
+            {
+                name: editName.value,
+                about: editAbout.value,
+                color: editColor.value,
+                created_at: editCreated_at.value,
+                end_date: editEnd_date.value,
+                order_by: editOrder_by.value,
+                results: editResults.value,
+                start_date: editStart_date.value,
+                works: editWorks.value
+            },
+            { headers }
+        )
+        .then((result) => {
+            if (result.status === 200) {
+                 Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Taxrirlandi',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                    editModal.value = false;
+                fetchData();
+            }
+            // console.log(result);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
 const addProject = () => {
     router.push('/addMilestones');
-}
+};
 
 const rolsToggle = (event) => {
     rolsMenu.value.toggle(event);
 };
 const cardFunction = () => {
-    card_table.value = true
-}
+    card_table.value = true;
+};
 const tableFunction = () => {
-    card_table.value = false
-}
-
+    card_table.value = false;
+};
 
 const lineData = ref(null);
 const pieData = ref(null);
 const lineOptions = ref(null);
 const pieOptions = ref(null);
-
 
 let documentStyle = getComputedStyle(document.documentElement);
 let textColor = documentStyle.getPropertyValue('--text-color');
