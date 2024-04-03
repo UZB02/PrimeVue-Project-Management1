@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="image">
-                            <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" :src="item.logo" alt="Rasm" />
+                            <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=672ad595cdb990ce88658fad70c678881050887e-10809483-images-thumbs&n=13" alt="Rasm" />
                         </div>
                         <div class="bottom">
                             <span class="flex flex-col gap-2">
@@ -366,12 +366,12 @@ function fetchData() {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
         })
-        .then((res) => {
-            if (res.status === 200) {
+        .then((result) => {
+            if (result.status === 200) {
                 isloading.value = true;
             }
-            console.log(res.data);
-            data.value = res.data; // Ma'lumotlarni ko'rish uchun
+            console.log(result.data.result);
+            data.value = result.data.result; // Ma'lumotlarni ko'rish uchun
         })
         .catch((err) => {
             console.error(err); // Xatoni chiqarish uchun

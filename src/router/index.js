@@ -94,6 +94,11 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/AddProject.vue')
                 },
                 {
+                    path: '/addMilestones',
+                    name: 'addMilestones',
+                    component: () => import('@/views/Projects/ProjectsList/AddMilestones.vue')
+                },
+                {
                     path: '/analyst',
                     name: 'Analyst',
                     component: () => import('@/views/Projects/ProjectsList/Analyst.vue')

@@ -533,7 +533,7 @@ const list = ref([
 
 
 const addProject = () => {
-    router.push('/addProject');
+    router.push('/addMilestones');
 }
 
 const rolsToggle = (event) => {
