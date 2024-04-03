@@ -101,7 +101,7 @@
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ ItemKey + 1 }}.</h1>
                                 <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                    <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                    <i  class="pi pi-qrcode text-xl text-blue-500"></i>
                                 </div>
 
                                 <span @click="generalinformation" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
@@ -114,7 +114,7 @@
                                       <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
                                 </span>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
-                                    <Avatar :image="item.avatar" size="large" shape="circle"> </Avatar>
+                                    <Avatar image="https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13" size="large" shape="circle"> </Avatar>
                                     <h1 class="w-1/2 text-slate-500 font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.avatar_name }}</h1>
                                 </span>
                                 <span class="flex items-center justify-center gap-2">
@@ -126,14 +126,14 @@
 
                                 <span class="flex items-center justify-center gap-2">
                                     <i class="pi pi-paperclip"></i>
-                                    <h3>{{ item.files }}</h3>
+                                    <h3>6</h3>
                                 </span>
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `50%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">{{ item.score }}</span>
+                                        <span class="text-sm">50%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
