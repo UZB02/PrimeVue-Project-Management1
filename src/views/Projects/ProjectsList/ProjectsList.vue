@@ -4,12 +4,10 @@
             <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i class="pi pi-plus"></i> ADD Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
-                   <span class="flex flex-row-reverse items-center justify-between gap-3">
                         <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
                             <input type="text" class="p-3 outline-none" placeholder="Search...">
-                            <i class="pi pi-search mr-2 cursor-pointer"></i>
+                            <i class="pi pi-search mr-1 cursor-pointer"></i>
                         </div>
-                    </span>
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu" class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
                 </button>
@@ -51,12 +49,12 @@
                             </div>
                         </div>
                         <div class="image">
-                            <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=672ad595cdb990ce88658fad70c678881050887e-10809483-images-thumbs&n=13" alt="Rasm" />
+                            <img @click="generalinformation(item.id)" class="rounded-xl cursor-pointer w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=672ad595cdb990ce88658fad70c678881050887e-10809483-images-thumbs&n=13" alt="Rasm" />
                         </div>
                         <div class="bottom">
                             <span class="flex flex-col gap-2">
                                 <div class="flex items-center justify-between">
-                                    <h1 @click="generalinformation" class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
+                                    <h1 @click="generalinformation(item.id)" class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
                                         {{ item.name }}
                                     </h1>
                                 </div>
@@ -110,7 +108,7 @@
                                     <i  class="pi pi-qrcode text-xl text-blue-500"></i>
                                 </div>
 
-                                <span @click="generalinformation" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                <span @click="generalinformation(item.id)" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.name }}</h1>
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>
@@ -455,8 +453,8 @@ const editProject = (id) => {
         });
 };
 
-const generalinformation = () => {
-    router.push('/stages');
+const generalinformation = (id) => {
+    router.push('/stages?project_id='+id);
 };
 const toggle = (event) => {
     menu.value.toggle(event);

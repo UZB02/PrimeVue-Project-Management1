@@ -99,6 +99,11 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/AddMilestones.vue')
                 },
                 {
+                    path: '/addSprint',
+                    name: 'addSprint',
+                    component: () => import('@/views/Projects/ProjectsList/AddSprint.vue')
+                },
+                {
                     path: '/analyst',
                     name: 'Analyst',
                     component: () => import('@/views/Projects/ProjectsList/Analyst.vue')

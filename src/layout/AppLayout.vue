@@ -5,10 +5,16 @@ import AppFooter from './AppFooter.vue';
 import AppSidebar from './AppSidebar.vue';
 import AppConfig from './AppConfig.vue';
 import { useLayout } from '@/layout/composables/layout';
+import router from '@/router';
 
 const { layoutConfig, layoutState, isSidebarActive } = useLayout();
 
 const outsideClickListener = ref(null);
+console.log(localStorage.getItem('token'));
+
+    if(localStorage.getItem('token') === null){
+        router.push('/auth/login');
+    }
 
 watch(isSidebarActive, (newVal) => {
     if (newVal) {

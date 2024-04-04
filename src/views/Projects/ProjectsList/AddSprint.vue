@@ -132,8 +132,8 @@ const about = ref('');
 const color = ref('');
 const start_date = ref('');
 const end_date = ref('');
-const project_id=router.currentRoute.value.query.project_id
-console.log(project_id);
+const melistone_id=router.currentRoute.value.query.melistone_id
+console.log(melistone_id);
 // const milestone_files = ref('');
 // const factual_start_date = ref('');
 
@@ -166,7 +166,7 @@ const addproject = () => {
     }else{
             axios
         .post(
-            'https://pm-api.essential.uz/api/milestone/create',
+            'https://pm-api.essential.uz/api/sprints/create',
             {
                 name: name.value,
                 works: works.value,
@@ -176,7 +176,7 @@ const addproject = () => {
                 start_date: start_date.value,
                 end_date: end_date.value,
                 color: color.value,
-                project_id: project_id
+                milestone_id: melistone_id
             },
             {
                 headers: {
@@ -193,7 +193,7 @@ const addproject = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-               router.push('/stages?project_id='+project_id)
+               router.push('/Sprint?melisoneId='+melistone_id)
             }
             console.log(res);
             isloading.value = false;
@@ -213,7 +213,7 @@ const Cencel = () => {
     start_date.value = '';
     end_date.value = '';
     color.value = '';
-    router.push({ path: '/stages' });
+ router.push('/Sprint?melisoneId='+melistone_id)
 };
 </script>
 

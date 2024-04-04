@@ -54,12 +54,12 @@
                         </div>
                     </div>
                     <div class="image">
-                        <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=04cb0170b6dacf1c71482d60515b32d26ef8f346-12314646-images-thumbs&n=13" alt="" />
+                        <img @click="generalinformation(item.id)" class="cursor-pointer rounded-xl w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=04cb0170b6dacf1c71482d60515b32d26ef8f346-12314646-images-thumbs&n=13" alt="" />
                     </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
-                                <h1 @click="generalinformation" class="w-[75%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{ item.name }}</h1>
+                                <h1 @click="generalinformation(item.id)" class="w-[75%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{ item.name }}</h1>
                             </div>
 
                             <div class="flex items-center justify-between gap-1">
@@ -334,6 +334,8 @@ const editResults = ref('');
 const editStart_date = ref('');
 const editWorks = ref('');
 const editisloading = ref(false);
+const project_id=router.currentRoute.value.query.project_id;
+console.log(project_id);
 const items = ref([
     {
         label: `Arxivlash`,
@@ -383,8 +385,8 @@ const eId = ref(null);
 const isloading = ref(false);
 const data = ref({});
 
-const generalinformation = () => {
-    router.push('/Sprint');
+const generalinformation = (id) => {
+    router.push('/Sprint?milestone_id='+id);
 };
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -471,7 +473,7 @@ const deletProject = () => {
 };
 function fetchData() {
     axios
-        .get('https://pm-api.essential.uz/api/milestone', {
+        .get(`https://pm-api.essential.uz/api/milestone?project_id=${project_id}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
@@ -536,7 +538,7 @@ const editProject = (id) => {
 };
 
 const addProject = () => {
-    router.push('/addMilestones');
+    router.push('/addMilestones?project_id=' + project_id);
 };
 
 const rolsToggle = (event) => {

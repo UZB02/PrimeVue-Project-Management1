@@ -162,7 +162,7 @@ const addproject = () => {
     }else{
            axios
         .post(
-            'https://pm-api.essential.uz/api/project/create?name%20=Project1',
+            'https://pm-api.essential.uz/api/project/create?name=Project1',
             {
                 name: name.value,
                 prefix: shortname.value,
