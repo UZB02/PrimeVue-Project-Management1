@@ -193,7 +193,7 @@ const addproject = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-               router.push('/Sprint?melisoneId='+melistone_id)
+               router.push('/Sprint?melistone_id=' + melistone_id)
             }
             console.log(res);
             isloading.value = false;
@@ -213,7 +213,7 @@ const Cencel = () => {
     start_date.value = '';
     end_date.value = '';
     color.value = '';
- router.push('/Sprint?melisoneId='+melistone_id)
+ router.push('/Sprint?milestone_id='+melistone_id)
 };
 </script>
 

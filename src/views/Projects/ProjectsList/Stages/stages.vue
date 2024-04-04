@@ -9,7 +9,7 @@
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <span class="flex flex-row-reverse items-center justify-between gap-3">
                         <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
-                            <input type="text" class="p-3 outline-none" placeholder="Search...">
+                            <input type="text" class="p-2 outline-none" placeholder="Search...">
                             <i class="pi pi-search mr-2 cursor-pointer"></i>
                         </div>
                     </span>
@@ -113,7 +113,7 @@
                                     <i class="pi pi-table text-xl text-blue-500"></i>
                                 </div>
 
-                                <span @click="generalinformation" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                <span @click="generalinformation(item.id)" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.name }}</h1>
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>

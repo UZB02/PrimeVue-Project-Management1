@@ -7,9 +7,9 @@
             </button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
-                <span class="flex flex-row-reverse items-center justify-between gap-3">
+                <span class="flex items-center justify-between">
                         <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
-                            <input type="text" class="p-3 outline-none" placeholder="Search...">
+                            <input type="text" class="p-2 outline-none" placeholder="Search...">
                             <i class="pi pi-search mr-2 cursor-pointer"></i>
                         </div>
                     </span>
@@ -335,7 +335,7 @@ const editStart_date = ref('');
 const editWorks = ref('');
 const editisloading = ref(false);
 const milestone_id=router.currentRoute.value.query.milestone_id;
-console.log(milestone_id);
+console.log(milestone_id,55);
 const items = ref([
     {
         label: `Arxivlash`,

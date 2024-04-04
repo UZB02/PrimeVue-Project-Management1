@@ -365,7 +365,7 @@ function modalEdit(item) {
 
 function fetchData() {
     axios
-        .get('https://pm-api.essential.uz/api/project', {
+        .get('https://pm-api.essential.uz/api/project?page=1', {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
@@ -374,8 +374,8 @@ function fetchData() {
             if (result.status === 200) {
                 isloading.value = true;
             }
-            console.log(result.data.result);
-            data.value = result.data.result; // Ma'lumotlarni ko'rish uchun
+            console.log(result.data.result.data);
+            data.value = result.data.result.data; // Ma'lumotlarni ko'rish uchun
         })
         .catch((err) => {
             console.error(err); // Xatoni chiqarish uchun
