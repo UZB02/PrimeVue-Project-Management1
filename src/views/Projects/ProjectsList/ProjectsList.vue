@@ -5,7 +5,7 @@
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                         <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
-                            <input type="text" class="p-3 outline-none" placeholder="Search...">
+                            <input type="text" class="p-2 outline-none" placeholder="Search...">
                             <i class="pi pi-search mr-1 cursor-pointer"></i>
                         </div>
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu" class="p-link layout-topbar-button">
@@ -150,6 +150,7 @@
                     </ul>
                 </div>
             </div>
+           <Paginator v-model:first="first" :rows="1" :totalRecords="12" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" />
         </div>
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
             <Menu :model="items" />
@@ -298,6 +299,9 @@ const editBudget=ref('');
 const editDate_create=ref('');
 const editEnd_date=ref('');
 const editCreated_at=ref('');
+const first = 0;
+console.log(first+1);
+
 
 const modalDelet = (id) => {
     eId.value = id;
@@ -365,7 +369,7 @@ function modalEdit(item) {
 
 function fetchData() {
     axios
-        .get('https://pm-api.essential.uz/api/project?page=1', {
+        .get(`https://pm-api.essential.uz/api/project?page=${first+1}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }

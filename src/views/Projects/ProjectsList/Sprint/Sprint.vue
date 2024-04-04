@@ -334,7 +334,7 @@ const editResults = ref('');
 const editStart_date = ref('');
 const editWorks = ref('');
 const editisloading = ref(false);
-const milestone_id=router.currentRoute.value.query.milestone_id;
+const milestone_id=router.currentRoute.value.query.melistone_id;
 console.log(milestone_id,55);
 const items = ref([
     {
