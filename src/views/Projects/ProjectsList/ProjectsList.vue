@@ -4,6 +4,12 @@
             <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i class="pi pi-plus"></i> ADD Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
+                   <span class="flex flex-row-reverse items-center justify-between gap-3">
+                        <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
+                            <input type="text" class="p-3 outline-none" placeholder="Search...">
+                            <i class="pi pi-search mr-2 cursor-pointer"></i>
+                        </div>
+                    </span>
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu" class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
                 </button>
