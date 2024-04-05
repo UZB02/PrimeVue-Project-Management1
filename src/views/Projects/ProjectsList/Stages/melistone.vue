@@ -319,7 +319,7 @@
 </template>
 <script setup>
 import loading from '@/components/loading.vue';
-import TopNavBar from '../../../../components/topNavMap.vue'
+// import TopNavBar from '../../../../components/topNavMap.vue'
 import { ref, reactive } from 'vue';
 import router from '@/router';
 import axios from 'axios';

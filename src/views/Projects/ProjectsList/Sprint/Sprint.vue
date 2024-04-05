@@ -377,7 +377,7 @@ const isloading = ref(false);
 const data = ref({});
 
 const generalinformation = () => {
-    router.push('/Sprint');
+    router.push('/kanban');
 };
 const toggle = (event) => {
     menu.value.toggle(event);
