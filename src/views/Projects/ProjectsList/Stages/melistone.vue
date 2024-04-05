@@ -1,4 +1,5 @@
 <template>
+    <!-- <TopNavBar></TopNavBar> -->
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addProject" class="flex items-center justify-center gap-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -318,6 +319,7 @@
 </template>
 <script setup>
 import loading from '@/components/loading.vue';
+import TopNavBar from '../../../../components/topNavMap.vue'
 import { ref, reactive } from 'vue';
 import router from '@/router';
 import axios from 'axios';
@@ -334,8 +336,8 @@ const editResults = ref('');
 const editStart_date = ref('');
 const editWorks = ref('');
 const editisloading = ref(false);
-const project_id=router.currentRoute.value.query.project_id;
-console.log(project_id);
+const project_id=router.currentRoute.value.params.id;
+console.log(project_id,"stages");
 const items = ref([
     {
         label: `Arxivlash`,
@@ -386,7 +388,7 @@ const isloading = ref(false);
 const data = ref({});
 
 const generalinformation = (id) => {
-    router.push('/Sprint?milestone_id='+id);
+    router.push(`/projects_list/${project_id}/melistone/${id}/sprint`);
 };
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -538,7 +540,7 @@ const editProject = (id) => {
 };
 
 const addProject = () => {
-    router.push('/addMilestones?project_id=' + project_id);
+    router.push(`/projects_list/${project_id}/melistone/addMilestones`);
 };
 
 const rolsToggle = (event) => {

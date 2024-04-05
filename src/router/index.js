@@ -29,6 +29,26 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/ProjectsList.vue')
                 },
                 {
+                    path: '/projects_list/:id/melistone',
+                    name: 'Projects / Melistone',
+                    component: () => import('@/views/Projects/ProjectsList/Stages/melistone.vue')
+                },
+                {
+                    path: '/projects_list/:id/melistone/:slug/sprint',
+                    name: 'Sprint',
+                    component: () => import('@/views/Projects/ProjectsList/Sprint/Sprint.vue')
+                },
+                {
+                    path: '/projects_list/:id/melistone/addMilestones',
+                    name: 'addMilestones',
+                    component: () => import('@/views/Projects/ProjectsList/AddMilestones.vue')
+                },
+                {
+                    path: '/projects_list/:id/melistone/:slug/addSprint',
+                    name: 'addSprint',
+                    component: () => import('@/views/Projects/ProjectsList/AddSprint.vue')
+                },
+                {
                     path: '/general_information',
                     name: 'general_information',
                     component: () => import('@/views/Projects/ProjectsList/GeneralInformation/General_information.vue')
@@ -49,19 +69,9 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/Performers/PerformersInfo.vue')
                 },
                 {
-                    path: '/stages',
-                    name: 'Stages',
-                    component: () => import('@/views/Projects/ProjectsList/Stages/stages.vue')
-                },
-                {
                     path: '/financial',
                     name: 'Financial',
                     component: () => import('@/views/Projects/ProjectsList/Financial/financial.vue')
-                },
-                {
-                    path: '/sprint',
-                    name: 'Sprint',
-                    component: () => import('@/views/Projects/ProjectsList/Sprint/Sprint.vue')
                 },
                 {
                     path: '/sprint_info',
@@ -92,16 +102,6 @@ const router = createRouter({
                     path: '/addProject',
                     name: 'addProject',
                     component: () => import('@/views/Projects/ProjectsList/AddProject.vue')
-                },
-                {
-                    path: '/addMilestones',
-                    name: 'addMilestones',
-                    component: () => import('@/views/Projects/ProjectsList/AddMilestones.vue')
-                },
-                {
-                    path: '/addSprint',
-                    name: 'addSprint',
-                    component: () => import('@/views/Projects/ProjectsList/AddSprint.vue')
                 },
                 {
                     path: '/analyst',
@@ -240,6 +240,11 @@ const router = createRouter({
                     path: '/documentation',
                     name: 'documentation',
                     component: () => import('@/views/utilities/Documentation.vue')
+                },
+                {
+                    path: '/pages/project',
+                    name: 'project',
+                    component: () => import('@/views/pages/Error.vue')
                 }
             ]
         },

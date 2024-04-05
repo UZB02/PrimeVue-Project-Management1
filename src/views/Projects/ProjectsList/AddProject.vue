@@ -195,7 +195,7 @@ const addproject = () => {
                 budget.value = '';
                 logo.value = '';
                 color.value = '';
-                router.push({ path: '/projects_list' });
+                router.push("/projects_list")
             }
         })
         .catch((err) => {

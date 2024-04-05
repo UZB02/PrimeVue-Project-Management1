@@ -132,8 +132,9 @@ const about = ref('');
 const color = ref('');
 const start_date = ref('');
 const end_date = ref('');
-const melistone_id=router.currentRoute.value.query.melistone_id
-console.log(melistone_id);
+const melistone_id=router.currentRoute.value.params.slug
+const project_id=router.currentRoute.value.params.id
+console.log(melistone_id,"melistone_idADD");
 // const milestone_files = ref('');
 // const factual_start_date = ref('');
 
@@ -193,7 +194,7 @@ const addproject = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-               router.push('/Sprint?melistone_id=' + melistone_id)
+               router.push(`/projects_list/${project_id}/melistone/${melistone_id}/sprint`)
             }
             console.log(res);
             isloading.value = false;

@@ -1,4 +1,5 @@
 <template>
+    <!-- <TopNavMap></TopNavMap> -->
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i class="pi pi-plus"></i> ADD Project</button>
@@ -278,6 +279,7 @@
 import { ref, reactive } from 'vue';
 import router from '@/router';
 import axios from 'axios';
+import TopNavMap from '../../../components/topNavMap.vue'
 import loading from '@/components/loading.vue';
 const loadingDel = ref(false);
 const deletModal = ref(false);
@@ -458,7 +460,7 @@ const editProject = (id) => {
 };
 
 const generalinformation = (id) => {
-    router.push('/stages?project_id='+id);
+    router.push(`/projects_list/${id}/melistone`);
 };
 const toggle = (event) => {
     menu.value.toggle(event);

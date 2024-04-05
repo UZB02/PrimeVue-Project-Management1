@@ -132,7 +132,7 @@ const about = ref('');
 const color = ref('');
 const start_date = ref('');
 const end_date = ref('');
-const project_id=router.currentRoute.value.query.project_id
+const project_id=router.currentRoute.value.params.id
 console.log(project_id);
 // const milestone_files = ref('');
 // const factual_start_date = ref('');
@@ -193,7 +193,7 @@ const addproject = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-               router.push('/stages?project_id='+project_id)
+               router.push(`/projects_list/${project_id}/melistone`)
             }
             console.log(res);
             isloading.value = false;

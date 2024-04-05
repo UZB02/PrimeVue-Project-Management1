@@ -8,11 +8,11 @@
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <span class="flex items-center justify-between">
-                        <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
-                            <input type="text" class="p-2 outline-none" placeholder="Search...">
-                            <i class="pi pi-search mr-2 cursor-pointer"></i>
-                        </div>
-                    </span>
+                    <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
+                        <input type="text" class="p-2 outline-none" placeholder="Search..." />
+                        <i class="pi pi-search mr-2 cursor-pointer"></i>
+                    </div>
+                </span>
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu" class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
                 </button>
@@ -163,28 +163,24 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">O'chirishni istaysizmi?</h3>
-                <button @click="deletProject" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">       <span :class="editisloading ? 'block' : 'hidden'">
-                                  <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
-    <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
-        <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="24"></line>
-        <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-        </line>
-        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="24"></line>
-        <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-        </line>
-        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="24"></line>
-        <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-        </line>
-    </svg>
-    <span class="text-xl font-medium text-white">Loading...</span>
-</div>
-                        </span>                    
-                         <span :class="editisloading ? 'hidden' : 'block text-xl'">O'chirish</span></button>
+                <button @click="deletProject" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                    <span :class="editisloading ? 'block' : 'hidden'">
+                        <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+                            <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
+                                <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                            </svg>
+                            <span class="text-xl font-medium text-white">Loading...</span>
+                        </div>
+                    </span>
+                    <span :class="editisloading ? 'hidden' : 'block text-xl'">O'chirish</span>
+                </button>
                 <button @click="deletModal = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
                     Bekor qilish
                 </button>
@@ -270,43 +266,37 @@
                             <span class="flex items-center justify-center"> <ColorPicker v-model="editColor" /></span>
                         </div>
                     </div>
-                     <span class="w-full flex items-center justify-end gap-2">
-                    <button
-                        @click="editProject()"
-                        type="button"
-                        class="text-white w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                        <span :class="editisloading ? 'block' : 'hidden'">
-                                  <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
-    <svg class="h-5 w-5 animate-spin stroke-white" viewBox="0 0 256 256">
-        <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="24"></line>
-        <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-        </line>
-        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="24"></line>
-        <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-        </line>
-        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="24"></line>
-        <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
-        </line>
-    </svg>
-    <span class="text-xl font-medium text-white">Loading...</span>
-</div>
-                        </span>                    
-                         <span :class="editisloading ? 'hidden' : 'block text-xl'">Edit</span>
-                    </button>
-                    <button
-                        type="button"
-                        @click="Cencel"
-                        class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg w-full text-xl px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-                    >
-                        Cencel
-                    </button>
-                </span>
+                    <span class="w-full flex items-center justify-end gap-2">
+                        <button
+                            @click="editProject()"
+                            type="button"
+                            class="text-white w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            <span :class="editisloading ? 'block' : 'hidden'">
+                                <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+                                    <svg class="h-5 w-5 animate-spin stroke-white" viewBox="0 0 256 256">
+                                        <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    </svg>
+                                    <span class="text-xl font-medium text-white">Loading...</span>
+                                </div>
+                            </span>
+                            <span :class="editisloading ? 'hidden' : 'block text-xl'">Edit</span>
+                        </button>
+                        <button
+                            type="button"
+                            @click="Cencel"
+                            class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg w-full text-xl px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                        >
+                            Cencel
+                        </button>
+                    </span>
                 </form>
             </div>
         </Dialog>
@@ -334,8 +324,9 @@ const editResults = ref('');
 const editStart_date = ref('');
 const editWorks = ref('');
 const editisloading = ref(false);
-const milestone_id=router.currentRoute.value.query.melistone_id;
-console.log(milestone_id,55);
+const milestone_id = router.currentRoute.value.params.slug;
+const project_id = router.currentRoute.value.params.id;
+console.log(milestone_id, 'milestone_id');
 const items = ref([
     {
         label: `Arxivlash`,
@@ -442,7 +433,6 @@ const modalDelet = (id) => {
     deletModal.value = true;
 };
 
-
 const deletProject = () => {
     editisloading.value = true;
     axios
@@ -518,7 +508,7 @@ const editProject = (id) => {
         )
         .then((result) => {
             if (result.status === 200) {
-                 Swal.fire({
+                Swal.fire({
                     position: 'top-center',
                     icon: 'success',
                     title: 'Taxrirlandi',
@@ -526,7 +516,7 @@ const editProject = (id) => {
                     timer: 1500
                 });
                 editisloading.value = false;
-                    editModal.value = false;
+                editModal.value = false;
                 fetchData();
             }
             // console.log(result);
@@ -538,7 +528,7 @@ const editProject = (id) => {
 };
 
 const addProject = () => {
-    router.push('/addSprint?melistone_id=' + milestone_id);
+    router.push(`/projects_list/${project_id}/melistone/${milestone_id}/addSprint`);
 };
 
 const rolsToggle = (event) => {
@@ -550,6 +540,5 @@ const cardFunction = () => {
 const tableFunction = () => {
     card_table.value = false;
 };
-
 </script>
 <style></style>
