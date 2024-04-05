@@ -151,7 +151,10 @@
                     </ul>
                 </div>
             </div>
-           <Paginator v-model:first="first" :rows="1" :totalRecords="12" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" />
+            <!-- Begin Pagenetion comp -->
+            <!-- <Paginator :rows="10" :totalRecords="150" :rowsPerPageOptions="[10, 20, 30]"></Paginator> -->
+              <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
+               <!-- End Pagenetion comp -->
         </div>
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
             <Menu :model="items" />
@@ -281,6 +284,8 @@ import router from '@/router';
 import axios from 'axios';
 import TopNavMap from '../../../components/topNavMap.vue'
 import loading from '@/components/loading.vue';
+import Pagenetion from "../../../components/pagenetion.vue"
+
 const loadingDel = ref(false);
 const deletModal = ref(false);
 const editModal = ref(false);
@@ -301,9 +306,14 @@ const editBudget=ref('');
 const editDate_create=ref('');
 const editEnd_date=ref('');
 const editCreated_at=ref('');
-const first = 0;
-console.log(first+1);
+const rows = ref('');
+console.log(rows.value);
 
+const currentPage = ref('');
+
+const totalPages = ref(10); // Umumiy sahifalar soni
+
+console.log(currentPage.value);
 
 const modalDelet = (id) => {
     eId.value = id;
@@ -369,9 +379,9 @@ function modalEdit(item) {
     editColor.value= data.color;
 }
 
-function fetchData() {
+function fetchData(page) {
     axios
-        .get(`https://pm-api.essential.uz/api/project?page=${first+1}`, {
+        .get(`https://pm-api.essential.uz/api/project?page=${page}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }

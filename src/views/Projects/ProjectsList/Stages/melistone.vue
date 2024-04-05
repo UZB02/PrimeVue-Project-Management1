@@ -103,7 +103,7 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">{{ data.length }} Sprints</h5>
+                        <h5 class="text-4xl font-medium">{{ data.length }} Topshiriq</h5>
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week" class="w-1/2 md:w-14rem border" />
                     </div>
                     <ul v-for="(item, itemId) in data" :key="itemId" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
