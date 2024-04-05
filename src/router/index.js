@@ -30,7 +30,7 @@ const router = createRouter({
                 },
                 {
                     path: '/projects_list/:id/melistone',
-                    name: 'Projects / Melistone',
+                    name: 'Melistone',
                     component: () => import('@/views/Projects/ProjectsList/Stages/melistone.vue')
                 },
                 {
