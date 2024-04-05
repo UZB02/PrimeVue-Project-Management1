@@ -310,10 +310,7 @@ const rows = ref('');
 console.log(rows.value);
 
 const currentPage = ref('');
-
-const totalPages = ref(10); // Umumiy sahifalar soni
-
-console.log(currentPage.value);
+const totalPages = ref(10);
 
 const modalDelet = (id) => {
     eId.value = id;

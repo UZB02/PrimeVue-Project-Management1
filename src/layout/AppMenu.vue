@@ -25,21 +25,21 @@ const model = ref([
                     //     icon: 'pi pi-sliders-h',
                     //     to: '//'
                     // },
-                    {
-                        label: `Loyiha bosqichlari`,
-                        icon: 'pi pi-sitemap',
-                        to: '/stages'
-                    },
-                    {
-                        label: `Loyiha ijrochilari`,
-                        icon: 'pi pi-users',
-                        to: '/performers'
-                    },
-                    {
-                        label: `Loyiha moliyaviy ko’rsatkichlari`,
-                        icon: 'pi pi-credit-card',
-                        to: '/financial'
-                    },
+                    // {
+                    //     label: `Loyiha bosqichlari`,
+                    //     icon: 'pi pi-sitemap',
+                    //     to: '/melistone'
+                    // },
+                    // {
+                    //     label: `Loyiha ijrochilari`,
+                    //     icon: 'pi pi-users',
+                    //     to: '/performers'
+                    // },
+                    // {
+                    //     label: `Loyiha moliyaviy ko’rsatkichlari`,
+                    //     icon: 'pi pi-credit-card',
+                    //     to: '/financial'
+                    // },
                     // {
                     //     label: `Loyihalarni rejalashtirish`,
                     //     icon: 'pi pi-file-edit',
