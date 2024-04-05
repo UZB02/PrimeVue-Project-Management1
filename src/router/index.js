@@ -241,11 +241,11 @@ const router = createRouter({
                     name: 'documentation',
                     component: () => import('@/views/utilities/Documentation.vue')
                 },
-                {
-                    path: '/pages/project',
-                    name: 'project',
-                    component: () => import('@/views/pages/Error.vue')
-                }
+                // {
+                //     path: '/pages/project',
+                //     name: 'project',
+                //     component: () => import('@/views/pages/Error.vue')
+                // }
             ]
         },
         {
