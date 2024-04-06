@@ -1,4 +1,5 @@
 <template>
+    <h1 class="text-center">ID <span class="font-bold text-2xl text-red-500">{{ project_id }} </span> ga tegishli Proekt haqida Umumiy Ma'lumotlar</h1>
     <section class="flex flex-col gap-3">
         <div class="info flex flex-col gap-3">
             <div class="top flex items-center justify-between">
@@ -55,31 +56,6 @@
                             deserunt mollit anim id est laborum.
                         </p>
                     </TabPanel>
-                    <!-- <TabPanel>
-                    <template #header>
-                        <div class="flex align-items-center gap-2">
-                            <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png" shape="circle" />
-                            <span class="font-bold white-space-nowrap">Onyama Limba</span>
-                        </div>
-                    </template>
-                    <p class="m-0">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-                    </p>
-                </TabPanel>
-                <TabPanel>
-                    <template #header>
-                        <div class="flex align-items-center gap-2">
-                            <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/ionibowcher.png" shape="circle" />
-                            <span class="font-bold white-space-nowrap">Ioni Bowcher</span>
-                            <Badge value="2" />
-                        </div>
-                    </template>
-                    <p class="m-0">
-                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui
-                        officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
-                    </p>
-                </TabPanel> -->
                 </TabView>
                 <span class="flex items-center justify-end ">
                     <span class="flex items-center justify-center gap-2">
@@ -130,7 +106,36 @@
 </template>
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
-import { computed } from 'vue';
+import { ref ,computed } from 'vue';
+import router from '@/router';
+import axios from 'axios';
+
+const project_id = router.currentRoute.value.params.id
+console.log(project_id);
+
+const data=ref({})
+
+function fetchData() {
+    axios
+        .get(`https://pm-api.essential.uz/api/project/show/102`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+           const obj = result.data.find(item => item.id === project_id.value)
+            console.log(result.data);
+            // console.log(obj);
+            // console.log(result.data.find(item => item.id === project_id.value));
+            // console.log(data.find(item => item.id === project_id.value));
+            // data.value = result.data.result.data; 
+        })
+        .catch((err) => {
+            // console.error(err);
+        });
+}
+
+fetchData();
 
 const { layoutConfig } = useLayout();
 

@@ -463,7 +463,7 @@ const deletProject = () => {
 };
 function fetchData() {
     axios
-        .get(`https://pm-api.essential.uz/api/sprints?milestone_id=${milestone_id}`, {
+        .get(`https://pm-api.essential.uz/api/sprints?milestone_id=${milestone_id}&per_page=10`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
@@ -472,8 +472,8 @@ function fetchData() {
             if (result.status === 200) {
                 isloading.value = true;
             }
-            console.log(result.data);
-            data.value = result.data;
+            console.log(result.data.data);
+            data.value = result.data.data;
         })
         .catch((err) => {
             console.error(err);
