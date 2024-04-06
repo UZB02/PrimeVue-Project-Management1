@@ -41,12 +41,12 @@
             <div class="container flex flex-wrap justify-center gap-2">
                 <div :class="card_table ? 'container flex flex-wrap gap-2' : 'hidden'">
                     <div class="card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]" v-for="(item, ItemKey) in data" :key="ItemKey">
-                        <div class="actions flex items-center justify-between">
+                        <div class="actions flex items-center justify-between ">
                             <h2 class="font-bold text-sm text-slate-400">{{ ItemKey + 1 }}</h2>
                             <div class="svg flex items-center justify-end gap-2">
                                 <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                                 <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
-                                <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+                                <i @click="getProjectiId(item.id)" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
                         </div>
                         <div class="image">
@@ -156,7 +156,7 @@
               <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
                <!-- End Pagenetion comp -->
         </div>
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
+        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class=" translate-y-2">
             <Menu :model="items" />
         </Menu>
         <!-- Begin Modal Delet -->
@@ -279,7 +279,7 @@
     </section>
 </template>
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive ,toRaw} from 'vue';
 import router from '@/router';
 import axios from 'axios';
 // import TopNavMap from '../../../components/topNavMap.vue'
@@ -308,10 +308,10 @@ const editEnd_date=ref('');
 const editCreated_at=ref('');
 const rows = ref('');
 console.log(rows.value);
+const project_id=ref('');
 
 const currentPage = ref('');
 const totalPages = ref(10);
-
 const modalDelet = (id) => {
     eId.value = id;
     deletModal.value = true;
@@ -329,7 +329,8 @@ const items = ref([
         label: `Umumiy ma'lumotlar`,
         icon: 'pi pi-list',
         command: () => {
-            router.push('/general_information');
+  
+            router.push(`/projects_list/${project_id.value}/general_information`);
         }
     },
     {
@@ -348,7 +349,7 @@ const items = ref([
     },
     {
         label: 'Loyiha moliyaviy ko’rsatkichlari',
-        route: '/financial',
+        icon: 'pi pi-credit-card',
         command: () => {
             router.push('/financial');
         }
@@ -472,6 +473,12 @@ const generalinformation = (id) => {
 const toggle = (event) => {
     menu.value.toggle(event);
 };
+
+function getProjectiId (id){
+    project_id.value = id;
+    console.log(id);
+     toggle(event);
+}
 
 const rolsItems = ref([
     {

@@ -49,7 +49,7 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/AddSprint.vue')
                 },
                 {
-                    path: '/general_information',
+                    path: '/projects_list/:id/general_information',
                     name: 'general_information',
                     component: () => import('@/views/Projects/ProjectsList/GeneralInformation/General_information.vue')
                 },
