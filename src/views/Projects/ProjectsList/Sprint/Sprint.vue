@@ -1,4 +1,7 @@
 <template>
+    <h1 class="ml-3 font-bold text-3xl">
+      Project ID = <span class="text-red-500">{{ project_id }}</span> ichida Melistone ID =<span class="text-red-500">{{ milestone_id }}</span> ga tegishli Sprintlar
+    </h1>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addProject" class="flex items-center justify-center gap-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
