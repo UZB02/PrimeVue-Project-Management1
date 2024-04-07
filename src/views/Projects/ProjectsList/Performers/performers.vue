@@ -41,7 +41,7 @@
     </header>
     <section class="flex flex-col gap-2">
         <div :class="card_table ? `top max-[900px]:w-full` : `w-full`">
-            <div :class="card_table ? 'card border flex flex-col gap-4 p-3 rounded-2xl' : 'hidden'">
+            <div :class="card_table ? 'flex flex-col gap-4 p-3 rounded-2xl' : 'hidden'">
                 <div class="flex align-items-center justify-content-between">
                     <h1 class="text-2xl">Loyiha ijrochilari paneli</h1>
                     <span class="flex flex-row-reverse items-center justify-between gap-3">
@@ -64,7 +64,7 @@
                                 class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
-                            <img @click="router.push(`/performersinfo`)" :src="item.img"
+                            <img @click="gotoPerformersInfo(item.id)" :src="item.img"
                                 class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
                             <h1 class="font-bold">{{ item.name }}</h1>
                             <h2 class="font-sans font-medium">{{ item.level }}</h2>
@@ -242,7 +242,7 @@
             </div>
         </div>
         <div class="flex gap-2 max-[900px]:flex-col max-[1030px]:flex-col">
-            <div class="card border flex-col gap-4 p-3 rounded-2xl bottom w-[50%] max-[1030px]:w-full  flex">
+            <div class="border flex-col gap-4 p-3 rounded-2xl bottom w-[50%] max-[1030px]:w-full  flex">
                 <div class="flex justify-content-between align-items-center mb-5">
                     <h5 class="text-2xl">Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
                 </div>
@@ -265,9 +265,9 @@
                     </li>
                 </ul>
             </div>
-            <div>
+            <!-- <div>
                 <levelPerformers />
-            </div>
+            </div> -->
         </div>
 
         <Dialog v-model:visible="visible" maximizable modal header="Header" :style="{ width: '70rem' }"
@@ -373,9 +373,9 @@ const allTask = 50;
 const doneTask = 40;
 const value = ref(Math.round((doneTask / allTask) * 100));
 // const visible = ref(false);
-const selectedCity = ref();
-const eId = ref(null)
-const modalOpend = ref(false)
+const gotoPerformersInfo=(id)=>{
+    console.log(id);
+}
 const comunitiCard = ref([
     {
         img: `https://avatars.mds.yandex.net/i?id=ee81aed641f0e39576f73c988ba5dd89d07c3dd0-8071172-images-thumbs&ref=rim&n=33&w=250&h=250`,
@@ -433,9 +433,6 @@ const comunitiCard = ref([
         level:`Middle`,
     },
 ])
-const findCommunityByName = (name) => {
-    return comunitiCard.value.find(card => card.name === name);
-};
 
 const comuniti = ref([
     {
@@ -499,37 +496,7 @@ const toggle = (event) => {
     menu.value.toggle(event);
 };
 
-const fullTable = ref(
-    {
-        id: ``,
-        project_name: ``,
-        status: ``,
-        svg: ``,
-        term: ``,
-        month: ``,
-        avatar_name: ``,
-        score: ``,
-        file_name: ``,
-        avatar: ``,
-        createTime: ``,
-        company: ``,
-        category: ``,
-        cost_usd: ``,
-        cost_uzs: ``,
-        tell: ``,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
-    }
-)
 
-function modalOpen(item) {
-    modalOpend.value = true
-    let data = JSON.parse(item)
-    // console.log(data);
-    fullTable.value = data
-    eId.value = data.id
-}
 
 const card_table = ref(true);
 const rolsMenu = ref();

@@ -147,7 +147,7 @@
                                 <div class="actions flex items-center justify-center gap-3">
                                <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                                     <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
-                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+                                    <i @click="getProjectiId(item.id)" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
                             </div>
                         </li>
@@ -155,7 +155,6 @@
                 </div>
             </div>
             <!-- Begin Pagenetion comp -->
-            <!-- <Paginator :rows="10" :totalRecords="150" :rowsPerPageOptions="[10, 20, 30]"></Paginator> -->
               <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
                <!-- End Pagenetion comp -->
         </div>
@@ -340,21 +339,21 @@ const items = ref([
         label: 'Loyihaga biriktirilgan fayllar',
         icon: 'pi pi-file',
         command: () => {
-            router.push('/general_information');
+            router.push(`/projects_list/${project_id.value}/files`);
         }
     },
     {
         label: 'Loyiha ijrochilari',
         icon: 'pi pi-users',
         command: () => {
-            router.push('/performers');
+            router.push(`/projects_list/${project_id.value}/performers`);
         }
     },
     {
         label: 'Loyiha moliyaviy ko’rsatkichlari',
         icon: 'pi pi-credit-card',
         command: () => {
-            router.push('/financial');
+            router.push(`/projects_list/${project_id.value}/financial`);
         }
     },
     {

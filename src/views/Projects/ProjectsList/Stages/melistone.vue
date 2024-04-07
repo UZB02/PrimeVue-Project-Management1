@@ -54,7 +54,7 @@
                         <div class="flex items-center justify-center gap-2">
                             <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                             <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
-                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+                            <i @click="getProjectiId(item.id)" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
                     </div>
                     <div class="image">
@@ -159,6 +159,9 @@
                     </ul>
                 </div>
             </div>
+              <!-- Begin Pagenetion comp -->
+              <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
+               <!-- End Pagenetion comp -->
         </div>
         <!-- Begin Modal Delet -->
         <Dialog v-model:visible="deletModal" header="Delet Project" :style="{ width: '25rem' }">
@@ -322,6 +325,7 @@
 </template>
 <script setup>
 import loading from '@/components/loading.vue';
+import Pagenetion from '@/components/pagenetion.vue';
 // import TopNavBar from '../../../../components/topNavMap.vue'
 import { ref, reactive } from 'vue';
 import router from '@/router';
@@ -340,7 +344,12 @@ const editStart_date = ref('');
 const editWorks = ref('');
 const editisloading = ref(false);
 const project_id=router.currentRoute.value.params.id;
+const melistone_id=ref('');
 console.log(project_id,"stages");
+
+const currentPage = ref('');
+const totalPages = ref(10);
+
 const items = ref([
     {
         label: `Arxivlash`,
@@ -353,21 +362,21 @@ const items = ref([
         label: `Umumiy ma'lumotlar`,
         icon: 'pi pi-list',
         command: () => {
-            router.push('/general_information');
+            router.push(`/projects_list/${project_id}/melistone/${melistone_id.value}/general_information`);
         }
     },
     {
         label: 'Loyihaga biriktirilgan fayllar',
         icon: 'pi pi-file',
         command: () => {
-            router.push('/general_information');
+            router.push(`/projects_list/${project_id}/melistone/${melistone_id.value}/files`);
         }
     },
     {
         label: 'Loyiha ijrochilari',
         icon: 'pi pi-users',
         command: () => {
-            router.push('/performers');
+            router.push(`/projects_list/${project_id}/melistone/${melistone_id.value}/performers`);
         }
     },
     {
@@ -393,6 +402,13 @@ const data = ref({});
 const generalinformation = (id) => {
     router.push(`/projects_list/${project_id}/melistone/${id}/sprint`);
 };
+
+function getProjectiId (id){
+    melistone_id.value = id;
+    console.log(id);
+     toggle(event);
+}
+
 const toggle = (event) => {
     menu.value.toggle(event);
 };
@@ -476,7 +492,7 @@ const deletProject = () => {
             // console.error(error);
         });
 };
-function fetchData() {
+function fetchData(page) {
     axios
         .get(`https://pm-api.essential.uz/api/milestone?project_id=${project_id}&per_page=10`, {
             headers: {
