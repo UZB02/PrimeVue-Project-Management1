@@ -9,6 +9,16 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/addUserRols',
+                    name: 'AddUserRols',
+                    component: () => import('@/views/AddUserRols/addUserRols.vue')
+                },
+                {
+                    path: '/addUser',
+                    name: 'AddUser',
+                    component: () => import('@/views/AddUser/addUser.vue')
+                },
+                {
                     path: '/',
                     name: 'dashboard',
                     component: () => import('@/views/dashboards/dashboard_developer/Dashboard.vue')
@@ -240,7 +250,7 @@ const router = createRouter({
                     path: '/documentation',
                     name: 'documentation',
                     component: () => import('@/views/utilities/Documentation.vue')
-                },
+                }
                 // {
                 //     path: '/pages/project',
                 //     name: 'project',

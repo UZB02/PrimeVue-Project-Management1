@@ -35,7 +35,6 @@ const items = ref([
                     router.push('/dashboard_analyst');
                 }
             },
-            
             {
                 label: 'Manager',
                 icon: 'pi pi-user',
@@ -44,28 +43,27 @@ const items = ref([
                 }
             },
             {
-                label: 'Logout',
+                label: 'Add User Rols',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.push('/addUserRols');
+                }
+            },
+            {
+                label: 'Add User',
+                icon: 'pi pi-plus',
+                command: () => {
+                    router.push('/addUser');
+                }
+            },
+            {
+                label: 'Log Out',
                 icon: 'pi pi-sign-out',
                 command:
                 ()=>{
                     localStorage.removeItem('token');
                     router.push('/auth/login');
                 }
-    //              async () => {
-    //     try {
-    //         const response = await axios.delete('https://pm-api.essential.uz/api/logout',{
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem('token')}`
-    //             }
-    //         });
-    //         console.log(response);
-    //         localStorage.removeItem('token');
-    //         router.push('/auth/login');
-    //     } catch (err) {
-    //         console.log(err.response.data.errors);
-    //     } finally {
-    //     }
-    // }
             }
         ]
     }

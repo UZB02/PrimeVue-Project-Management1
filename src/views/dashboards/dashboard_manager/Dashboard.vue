@@ -508,7 +508,13 @@ watch(
                 <div class="top">
                     <div class="flex flex-col gap-4">
                         <div class="flex align-items-center justify-content-between">
-                            <h5>Loyiha jamoasi a’zolari ma’lumoti paneli</h5>
+                            <span class="flex flex-col gap-1">
+                                <h5 class="font-bold text-xl">Loyiha jamoasi a’zolari ma’lumoti paneli</h5>
+                            <h4 class="text-gray-400 font-medium">Barcha a’zolar</h4>
+                            </span>
+                            <span class="mr-20">
+                                <button class="bg-blue-100 p-1 pl-4 pr-4 flex rounded-sm font-medium text-blue-400 items-center justify-center gap-1"><i class="pi pi-plus font-bold text-sm"></i><h1 class="font-sans text-blue-400 text-base">Team</h1></button>
+                            </span>
                         </div>
                         <div class="bottom flex items-center gap-3 flex-wrap">
                             <div v-for="item in comunitiCard"
