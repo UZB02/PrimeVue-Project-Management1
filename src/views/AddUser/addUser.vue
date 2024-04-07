@@ -32,14 +32,13 @@
                                 </div>
                                      <div class="relative w-full">
                                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Sellect Role Id</p>
-                                    <select class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
-                                        <option value="1">Admin</option>
-                                        <option value="2">User</option>
+                                    <select v-model="user_role_id" class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
+                                        <option v-for="user in userRolsId" :value="user.id">{{ user.name }}</option>
                                     </select>
                                 </div>
                                 <div class="relative w-full">
                                        <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Sellect Status</p>
-                                    <select class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
+                                    <select v-model="status" class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
                                         <option value="passive">Passive</option>
                                         <option value="active">Active</option>
                                         <option value="deleted">Deleted</option>
@@ -101,9 +100,50 @@ const status=ref('');
 const phone=ref('');
 const fio=ref('');
 
+const userRolsId=ref('');
+
 const addUser = () => {
-    console.log(username.value, key.value, password.value, user_role_id.value, status.value, phone.value, fio.value,5);
+       axios
+        .post(
+            'https://pm-api.essential.uz/api/users/create',
+            {
+                username: username.value,
+                fio: fio.value,
+                phone: phone.value,
+                password: password.value,
+                user_role_id: user_role_id.value,
+                avatar: avatar.value,
+                status: status.value,
+                key: key.value
+            },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then((res) => {
+            console.log(res);
+        })
+    console.log(username.value, key.value, password.value, user_role_id.value, status.value, phone.value, fio.value);
 }
+
+function fetchUserRolsId() {
+   axios
+        .get(
+            'https://pm-api.essential.uz/api/user-role',
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then((res) => {
+            console.log(res.data);
+            userRolsId.value=res.data;
+        })
+    
+}
+
+fetchUserRolsId();
 
 // const addUserRol = () => {
 //     if(name.value == '' || key.value == '') {

@@ -95,7 +95,8 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const name=ref('');
 const key=ref('');
 
@@ -135,6 +136,7 @@ const addUserRol = () => {
             console.log(res);
             name.value = '';
             key.value = '';
+            router.push('/');
            }
         }).catch((err) => {
             console.log(err);
