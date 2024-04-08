@@ -60,6 +60,10 @@
                                 <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Password</p>
                                 <input v-model="password" type="password" placeholder="**********" class="border placeholder-gray-400 focus:outline-none focus:border-black font-medium w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" />
                             </div>
+                             <div class="relative w-full">
+                                <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Email</p>
+                                <input v-model="email" type="email" placeholder="muhsinbek@gmail.com" class="border placeholder-gray-400 focus:outline-none focus:border-black font-medium w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" />
+                            </div>
                             <div class="relative w-full">
                                 <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Key</p>
                                 <input
@@ -120,6 +124,7 @@ const avatar = ref('');
 const status=ref('');
 const phone=ref('');
 const fio=ref('');
+const email=ref('');
 
 const userRolsId=ref('');
 
@@ -144,14 +149,15 @@ const addUser = () => {
         .post(
             'https://pm-api.essential.uz/api/users/create',
             {
-                username: username.value,
-                fio: fio.value,
-                phone: phone.value,
-                password: password.value,
-                user_role_id: user_role_id.value,
-                avatar: avatar.value,
-                status: status.value,
-                key: key.value
+              username: username.value,
+              fio: fio.value,
+              email: email.value,
+              phone: phone.value,
+              password: password.value,
+              user_role_id: user_role_id.value,
+              status: status.value,
+              key: key.value,
+            //   avatar: avatar.value
             },
             {
                 headers: {
@@ -167,13 +173,13 @@ const addUser = () => {
             isloading.value = false;
             console.log(err);
         })
-    console.log(username.value, key.value, password.value, user_role_id.value, status.value, phone.value, fio.value);
+    console.log(username.value, key.value, password.value, user_role_id.value, status.value, phone.value, fio.value,email.value);
 }
 
 function fetchUserRolsId() {
    axios
         .get(
-            'https://pm-api.essential.uz/api/user-role',
+            'https://pm-api.essential.uz/api/user-roles',
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token')

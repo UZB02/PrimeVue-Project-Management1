@@ -142,7 +142,7 @@ const addUserRol = () => {
         isloading.value = true;
          axios
         .post(
-            'https://pm-api.essential.uz/api/user-role/create',
+            'https://pm-api.essential.uz/api/user-roles/create',
             {
                 name: name.value,
                 key: key.value
@@ -169,6 +169,7 @@ const addUserRol = () => {
             router.push('/');
            }
         }).catch((err) => {
+            isloading.value = false;
             console.log(err);
         });
     }
