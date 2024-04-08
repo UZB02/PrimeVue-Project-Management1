@@ -22,8 +22,34 @@
                   border-gray-300 rounded-md"/>
             </div>
             <div class="relative">
-              <button type="button" @click="addUserRol" class="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500
-                  rounded-lg transition duration-200 hover:bg-indigo-600 ease">Submit</button>
+               <button
+                        @click="addUserRol"
+                        type="button"
+                        class="text-white w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                        <span :class="isloading ? 'block' : 'hidden'">
+                                  <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+    <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
+        <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+    </svg>
+    <span class="text-xl font-medium text-white">Loading...</span>
+</div>
+                        </span>                    
+                         <span :class="isloading ? 'hidden' : 'block text-xl'">Add</span>
+                    </button>
             </div>
           </div>
         </div>
@@ -100,6 +126,8 @@ const router = useRouter();
 const name=ref('');
 const key=ref('');
 
+const isloading=ref(false);
+
 
 const addUserRol = () => {
     if(name.value == '' || key.value == '') {
@@ -111,6 +139,7 @@ const addUserRol = () => {
                     timer: 1500
                 });
     }else{
+        isloading.value = true;
          axios
         .post(
             'https://pm-api.essential.uz/api/user-role/create',
@@ -136,6 +165,7 @@ const addUserRol = () => {
             console.log(res);
             name.value = '';
             key.value = '';
+            isloading.value = false;
             router.push('/');
            }
         }).catch((err) => {

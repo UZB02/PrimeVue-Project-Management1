@@ -8,7 +8,7 @@
                         <div class="w-full mt-2 mr-0 mb-0 ml-0 relative space-y-8">
                                <span class="flex w-full items-center justify-center gap-3">
                                    <span class="bg-gray-50 w-48 h-48 border-dotted flex items-center justify-center border-8">
-                                    <img src="https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13" class="" alt="" />
+                                    <img :src="avatar" class="w-full h-full object-cover rounded-md" alt="avatar" />
                                    </span>
                             </span>
                             <span class="flex items-center justify-between gap-3">
@@ -18,7 +18,7 @@
                                         v-model="fio"
                                         placeholder="John"
                                         type="text"
-                                        class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                                        class="border placeholder-gray-400 font-medium focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                     />
                                 </div>
                                 <div class="relative w-full">
@@ -27,18 +27,18 @@
                                         v-model="username"
                                         placeholder="John"
                                         type="text"
-                                        class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                                        class="border placeholder-gray-400 font-medium focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                     />
                                 </div>
                                      <div class="relative w-full">
                                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Sellect Role Id</p>
-                                    <select v-model="user_role_id" class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
-                                        <option v-for="user in userRolsId" :value="user.id">{{ user.name }}</option>
+                                    <select v-model="user_role_id" class="border placeholder-gray-400 focus:outline-none focus:border-black font-medium w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
+                                        <option v-for="user in userRolsId" class="font-medium cursor-pointer" :value="user.id">{{ user.name }}</option>
                                     </select>
                                 </div>
                                 <div class="relative w-full">
                                        <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Sellect Status</p>
-                                    <select v-model="status" class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
+                                    <select v-model="status" class="border font-medium placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
                                         <option value="passive">Passive</option>
                                         <option value="active">Active</option>
                                         <option value="deleted">Deleted</option>
@@ -53,12 +53,12 @@
                                     v-model="phone"
                                     placeholder="+998917622603"
                                     type="phone"
-                                    class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                                    class="border placeholder-gray-400 font-medium focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                 />
                             </div>
                              <div class="relative w-full">
                                 <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Password</p>
-                                <input v-model="password" type="password" class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" />
+                                <input v-model="password" type="password" placeholder="**********" class="border placeholder-gray-400 focus:outline-none focus:border-black font-medium w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" />
                             </div>
                             <div class="relative w-full">
                                 <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Key</p>
@@ -66,19 +66,40 @@
                                     v-model="key"
                                     placeholder="Key"
                                     type="text"
-                                    class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                                    class="border placeholder-gray-400 font-medium focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                 />
                             </div>
                               <div class="relative w-full">
                                 <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Avatar</p>
-                                <input  type="file" class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-2 pl-3 mt-1 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" />
+                                <input @change="previewImage"  type="file" class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-2 pl-3 mt-1 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" />
                             </div>
                             </span>
                             <div class="relative flex gap-3">
                                 <button type="button" @click="addUser()" class="w-full inline-block pt-3 pr-3 pb-3 pl-3 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
-                                    Submit
+                                                        <span :class="isloading ? 'flex items-center justify-center' : 'hidden'">
+                                  <div aria-label="Loading..." role="status" class="flex items-center justify-center space-x-2">
+    <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
+        <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="24"></line>
+        <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24">
+        </line>
+    </svg>
+    <span class="text-xl font-medium text-white">Loading...</span>
+</div>
+                        </span>                    
+                         <span :class="isloading ? 'hidden' : 'block text-xl'">Add</span>
                                 </button>
-                                <button type="button" @click="addUser()" class="w-full inline-block pt-3 pr-3 pb-3 pl-3 text-xl font-medium text-center text-white bg-red-500 rounded-lg transition duration-200 hover:bg-red-600 ease">Cacell</button>
+                                <button type="button" @click="cancel()" class="w-full inline-block pt-3 pr-3 pb-3 pl-3 text-xl font-medium text-center text-white bg-red-500 rounded-lg transition duration-200 hover:bg-red-600 ease">Cacell</button>
                             </div>
                         </div>
                     </div>
@@ -102,7 +123,23 @@ const fio=ref('');
 
 const userRolsId=ref('');
 
+const isloading = ref(false);
+
+const previewImage = (event) => {
+  const file = event.target.files[0];
+  
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      avatar.value = reader.result;
+      console.log(avatar.value);
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
 const addUser = () => {
+    isloading.value = true;
        axios
         .post(
             'https://pm-api.essential.uz/api/users/create',
@@ -122,7 +159,13 @@ const addUser = () => {
                 }
             }
         ).then((res) => {
+            if (res.status === 200) {
+                isloading.value = false;
+            }
             console.log(res);
+        }).catch((err) => {
+            isloading.value = false;
+            console.log(err);
         })
     console.log(username.value, key.value, password.value, user_role_id.value, status.value, phone.value, fio.value);
 }
@@ -145,47 +188,15 @@ function fetchUserRolsId() {
 
 fetchUserRolsId();
 
-// const addUserRol = () => {
-//     if(name.value == '' || key.value == '') {
-//          Swal.fire({
-//                     position: 'top-center',
-//                     icon: 'error',
-//                     title: `Ma'lumotlarni to'ldiring`,
-//                     showConfirmButton: false,
-//                     timer: 1500
-//                 });
-//     }else{
-//          axios
-//         .post(
-//             'https://pm-api.essential.uz/api/user-role/create',
-//             {
-//                 name: name.value,
-//                 key: key.value
-//             },
-//             {
-//                 headers: {
-//                     Authorization: 'Bearer ' + localStorage.getItem('token')
-//                 }
-//             }
-//         )
-//         .then((res) => {
-//            if(res.status == 200) {
-//                    Swal.fire({
-//                     position: 'top-center',
-//                     icon: 'success',
-//                     title: `Bajarildi`,
-//                     showConfirmButton: false,
-//                     timer: 1500
-//                 });
-//             console.log(res);
-//             name.value = '';
-//             key.value = '';
-//            }
-//         }).catch((err) => {
-//             console.log(err);
-//         });
-//     }
-//     console.log(name.value, key.value);
-// }
+function cancel() {
+    fio.value = '';
+    username.value = '';
+    key.value = '';
+    password.value = '';
+    user_role_id.value = '';
+    avatar.value = '';
+    status.value = '';
+    phone.value = '';
+}
 </script>
 <style scoped></style>
