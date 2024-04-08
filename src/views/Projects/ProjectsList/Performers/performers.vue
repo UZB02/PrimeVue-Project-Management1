@@ -64,12 +64,12 @@
                                 class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
-                            <img @click="gotoPerformersInfo(item.id)" :src="item.img"
-                                class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
-                            <h1 class="font-bold">{{ item.name }}</h1>
+                            <!-- <img @click="gotoPerformersInfo(item.id)" :src="item.img"
+                                class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt=""> -->
+                            <!-- <h1 class="font-bold">{{ item.name }}</h1>
                             <h2 class="font-sans font-medium">{{ item.level }}</h2>
                             <h4>{{ item.rols }}</h4>
-                            <h5 class="text-gray-500 font-italic">{{ item.tell }}</h5>
+                            <h5 class="text-gray-500 font-italic">{{ item.tell }}</h5> -->
                         </span>
                     </div>
                     <Menu ref="menu" :model="overlayMenuItems" :popup="true" />
@@ -373,7 +373,8 @@ import axios from "axios";
 const allTask = 50;
 const doneTask = 40;
 const value = ref(Math.round((doneTask / allTask) * 100));
-const project_id=router.currentRoute.value.params.id
+const project_id=ref(router.currentRoute.value.params.id)
+console.log(project_id.value);
 
 const gotoPerformersInfo=(id)=>{
     router.push('/projects_list/:id/performers/:performers_id/performersinfo')
@@ -383,7 +384,7 @@ const comunitiCard = ref({})
 
 function fetchPerformers() {
     axios
-    .get('https://pm-api.essential.uz/api/performers', {
+    .get('https://pm-api.essential.uz/api/performers?page=1', {
         params: {
             project_id: project_id.value
         },
@@ -392,9 +393,10 @@ function fetchPerformers() {
         }
     }).then((res) => {
         comunitiCard.value = res.data;
+        console.log(res);
     }).catch((err) => {
         console.log(err);
-    }); // Kelib chiqish parantezlari qo'shilgan
+    }); 
 }
 
 fetchPerformers();
@@ -637,7 +639,7 @@ const list = ref([
 ])
 
 const addPerformers = () => {
-    router.push(`/projects_list/${project_id}/performers/addPerformers`);
+    router.push(`/projects_list/${project_id.value}/performers/addPerformers`);
 }
 
 const rolsToggle = (event) => {

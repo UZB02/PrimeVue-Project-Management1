@@ -13,13 +13,13 @@
                                     @change="change($event)"
                                     class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                 >
-                                    <option v-for="userid in userRolsid" :value="userid.id">{{ userid.name }}</option>
+                                    <option v-for="userid in userRolsid" :value="userid.id" class="p-3">{{ userid.name }}</option>
                                 </select>
                             </div>
                             <div class="relative">
                                 <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Performers</p>
                                 <select v-model="user" class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md">
-                                    <option v-for="item in users" :value="item.id">{{ item.username }}</option>
+                                    <option v-for="item in users" :value="item.id" class="p-3">{{ item.username }}</option>
                                 </select>
                             </div>
                             <div class="relative">
@@ -245,8 +245,8 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 const router = useRouter()
 
-const project_id=router.currentRoute.value.params.id
-console.log(project_id);
+const project_id=ref(router.currentRoute.value.params.id)
+console.log(project_id.value,5);
 
 const key = ref('');
 
@@ -301,7 +301,7 @@ const addUserRol = () => {
             status.value = '';
             usersrolid.value = '';
             isloading.value = false;
-            router.push(`/projects_list/${project_id}/performers`);
+            router.push(`/projects_list/${project_id.value}/performers`);
            }
         }).catch((err) => {
             isloading.value = false;
