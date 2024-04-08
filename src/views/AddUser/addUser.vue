@@ -79,15 +79,6 @@
                                     />
                                 </div>
                                 <div class="relative w-full">
-                                    <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Key</p>
-                                    <input
-                                        v-model="key"
-                                        placeholder="Key"
-                                        type="text"
-                                        class="border placeholder-gray-400 font-medium focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
-                                    />
-                                </div>
-                                <div class="relative w-full">
                                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Avatar</p>
                                     <input
                                         @change="previewImage"
@@ -127,9 +118,9 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import router from '@/router';
 
 const username = ref('');
-const key = ref('');
 const password = ref('');
 const user_role_id = ref('');
 const avatar = ref('');
@@ -168,7 +159,6 @@ const addUser = () => {
                 password: password.value,
                 user_role_id: user_role_id.value,
                 status: status.value,
-                key: key.value
                 //   avatar: avatar.value
             },
             {
@@ -180,6 +170,14 @@ const addUser = () => {
         .then((res) => {
             if (res.status === 200) {
                 isloading.value = false;
+                 Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: `Bajarildi`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                router.push("/")
             }
             console.log(res);
         })
@@ -187,7 +185,7 @@ const addUser = () => {
             isloading.value = false;
             console.log(err);
         });
-    console.log(username.value, key.value, password.value, user_role_id.value, status.value, phone.value, fio.value, email.value);
+    console.log(username.value,  password.value, user_role_id.value, status.value, phone.value, fio.value, email.value);
 };
 
 function fetchUserRolsId() {
@@ -208,7 +206,7 @@ fetchUserRolsId();
 function cancel() {
     fio.value = '';
     username.value = '';
-    key.value = '';
+    email.value = '';
     password.value = '';
     user_role_id.value = '';
     avatar.value = '';
