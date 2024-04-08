@@ -1,7 +1,7 @@
 <template>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addProject"
+            <button @click="addPerformers"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
                     class="pi pi-plus"></i> ADD
                 Performers</button>
@@ -369,70 +369,35 @@
 import router from '@/router';
 import levelPerformers from './levelPerformers.vue';
 import { ref, onMounted } from "vue";
+import axios from "axios";
 const allTask = 50;
 const doneTask = 40;
 const value = ref(Math.round((doneTask / allTask) * 100));
-// const visible = ref(false);
+const project_id=router.currentRoute.value.params.id
+
 const gotoPerformersInfo=(id)=>{
+    router.push('/projects_list/:id/performers/:performers_id/performersinfo')
     console.log(id);
 }
-const comunitiCard = ref([
-    {
-        img: `https://avatars.mds.yandex.net/i?id=ee81aed641f0e39576f73c988ba5dd89d07c3dd0-8071172-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `John's`,
-        rols: `Front-End Developer`,
-        tell: `+99893-123-45-67`,
-        level:`Senior`,
-        task: [
-            {
-                id: 1,
-                taskImg: `https://avatars.mds.yandex.net/i?id=ec4ff5070536ccebd81888d9920280e0d513e929-10810377-images-thumbs&n=13`,
-                taskName: `Loyiha ijrochilari bo'limi bilan ishlash`,
-                comment: `Loyiha ijrochilari bo'limi bilan ishlash Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur labore ipsam fugiat dolorem. Explicabo tempora, dolor possimus asperiores modi soluta?`,
-                score: `60%`,
-                timeStart: `20.02.2024`,
-                timeEnd: `20.03.2024`,
-            },
-            {
-                id: 2,
-                taskImg: `https://avatars.mds.yandex.net/i?id=ec4ff5070536ccebd81888d9920280e0d513e929-10810377-images-thumbs&n=13`,
-                taskName: `Loyiha ijrochilari bo'limi bilan ishlash`,
-                comment: `Loyiha ijrochilari bo'limi bilan ishlash Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur labore ipsam fugiat dolorem. Explicabo tempora, dolor possimus asperiores modi soluta?`,
-                score: `60%`,
-                timeStart: `15.03.2024`,
-                timeEnd: `15.04.2024`,
-            },
-        ]
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13`,
-        name: `Alex`,
-        rols: `Back-End Developer`,
-        tell: `+99820-123-45-67`,
-        level:`Junior`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=8ca5af00308aefc9251d900bc01f1533-4964375-images-thumbs&n=13`,
-        name: `Andrsan`,
-        rols: `UX Designer`,
-        tell: `+99833-123-45-67`,
-        level:`Middle`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=86fc28cdbf257da6f0a95597c2365cadafb1fd73-12463617-images-thumbs&n=13`,
-        name: `Oleg`,
-        rols: `Testter`,
-        tell: `+99891-123-45-67`,
-        level:`Junior`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=acbfee42774c5aa3e27945f662baf23aeb608c8b-3788438-images-thumbs&n=13`,
-        name: `Lyutsefer`,
-        rols: `Front-End Developer`,
-        tell: `+99890-469-45-67`,
-        level:`Middle`,
-    },
-])
+const comunitiCard = ref({})
+
+function fetchPerformers() {
+    axios
+    .get('https://pm-api.essential.uz/api/performers', {
+        params: {
+            project_id: project_id.value
+        },
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((res) => {
+        comunitiCard.value = res.data;
+    }).catch((err) => {
+        console.log(err);
+    }); // Kelib chiqish parantezlari qo'shilgan
+}
+
+fetchPerformers();
 
 const comuniti = ref([
     {
@@ -671,8 +636,8 @@ const list = ref([
     },
 ])
 
-const addProject = () => {
-    router.push('/addProject');
+const addPerformers = () => {
+    router.push(`/projects_list/${project_id}/performers/addPerformers`);
 }
 
 const rolsToggle = (event) => {
