@@ -1,9 +1,9 @@
 <template>
       <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addPerformers"
+            <button @click="addUser"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
-                    class="pi pi-plus"></i> ADD Performers</button>
+                    class="pi pi-plus"></i> ADD User</button>
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
                     class="p-link layout-topbar-button">
@@ -169,22 +169,23 @@ const loadingDel = ref(false);
 
 const menu = ref(null);
 const rols_id=ref(router.currentRoute.value.params.id)
-console.log(rols_id);
+console.log(rols_id); 
+const user_id=ref()
 const card_table = ref(true)
 
 const overlayMenuItems = [
-    {
-        label: 'Ijrochilar',
-        icon: 'pi pi-users',
-        command: () => {
-            router.push(`/rols/${performers_id.value}/users`)
-        }
-    },
+    // {
+    //     label: 'Ijrochilar',
+    //     icon: 'pi pi-users',
+    //     command: () => {
+    //         router.push(`/rols/${performers_id.value}/users`)
+    //     }
+    // },
     {
         label: 'Taxrirlash',
         icon: 'pi pi-pencil',
         command: () => {
-            console.log(652);
+            router.push(`/rols/${rols_id.value}/users/${user_id.value}/editUser`);
         }
     },
     {
@@ -201,7 +202,7 @@ const modaldelet=(id)=>{
 }
 
 function getPerformers (id){
-    rols_id.value = id;
+    user_id.value = id;
     console.log(id);
      toggle(event);
 }
@@ -216,6 +217,9 @@ const cardFunction = () => {
 }
 const tableFunction = () => {
     card_table.value = false
+}
+function addUser(){
+    router.push(`/rols/${rols_id.value}/users/addusers`)
 }
 
 function fetchUsers() {
@@ -239,7 +243,7 @@ fetchUsers()
 
 function deleteUsers() {
     axios
-    .delete(`https://pm-api.essential.uz/api/users/${rols_id.value}/delete`, {
+    .delete(`https://pm-api.essential.uz/api/users/${user_id.value}/delete`, {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }

@@ -1,9 +1,9 @@
 <template>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addPerformers"
+            <button @click="addRols"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
-                    class="pi pi-plus"></i> ADD Performers</button>
+                    class="pi pi-plus"></i> Add Rol</button>
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
                     class="p-link layout-topbar-button">
@@ -34,7 +34,7 @@
         <div :class="card_table ? `top max-[900px]:w-full` : `w-full`">
             <div :class="card_table ? 'flex flex-col gap-4 p-3 rounded-2xl' : 'hidden'">
                 <div class="flex align-items-center justify-content-between">
-                    <h1 class="text-2xl">Loyiha ijrochilari paneli</h1>
+                    <h1 class="text-2xl">Loyihadagi Rolslar</h1>
                     <span class="flex flex-row-reverse items-center justify-between gap-3">
                         <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
                             <input type="text" class="p-2 outline-none" placeholder="Search...">
@@ -58,8 +58,12 @@
                             <img @click="gotoPerformersInfo(item.id)" src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250"
                                 class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
                             <h1 class="font-bold">{{ item.name}}</h1>
-                          <span class="flex items-center justify-center gap-3">
-                              <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.key }}</h2>
+                          <span class="w-full flex items-center justify-between gap-3">
+                             <span class="flex items-center justify-center gap-1">
+                                    <i class="pi pi-users font-bold"></i>
+                                    <h1 class="font-sans font-medium">{{ item.users.length }}</h1>
+                                </span>
+                              <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.created_at.substr(0, 10) }}</h2>
                             <!-- <h4 class="font-sans font-medium pb-1">{{ item.user_role.name }}</h4> -->
                           </span>
                             <!-- <h5 class="text-gray-500 font-italic">{{ item.user.phone }}</h5> -->
@@ -71,7 +75,7 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">{{ rols.length }} Performers</h5>
+                        <h5 class="text-4xl font-medium">{{ rols.length }} Rols</h5>
                         <div class="left flex items-center justify-center gap-3">
                             <span class="flex items-center justify-center gap-3">
                                 <i class="pi pi-sort-amount-up text-2xl cursor-pointer transition hover:text-gray-400"></i>
@@ -91,11 +95,11 @@
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ itemkey + 1 }}.</h1>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
-                                    <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer" image="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" size="large" shape="circle">
+                                    <Avatar @click="gotoPerformersInfo(item.id)" class="cursor-pointer" image="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" size="large" shape="circle">
                                     </Avatar>
                                 </span>
 
-                                <span @click="generalinformation"
+                                <span @click="gotoPerformersInfo(item.id)"
                                     class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
                                         item.name }}</h1>
@@ -104,8 +108,8 @@
                             </div>
                             <div class="w-[65%] flex  gap-3  items-center justify-between">
                                 <span class="flex w-1/3 items-center justify-center gap-1">
-                                    <h1>{{ item.key }}</h1>
-                                    <!-- <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag> -->
+                                    <i class="pi pi-users font-bold"></i>
+                                    <h1 class="font-sans font-medium">{{ item.users.length }}</h1>
                                 </span>
                                 <span class="flex items-center justify-center gap-2">
                                     <i class="pi pi-calendar"></i>
@@ -129,7 +133,7 @@
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
-                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu1"
+                                    <i @click="getPerformers(item.id)" aria-haspopup="true" aria-controls="overlay_menu1"
                                         class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
 
@@ -284,15 +288,15 @@ import axios from "axios";
 const allTask = 50;
 const doneTask = 40;
 const value = ref(Math.round((doneTask / allTask) * 100));
-const project_id=ref(router.currentRoute.value.params.id)
-console.log(project_id.value);
-const performers_id=ref('')
+// const project_id=ref(router.currentRoute.value.params.id)
+// console.log(project_id.value);
+const rols_id=ref('')
 const deletModal = ref(false);
 const loadingDel = ref(false);
 
 
 const gotoPerformersInfo=(id)=>{
-    router.push('/projects_list/:id/performers/:performers_id/performersinfo')
+    router.push(`/rols/${id}/users`)
     console.log(id);
 }
 const modalDelet = () => {
@@ -300,14 +304,15 @@ const modalDelet = () => {
 };
 
 function getPerformers (id){
-    performers_id.value = id;
+    rols_id.value = id;
     console.log(id);
      toggle(event);
 }
 
 const deletePerformers=()=>{
+    console.log(rols_id.value);
      loadingDel.value = true;
-    axios.delete(`https://pm-api.essential.uz/api/performers/${performers_id.value}/delete`, {
+    axios.delete(`https://pm-api.essential.uz/api/user-roles/${rols_id.value}/delete`, {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }
@@ -322,10 +327,11 @@ const deletePerformers=()=>{
                 });
             loadingDel.value = false;
             deletModal.value = false;
-            fetchPerformers();
+            fetchRols();
         }
         console.log(res);
     }).catch((err) => {
+        loadingDel.value = false
         console.log(err);
     })
 
@@ -349,6 +355,9 @@ function fetchRols() {
 
 fetchRols();
 
+function editrol(){
+    router.push(`/rols/${rols_id.value}/editrols`)
+}
 
 const visible = ref(false);
 
@@ -359,14 +368,14 @@ const overlayMenuItems = [
         label: 'Ijrochilar',
         icon: 'pi pi-users',
         command: () => {
-            router.push(`/rols/${performers_id.value}/users`)
+            router.push(`/rols/${rols_id.value}/users`)
         }
     },
     {
         label: 'Taxrirlash',
         icon: 'pi pi-pencil',
         command: () => {
-            console.log(652);
+          editrol()
         }
     },
     {
@@ -404,8 +413,8 @@ const rolsItems = ref([
     },
 ]);
 
-const addPerformers = () => {
-    router.push(`/projects_list/${project_id.value}/performers/addPerformers`);
+const addRols = () => {
+    router.push(`/addrols`);
 }
 
 const rolsToggle = (event) => {

@@ -79,9 +79,29 @@ const router = createRouter({
                     component: () => import('@/views/Rols/rols.vue')
                 },
                 {
+                    path: '/addrols',
+                    name: 'AddRols',
+                    component: () => import('@/views/Rols/addRols.vue')
+                },
+                {
+                    path: '/rols/:id/editrols',
+                    name: 'EditRols',
+                    component: () => import('@/views/Rols/editRols.vue')
+                },
+                {
                     path: '/rols/:id/users',
                     name: 'Users',
                     component: () => import('@/views/Users/user.vue')
+                },
+                {
+                    path: '/rols/:id/users/:slug/editUser',
+                    name: 'EditUser',
+                    component: () => import('@/views/Users/editUser.vue')
+                },
+                {
+                    path: '/rols/:id/users/addUsers',
+                    name: 'AddUsers',
+                    component: () => import('@/views/Users/addUsers.vue')
                 },
                 {
                     path: '/projects_list/:id/performers/:performers_id/performersinfo',
