@@ -189,6 +189,7 @@ function cancel() {
     avatar.value = '';
     status.value = '';
     phone.value = '';
+    router.push(`/rols/${rols_id}/users`)
 }
 </script>
 <style scoped></style>

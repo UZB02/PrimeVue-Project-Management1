@@ -139,48 +139,47 @@ const previewImage = (event) => {
     }
 };
 
-// const edituser = () => {
-//     isloading.value = true;
-//     console.log(rols_id);
-//     axios
-//         .post(
-//             'https://pm-api.essential.uz/api/users/create',
-//             {
-//                 username: username.value,
-//                 fio: fio.value,
-//                 email: email.value,
-//                 phone: phone.value,
-//                 password: password.value,
-//                 user_role_id: rols_id,
-//                 status: status.value,
-//                 //   avatar: avatar.value
-//             },
-//             {
-//                 headers: {
-//                     Authorization: 'Bearer ' + localStorage.getItem('token')
-//                 }
-//             }
-//         )
-//         .then((res) => {
-//             if (res.status === 200) {
-//                 isloading.value = false;
-//                  Swal.fire({
-//                     position: 'top-center',
-//                     icon: 'success',
-//                     title: `Bajarildi`,
-//                     showConfirmButton: false,
-//                     timer: 1500
-//                 });
-//                 router.push(`/rols/${rols_id}/users`)
-//             }
-//             console.log(res);
-//         })
-//         .catch((err) => {
-//             isloading.value = false;
-//             console.log(err);
-//         });
-//     console.log(username.value,  password.value, status.value, phone.value, fio.value, email.value);
-// };
+const edituser = () => {
+    isloading.value = true;
+    axios
+        .post(
+            `https://pm-api.essential.uz/api/users/${user_id}/update`,
+            {
+                username: username.value,
+                fio: fio.value,
+                email: email.value,
+                phone: phone.value,
+                // password: password.value,
+                user_role_id: rols_id,
+                status: status.value,
+                //   avatar: avatar.value
+            },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        )
+        .then((res) => {
+            if (res.status === 200) {
+                isloading.value = false;
+                 Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: `Bajarildi`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                router.push(`/rols/${rols_id}/users`)
+            }
+            console.log(res);
+        })
+        .catch((err) => {
+            isloading.value = false;
+            console.log(err);
+        });
+    console.log(username.value,  password.value, status.value, phone.value, fio.value, email.value);
+};
 
 function fetchUser(){
      axios
