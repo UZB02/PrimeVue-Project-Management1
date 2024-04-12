@@ -60,7 +60,7 @@
                             <h1 class="font-bold">{{ item.user.fio}}</h1>
                           <span class="flex items-center justify-center gap-3">
                               <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.status }}</h2>
-                            <h4 class="font-sans font-medium pb-1">{{ item.user_role.name }}</h4>
+                            <!-- <h4 class="font-sans font-medium pb-1">{{ item.user_role.name }}</h4> -->
                           </span>
                             <h5 class="text-gray-500 font-italic">{{ item.user.phone }}</h5>
                         </span>
@@ -99,7 +99,7 @@
                                     class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
                                         item.user.fio }}</h1>
-                                    <h4 class="text-slate-400">{{ item.user_role.name }}</h4>
+                                    <!-- <h4 class="text-slate-400">{{ item.user_role.name }}</h4> -->
                                 </span>
                             </div>
                             <div class="w-[65%] flex  gap-3  items-center justify-between">
@@ -444,7 +444,7 @@ function fetchPerformers() {
         }
     }).then((res) => {
         comunitiCard.value = res.data;
-        console.log(res);
+        console.log(res.data);
     }).catch((err) => {
         console.log(err);
     }); 
