@@ -31,11 +31,6 @@ const model = ref([
                     //     to: '/melistone'
                     // },
                     // {
-                    //     label: `Loyiha ijrochilari`,
-                    //     icon: 'pi pi-users',
-                    //     to: '/performers'
-                    // },
-                    // {
                     //     label: `Loyiha moliyaviy ko’rsatkichlari`,
                     //     icon: 'pi pi-credit-card',
                     //     to: '/financial'
@@ -53,6 +48,9 @@ const model = ref([
                 ]
             },
         ]
+    },
+       {
+        items: [{ label: 'Rols', icon: 'pi pi-fw pi-users', to: '/rols' }]
     },
     // {
     //     label: 'UI Components',

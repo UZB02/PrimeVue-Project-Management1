@@ -48,7 +48,7 @@
                     </span>
                 </div>
                 <div class="bottom flex items-center gap-3 flex-wrap">
-                    <div v-for="item in comunitiCard"
+                    <div v-for="item in rols"
                         class="card1 transition hover:scale-[1.02] flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%] max-[900px]:w-[30%] max-[1030px]:w-[45%]">
                         <div class="action w-full flex items-center justify-end gap-2">
                             <i @click="getPerformers(item.id)" aria-haspopup="true" aria-controls="overlay_menu1"
@@ -57,12 +57,12 @@
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
                             <img @click="gotoPerformersInfo(item.id)" src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250"
                                 class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
-                            <h1 class="font-bold">{{ item.user.fio}}</h1>
+                            <h1 class="font-bold">{{ item.name}}</h1>
                           <span class="flex items-center justify-center gap-3">
-                              <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.status }}</h2>
-                            <h4 class="font-sans font-medium pb-1">{{ item.user_role.name }}</h4>
+                              <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.key }}</h2>
+                            <!-- <h4 class="font-sans font-medium pb-1">{{ item.user_role.name }}</h4> -->
                           </span>
-                            <h5 class="text-gray-500 font-italic">{{ item.user.phone }}</h5>
+                            <!-- <h5 class="text-gray-500 font-italic">{{ item.user.phone }}</h5> -->
                         </span>
                     </div>
                     <Menu ref="menu" :model="overlayMenuItems" :popup="true" />
@@ -71,7 +71,7 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">{{ comunitiCard.length }} Performers</h5>
+                        <h5 class="text-4xl font-medium">{{ rols.length }} Performers</h5>
                         <div class="left flex items-center justify-center gap-3">
                             <span class="flex items-center justify-center gap-3">
                                 <i class="pi pi-sort-amount-up text-2xl cursor-pointer transition hover:text-gray-400"></i>
@@ -85,7 +85,7 @@
                         </div>
                         </div>
                     </div>
-                    <ul v-for="(item,itemkey) in comunitiCard" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
+                    <ul v-for="(item,itemkey) in rols" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
                         <li
                             class="flex items-center justify-between  py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
                             <div class="w-[35%] flex items-center gap-2">
@@ -98,19 +98,19 @@
                                 <span @click="generalinformation"
                                     class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
-                                        item.user.fio }}</h1>
-                                    <h4 class="text-slate-400">{{ item.user_role.name }}</h4>
+                                        item.name }}</h1>
+                                    <h4 class="text-slate-400">{{ item.key }}</h4>
                                 </span>
                             </div>
                             <div class="w-[65%] flex  gap-3  items-center justify-between">
                                 <span class="flex w-1/3 items-center justify-center gap-1">
-                                    <h1>{{ item.status }}</h1>
+                                    <h1>{{ item.key }}</h1>
                                     <!-- <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag> -->
                                 </span>
                                 <span class="flex items-center justify-center gap-2">
                                     <i class="pi pi-calendar"></i>
                                     <span class="w-40 font-semibold">
-                                        {{ item.user.updated_at.substr(0, 10) }}
+                                        {{ item.created_at.substr(0, 10) }}
                                     </span>
                                 </span>
 
@@ -136,119 +136,23 @@
                             </div>
                         </li>
                     </ul>
-                    <!-- <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
-                        class="w-[90%] max-[900px]:w-[100%]" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                        <ul class="list-none p-0 m-0">
-                            <li>
-                                <div
-                                    class="flex border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                                    <div class="w-1/2 flex items-center justify-between">
-                                        <div class="flex items-center justify-center gap-2">
-                                            <p class="font-medium">{{ fullTable.id }}.</p>
-                                            <div
-                                                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                                <i :class="fullTable.svg" class="text-xl text-blue-500"></i>
-                                            </div>
-                                            <span class="text-900 line-height-3 flex flex-col gap-2">
-                                                <h1 class="font-bold">{{ fullTable.project_name }}</h1>
-                                                <h4 class="text-slate-400">{{ fullTable.status }}</h4>
-                                            </span>
-                                        </div>
-                                        <span class="flex font-semibold items-center justify-center">
-                                            {{ fullTable.category }}
-                                        </span>
-                                        <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-calendar"></i>
-                                            <span class="w-40 font-semibold">
-                                                {{ fullTable.createTime }}
-                                            </span>
-                                        </span>
-                                    </div>
-
-                                    <div class="w-1/2 flex  gap-6 items-center justify-center">
-                                        <span class="flex w-1/4 items-center justify-center gap-2">
-                                            <Avatar :image="fullTable.avatar" size="large" shape="circle">
-                                            </Avatar>
-                                            <h1 class="text-slate-500 font-medium">{{ fullTable.avatar_name }}</h1>
-                                        </span>
-                                        <span class="flex items-center justify-center gap-2">
-                                            <i class="pi pi-calendar"></i>
-                                            <span class="w-40 font-semibold">
-                                                {{ fullTable.month }} - {{ fullTable.term }}
-                                            </span>
-                                        </span>
-                                        <span class="w-1/4 flex flex-col  gap-3">
-                                            <div class="w-full flex items-center justify-center gap-3">
-                                                <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                                    <div :style="{ width: `${fullTable.score}` }"
-                                                        class="score rounded-xl bg-green-500 h-2"></div>
-                                                </span>
-                                                <span class="text-sm">{{ fullTable.score }}</span>
-                                            </div>
-                                            <Tag :severity="fullTable.severity" :value="fullTable.icon_value"></Tag>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <div class="flex gap-5">
-                                        <div class="flex items-center justify-between gap-3 w-1/2">
-                                            <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
-                                                <Avatar :image="fullTable.avatar" size="xlarge" shape="circle"></Avatar>
-                                                <h1 class="font-bold">{{ fullTable.avatar_name }}</h1>
-                                                <h5 class="text-gray-500 font-italic">{{ fullTable.tell }}</h5>
-                                            </div>
-                                            <div class="card flex items-center justify-between gap-3">
-                                                <span class="">
-                                                    <label>USD-Cost</label>
-                                                    <p class="font-medium">{{ fullTable.cost_usd }} USD</p>
-                                                </span>
-                                                <i class="pi pi-arrow-right-arrow-left"></i>
-                                                <span>
-                                                    <label>UZS-Cost</label>
-                                                    <p class="font-medium">{{ fullTable.cost_uzs }} UZS</p>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="w-1/2 flex flex-col gap-2">
-                                            <div v-for="item in list" class="flex items-center justify-between flex-col">
-                                                <div class="w-full flex items-center justify-between">
-                                                    <span class="flex items-center justify-center gap-2">
-                                                        <i class="pi pi-file"></i>
-                                                        <h1 class="font-medium">{{ fullTable.file_name }}</h1>
-                                                    </span>
-                                                    <button
-                                                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                                                        <svg class="fill-current w-4 h-4 mr-2"
-                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-                                                        </svg>
-                                                        <span>Download</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </Dialog> -->
                 </div>
             </div>
         </div>
         <div class="flex gap-2 max-[900px]:flex-col max-[1030px]:flex-col">
-            <div class="border flex-col gap-4 p-3 rounded-2xl bottom w-[100%] max-[1030px]:w-full  flex">
+            <!-- <div class="border flex-col gap-4 p-3 rounded-2xl bottom w-[100%] max-[1030px]:w-full  flex">
                 <div class="flex justify-content-between align-items-center mb-5">
                     <h5 class="text-2xl">Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
                 </div>
                 <ul class="list-none flex flex-col p-0 m-0">
-                    <li v-for="item in comunitiCard"
+                    <li v-for="item in rols"
                         class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div class="cards w-full flex items-center justify-between">
                             <div class="w-[70%] flex items-center gap-3">
                                 <img src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" alt="" class="w-[10%]">
                                 <div class="">
-                                    <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{item.user.fio }}</span>
-                                    <div class="mt-1 text-600">{{ item.user.username }}</div>
+                                    <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{item.name }}</span>
+                                    <div class="mt-1 text-600">{{ item.name }}</div>
                                 </div>
                             </div>
                             <div class="mt-2 pr-5 md:mt-0 flex align-items-center">
@@ -258,9 +162,6 @@
                         </div>
                     </li>
                 </ul>
-            </div>
-            <!-- <div>
-                <levelPerformers />
             </div> -->
         </div>
            <!-- Begin Modal Delet -->
@@ -378,7 +279,6 @@
 </template>
 <script setup>
 import router from '@/router';
-import levelPerformers from './levelPerformers.vue';
 import { ref, onMounted } from "vue";
 import axios from "axios";
 const allTask = 50;
@@ -431,26 +331,24 @@ const deletePerformers=()=>{
 
 }
 
-const comunitiCard = ref({})
+const rols = ref({})
 
-function fetchPerformers() {
+function fetchRols() {
     axios
-    .get('https://pm-api.essential.uz/api/performers?page=1', {
-        params: {
-            project_id: project_id.value
-        },
+    .get('https://pm-api.essential.uz/api/user-roles', {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }
     }).then((res) => {
-        comunitiCard.value = res.data;
-        console.log(res);
+        rols.value = res.data;
+        console.log(res.data);
     }).catch((err) => {
         console.log(err);
     }); 
 }
 
-fetchPerformers();
+fetchRols();
+
 
 const visible = ref(false);
 
@@ -458,10 +356,10 @@ const menu = ref(null);
 
 const overlayMenuItems = [
     {
-        label: 'Topshiriqlar',
-        icon: 'pi pi-eye',
+        label: 'Ijrochilar',
+        icon: 'pi pi-users',
         command: () => {
-            visible.value = true;
+            router.push(`/rols/${performers_id.value}/users`)
         }
     },
     {
@@ -505,159 +403,6 @@ const rolsItems = ref([
         route: '/analyst'
     },
 ]);
-
-const list = ref([
-    {
-        id: `1`,
-        level: `Sinior`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-line`,
-        term: `4,2024`,
-        month: `Avg 12`,
-        files: `3`,
-        score: `63%`,
-        createTime: `01.02.2024 -07:00`,
-        avatar_name: `Julia dsakdnsdnflksdklfsdkkfj`,
-        cost_usd: `3000`,
-        cost_uzs: `30000000`,
-        severity: "danger",
-        company: `Epan`,
-        icon_value: "Stopped",
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        category: `SMM`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
-    },
-    {
-        id: `2`,
-        level: `Middle`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-line`,
-        term: `4,2024`,
-        month: `Avg 12`,
-        files: `3`,
-        score: `47%`,
-        createTime: `01.02.2024 -07:00`,
-        avatar_name: `Jhonsn`,
-        cost_usd: `3000`,
-        cost_uzs: `30000000`,
-        severity: "danger",
-        company: `Epan`,
-        icon_value: "Stopped",
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        category: `SMM`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=eab337afe51db765394f86a89629edb430a9d8c9-10299621-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
-    },
-    {
-        id: `3`,
-        level: `Junior`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-pie`,
-        term: `1,2024`,
-        month: `Mar 26`,
-        files: `7`,
-        score: `81%`,
-        cost_usd: `7000`,
-        cost_uzs: `70000000`,
-        severity: "warning",
-        icon_value: "Suspended",
-        category: `Marketing`,
-        company: `UITC`,
-        createTime: `01.02.2024 -07:00`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        avatar_name: `Andrey`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
-    },
-    {
-        id: `4`,
-        level: `Sinior`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-star`,
-        term: `10,2023`,
-        month: `Yan 31`,
-        score: `53%`,
-        files: `12`,
-        cost_usd: `7000`,
-        cost_uzs: `70000000`,
-        severity: "primary",
-        icon_value: "Draft ",
-        category: `It`,
-        company: `Global`,
-        createTime: `01.02.2024 -07:00`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        avatar_name: `Watson`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
-    },
-    {
-        id: `5`,
-        level: `Junior`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-chart-pie`,
-        term: `1,2024`,
-        month: `Mar 26`,
-        files: `7`,
-        score: `81%`,
-        cost_usd: `7000`,
-        cost_uzs: `70000000`,
-        severity: "warning",
-        icon_value: "Suspended",
-        category: `Marketing`,
-        company: `UITC`,
-        createTime: `01.02.2024 -07:00`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        avatar_name: `Andrey`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=7175b19a61240ba5d952072ba196839ba6072297-12153883-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
-    },
-    {
-        id: `6`,
-        level: `Middle`,
-        project_name: `Project Name`,
-        status: `14 Tasks`,
-        svg: `pi pi-star`,
-        term: `10,2023`,
-        month: `Yan 31`,
-        score: `53%`,
-        files: `12`,
-        cost_usd: `7000`,
-        cost_uzs: `70000000`,
-        severity: "primary",
-        icon_value: "Draft ",
-        category: `It`,
-        company: `Global`,
-        createTime: `01.02.2024 -07:00`,
-        file_name: `Loyihani boshqarish metodologiyasi(ssenariysi)`,
-        avatar_name: `Watson`,
-        tell: `+99890-123-45-67`,
-        avatar: `https://avatars.mds.yandex.net/i?id=ec34e1f537840d74d17325bb883a6fe029a27e53-12314646-images-thumbs&n=13`,
-        img: `https://avatars.mds.yandex.net/i?id=2b5736ae7b59de8c7ff27f4be379b1c6-5151259-images-thumbs&n=13`,
-        file: `3`,
-        checked: `10`,
-    },
-])
 
 const addPerformers = () => {
     router.push(`/projects_list/${project_id.value}/performers/addPerformers`);
