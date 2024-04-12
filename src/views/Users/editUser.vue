@@ -52,13 +52,16 @@
                                 </div>
                                 <div class="relative w-full">
                                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Password</p>
-                                    <input
+                                  <span class="flex border items-center justify-between  placeholder-gray-400 focus:outline-none focus:border-black font-medium pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base  bg-white border-gray-300 rounded-md gap-1">
+                                      <input
                                         v-model="password"
-                                        type="password"
-                                        placeholder="**********"
+                                        :type="eys ? `text` : `password`"
+                                        :placeholder="eys ? `Parol kiriting` : `********`"
                                         autocomplete="current-password"
-                                        class="border placeholder-gray-400 focus:outline-none focus:border-black font-medium w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                                        class="outline-none w-[98%]"
                                     />
+                                    <i @click="showPassword" :class="eys ? 'pi pi-eye cursor-pointer' : 'pi pi-eye-slash cursor-pointer'"></i>
+                                  </span>
                                 </div>
                                 <div class="relative w-full">
                                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Email</p>
@@ -149,7 +152,7 @@ const edituser = () => {
                 fio: fio.value,
                 email: email.value,
                 phone: phone.value,
-                // password: password.value,
+                password: password.value,
                 user_role_id: rols_id,
                 status: status.value,
                 //   avatar: avatar.value
@@ -204,5 +207,10 @@ fetchUser()
 function cancel() {
     router.push(`/rols/${rols_id}/users`)
 }
+
+const eys=ref(false)
+const showPassword =(()=>{
+    eys.value = !eys.value
+})
 </script>
 <style scoped></style>
