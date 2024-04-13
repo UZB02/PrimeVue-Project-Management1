@@ -30,7 +30,10 @@
             </span>
         </div>
     </header>
-    <section>
+        <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
+        <loading></loading>
+    </section>
+    <section :class="isloading ? 'block' : 'hidden'">
            <div :class="card_table ? `top max-[900px]:w-full` : `w-full`">
             <div :class="card_table ? 'flex flex-col gap-4 p-3 rounded-2xl' : 'hidden'">
                 <div class="flex align-items-center justify-content-between">
@@ -161,10 +164,12 @@
 import axios from 'axios';
 import { ref } from 'vue';
 import router from '../../router';
+import loading from '../../components/loading.vue';
 
 const users=ref({})
 const deletModal = ref(false);
 const loadingDel = ref(false);
+const isloading = ref(false);
 
 
 const menu = ref(null);
@@ -233,6 +238,9 @@ function fetchUsers() {
         }
     })
     .then((res) => {
+        if (res.status === 200) {
+            isloading.value = true
+        }
         console.log(res.data);
         users.value = res.data;
     }).catch((err) => {

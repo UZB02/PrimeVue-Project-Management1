@@ -356,13 +356,13 @@ const items = ref([
             router.push(`/projects_list/${project_id.value}/financial`);
         }
     },
-    {
-        label: 'Kanban Doska',
-        icon: 'pi pi-sliders-v',
-        command: () => {
-            router.push('/kanban');
-        }
-    }
+    // {
+    //     label: 'Kanban Doska',
+    //     icon: 'pi pi-sliders-v',
+    //     command: () => {
+    //         router.push('/kanban');
+    //     }
+    // }
 ]);
 
 function modalEdit(item) {

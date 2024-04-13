@@ -74,6 +74,16 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/Performers/performers.vue')
                 },
                 {
+                    path: '/projects_list/:id/melistone/:slug/performers',
+                    name: 'performers',
+                    component: () => import('@/views/Projects/ProjectsList/Stages/performers.vue')
+                },
+                {
+                    path: '/projects_list/:id/melistone/:slug/sprint/:sprint_id/kanban',
+                    name: 'Kanban',
+                    component: () => import('@/views/Projects/ProjectsList/Kanban_Board/Kanban.vue')
+                },
+                {
                     path: '/rols',
                     name: 'Rols',
                     component: () => import('@/views/Rols/rols.vue')
@@ -127,11 +137,6 @@ const router = createRouter({
                     path: '/tasks',
                     name: 'Tasks',
                     component: () => import('@/views/Projects/ProjectsList/Tasks/tasks.vue')
-                },
-                {
-                    path: '/kanban',
-                    name: 'Kanban',
-                    component: () => import('@/views/Projects/ProjectsList/Kanban_Board/Kanban.vue')
                 },
                 {
                     path: '/timeline_information',

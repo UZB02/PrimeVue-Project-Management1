@@ -1,9 +1,9 @@
 <template>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
-            <button @click="addRols"
+            <button @click="addPerformers"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i
-                    class="pi pi-plus"></i> Add Rol</button>
+                    class="pi pi-plus"></i> ADD Performers</button>
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu"
                     class="p-link layout-topbar-button">
@@ -30,14 +30,11 @@
             </span>
         </div>
     </header>
-    <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
-        <loading></loading>
-    </section>
-    <section :class="isloading ? 'flex flex-col gap-2' : 'hidden'">
+    <section class="flex flex-col gap-2">
         <div :class="card_table ? `top max-[900px]:w-full` : `w-full`">
             <div :class="card_table ? 'flex flex-col gap-4 p-3 rounded-2xl' : 'hidden'">
                 <div class="flex align-items-center justify-content-between">
-                    <h1 class="text-2xl">Loyihadagi Rolslar</h1>
+                    <h1 class="text-2xl">Loyiha ijrochilari paneli</h1>
                     <span class="flex flex-row-reverse items-center justify-between gap-3">
                         <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
                             <input type="text" class="p-2 outline-none" placeholder="Search...">
@@ -51,7 +48,7 @@
                     </span>
                 </div>
                 <div class="bottom flex items-center gap-3 flex-wrap">
-                    <div v-for="item in rols"
+                    <div v-for="item in comunitiCard"
                         class="card1 transition hover:scale-[1.02] flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%] max-[900px]:w-[30%] max-[1030px]:w-[45%]">
                         <div class="action w-full flex items-center justify-end gap-2">
                             <i @click="getPerformers(item.id)" aria-haspopup="true" aria-controls="overlay_menu1"
@@ -60,16 +57,12 @@
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
                             <img @click="gotoPerformersInfo(item.id)" src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250"
                                 class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
-                            <h1 class="font-bold">{{ item.name}}</h1>
-                          <span class="w-full flex flex-row-reverse items-center justify-between gap-3">
-                             <span class="flex items-center justify-center gap-1">
-                                    <i class="pi pi-users font-bold"></i>
-                                    <h1 class="font-sans font-medium">{{ item.users.length }}</h1>
-                                </span>
-                              <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.created_at.substr(0, 10) }}</h2>
-                            <!-- <h4 class="font-sans font-medium pb-1">{{ item.user_role.name }}</h4> -->
+                            <h1 class="font-bold">{{ item.user.fio}}</h1>
+                          <span class="flex items-center justify-center gap-3">
+                              <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.status }}</h2>
+                            <h4 class="font-sans font-medium pb-1 text-gray-400">{{ item.user_role.name }}</h4>
                           </span>
-                            <!-- <h5 class="text-gray-500 font-italic">{{ item.user.phone }}</h5> -->
+                            <h5 class="text-gray-500 font-italic">{{ item.user.phone }}</h5>
                         </span>
                     </div>
                     <Menu ref="menu" :model="overlayMenuItems" :popup="true" />
@@ -78,7 +71,7 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">{{ rols.length }} Rols</h5>
+                        <h5 class="text-4xl font-medium">{{ comunitiCard.length }} Performers</h5>
                         <div class="left flex items-center justify-center gap-3">
                             <span class="flex items-center justify-center gap-3">
                                 <i class="pi pi-sort-amount-up text-2xl cursor-pointer transition hover:text-gray-400"></i>
@@ -92,32 +85,32 @@
                         </div>
                         </div>
                     </div>
-                    <ul v-for="(item,itemkey) in rols" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
+                    <ul v-for="(item,itemkey) in comunitiCard" :key="item.id" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
                         <li
                             class="flex items-center justify-between  py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ itemkey + 1 }}.</h1>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
-                                    <Avatar @click="gotoPerformersInfo(item.id)" class="cursor-pointer" image="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" size="large" shape="circle">
+                                    <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer" image="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" size="large" shape="circle">
                                     </Avatar>
                                 </span>
 
-                                <span @click="gotoPerformersInfo(item.id)"
+                                <span @click="generalinformation"
                                     class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
-                                        item.name }}</h1>
-                                    <h4 class="text-slate-400">{{ item.key }}</h4>
+                                        item.user.fio }}</h1>
+                                    <h4 class="text-slate-400">{{ item.user_role.name }}</h4>
                                 </span>
                             </div>
                             <div class="w-[65%] flex  gap-3  items-center justify-between">
                                 <span class="flex w-1/3 items-center justify-center gap-1">
-                                    <i class="pi pi-users font-bold"></i>
-                                    <h1 class="font-sans font-medium">{{ item.users.length }}</h1>
+                                    <h1>{{ item.status }}</h1>
+                                    <!-- <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag> -->
                                 </span>
                                 <span class="flex items-center justify-center gap-2">
                                     <i class="pi pi-calendar"></i>
                                     <span class="w-40 font-semibold">
-                                        {{ item.created_at.substr(0, 10) }}
+                                        {{ item.user.updated_at.substr(0, 10) }}
                                     </span>
                                 </span>
 
@@ -136,30 +129,126 @@
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
-                                    <i @click="getPerformers(item.id)" aria-haspopup="true" aria-controls="overlay_menu1"
+                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu1"
                                         class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
 
                             </div>
                         </li>
                     </ul>
+                    <!-- <Dialog v-model:visible="modalOpend" maximizable modal :header="fullTable.company"
+                        class="w-[90%] max-[900px]:w-[100%]" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                        <ul class="list-none p-0 m-0">
+                            <li>
+                                <div
+                                    class="flex border-b-2 p-2 rounded-lg flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                                    <div class="w-1/2 flex items-center justify-between">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <p class="font-medium">{{ fullTable.id }}.</p>
+                                            <div
+                                                class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                                                <i :class="fullTable.svg" class="text-xl text-blue-500"></i>
+                                            </div>
+                                            <span class="text-900 line-height-3 flex flex-col gap-2">
+                                                <h1 class="font-bold">{{ fullTable.project_name }}</h1>
+                                                <h4 class="text-slate-400">{{ fullTable.status }}</h4>
+                                            </span>
+                                        </div>
+                                        <span class="flex font-semibold items-center justify-center">
+                                            {{ fullTable.category }}
+                                        </span>
+                                        <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="w-40 font-semibold">
+                                                {{ fullTable.createTime }}
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <div class="w-1/2 flex  gap-6 items-center justify-center">
+                                        <span class="flex w-1/4 items-center justify-center gap-2">
+                                            <Avatar :image="fullTable.avatar" size="large" shape="circle">
+                                            </Avatar>
+                                            <h1 class="text-slate-500 font-medium">{{ fullTable.avatar_name }}</h1>
+                                        </span>
+                                        <span class="flex items-center justify-center gap-2">
+                                            <i class="pi pi-calendar"></i>
+                                            <span class="w-40 font-semibold">
+                                                {{ fullTable.month }} - {{ fullTable.term }}
+                                            </span>
+                                        </span>
+                                        <span class="w-1/4 flex flex-col  gap-3">
+                                            <div class="w-full flex items-center justify-center gap-3">
+                                                <span class="bg-gray-200 flex items-center rounded-xl w-full">
+                                                    <div :style="{ width: `${fullTable.score}` }"
+                                                        class="score rounded-xl bg-green-500 h-2"></div>
+                                                </span>
+                                                <span class="text-sm">{{ fullTable.score }}</span>
+                                            </div>
+                                            <Tag :severity="fullTable.severity" :value="fullTable.icon_value"></Tag>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex gap-5">
+                                        <div class="flex items-center justify-between gap-3 w-1/2">
+                                            <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 rounded-xl">
+                                                <Avatar :image="fullTable.avatar" size="xlarge" shape="circle"></Avatar>
+                                                <h1 class="font-bold">{{ fullTable.avatar_name }}</h1>
+                                                <h5 class="text-gray-500 font-italic">{{ fullTable.tell }}</h5>
+                                            </div>
+                                            <div class="card flex items-center justify-between gap-3">
+                                                <span class="">
+                                                    <label>USD-Cost</label>
+                                                    <p class="font-medium">{{ fullTable.cost_usd }} USD</p>
+                                                </span>
+                                                <i class="pi pi-arrow-right-arrow-left"></i>
+                                                <span>
+                                                    <label>UZS-Cost</label>
+                                                    <p class="font-medium">{{ fullTable.cost_uzs }} UZS</p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="w-1/2 flex flex-col gap-2">
+                                            <div v-for="item in list" class="flex items-center justify-between flex-col">
+                                                <div class="w-full flex items-center justify-between">
+                                                    <span class="flex items-center justify-center gap-2">
+                                                        <i class="pi pi-file"></i>
+                                                        <h1 class="font-medium">{{ fullTable.file_name }}</h1>
+                                                    </span>
+                                                    <button
+                                                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                                                        <svg class="fill-current w-4 h-4 mr-2"
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                            <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
+                                                        </svg>
+                                                        <span>Download</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </Dialog> -->
                 </div>
             </div>
         </div>
         <div class="flex gap-2 max-[900px]:flex-col max-[1030px]:flex-col">
-            <!-- <div class="border flex-col gap-4 p-3 rounded-2xl bottom w-[100%] max-[1030px]:w-full  flex">
+            <div class="border flex-col gap-4 p-3 rounded-2xl bottom w-[100%] max-[1030px]:w-full  flex">
                 <div class="flex justify-content-between align-items-center mb-5">
                     <h5 class="text-2xl">Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
                 </div>
                 <ul class="list-none flex flex-col p-0 m-0">
-                    <li v-for="item in rols"
+                    <li v-for="item in comunitiCard"
                         class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div class="cards w-full flex items-center justify-between">
                             <div class="w-[70%] flex items-center gap-3">
                                 <img src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" alt="" class="w-[10%]">
                                 <div class="">
-                                    <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{item.name }}</span>
-                                    <div class="mt-1 text-600">{{ item.name }}</div>
+                                    <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{item.user.fio }}</span>
+                                    <div class="mt-1 text-600 text-gray-400">{{ item.user_role.name }}</div>
                                 </div>
                             </div>
                             <div class="mt-2 pr-5 md:mt-0 flex align-items-center">
@@ -169,6 +258,9 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+            <!-- <div>
+                <levelPerformers />
             </div> -->
         </div>
            <!-- Begin Modal Delet -->
@@ -286,23 +378,22 @@
 </template>
 <script setup>
 import router from '@/router';
+// import levelPerformers from './levelPerformers.vue';
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import loading from "../../components/loading.vue";
-
 const allTask = 50;
 const doneTask = 40;
 const value = ref(Math.round((doneTask / allTask) * 100));
-// const project_id=ref(router.currentRoute.value.params.id)
-// console.log(project_id.value);
-const rols_id=ref('')
+const project_id=ref(router.currentRoute.value.params.id)
+const melistone_id=ref(router.currentRoute.value.params.slug)
+console.log(melistone_id.value);
+const performers_id=ref('')
 const deletModal = ref(false);
 const loadingDel = ref(false);
-const isloading = ref(false);
 
 
 const gotoPerformersInfo=(id)=>{
-    router.push(`/rols/${id}/users`)
+    router.push('/projects_list/:id/performers/:performers_id/performersinfo')
     console.log(id);
 }
 const modalDelet = () => {
@@ -310,15 +401,14 @@ const modalDelet = () => {
 };
 
 function getPerformers (id){
-    rols_id.value = id;
+    performers_id.value = id;
     console.log(id);
      toggle(event);
 }
 
 const deletePerformers=()=>{
-    console.log(rols_id.value);
      loadingDel.value = true;
-    axios.delete(`https://pm-api.essential.uz/api/user-roles/${rols_id.value}/delete`, {
+    axios.delete(`https://pm-api.essential.uz/api/performers/${performers_id.value}/delete`, {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }
@@ -333,40 +423,35 @@ const deletePerformers=()=>{
                 });
             loadingDel.value = false;
             deletModal.value = false;
-            fetchRols();
+            fetchPerformers();
         }
         console.log(res);
     }).catch((err) => {
-        loadingDel.value = false
         console.log(err);
     })
 
 }
 
-const rols = ref({})
+const comunitiCard = ref({})
 
-function fetchRols() {
+function fetchPerformers() {
     axios
-    .get('https://pm-api.essential.uz/api/user-roles', {
+    .get('https://pm-api.essential.uz/api/performers?page=1', {
+        params: {
+            melistone_id: melistone_id.value
+        },
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }
     }).then((res) => {
-        if (res.status === 200) {
-            isloading.value = true;
-        }
-        rols.value = res.data;
+        comunitiCard.value = res.data;
         console.log(res.data);
     }).catch((err) => {
         console.log(err);
     }); 
 }
 
-fetchRols();
-
-function editrol(){
-    router.push(`/rols/${rols_id.value}/editrols`)
-}
+fetchPerformers();
 
 const visible = ref(false);
 
@@ -374,17 +459,17 @@ const menu = ref(null);
 
 const overlayMenuItems = [
     {
-        label: 'Ijrochilar',
-        icon: 'pi pi-users',
+        label: 'Topshiriqlar',
+        icon: 'pi pi-eye',
         command: () => {
-            router.push(`/rols/${rols_id.value}/users`)
+            visible.value = true;
         }
     },
     {
         label: 'Taxrirlash',
         icon: 'pi pi-pencil',
         command: () => {
-          editrol()
+            console.log(652);
         }
     },
     {
@@ -422,8 +507,9 @@ const rolsItems = ref([
     },
 ]);
 
-const addRols = () => {
-    router.push(`/addrols`);
+
+const addPerformers = () => {
+    router.push(`/projects_list/${project_id.value}/performers/addPerformers`);
 }
 
 const rolsToggle = (event) => {

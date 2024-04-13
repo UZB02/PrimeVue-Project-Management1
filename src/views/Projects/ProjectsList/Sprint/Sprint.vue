@@ -53,7 +53,7 @@
                         <div class="flex items-center justify-center gap-2">
                             <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                             <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
-                            <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+                            <i @click="getSprint(item.id)" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
                     </div>
                     <div class="image">
@@ -370,7 +370,7 @@ const items = ref([
         label: 'Kanban Doska',
         icon: 'pi pi-sliders-v',
         command: () => {
-            router.push('/kanban');
+            router.push(`/projects_list/${project_id}/melistone/${milestone_id}/sprint/${sprint_id.value}/kanban`);
         }
     }
 ]);
@@ -378,6 +378,13 @@ const menu = ref();
 const eId = ref(null);
 const isloading = ref(false);
 const data = ref({});
+const sprint_id = ref('');
+
+function getSprint (id){
+    sprint_id.value = id;
+    console.log(sprint_id.value);
+     toggle(event);
+}
 
 const generalinformation = () => {
     router.push('/kanban');

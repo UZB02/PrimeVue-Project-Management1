@@ -154,29 +154,29 @@ const tasks = ref([
       {
         id: 1, title: 'Task 1',file:`https://avatars.mds.yandex.net/i?id=db5f483fcb826da65ad804f9fdb1526c0687ce3e-10995513-images-thumbs&n=13`
       },
-      { id: 2, title: 'Task 2', },
-      { id: 3, title: 'Task 3', },
-      { id: 4, title: 'Task 4', },
-      { id: 5, title: 'Task 5', },
+      { id: 2, title: 'Task 2', file:`` },
+      { id: 3, title: 'Task 3',file:`` },
+      { id: 4, title: 'Task 4', file:`` },
+      { id: 5, title: 'Task 5', file:`` },
       // Add more tasks as needed
     ],
   },
   {title:'In Progress',
     cards: [
       {
-        id: 1, title: 'Task 1',
+        id: 1, title: 'Task 1', file:``
       },
-      { id: 2, title: 'Task 2', },
-      { id: 3, title: 'Task 3', },
+      { id: 2, title: 'Task 2', file:`` },
+      { id: 3, title: 'Task 3', file:`` },
       // Add more tasks as needed
     ],
   },
   {title:'done',
     cards: [
       {
-        id: 1, title: 'Task 1',
+        id: 1, title: 'Task 1', file:``
       },
-      { id: 2, title: 'Task 2', },
+      { id: 2, title: 'Task 2', file:`` },
       // Add more tasks as needed
     ],
   },

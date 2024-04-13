@@ -338,13 +338,13 @@ const items = ref([
             router.push('/financial');
         }
     },
-    {
-        label: 'Kanban Doska',
-        icon: 'pi pi-sliders-v',
-        command: () => {
-            router.push('/kanban');
-        }
-    }
+    // {
+    //     label: 'Kanban Doska',
+    //     icon: 'pi pi-sliders-v',
+    //     command: () => {
+    //         router.push('/kanban');
+    //     }
+    // }
 ]);
 
 function modalEdit(item) {
