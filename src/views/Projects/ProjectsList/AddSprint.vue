@@ -177,7 +177,8 @@ const addproject = () => {
                 start_date: start_date.value,
                 end_date: end_date.value,
                 color: color.value,
-                milestone_id: melistone_id
+                milestone_id: melistone_id,
+                project_id:project_id
             },
             {
                 headers: {

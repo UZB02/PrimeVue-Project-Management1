@@ -1,13 +1,19 @@
 <template>
+    <!-- <TopNavMap></TopNavMap> -->
+    <h1 class="ml-3 font-bold text-3xl">
+        Projects Bo'limi
+    </h1>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i class="pi pi-plus"></i> ADD Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
+                        <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
+                            <input type="text" class="p-2 outline-none" placeholder="Search...">
+                            <i class="pi pi-search mr-1 cursor-pointer"></i>
+                        </div>
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu" class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
-                    <!-- <Menu ref="menu" id="overlay_menu" :model="profil" :popup="true"  />
-                    <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" /> -->
                 </button>
                 <Menu ref="rolsMenu" id="overlay_menu" :model="rolsItems" :popup="true" class="translate-y-2">
                     <template #item="{ item, props }">
@@ -38,21 +44,21 @@
             <div class="container flex flex-wrap justify-center gap-2">
                 <div :class="card_table ? 'container flex flex-wrap gap-2' : 'hidden'">
                     <div class="card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]" v-for="(item, ItemKey) in data" :key="ItemKey">
-                        <div class="actions flex items-center justify-between">
+                        <div class="actions flex items-center justify-between ">
                             <h2 class="font-bold text-sm text-slate-400">{{ ItemKey + 1 }}</h2>
                             <div class="svg flex items-center justify-end gap-2">
                                 <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                                 <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
-                                <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+                                <i @click="getProjectiId(item.id)" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
                         </div>
                         <div class="image">
-                            <img @click="generalinformation" class="rounded-xl cursor-pointer w-full h-40 object-cover" :src="item.logo" alt="Rasm" />
+                            <img @click="generalinformation(item.id)" class="rounded-xl cursor-pointer w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=672ad595cdb990ce88658fad70c678881050887e-10809483-images-thumbs&n=13" alt="Rasm" />
                         </div>
                         <div class="bottom">
                             <span class="flex flex-col gap-2">
                                 <div class="flex items-center justify-between">
-                                    <h1 @click="generalinformation" class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
+                                    <h1 @click="generalinformation(item.id)" class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
                                         {{ item.name }}
                                     </h1>
                                 </div>
@@ -73,7 +79,7 @@
                                         </span>
                                     </div>
                                     <span class="flex items-center justify-center gap-1">
-                                        <div style="width: 50px; padding: 8px; background-color: red; border-radius: 10px;"></div>
+                                        <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
                                     </span>
                                     <div class="">
                                         <AvatarGroup class="mb-2">
@@ -103,20 +109,20 @@
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ ItemKey + 1 }}.</h1>
                                 <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                    <i :class="item.svg" class="text-xl text-blue-500"></i>
+                                    <i  class="pi pi-qrcode text-xl text-blue-500"></i>
                                 </div>
 
-                                <span @click="generalinformation" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                <span @click="generalinformation(item.id)" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.name }}</h1>
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>
                             </div>
                             <div class="w-[65%] flex gap-3 items-center justify-center">
                                 <span class="flex items-center justify-center gap-1">
-                                    <Tag class="w-[65px]" :severity="item.severity" :value="item.icon_value"></Tag>
+                                      <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
                                 </span>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
-                                    <Avatar :image="item.avatar" size="large" shape="circle"> </Avatar>
+                                    <Avatar image="https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13" size="large" shape="circle"> </Avatar>
                                     <h1 class="w-1/2 text-slate-500 font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.avatar_name }}</h1>
                                 </span>
                                 <span class="flex items-center justify-center gap-2">
@@ -128,28 +134,33 @@
 
                                 <span class="flex items-center justify-center gap-2">
                                     <i class="pi pi-paperclip"></i>
-                                    <h3>{{ item.files }}</h3>
+                                    <h3>6</h3>
                                 </span>
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `50%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">{{ item.score }}</span>
+                                        <span class="text-sm">50%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
                                <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                                     <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
-                                    <i @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
+                                    <i @click="getProjectiId(item.id)" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
+            <!-- Begin Pagenetion comp -->
+              <span :class="ViewPagenetion ? 'block' : 'hidden'">
+                <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
+              </span>
+               <!-- End Pagenetion comp -->
         </div>
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="w-1/6 translate-y-2">
+        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class=" translate-y-2">
             <Menu :model="items" />
         </Menu>
         <!-- Begin Modal Delet -->
@@ -272,10 +283,13 @@
     </section>
 </template>
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive ,toRaw} from 'vue';
 import router from '@/router';
 import axios from 'axios';
+// import TopNavMap from '../../../components/topNavMap.vue'
 import loading from '@/components/loading.vue';
+import Pagenetion from "../../../components/pagenetion.vue"
+
 const loadingDel = ref(false);
 const deletModal = ref(false);
 const editModal = ref(false);
@@ -296,7 +310,12 @@ const editBudget=ref('');
 const editDate_create=ref('');
 const editEnd_date=ref('');
 const editCreated_at=ref('');
+const project_id=ref('');
 
+const ViewPagenetion=ref(true);
+
+const currentPage = ref('');
+const totalPages = ref();
 const modalDelet = (id) => {
     eId.value = id;
     deletModal.value = true;
@@ -314,28 +333,29 @@ const items = ref([
         label: `Umumiy ma'lumotlar`,
         icon: 'pi pi-list',
         command: () => {
-            router.push('/general_information');
+  
+            router.push(`/projects_list/${project_id.value}/general_information`);
         }
     },
     {
         label: 'Loyihaga biriktirilgan fayllar',
         icon: 'pi pi-file',
         command: () => {
-            router.push('/general_information');
+            router.push(`/projects_list/${project_id.value}/files`);
         }
     },
     {
         label: 'Loyiha ijrochilari',
         icon: 'pi pi-users',
         command: () => {
-            router.push('/performers');
+            router.push(`/projects_list/${project_id.value}/performers`);
         }
     },
     {
         label: 'Loyiha moliyaviy ko’rsatkichlari',
-        route: '/financial',
+        icon: 'pi pi-credit-card',
         command: () => {
-            router.push('/financial');
+            router.push(`/projects_list/${project_id.value}/financial`);
         }
     },
     // {
@@ -361,19 +381,24 @@ function modalEdit(item) {
     editColor.value= data.color;
 }
 
-function fetchData() {
+function fetchData(page) {
     axios
-        .get('https://pm-api.essential.uz/api/project', {
+        .get(`https://pm-api.essential.uz/api/project?page=${page}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
         })
-        .then((res) => {
-            if (res.status === 200) {
+        .then((result) => {
+            if (result.status === 200) {
                 isloading.value = true;
+                data.value = result.data.result.data;
+                console.log(result.data.result); 
+                if(result.data.result.last_page > 1){
+                    totalPages.value = result.data.result.last_page;
+                }else if(result.data.result.last_page == 1){
+                    ViewPagenetion.value = false;
+                }
             }
-            console.log(res.data);
-            data.value = res.data; // Ma'lumotlarni ko'rish uchun
         })
         .catch((err) => {
             console.error(err); // Xatoni chiqarish uchun
@@ -451,12 +476,18 @@ const editProject = (id) => {
         });
 };
 
-const generalinformation = () => {
-    router.push('/stages');
+const generalinformation = (id) => {
+    router.push(`/projects_list/${id}/melistone`);
 };
 const toggle = (event) => {
     menu.value.toggle(event);
 };
+
+function getProjectiId (id){
+    project_id.value = id;
+    console.log(id);
+     toggle(event);
+}
 
 const rolsItems = ref([
     {

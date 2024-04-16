@@ -352,20 +352,20 @@ const items = ref([
             router.push('/general_information');
         }
     },
-    {
-        label: 'Loyiha ijrochilari',
-        icon: 'pi pi-users',
-        command: () => {
-            router.push('/performers');
-        }
-    },
-    {
-        label: 'Loyiha moliyaviy ko’rsatkichlari',
-        route: '/financial',
-        command: () => {
-            router.push('/financial');
-        }
-    },
+    // {
+    //     label: 'Loyiha ijrochilari',
+    //     icon: 'pi pi-users',
+    //     command: () => {
+    //         router.push('/performers');
+    //     }
+    // },
+    // {
+    //     label: 'Loyiha moliyaviy ko’rsatkichlari',
+    //     route: '/financial',
+    //     command: () => {
+    //         router.push('/financial');
+    //     }
+    // },
     {
         label: 'Kanban Doska',
         icon: 'pi pi-sliders-v',

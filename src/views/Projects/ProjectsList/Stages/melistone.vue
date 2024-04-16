@@ -160,7 +160,9 @@
                 </div>
             </div>
               <!-- Begin Pagenetion comp -->
-              <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
+              <span :class="ViewPagenetion ? 'block' : 'hidden'">
+                <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
+              </span>
                <!-- End Pagenetion comp -->
         </div>
         <!-- Begin Modal Delet -->
@@ -347,8 +349,9 @@ const project_id=router.currentRoute.value.params.id;
 const melistone_id=ref('');
 console.log(project_id,"stages");
 
+const ViewPagenetion=ref(true)
 const currentPage = ref('');
-const totalPages = ref(10);
+const totalPages = ref();
 
 const items = ref([
     {
@@ -372,20 +375,20 @@ const items = ref([
             router.push(`/projects_list/${project_id}/melistone/${melistone_id.value}/files`);
         }
     },
-    {
-        label: 'Loyiha ijrochilari',
-        icon: 'pi pi-users',
-        command: () => {
-            router.push(`/projects_list/${project_id}/melistone/${melistone_id.value}/performers`);
-        }
-    },
-    {
-        label: 'Loyiha moliyaviy ko’rsatkichlari',
-        route: '/financial',
-        command: () => {
-            router.push('/financial');
-        }
-    },
+    // {
+    //     label: 'Loyiha ijrochilari',
+    //     icon: 'pi pi-users',
+    //     command: () => {
+    //         router.push(`/projects_list/${project_id}/melistone/${melistone_id.value}/performers`);
+    //     }
+    // },
+    // {
+    //     label: 'Loyiha moliyaviy ko’rsatkichlari',
+    //     route: '/financial',
+    //     command: () => {
+    //         router.push('/financial');
+    //     }
+    // },
     // {
     //     label: 'Kanban Doska',
     //     icon: 'pi pi-sliders-v',
@@ -502,9 +505,14 @@ function fetchData(page) {
         .then((result) => {
             if (result.status === 200) {
                 isloading.value = true;
+                console.log(result.data.data);
+                data.value = result.data.data;
+                if(result.data.last_page > 1){
+                    totalPages.value = result.data.last_page;
+                }else{
+                    ViewPagenetion.value = false;
+                }
             }
-            console.log(result.data.data);
-            data.value = result.data.data;
         })
         .catch((err) => {
             console.error(err);

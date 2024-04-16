@@ -4,129 +4,163 @@
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
     </header> -->
     <main class="flex p-4">
-      <section v-for="(task, index) in tasks" :key="index" class="w-1/3 p-2">
+      <section v-for="(column, index) in columns" :key="index" class="w-1/3 p-2">
      <div class="card w-full rounded-2xl p-2 flex flex-col items-center gap-3">
          <div class="top flex items-center justify-between w-[80%]">
-          <h2 class="font-semibold font-mono text-2xl">{{ task.title }}</h2>
+          <h2 class="font-semibold font-mono text-xl">{{ column.name }}</h2>
           <i class="pi pi-ellipsis-h cursor-pointer"></i>
          </div>
-          <div class="w-full flex flex-col h-[60vh]  overflow-scroll">
-            <draggable drag-class="drag" ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="tasks.todo" group="tasks" @change="updateTasks">
-              <div v-for="(card, cardIndex) in task.cards" :key="cardIndex"
-                class="shadow border flex flex-wrap justify-between overflow-auto p-1 rounded">
-                <img :src="card.file" alt="">
-                <div class="h-10 flex items-center">{{ card.title }}</div>
-                <div id="actions" class="flex items-center justify-center gap-2">
-                  <i @click="() => modalEdit(JSON.stringify(card))" class="editTask pi pi-pencil cursor-pointer"></i>
-                  <i @click="deleteTodo" class="delite pi pi-trash cursor-pointer"></i>
+          <div class="w-full flex flex-col h-auto  overflow-scroll">
+            <draggable drag-class="drag" ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns" >
+              <div  v-for="(item, itemKey) in tasks" :key="itemKey">
+                <!-- <img :src="card.file" alt=""> -->
+                <div class="shadow border flex flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id">
+                    <div class="h-10 flex items-center">{{ item.title }}</div>
+                    <div id="actions" class="flex items-center justify-center gap-2">
+                      <i  class="editTask pi pi-pencil cursor-pointer"></i>
+                      <i  class="delite pi pi-trash cursor-pointer"></i>
+                    </div>
                 </div>
               </div>
             </draggable>
           </div>
-          <div
-            :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
-            <form class="flex flex-col gap-2">
-              <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
-                placeholder="Add New Task" autofocus>
-              <div class="actions flex items-center gap-3">
-                <button @click.prevent="AddTask"
-                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
-                  Task</button>
-                  <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewTask"></i>
-              </div>
-            </form>
-          </div>
-          <div
-            :class="addTaskmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
-            <form class="flex flex-col gap-2">
-              <input v-model="addTaskValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
-                placeholder="Add New Task" autofocus>
-              <div class="actions flex items-center gap-3">
-                <button @click.prevent="AddTask"
-                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
-                  Task</button>
-                  <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewTask"></i>
-              </div>
-            </form>
-          </div>
           <div  class="w-full flex  items-center justify-between gap-3  p-2 border rounded shadow">
-              <div @click="addTaskModal" class="left transition p-2 w-[60%] flex items-center cursor-pointer rounded-lg  gap-3 hover:bg-slate-300">
+              <div @click="modalAddTask(column.id)" class="left transition p-2 w-[60%] flex items-center cursor-pointer rounded-lg  gap-3 hover:bg-slate-300">
                   <i class="pi pi-plus"></i>
                   <h2 class="font-medium font-sans">Add Task</h2>
               </div>
-              <i @click="addTaskModal2" class="p-2 rounded-lg transition text-end hover:bg-slate-300 pi pi-box cursor-pointer"></i>
+              <i class="p-2 rounded-lg transition text-end hover:bg-slate-300 pi pi-box cursor-pointer"></i>
               </div>
      </div>
       </section>
-      <!-- <section class="w-1/3 p-4">
-        <h2 class="text-2xl font-semibold mb-4">On Process</h2>
-        <draggable drag-class="drag" ghost-class="ghost" class="border p-2 rounded shadow" :list="tasks.inProgress" group="tasks" @change="updateTasks">
-          <div v-for="task in tasks.inProgress" :key="task.id" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
-            class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
-            <div class="h-10 flex items-center">{{ task.title }}</div>
-            <div id="actions" class="flex items-center justify-center gap-2">
-              <i @click="editDone" class="editTask pi pi-pencil cursor-pointer"></i>
-              <i @click="removeProgres" class="editTask pi pi-trash cursor-pointer"></i>
-            </div>
-          </div>
-          <div
-            :class="addProgresmodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
-            <form class="flex flex-col gap-2">
-              <input v-model="addProgresValue" class="w-full transition outline-none p-2 border rounded shadow"
-                type="text" placeholder="Add New Task" autofocus>
-              <div class="actions flex items-center gap-3">
-                <button @click.prevent="AddProgres"
-                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
-                  Task</button>
-                   <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewProgres"></i>
-              </div>
-            </form>
-          </div>
-          <div @click="addProgreskModal"
-            class="flex h-10 items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
-            <i class="pi pi-plus"></i>
-            <h2>Add Task</h2>
-          </div>
-        </draggable>
-      </section>
-      <section class="w-1/3 p-4">
-        <h2 class="text-2xl font-semibold mb-4">Done</h2>
-        <draggable drag-class="drag" ghost-class="ghost" class="border p-2 rounded shadow" :list="tasks.done" group="tasks" @change="updateTasks">
-          <div v-for="task in tasks.done" :key="task.id" :style="{ backgroundColor: task.backgroundColor, color: task.textColor }"
-            class="flex flex-wrap justify-between overflow-auto mb-2 p-2 border rounded shadow">
-            <div class="h-10 flex items-center">{{ task.title }}</div>
-            <div id="actions" class="flex items-center justify-center gap-2">
-              <i @click="editDone" class="editTask pi pi-pencil cursor-pointer"></i>
-              <i @click="removeDone" class="editTask pi pi-trash cursor-pointer"></i>
-            </div>
-          </div>
-          <div
-            :class="addDonemodal ? `w-full flex flex-col gap-2 transition outline-none p-2 border rounded shadow` : 'hidden'">
-            <form class="flex flex-col gap-2">
-              <input v-model="addDoneValue" class="w-full transition outline-none p-2 border rounded shadow" type="text"
-                placeholder="Add New Task" autofocus>
-              <div class="actions flex items-center gap-3">
-                <button @click.prevent="AddDone"
-                  class="bg-blue-500 w-1/2 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
-                  Task</button>
-                  <i class="pi pi-times cursor-pointer p-1 transition font-bold text-lg  hover:text-red-500" @click="CancelNewDone"></i>
-              </div>
-            </form>
-          </div>
-          <div @click="addDoneModal" class="h-10 flex items-center gap-3 mb-2 mt-4 cursor-pointer p-2 border rounded shadow">
-            <i class="pi pi-plus"></i>
-            <h2>Add Task</h2>
-          </div>
-        </draggable>
-      </section> -->
-      <section class="w-1/5 p-4">
-        <div class="container transition bg-slate-200 hover:bg-slate-100 cursor-pointer p-2 rounded-sm flex items-center justify-center gap-2">
-          <i class="pi pi-plus font-bold"></i>
-          <h1 class="font-semibold">Add New Card</h1>
-        </div>
-      </section>
     </main>
-    <Charts/>
+            <!-- Begin ADD Modal -->
+        <Dialog v-model:visible="addModal" header="Edit Profile" class="w-[70%]">
+            <div class="p-[1px] pt-0 text-center w-full">
+                <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
+                    <div class="grid gap-2 md:grid-cols-2">
+                        <div class="w-full">
+                            <label for="first_name" class="block text-start mb-2 font-medium text-gray-900 dark:text-white">Nomi</label>
+                            <input
+                                v-model="title"
+                                type="text"
+                                id="first_name"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Project Menagment"
+                            />
+                        </div>
+                        <div>
+                            <label for="summ" class="block mb-2 font-medium text-start text-gray-900 dark:text-white">Bosqich tartib raqami</label>
+                            <input
+                                type="number"
+                                v-model="editOrder_by"
+                                id="summ"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="1"
+                                min="0"
+                            />
+                        </div>
+                        <!-- <div class="w-full">
+                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Bosqich so'ngida topshirilishi zauru bo'lgan ishlar</label>
+                            <textarea
+                                id="message"
+                                rows="4"
+                                v-model="editResults"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Bosqich so'ngida topshirilishi zauru bo'lgan ishlar haqida umumiy ma'lumot..."
+                            ></textarea>
+                        </div> -->
+                        <!-- <div class="w-full">
+                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Bosqich haqida umumiy ma'lumot</label>
+                            <textarea
+                                id="message"
+                                rows="4"
+                                v-model="editAbout"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Bosqich haqida umumiy ma'lumot..."
+                            ></textarea>
+                        </div> -->
+                        <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="created_date"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <!-- <div>
+                            <label for="EndT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editEnd_date"
+                                id="EndT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div> -->
+                        <div class="flex flex-col">
+                            <label for="visitors" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Topshiriq holati </label>
+                           <select v-model="status" id="" class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="active">Active</option>
+                            <option value="archive">Archive</option>
+                           </select>
+                        </div>
+                          <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Belgilangan bal</label>
+                            <input
+                                type="number"
+                                v-model="task_weight"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                           <div class="w-full">
+                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Umimiy Ma'lumot</label>
+                            <textarea
+                                id="message"
+                                rows="4"
+                                v-model="description"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Umumiy yozilgan maulmot..."
+                            ></textarea>
+                        </div>
+                    </div>
+                    <span class="w-full flex items-center justify-end gap-2">
+                        <button
+                            @click="AddTask()"
+                            type="button"
+                            class="text-white w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            <span :class="addisloading ? 'block' : 'hidden'">
+                                <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+                                    <svg class="h-5 w-5 animate-spin stroke-white" viewBox="0 0 256 256">
+                                        <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    </svg>
+                                    <span class="text-xl font-medium text-white">Loading...</span>
+                                </div>
+                            </span>
+                            <span :class="addisloading ? 'hidden' : 'block text-xl'">Add</span>
+                        </button>
+                        <button
+                            type="button"
+                          
+                            class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg w-full text-xl px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                        >
+                            Cencel
+                        </button>
+                    </span>
+                </form>
+            </div>
+        </Dialog>
+        <!-- End ADD Modal -->
+    <!-- <Charts/> -->
   </div>
 
 </template>
@@ -134,111 +168,105 @@
 <script setup>
 import { ref,reactive } from 'vue';
 import { VueDraggableNext as draggable } from 'vue-draggable-next';
-import Charts from './charts.vue'
+// import Charts from './charts.vue'
+import axios from 'axios';
+import router from '../../../../router';
 
-const addTaskmodal = ref(false)
-const addTaskValue = ref('')
-const addProgresmodal = ref(false)
-const addDonemodal = ref(false)
-const EditModalOpend = ref(false)
-const editInputValue = reactive({
-title:''
-})
-const eId = ref(null)
+const project_id=router.currentRoute.value.params.id
+const milestone_id=router.currentRoute.value.params.slug
+const sprint_id=router.currentRoute.value.params.sprint_id
+console.log(project_id);
+const columns = ref()
+const tasks=ref()
+const addModal=ref(false)
+const addisloading=ref(false)
 
-const value = ref('');
+const column_id=ref()
+const title=ref()
+const description=ref()
+const status=ref()
+const created_date=ref()
+const task_weight=ref()
 
-const tasks = ref([
-  {title:'Task',
-    cards: [
-      {
-        id: 1, title: 'Task 1',file:`https://avatars.mds.yandex.net/i?id=db5f483fcb826da65ad804f9fdb1526c0687ce3e-10995513-images-thumbs&n=13`
-      },
-      { id: 2, title: 'Task 2', file:`` },
-      { id: 3, title: 'Task 3',file:`` },
-      { id: 4, title: 'Task 4', file:`` },
-      { id: 5, title: 'Task 5', file:`` },
-      // Add more tasks as needed
-    ],
-  },
-  {title:'In Progress',
-    cards: [
-      {
-        id: 1, title: 'Task 1', file:``
-      },
-      { id: 2, title: 'Task 2', file:`` },
-      { id: 3, title: 'Task 3', file:`` },
-      // Add more tasks as needed
-    ],
-  },
-  {title:'done',
-    cards: [
-      {
-        id: 1, title: 'Task 1', file:``
-      },
-      { id: 2, title: 'Task 2', file:`` },
-      // Add more tasks as needed
-    ],
-  },
-]);
 
-function modalEdit(card) {
-  EditModalOpend.value = true
-  let data = JSON.parse(card)
-  console.log(data);
-  eId.value = data.id
-  for (let key in data) {
-    editInputValue[key] = data[key]
-  }
-}
-const updateTasks = (event) => {
-  const { from, to, item } = event;
-
-  // Ensure that both the source and destination lists exist
-  if (tasks[from] && tasks[to]) {
-    // Remove item from the source list
-    tasks[from].splice(tasks[from].indexOf(item), 1);
-
-    // Add item to the destination list
-    tasks[to].splice(event.newIndex, 0, item);
-  }
-};
-
-// const addProgreskModal = () => {
-//   addProgresmodal.value = !addProgresmodal.value
-//   addProgresValue.value = ''
-//   addTaskmodal.value = false
-//   addDonemodal.value = false
-// };
-const addTaskModal = () => {
-  addTaskmodal.value = !addTaskmodal.value
-  addTaskValue.value = ''
-  addDonemodal.value = false
-  addProgresmodal.value = false
-};
-const addTaskModal2 = () => {
-  addTaskmodal.value = !addTaskmodal.value
-  addTaskValue.value = ''
-  addDonemodal.value = false
-  addProgresmodal.value = false
-};
-const AddTask = () => {
-  if (addTaskValue.value === '') {
-    alert(`Maydonni To'ldiring`)
-  }
-  else {
-    const newTask = { id: Date.now(), title: `${addTaskValue.value}`};
-    tasks.value.todo.push(newTask);
-    addTaskValue.value = ''
-    addTaskmodal.value = false
-    console.log(newTask);
-  }
+function modalAddTask(id){
+  addModal.value=true
+  column_id.value=id
+  console.log(column_id.value);
 }
 
-const CancelNewTask = () => {
-  addTaskmodal.value = false
-  addTaskValue.value = ''
+
+function AddTask (){
+  addisloading.value=true
+    axios
+        .post(
+            'https://pm-api.essential.uz/api/tasks/create',
+            {
+              project_id: project_id,
+              milestone_id: milestone_id,
+              sprint_id: sprint_id,
+              column_id: column_id.value,
+              title: title.value,
+              description: description.value,
+              status: status.value,
+              created_date: created_date.value,
+              task_weight: task_weight.value
+            },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then((result) => {
+            if (result.status === 200) {
+                addModal.value=false
+                fetchTasks()
+            }
+          addisloading.value=false
+          console.log(result);
+        })
 }
+
+function fetchBoards() {
+    axios
+        .get(`https://pm-api.essential.uz/api/columns?sprint_id=21`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                // isloading.value = true;
+                console.log(result.data);
+                columns.value = result.data;
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+fetchBoards()
+
+function fetchTasks() {
+    axios
+        .get(`https://pm-api.essential.uz/api/tasks?sprint_id=${sprint_id}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                // isloading.value = true;
+            }
+            console.log(result.data);
+            tasks.value = result.data;
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+fetchTasks()
+
 </script>
 
 

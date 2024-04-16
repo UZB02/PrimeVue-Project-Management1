@@ -155,7 +155,9 @@
                 </div>
             </div>
             <!-- Begin Pagenetion comp -->
-              <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
+              <span :class="ViewPagenetion ? 'block' : 'hidden'">
+                <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
+              </span>
                <!-- End Pagenetion comp -->
         </div>
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class=" translate-y-2">
@@ -308,12 +310,12 @@ const editBudget=ref('');
 const editDate_create=ref('');
 const editEnd_date=ref('');
 const editCreated_at=ref('');
-const rows = ref('');
-console.log(rows.value);
 const project_id=ref('');
 
+const ViewPagenetion=ref(true);
+
 const currentPage = ref('');
-const totalPages = ref(10);
+const totalPages = ref();
 const modalDelet = (id) => {
     eId.value = id;
     deletModal.value = true;
@@ -389,9 +391,14 @@ function fetchData(page) {
         .then((result) => {
             if (result.status === 200) {
                 isloading.value = true;
+                data.value = result.data.result.data;
+                console.log(result.data.result); 
+                if(result.data.result.last_page > 1){
+                    totalPages.value = result.data.result.last_page;
+                }else if(result.data.result.last_page == 1){
+                    ViewPagenetion.value = false;
+                }
             }
-            console.log(result.data.result.data);
-            data.value = result.data.result.data; // Ma'lumotlarni ko'rish uchun
         })
         .catch((err) => {
             console.error(err); // Xatoni chiqarish uchun

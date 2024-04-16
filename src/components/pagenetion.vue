@@ -1,7 +1,7 @@
 <template>
   <nav class="flex items-center justify-center space-x-2">
     <button
-      class="px-3 py-1 text-blue-500 rounded-md hover:bg-blue-500 hover:text-white"
+      class="px-3 py-1 text-blue-500 bg-white shadow-sm border font-medium rounded-md hover:bg-blue-500 hover:text-white"
       :disabled="currentPage === 1"
       @click="goToPage(currentPage - 1)"
     >
@@ -12,14 +12,14 @@
       :key="page"
       :class="[
         'px-3 py-1 rounded-md',
-        currentPage === page ? 'bg-blue-500 text-white' : 'text-blue-500 hover:bg-blue-500 hover:text-white'
+        currentPage === page ? 'bg-blue-500 text-white' : 'text-blue-500 bg-white shadow-sm border font-medium hover:bg-blue-500 hover:text-white'
       ]"
       @click="goToPage(page)"
     >
       {{ page }}
     </button>
     <button
-      class="px-3 py-1 text-blue-500 rounded-md hover:bg-blue-500 hover:text-white"
+      class="px-3 py-1 text-blue-500 bg-white shadow-sm border font-medium rounded-md hover:bg-blue-500 hover:text-white"
       :disabled="currentPage === totalPages"
       @click="goToPage(currentPage + 1)"
     >
