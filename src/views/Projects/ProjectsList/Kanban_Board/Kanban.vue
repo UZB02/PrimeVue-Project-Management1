@@ -7,20 +7,22 @@
       <section v-for="(column, index) in columns" :key="index" class="w-1/3 p-2">
      <div class="card w-full rounded-2xl p-2 flex flex-col items-center gap-3">
          <div class="top flex items-center justify-between w-[80%]">
-          <h2 class="font-semibold font-mono text-xl">{{ column.name }}</h2>
+          <span><h2 class="font-semibold font-mono text-xl">{{ column.name }}</h2>
+            <span class="flex items-center gap-1 "><i class="pi pi-inbox cursor-pointer"></i> <h3>{{ column.tasks.length }}</h3></span></span>
           <i class="pi pi-ellipsis-h cursor-pointer"></i>
          </div>
           <div class="w-full flex flex-col h-auto  overflow-scroll">
             <draggable drag-class="drag" ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns" >
-              <div  v-for="(item, itemKey) in tasks" :key="itemKey">
-                <!-- <img :src="card.file" alt=""> -->
-                <div class="shadow border flex flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id">
+              <div  v-for="(item, itemKey) in tasks" :key="itemKey" 
+                >
+                <div class="shadow border flex flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
                     <div class="h-10 flex items-center">{{ item.title }}</div>
                     <div id="actions" class="flex items-center justify-center gap-2">
                       <i  class="editTask pi pi-pencil cursor-pointer"></i>
                       <i  class="delite pi pi-trash cursor-pointer"></i>
                     </div>
                 </div>
+                <span v-if="column.id !== item.column_id" class="block"></span>
               </div>
             </draggable>
           </div>
@@ -221,6 +223,7 @@ function AddTask (){
             if (result.status === 200) {
                 addModal.value=false
                 fetchTasks()
+                fetchBoards()
             }
           addisloading.value=false
           console.log(result);
@@ -248,6 +251,7 @@ function fetchBoards() {
 fetchBoards()
 
 function fetchTasks() {
+    console.log(sprint_id);
     axios
         .get(`https://pm-api.essential.uz/api/tasks?sprint_id=${sprint_id}`, {
             headers: {
@@ -257,9 +261,9 @@ function fetchTasks() {
         .then((result) => {
             if (result.status === 200) {
                 // isloading.value = true;
+                console.log(result.data);
+                tasks.value = result.data;
             }
-            console.log(result.data);
-            tasks.value = result.data;
         })
         .catch((err) => {
             console.error(err);
