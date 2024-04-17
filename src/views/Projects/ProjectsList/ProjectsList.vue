@@ -75,7 +75,7 @@
                                         </span>
                                         <span class="flex items-center justify-center gap-1">
                                             <i class="pi pi-verified"></i>
-                                            <h2>{{ item.checked }}</h2>
+                                            <h2>{{ item.tasks.length }}</h2>/{{ doneTasks }}
                                         </span>
                                     </div>
                                     <span class="flex items-center justify-center gap-1">
@@ -89,9 +89,9 @@
                                 </div>
                                 <div class="w-full flex items-center justify-center gap-3">
                                     <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                        <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                        <div :style="{ width: `${(doneTasks*100)/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                     </span>
-                                    <span class="text-sm">{{ item.score }}</span>
+                                    <span class="text-sm">{{ Math.round((doneTasks*100)/item.tasks.length) }}%</span>
                                 </div>
                             </span>
                         </div>
@@ -139,9 +139,9 @@
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `50%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">50%</span>
+                                        <span class="text-sm">{{Math.round(doneTasks*100/item.tasks.length)}}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -311,6 +311,7 @@ const editDate_create=ref('');
 const editEnd_date=ref('');
 const editCreated_at=ref('');
 const project_id=ref('');
+const doneTasks=ref();
 
 const ViewPagenetion=ref(true);
 
@@ -392,7 +393,7 @@ function fetchData(page) {
             if (result.status === 200) {
                 isloading.value = true;
                 data.value = result.data.result.data;
-                console.log(result.data.result); 
+                console.log(result.data.result.data); 
                 if(result.data.result.last_page > 1){
                     totalPages.value = result.data.result.last_page;
                 }else if(result.data.result.last_page == 1){
@@ -527,5 +528,25 @@ const cardFunction = () => {
 const tableFunction = () => {
     card_table.value = false;
 };
+
+function fetchDoneTasks (){
+    axios
+        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=102`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                doneTasks.value = result.data;
+                console.log(result.data);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+
+fetchDoneTasks();
 </script>
 <style scoped></style>

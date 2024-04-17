@@ -57,12 +57,12 @@
                         </div>
                     </div>
                     <div class="image">
-                        <img @click="generalinformation" class="cursor-pointer rounded-xl w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=04cb0170b6dacf1c71482d60515b32d26ef8f346-12314646-images-thumbs&n=13" alt="" />
+                        <img @click="goKanban(item.id)" class="cursor-pointer rounded-xl w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=04cb0170b6dacf1c71482d60515b32d26ef8f346-12314646-images-thumbs&n=13" alt="" />
                     </div>
                     <div class="bottom">
                         <span class="flex flex-col gap-2">
                             <div class="flex items-center justify-between">
-                                <h1 @click="generalinformation" class="w-[75%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{ item.name }}</h1>
+                                <h1 @click="goKanban(item.id)" class="w-[75%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">{{ item.name }}</h1>
                             </div>
 
                             <div class="flex items-center justify-between gap-1">
@@ -79,7 +79,7 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h3>12/15</h3>
+                                        <h3>{{item.tasks.length}}/{{ doneTasks }}</h3>
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-center gap-2">
@@ -94,9 +94,9 @@
                             </div>
                             <div class="w-full flex items-center justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `75%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                    <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
-                                <span class="text-sm">75%</span>
+                                <span class="text-sm">{{ Math.round(doneTasks*100/item.tasks.length) }}%</span>
                             </div>
                         </span>
                     </div>
@@ -143,9 +143,9 @@
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `86%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">86%</span>
+                                        <span class="text-sm">{{Math.round(doneTasks*100/item.tasks.length)}}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -311,7 +311,7 @@
 </template>
 <script setup>
 import loading from '@/components/loading.vue';
-import { ref, reactive } from 'vue';
+import { ref, reactive , toRaw} from 'vue';
 import router from '@/router';
 import axios from 'axios';
 const deletModal = ref(false);
@@ -374,20 +374,21 @@ const items = ref([
         }
     }
 ]);
+const doneTasks=ref();
+
 const menu = ref();
 const eId = ref(null);
 const isloading = ref(false);
 const data = ref({});
 const sprint_id = ref('');
-
 function getSprint (id){
     sprint_id.value = id;
     console.log(sprint_id.value);
      toggle(event);
 }
 
-const generalinformation = () => {
-    router.push('/kanban');
+const goKanban = (id) => {
+    router.push(`/projects_list/${project_id}/melistone/${milestone_id}/sprint/${id}/kanban`);
 };
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -481,9 +482,11 @@ function fetchData() {
         .then((result) => {
             if (result.status === 200) {
                 isloading.value = true;
+                data.value = result.data.data;
+                doneTasks.value = result.data.data;
             }
+            console.log(toRaw());
             console.log(result.data.data);
-            data.value = result.data.data;
         })
         .catch((err) => {
             console.error(err);
@@ -550,5 +553,26 @@ const cardFunction = () => {
 const tableFunction = () => {
     card_table.value = false;
 };
+
+function fetchDoneTasks (){
+    axios
+        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&sprint_id=22`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                doneTasks.value = result.data;
+                console.log(result.data);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+
+fetchDoneTasks();
+
 </script>
 <style></style>

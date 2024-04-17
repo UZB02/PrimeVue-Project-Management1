@@ -80,7 +80,7 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h3>12/15</h3>
+                                        <h3>{{item.tasks.length}}/{{ doneTasks }}</h3>
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-center gap-2">
@@ -95,9 +95,9 @@
                             </div>
                             <div class="w-full flex items-center justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `75%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                    <div :style="{ width: `${(doneTasks*100)/item.tasks.length}%`}" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
-                                <span class="text-sm">75%</span>
+                                <span class="text-sm">{{Math.round((doneTasks*100)/item.tasks.length)}}%</span>
                             </div>
                         </span>
                     </div>
@@ -144,9 +144,9 @@
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `86%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">86%</span>
+                                        <span class="text-sm">{{Math.round(doneTasks*100/item.tasks.length)}}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -347,6 +347,8 @@ const editWorks = ref('');
 const editisloading = ref(false);
 const project_id=router.currentRoute.value.params.id;
 const melistone_id=ref('');
+const melistoneIdForTasks=ref('');
+const doneTasks = ref();
 console.log(project_id,"stages");
 
 const ViewPagenetion=ref(true)
@@ -401,10 +403,17 @@ const menu = ref();
 const eId = ref(null);
 const isloading = ref(false);
 const data = ref({});
+const Allresult=ref();
 
 const generalinformation = (id) => {
     router.push(`/projects_list/${project_id}/melistone/${id}/sprint`);
 };
+
+// for (const task in data) {
+//     melistoneIdForTasks[task] = task;
+// console.log(data);
+// }
+// console.log(melistoneIdForTasks.value);
 
 function getProjectiId (id){
     melistone_id.value = id;
@@ -497,7 +506,7 @@ const deletProject = () => {
 };
 function fetchData(page) {
     axios
-        .get(`https://pm-api.essential.uz/api/milestone?project_id=${project_id}&per_page=10`, {
+        .get(`https://pm-api.essential.uz/api/milestone?project_id=${project_id}&${page}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
@@ -579,6 +588,26 @@ const cardFunction = () => {
 const tableFunction = () => {
     card_table.value = false;
 };
+
+function fetchDoneTasks (){
+    axios
+        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&melistone_id=3`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                doneTasks.value = result.data;
+                console.log(result.data);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+
+fetchDoneTasks();
 
 const lineData = ref(null);
 const pieData = ref(null);
