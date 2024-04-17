@@ -18,7 +18,7 @@
                 <div class="shadow border flex flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
                     <div class="h-10 flex items-center">{{ item.title }}</div>
                     <div id="actions" class="flex items-center justify-center gap-2">
-                      <i  class="editTask pi pi-pencil cursor-pointer"></i>
+                      <i @click="modalEdit(item)"  class="editTask pi pi-pencil cursor-pointer"></i>
                       <i @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
             <!-- Begin ADD Modal -->
         <Dialog v-model:visible="addModal" header="Edit Profile" class="w-[70%]">
             <div class="p-[1px] pt-0 text-center w-full">
-                <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
+                <form @submit.prevent="AddTask()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
                     <div class="grid gap-2 md:grid-cols-2">
                         <div class="w-full">
                             <label for="first_name" class="block text-start mb-2 font-medium text-gray-900 dark:text-white">Nomi</label>
@@ -51,37 +51,6 @@
                             />
                         </div>
                         <div>
-                            <label for="summ" class="block mb-2 font-medium text-start text-gray-900 dark:text-white">Bosqich tartib raqami</label>
-                            <input
-                                type="number"
-                                v-model="editOrder_by"
-                                id="summ"
-                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="1"
-                                min="0"
-                            />
-                        </div>
-                        <!-- <div class="w-full">
-                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Bosqich so'ngida topshirilishi zauru bo'lgan ishlar</label>
-                            <textarea
-                                id="message"
-                                rows="4"
-                                v-model="editResults"
-                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Bosqich so'ngida topshirilishi zauru bo'lgan ishlar haqida umumiy ma'lumot..."
-                            ></textarea>
-                        </div> -->
-                        <!-- <div class="w-full">
-                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Bosqich haqida umumiy ma'lumot</label>
-                            <textarea
-                                id="message"
-                                rows="4"
-                                v-model="editAbout"
-                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Bosqich haqida umumiy ma'lumot..."
-                            ></textarea>
-                        </div> -->
-                        <div>
                             <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
                             <input
                                 type="datetime-local"
@@ -90,15 +59,6 @@
                                 class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
-                        <!-- <div>
-                            <label for="EndT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
-                            <input
-                                type="datetime-local"
-                                v-model="editEnd_date"
-                                id="EndT"
-                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            />
-                        </div> -->
                         <div class="flex flex-col">
                             <label for="visitors" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Topshiriq holati </label>
                            <select v-model="status" id="" class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -161,6 +121,92 @@
             </div>
         </Dialog>
         <!-- End ADD Modal -->
+            <!-- Begin Edit Modal -->
+        <Dialog v-model:visible="editModal" header="Edit Profile" class="w-[70%]">
+            <div class="p-[1px] pt-0 text-center w-full">
+                <form @submit.prevent="editTask()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
+                    <div class="grid gap-2 md:grid-cols-2">
+                        <div class="w-full">
+                            <label for="first_name" class="block text-start mb-2 font-medium text-gray-900 dark:text-white">Nomi</label>
+                            <input
+                                v-model="editTitle"
+                                type="text"
+                                id="first_name"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Project Menagment"
+                            />
+                        </div>
+                        <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editCreatedDate"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="visitors" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Topshiriq holati </label>
+                           <select v-model="editStatus" id="" class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="active">Active</option>
+                            <option value="archive">Archive</option>
+                           </select>
+                        </div>
+                          <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Belgilangan bal</label>
+                            <input
+                                type="number"
+                                v-model="editTaskWeight"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                           <div class="w-full">
+                            <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Umimiy Ma'lumot</label>
+                            <textarea
+                                id="message"
+                                rows="4"
+                                v-model="editDescription"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Umumiy yozilgan maulmot..."
+                            ></textarea>
+                        </div>
+                    </div>
+                    <span class="w-full flex items-center justify-end gap-2">
+                        <button
+                            @click="editTask()"
+                            type="button"
+                            class="text-white w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            <span :class="editisloading ? 'block' : 'hidden'">
+                                <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+                                    <svg class="h-5 w-5 animate-spin stroke-white" viewBox="0 0 256 256">
+                                        <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                        <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    </svg>
+                                    <span class="text-xl font-medium text-white">Loading...</span>
+                                </div>
+                            </span>
+                            <span :class="editisloading ? 'hidden' : 'block text-xl'">Edit</span>
+                        </button>
+                        <button
+                            type="button"
+                          
+                            class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg w-full text-xl px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                        >
+                            Cencel
+                        </button>
+                    </span>
+                </form>
+            </div>
+        </Dialog>
+        <!-- End Edit Modal -->
            <!-- Begin Modal Delet -->
         <Dialog v-model:visible="deletModal" header="Delet Project" :style="{ width: '25rem' }">
             <div class="p-2 pt-0 text-center">
@@ -214,6 +260,8 @@ const addModal=ref(false)
 const addisloading=ref(false)
 const deletModal=ref(false)
 const deletisloading=ref(false)
+const editModal=ref(false)
+const editisloading=ref(false)
 const taskId=ref()
 
 const column_id=ref()
@@ -223,12 +271,32 @@ const status=ref()
 const created_date=ref()
 const task_weight=ref()
 
+const editTitle=ref()
+const editDescription=ref()
+const editStatus=ref()
+const editCreatedDate=ref()
+const editTaskWeight=ref()
+const editId=ref()
+
 
 
 function modalAddTask(id){
   addModal.value=true
   column_id.value=id
   console.log(column_id.value);
+}
+
+function modalEdit(item) {
+    editModal.value = true;
+    // let data = item;
+    // console.log(item);
+    editTitle.value = item.title;
+    editDescription.value = item.description;
+    editStatus.value = item.status;
+    editCreatedDate.value = item.created_date;
+    editTaskWeight.value = item.task_weight;
+    editId.value = item.id;
+    console.log(editId.value);
 }
 
 const modalDelet = (id) => {
@@ -298,6 +366,39 @@ function deletTask (){
             deletisloading.value = false;
             // console.error(error);
         });
+}
+
+function editTask (){
+    editisloading.value = true;
+    axios
+        .post(
+            `https://pm-api.essential.uz/api/tasks/${editId.value}/update`,
+            {
+                title: editTitle.value,
+                description: editDescription.value,
+                status: editStatus.value,
+                created_date: editCreatedDate.value,
+                task_weight: editTaskWeight.value
+            },
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        )
+        .then((result) => {
+            if (result.status === 200) {
+                editModal.value = false;
+                editisloading.value = false;
+                fetchBoards();
+                fetchTasks()
+                // console.log(result);
+}
+}).catch((error) => {
+    // editisloading.value = false;
+    console.error(error);
+});
+
 }
 
 function fetchBoards() {
