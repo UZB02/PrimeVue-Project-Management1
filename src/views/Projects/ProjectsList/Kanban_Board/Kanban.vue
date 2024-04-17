@@ -3,9 +3,9 @@
     <!-- <header class="bg-black text-white p-2">
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
     </header> -->
-    <main class="flex p-4">
-      <section v-for="(column, index) in columns" :key="index" class="w-1/3 p-2">
-     <div class="card w-full rounded-2xl p-2 flex flex-col items-center gap-3">
+    <main class="flex h-[85vh] p-4">
+      <section v-for="(column, index) in columns" :key="index" class="w-1/2 p-2  h-full">
+     <div class="card w-full rounded-2xl p-2 flex flex-col items-center gap-3 max-h-full">
          <div class="top flex items-center justify-between w-[80%]">
           <span><h2 class="font-semibold font-mono text-xl">{{ column.name }}</h2>
             <span class="flex items-center gap-1 "><i class="pi pi-inbox cursor-pointer"></i> <h3>{{ column.tasks.length }}</h3></span></span>
@@ -13,16 +13,15 @@
          </div>
           <div class="w-full flex flex-col h-auto  overflow-scroll">
             <draggable drag-class="drag" ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns" >
-              <div  v-for="(item, itemKey) in tasks" :key="itemKey" 
+              <div  v-for="(item, itemKey) in tasks" :key="itemKey" :class="column.id === item.column_id ? 'block' : 'hidden'"
                 >
                 <div class="shadow border flex flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
                     <div class="h-10 flex items-center">{{ item.title }}</div>
                     <div id="actions" class="flex items-center justify-center gap-2">
                       <i  class="editTask pi pi-pencil cursor-pointer"></i>
-                      <i  class="delite pi pi-trash cursor-pointer"></i>
+                      <i @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
                     </div>
                 </div>
-                <span v-if="column.id !== item.column_id" class="block"></span>
               </div>
             </draggable>
           </div>
@@ -162,6 +161,37 @@
             </div>
         </Dialog>
         <!-- End ADD Modal -->
+           <!-- Begin Modal Delet -->
+        <Dialog v-model:visible="deletModal" header="Delet Project" :style="{ width: '25rem' }">
+            <div class="p-2 pt-0 text-center">
+                <svg class="w-20 h-20 text-red-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">O'chirishni istaysizmi?</h3>
+                <button @click="deletTask" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                    <span :class="deletisloading ? 'block' : 'hidden'">
+                        <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+                            <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
+                                <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                            </svg>
+                            <span class="text-xl font-medium text-white">Loading...</span>
+                        </div>
+                    </span>
+                    <span :class="deletisloading ? 'hidden' : 'block text-xl'">O'chirish</span>
+                </button>
+                <button @click="deletModal = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
+                    Bekor qilish
+                </button>
+            </div>
+        </Dialog>
+        <!-- End Modal Delet -->
     <!-- <Charts/> -->
   </div>
 
@@ -177,11 +207,14 @@ import router from '../../../../router';
 const project_id=router.currentRoute.value.params.id
 const milestone_id=router.currentRoute.value.params.slug
 const sprint_id=router.currentRoute.value.params.sprint_id
-console.log(project_id);
+console.log(sprint_id);
 const columns = ref()
 const tasks=ref()
 const addModal=ref(false)
 const addisloading=ref(false)
+const deletModal=ref(false)
+const deletisloading=ref(false)
+const taskId=ref()
 
 const column_id=ref()
 const title=ref()
@@ -191,11 +224,18 @@ const created_date=ref()
 const task_weight=ref()
 
 
+
 function modalAddTask(id){
   addModal.value=true
   column_id.value=id
   console.log(column_id.value);
 }
+
+const modalDelet = (id) => {
+    taskId.value = id;
+    console.log(taskId.value);
+    deletModal.value = true;
+};
 
 
 function AddTask (){
@@ -230,9 +270,39 @@ function AddTask (){
         })
 }
 
+function deletTask (){
+    deletisloading.value = true;
+    axios
+        .delete(`https://pm-api.essential.uz/api/tasks/${taskId.value}/delete`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Bajarildi',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                    deletModal.value = false;
+                deletisloading.value = false;
+                fetchBoards();
+                fetchTasks()
+            }
+            console.log(result);
+        })
+        .catch((error) => {
+            deletisloading.value = false;
+            // console.error(error);
+        });
+}
+
 function fetchBoards() {
     axios
-        .get(`https://pm-api.essential.uz/api/columns?sprint_id=21`, {
+        .get(`https://pm-api.essential.uz/api/columns?sprint_id=${sprint_id}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
