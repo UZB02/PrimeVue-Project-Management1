@@ -1,7 +1,7 @@
 <template>
-    <h1 class="ml-3 font-bold text-3xl">
+    <!-- <h1 class="ml-3 font-bold text-3xl">
       Project ID = <span class="text-red-500">{{ project_id }}</span> ichida Melistone ID =<span class="text-red-500">{{ milestone_id }}</span> ga tegishli Sprintlar
-    </h1>
+    </h1> -->
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addProject" class="flex items-center justify-center gap-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -330,6 +330,8 @@ const editisloading = ref(false);
 const milestone_id = router.currentRoute.value.params.slug;
 const project_id = router.currentRoute.value.params.id;
 console.log(milestone_id, 'milestone_id');
+// const allTasks = ref();
+
 const items = ref([
     {
         label: `Arxivlash`,
@@ -484,9 +486,13 @@ function fetchData() {
                 isloading.value = true;
                 data.value = result.data.data;
                 doneTasks.value = result.data.data;
+                // for (let i = 0; i < result.data.data.length; i++) {
+                //     console.log(result.data.data[i].tasks);
+                //     allTasks.value += JSON.stringify(result.data.data[i].tasks.length);
+                // }
+                // console.log(allTasks.value);
+                console.log(result.data.data);
             }
-            console.log(toRaw());
-            console.log(result.data.data);
         })
         .catch((err) => {
             console.error(err);

@@ -1,9 +1,13 @@
 <template>
-  <div id="app" class="font-sans">
+    <section :class="loading ? 'hidden' : 'block'">
+        <Loading></Loading>
+    </section>
+    <section :class="loading ? 'block w-svw' : 'hidden'">
+         <div id="app" class="font-sans ">
     <!-- <header class="bg-black text-white p-2">
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
     </header> -->
-    <main class="flex h-[85vh] p-4">
+    <main class="flex h-[90vh] p-4">
       <section v-for="(column, index) in columns" :key="index" class="w-1/2 p-2  h-full">
      <div class="card w-full rounded-2xl p-2 flex flex-col items-center gap-3 max-h-full">
          <div class="top flex items-center justify-between w-[80%]">
@@ -12,14 +16,14 @@
           <i class="pi pi-ellipsis-h cursor-pointer"></i>
          </div>
           <div class="w-full flex flex-col h-auto  overflow-scroll">
-            <draggable drag-class="drag" ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns" >
+            <draggable drag-class="drag" :data-id="column.id"  ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns" >
               <div  v-for="(item, itemKey) in tasks" :key="itemKey" :class="column.id === item.column_id ? 'block' : 'hidden'"
                 >
-                <div class="shadow border flex flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
+                <div @click="changeTaskCardId()" class="tasks_board shadow border flex flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
                     <div class="h-10 flex items-center">{{ item.title }}</div>
                     <div id="actions" class="flex items-center justify-center gap-2">
                       <i @click="modalEdit(item)"  class="editTask pi pi-pencil cursor-pointer"></i>
-                      <i @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
+                      <i id="delite" @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
                     </div>
                 </div>
               </div>
@@ -84,6 +88,15 @@
                                 class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Umumiy yozilgan maulmot..."
                             ></textarea>
+                        </div>
+                         <div class="w-full">
+                            <label for="performers" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Add Performer</label>
+                            <div class="w-full">
+                                <span class="bg-slate-300 w-8 h-7 rounded-full p-3 cursor-pointer">
+                                    <i class="pi pi-plus text-white"></i>
+                                </span>
+                                <span class="bg-slate-300 w-8 h-8 rounded-full p-3 cursor-pointer"></span>
+                            </div>
                         </div>
                     </div>
                     <span class="w-full flex items-center justify-end gap-2">
@@ -161,7 +174,7 @@
                                 class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
-                           <div class="w-full">
+                        <div class="w-full">
                             <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Umimiy Ma'lumot</label>
                             <textarea
                                 id="message"
@@ -170,6 +183,9 @@
                                 class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Umumiy yozilgan maulmot..."
                             ></textarea>
+                        </div>
+                        <div>
+                            <label for="performers" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Edit Performer</label>
                         </div>
                     </div>
                     <span class="w-full flex items-center justify-end gap-2">
@@ -240,6 +256,7 @@
         <!-- End Modal Delet -->
     <!-- <Charts/> -->
   </div>
+    </section>
 
 </template>
 
@@ -247,6 +264,7 @@
 import { ref,reactive } from 'vue';
 import { VueDraggableNext as draggable } from 'vue-draggable-next';
 // import Charts from './charts.vue'
+import Loading from '../../../../components/loading.vue';
 import axios from 'axios';
 import router from '../../../../router';
 
@@ -254,6 +272,8 @@ const project_id=router.currentRoute.value.params.id
 const milestone_id=router.currentRoute.value.params.slug
 const sprint_id=router.currentRoute.value.params.sprint_id
 console.log(sprint_id);
+
+const loading = ref(false);
 const columns = ref()
 const tasks=ref()
 const addModal=ref(false)
@@ -263,6 +283,7 @@ const deletisloading=ref(false)
 const editModal=ref(false)
 const editisloading=ref(false)
 const taskId=ref()
+const c=ref()
 
 const column_id=ref()
 const title=ref()
@@ -278,7 +299,18 @@ const editCreatedDate=ref()
 const editTaskWeight=ref()
 const editId=ref()
 
-
+const changeTaskCardId=(()=>{
+    let columns_id=ref([])
+    let tasks_id=ref([])
+    for(const column of columns.value){
+        columns_id.value.push(column.id)
+    }
+    console.log(columns_id.value);
+    for(const task of tasks.value){
+        tasks_id.value.push(task.id)
+    }
+    console.log(tasks_id.value);
+})
 
 function modalAddTask(id){
   addModal.value=true
@@ -410,7 +442,7 @@ function fetchBoards() {
         })
         .then((result) => {
             if (result.status === 200) {
-                // isloading.value = true;
+                loading.value = true;
                 console.log(result.data);
                 columns.value = result.data;
             }
@@ -446,6 +478,29 @@ fetchTasks()
 
 
 <style scoped>
+.tasks_board{
+    position: relative;
+}
+.tasks_board:hover #actions {
+  visibility: visible;
+   background-color: rgba(0, 0, 0, 0.676);
+     color: #fff;
+}
+.tasks_board:hover #actions .delite {
+     color: red;
+}
+
+#actions {
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+  padding: 5px;
+  border-radius: 15px;
+}
+
+#actions:hover {
+  visibility: visible;
+}
 .drag{
   background-color: grey;
   transform: rotate(5deg);

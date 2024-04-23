@@ -65,31 +65,34 @@
                 </span>
                 <span class="flex items-center justify-center gap-2 flex-col w-1/2">
                     <h2 class="font-bold">USD</h2>
-                    <h4 class="font-medium">50000000 so'm</h4>
+                    <h4 class="font-medium">{{ data.budget }} so'm</h4>
                 </span>
             </div>
             <div class="card w-full flex items-center justify-between">
-                <div class="time flex items-center gap-4">
+                <div class="time w-full flex items-center justify-between gap-4">
                     <span class="flex flex-col gap-2">
                         <h1 class="font-bold text-lg">Yaratilgan vaqt</h1>
-                        <h3 class="font-medium text-base text-center">01.02.2024 10:00</h3>
+                        <h3 class="font-medium text-base text-center">{{ created_at }}</h3>
                     </span>
                     <span class="flex flex-col gap-2">
                         <h1 class="font-bold text-lg">Belgilangan davr</h1>
-                        <h3 class="font-medium text-base text-center">01.03.2024 10:00</h3>
+                        <h3 class="font-medium text-base text-center">{{ end_date }}</h3>
                     </span>
-                </div>
-                <div class="w-1/2 flex items-center justify-between">
-                    <span class="w-1/2 flex items-center justify-center gap-3">
+
+                    <span class="w-1/4 flex items-center justify-center gap-3">
                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                            <div class="w-[87%] score rounded-xl bg-green-500 h-2"></div>
+                            <div :style="`width:${Math.round((doneTasks * 100) / allTasks)}%`" :class="`score rounded-xl bg-green-500 h-2`"></div>
                         </span>
-                        <span class="text-sm">87%</span>
+                        <span class="text-sm">{{ Math.round((doneTasks * 100) / allTasks) }}%</span>
                     </span>
-                    <span class="flex flex-col gap-2">
+                    <span class="flex items-center justify-center gap-2">
+                        <i class="pi pi-file flex items-center justify-center gap-1"><h2 class="font-sans font-medium text-sm text-gray-500">{{ allTasks }}</h2></i>
+                        <i class="pi pi-verified flex items-center justify-center gap-1"><h2 class="font-sans font-medium text-sm text-gray-500">{{ doneTasks }}</h2></i>
+                    </span>
+                    <!-- <span class="flex flex-col gap-2">
                         <h1 class="font-bold text-lg">Topshirilgan davri</h1>
                         <h3 class="font-medium text-base text-center">01.03.2024 10:00</h3>
-                    </span>
+                    </span> -->
                 </div>
             </div>
         </div>
@@ -105,6 +108,10 @@ const project_id = router.currentRoute.value.params.id;
 console.log(project_id);
 
 const data = ref({});
+const created_at = ref();
+const end_date = ref();
+const doneTasks = ref({});
+const allTasks = ref({});
 
 function fetchData() {
     axios
@@ -115,7 +122,10 @@ function fetchData() {
         })
         .then((result) => {
             data.value = result.data[0];
-            // const obj = result.data.find((item) => item.id === project_id.value);
+            created_at.value = result.data[0].created_at.slice(0, 10);
+            end_date.value = result.data[0].end_date.slice(0, 10);
+            allTasks.value = result.data[0].tasks.length;
+            console.log(created_at.value);
             console.log(data.value);
             // console.log(obj);
             // console.log(result.data.find(item => item.id === project_id.value));
@@ -123,11 +133,31 @@ function fetchData() {
             // data.value = result.data.result.data;
         })
         .catch((err) => {
-            // console.error(err);
+            console.error(err);
         });
 }
 
 fetchData();
+
+function fetchDoneTasks() {
+    axios
+        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=${project_id}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                doneTasks.value = result.data;
+                console.log(result.data);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+
+fetchDoneTasks();
 
 const { layoutConfig } = useLayout();
 
