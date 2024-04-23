@@ -52,6 +52,35 @@
                         />
                     </div>
                     <div>
+                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning haqiqatdan start berilgan sanasi</label>
+                        <input
+                            type="date"
+                            v-model="factual_start_date"
+                            id="EndT"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning haqiqatdan tugagan sanasi</label>
+                        <input
+                            type="date"
+                            v-model="factual_end_date"
+                            id="EndT"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning bir birlik valyutadagi(so'mdagi) summa qiymati</label>
+                        <input
+                            type="number"
+                            v-model="unit_value"
+                            id="summ"
+                             class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="500 000"
+                            min="0"
+                        />
+                    </div>
+                    <div>
                         <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihanin ralizatsiyasiga ajratilgan summa</label>
                         <input
                             type="number"
@@ -71,11 +100,22 @@
                         <select
                             name=""
                             id=""
+                            v-model="project_type"
                             class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
                             <option value="manolith">Manolith</option>
                             <option value="subsystem">Sub-sytem</option>
                         </select>
+                    </div>
+                       <div>
+                        <label for="about" class="block mb-2 font-medium text-gray-900 dark:text-white">Ushbu loyiha haqida ma'lumot</label>
+                          <textarea
+                          id="about"
+                            rows="4"
+                            v-model="description"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Bosqich haqida umumiy ma'lumot..."
+                        ></textarea>
                     </div>
                 </div>
                <span class="w-full flex items-center justify-end gap-2">
@@ -132,6 +172,11 @@ const end_date = ref('');
 const budget = ref('');
 const color = ref('');
 const logo = ref('');
+const description=ref('');
+const factual_start_date = ref('');
+const factual_end_date = ref('');
+const unit_value = ref('');
+const project_type = ref('');
 
 function handleFileChange(event) {
     const file = event.target.files[0];
@@ -166,11 +211,16 @@ const addproject = () => {
             {
                 name: name.value,
                 prefix: shortname.value,
-                date_create: date_create.value,
+                start_date: date_create.value,
                 end_date: end_date.value,
                 budget: budget.value,
                 logo: logo.value,
-                color: color.value
+                color: color.value,
+                description: description.value,
+                factual_start_date: factual_start_date.value,
+                factual_end_date: factual_end_date.value,
+                unit_value: unit_value.value,
+                project_type: project_type.value
             },
             {
                 headers: {

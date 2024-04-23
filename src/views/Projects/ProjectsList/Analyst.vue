@@ -39,7 +39,7 @@
     <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
         <loading></loading>
     </section>
-    <section :class="isloading ? 'container flex flex-wrap items-center  gap-2' : 'hidden'">
+    <section :class="isloading ? 'w-full container flex flex-wrap items-center  gap-2' : 'hidden'">
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center gap-2">
                 <div :class="card_table ? 'container flex flex-wrap gap-2' : 'hidden'">
@@ -75,7 +75,7 @@
                                         </span>
                                         <span class="flex items-center justify-center gap-1">
                                             <i class="pi pi-verified"></i>
-                                            <h2>{{ item.checked }}</h2>
+                                            {{ doneTasks }}/{{ item.tasks.length }}
                                         </span>
                                     </div>
                                     <span class="flex items-center justify-center gap-1">
@@ -89,9 +89,9 @@
                                 </div>
                                 <div class="w-full flex items-center justify-center gap-3">
                                     <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                        <div :style="{ width: `${item.score}` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                        <div :style="{ width: `${(doneTasks*100)/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                     </span>
-                                    <span class="text-sm">{{ item.score }}</span>
+                                    <span class="text-sm">{{ Math.round((doneTasks*100)/item.tasks.length) }}%</span>
                                 </div>
                             </span>
                         </div>
@@ -113,8 +113,8 @@
                                 </div>
 
                                 <span @click="generalinformation(item.id)" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
-                                    <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.name }}</h1>
-                                    <h4 class="text-slate-400">{{ item.status }}</h4>
+                                    <h1 class="font-bold text-xl whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.name }}</h1>
+                                    <h4 class="text-slate-400">{{ item.prefix }}</h4>
                                 </span>
                             </div>
                             <div class="w-[65%] flex gap-3 items-center justify-center">
@@ -127,7 +127,7 @@
                                 </span>
                                 <span class="flex items-center justify-center gap-2">
                                     <i class="pi pi-calendar"></i>
-                                    <span class="w-40 font-semibold">
+                                    <span class="w-40 font-semibold whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                                         {{ item.date_create }}
                                     </span>
                                 </span>
@@ -139,9 +139,9 @@
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `50%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">50%</span>
+                                        <span class="text-sm">{{Math.round(doneTasks*100/item.tasks.length)}}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -181,84 +181,125 @@
         </Dialog>
         <!-- End Modal Delet -->
         <!-- Begin Edit Modal -->
-        <Dialog v-model:visible="editModal" header="Edit Profile" class="w-1/2">
-            <div class="p-1 pt-0 text-center w-full">
+        <Dialog v-model:visible="editModal" header="Edit Profile" class="w-[70%]">
+            <div class="p-1 pt-0  w-full">
                 <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col  gap-3 p-6">
-                    <div class="grid gap-2 md:grid-cols-2">
-                        <div>
-                            <label for="first_name" class="block mb-2 text-sm text-start font-medium text-gray-900 dark:text-white">Loyiha nomi</label>
-                            <input
-                                v-model="editName"
-                                type="text"
-                                id="first_name"
-                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Project Menagment"
-                            />
-                        </div>
-                        <div>
-                            <label for="last_name" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">Loyiha nomi qisqartmasi</label>
-                            <input
-                                v-model="editShortname"
-                                type="text"
-                                id="last_name"
-                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="PM"
-                            />
-                        </div>
-                        <div>
-                            <label class="block mb-2 text-sm text-start  font-medium text-gray-900 dark:text-gray-300" for="file_input">Logo</label>
-                            <input
-                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                id="file_input"
-                                @change="handleFileChange"
-                                type="file"
-                                ref="file"
-                            />
-                        </div>
-                        <div>
-                            <label for="startT" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
-                            <input
-                                type="datetime-local"
-                                v-model="editDate_create"
-                                id="startT"
-                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            />
-                        </div>
-                        <div>
-                            <label for="EndT" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
-                            <input
-                                type="date"
-                                v-model="editEnd_date"
-                                id="EndT"
-                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            />
-                        </div>
-                        <div>
-                            <label for="summ" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyihanin ralizatsiyasiga ajratilgan summa</label>
-                            <input
-                                type="number"
-                                v-model="editBudget"
-                                id="summ"
-                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="500 000"
-                                min="0"
-                            />
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="visitors" class="block text-start  mb-2 text-sm font-medium text-gray-900 dark:text-white">loyiha belgilangan rangi </label>
-                            <span class="flex items-center justify-center"> <ColorPicker v-model="editColor" /></span>
-                        </div>
-                        <div>
-                            <select
-                                name=""
-                                id=""
-                                class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 mt-4 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            >
-                                <option value="manolith">Manolith</option>
-                                <option value="subsystem">Sub-sytem</option>
-                            </select>
-                        </div>
+                    <div class="grid gap-3 md:grid-cols-2 w-full">
+                    <div class="w-full">
+                        <label for="first_name" class="block mb-2  font-medium text-gray-900 dark:text-white">Loyiha nomi</label>
+                        <input
+                            v-model="editName"
+                            type="text"
+                            id="first_name"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Project Menagment"
+                        />
                     </div>
+                    <div class="w-full">
+                        <label for="last_name" class="block mb-2 font-medium text-gray-900 dark:text-white">Loyiha nomi qisqartmasi</label>
+                        <input
+                            v-model="editShortname"
+                            type="text"
+                            id="last_name"
+                           class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="PM"
+                        />
+                    </div>
+                    <div>
+                        <label class="block mb-2  font-medium text-gray-900 dark:text-gray-300" for="file_input">Logo</label>
+                        <input
+                         class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 -translate-y-1 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            id="file_input"
+                            @change="editLogo"
+                            type="file"
+                            ref="file"
+                        />
+                    </div>
+                    <div>
+                        <label for="startT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
+                        <input
+                            type="datetime-local"
+                            v-model="editDate_create"
+                            id="startT"
+                           class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
+                        <input
+                            type="date"
+                            v-model="editEnd_date"
+                            id="EndT"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning haqiqatdan start berilgan sanasi</label>
+                        <input
+                            type="date"
+                            v-model="editFactual_start_date"
+                            id="EndT"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning haqiqatdan tugagan sanasi</label>
+                        <input
+                            type="date"
+                            v-model="editFactual_end_date"
+                            id="EndT"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning so'mdagi qiymati</label>
+                        <input
+                            type="number"
+                            v-model="editUnit_value"
+                            id="summ"
+                             class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="500 000"
+                            min="0"
+                        />
+                    </div>
+                    <div>
+                        <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihanin ralizatsiyasiga ajratilgan summa</label>
+                        <input
+                            type="number"
+                            v-model="editBudget"
+                            id="summ"
+                             class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="500 000"
+                            min="0"
+                        />
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="visitors" class="block mb-2 font-medium text-gray-900 dark:text-white">loyiha belgilangan rangi </label>
+                        <span class="flex items-center justify-center"> <ColorPicker v-model="editColor" /></span>
+                    </div>
+                    <div>
+                           <label for="visitors" class="block mb-2 font-medium text-gray-900 dark:text-white">loyiha tipi </label>
+                        <select
+                            name=""
+                            v-model="editType"
+                            id=""
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="manolith">Manolith</option>
+                            <option value="subsystem">Sub-sytem</option>
+                        </select>
+                    </div>
+                       <div>
+                        <label for="about" class="block mb-2 font-medium text-gray-900 dark:text-white">Ushbu loyiha haqida ma'lumot</label>
+                          <textarea
+                          id="about"
+                            rows="4"
+                            v-model="editDescription"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Bosqich haqida umumiy ma'lumot..."
+                        ></textarea>
+                    </div>
+                </div>
                     <span class="w-full flex gap-2">
                         <button
                         @click="editProject()"
@@ -266,7 +307,7 @@
                             class="text-white flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             <ProgressSpinner style="width: 20px; height: 20px" :class="editLoadings ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
-                        <span :class="editLoadings ? 'block' : 'hidden'">Loading...</span> <span :class="editLoadings ? 'hidden' : 'block'">Add</span>
+                        <span :class="editLoadings ? 'block' : 'hidden'">Loading...</span> <span :class="editLoadings ? 'hidden' : 'block'">Edit</span>
                         </button>
                         <button
                             type="button"
@@ -310,7 +351,12 @@ const editBudget=ref('');
 const editDate_create=ref('');
 const editEnd_date=ref('');
 const editCreated_at=ref('');
+const editDescription=ref('');
+const editFactual_start_date=ref('');
+const editFactual_end_date=ref('');
+const editUnit_value=ref('');
 const project_id=ref('');
+const doneTasks=ref();
 
 const ViewPagenetion=ref(true);
 
@@ -379,6 +425,10 @@ function modalEdit(item) {
     editLogo.value = data.logo;
     editShortname.value = data.prefix;
     editColor.value= data.color;
+    editDescription.value = data.description;
+    editFactual_start_date.value = data.factual_start_date;
+    editFactual_end_date.value = data.factual_end_date;
+    editUnit_value.value = data.unit_value;
 }
 
 function fetchData(page) {
@@ -392,7 +442,7 @@ function fetchData(page) {
             if (result.status === 200) {
                 isloading.value = true;
                 data.value = result.data.result.data;
-                console.log(result.data.result); 
+                console.log(result.data.result.data); 
                 if(result.data.result.last_page > 1){
                     totalPages.value = result.data.result.last_page;
                 }else if(result.data.result.last_page == 1){
@@ -452,6 +502,10 @@ const editProject = (id) => {
                 logo: editLogo.value,
                 color: editColor.value,
                 prefix:editShortname.value,
+                description: editDescription.value,
+                factual_start_date: editFactual_start_date.value,
+                factual_end_date: editFactual_end_date.value,
+                unit_value: editUnit_value.value
             },
             { headers }
         )
@@ -527,5 +581,25 @@ const cardFunction = () => {
 const tableFunction = () => {
     card_table.value = false;
 };
+
+function fetchDoneTasks (){
+    axios
+        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=102`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                doneTasks.value = result.data;
+                console.log(result.data);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+
+fetchDoneTasks();
 </script>
 <style scoped></style>
