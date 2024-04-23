@@ -19,12 +19,16 @@
             <draggable drag-class="drag" :data-id="column.id"  ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns" >
               <div  v-for="(item, itemKey) in tasks" :key="itemKey" :class="column.id === item.column_id ? 'block' : 'hidden'"
                 >
-                <div @click="changeTaskCardId()" class="tasks_board shadow border flex flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
+                <div @click="modalEdit(item)" class="tasks_board shadow border flex flex-col flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
                     <div class="h-10 flex items-center">{{ item.title }}</div>
                     <div id="actions" class="flex items-center justify-center gap-2">
-                      <i @click="modalEdit(item)"  class="editTask pi pi-pencil cursor-pointer"></i>
+                      <i @click="modalEdit(item)" id="edit"  class="editTask pi pi-pencil cursor-pointer"></i>
                       <i id="delite" @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
                     </div>
+                    <span>
+                        <i class="pi pi-user text-sm"></i>
+                        <span v-for="user in item.performers" :key="user.id" class="text-sm">{{ user.id }}</span>
+                    </span>
                 </div>
               </div>
             </draggable>
@@ -89,15 +93,25 @@
                                 placeholder="Umumiy yozilgan maulmot..."
                             ></textarea>
                         </div>
-                         <div class="w-full">
+                           <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Ijrochi qo'shish</label>
+                           <select
+                                    v-model="users"
+                                    class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+                                >
+                                    <option v-for="performer in performers" :value="performer.id" class="p-3">{{ performer.user.fio }}</option>
+                                </select>
+                          
+                        </div>
+                         <!-- <div class="w-full">
                             <label for="performers" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Add Performer</label>
                             <div class="w-full">
-                                <span class="bg-slate-300 w-8 h-7 rounded-full p-3 cursor-pointer">
+                                <span @click="addPerformer()" class="bg-slate-300 w-8 h-7 rounded-full p-3 cursor-pointer">
                                     <i class="pi pi-plus text-white"></i>
                                 </span>
                                 <span class="bg-slate-300 w-8 h-8 rounded-full p-3 cursor-pointer"></span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <span class="w-full flex items-center justify-end gap-2">
                         <button
@@ -186,6 +200,7 @@
                         </div>
                         <div>
                             <label for="performers" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Edit Performer</label>
+                            <!-- <div v-for="performer in tasks" :key="performer.id">{{ performer.performers }}</div> -->
                         </div>
                     </div>
                     <span class="w-full flex items-center justify-end gap-2">
@@ -213,7 +228,7 @@
                         </button>
                         <button
                             type="button"
-                          
+                          @click="editModal=false"
                             class="text-white bg-red-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg w-full text-xl px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                         >
                             Cencel
@@ -283,7 +298,8 @@ const deletisloading=ref(false)
 const editModal=ref(false)
 const editisloading=ref(false)
 const taskId=ref()
-const c=ref()
+const performers=ref([])
+const users=ref([])
 
 const column_id=ref()
 const title=ref()
@@ -299,18 +315,22 @@ const editCreatedDate=ref()
 const editTaskWeight=ref()
 const editId=ref()
 
-const changeTaskCardId=(()=>{
-    let columns_id=ref([])
-    let tasks_id=ref([])
-    for(const column of columns.value){
-        columns_id.value.push(column.id)
-    }
-    console.log(columns_id.value);
-    for(const task of tasks.value){
-        tasks_id.value.push(task.id)
-    }
-    console.log(tasks_id.value);
-})
+// const changeTaskCardId=(()=>{
+//     let columns_id=ref([])
+//     let tasks_id=ref([])
+//     for(const column of columns.value){
+//         columns_id.value.push(column.id)
+//     }
+//     console.log(columns_id.value);
+//     for(const task of tasks.value){
+//         tasks_id.value.push(task.id)
+//     }
+//     console.log(tasks_id.value);
+// })
+
+// function addPerformer(id){
+//     console.log(taskId.value);
+// }
 
 function modalAddTask(id){
   addModal.value=true
@@ -339,6 +359,7 @@ const modalDelet = (id) => {
 
 
 function AddTask (){
+    console.log(users.value);
   addisloading.value=true
     axios
         .post(
@@ -352,7 +373,8 @@ function AddTask (){
               description: description.value,
               status: status.value,
               created_date: created_date.value,
-              task_weight: task_weight.value
+              task_weight: task_weight.value,
+              performer_id: users.value,
             },
             {
                 headers: {
@@ -474,6 +496,29 @@ function fetchTasks() {
 }
 fetchTasks()
 
+function fetchPerformers() {
+    axios
+        .get(`https://pm-api.essential.uz/api/performers`, {
+              params: {
+            project_id: project_id
+        },
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                // isloading.value = true;
+                console.log(result.data);
+                performers.value = result.data;
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+fetchPerformers()
+
 </script>
 
 
@@ -483,11 +528,21 @@ fetchTasks()
 }
 .tasks_board:hover #actions {
   visibility: visible;
-   background-color: rgba(0, 0, 0, 0.676);
+   /* background-color: rgba(0, 0, 0, 0.676); */
      color: #fff;
 }
 .tasks_board:hover #actions .delite {
      color: red;
+}
+#actions #delite {
+    background-color: rgba(0, 0, 0, 0.676);
+    padding: 5px;
+    border-radius: 50%;
+}
+#actions #edit {
+    background-color: rgba(0, 0, 0, 0.676);
+    padding: 5px;
+    border-radius: 50%;
 }
 
 #actions {

@@ -1,7 +1,7 @@
 <template>
-    <!-- <h1 class="ml-3 font-bold text-3xl">
-      Project ID = <span class="text-red-500">{{ project_id }}</span> ichida Melistone ID =<span class="text-red-500">{{ milestone_id }}</span> ga tegishli Sprintlar
-    </h1> -->
+    <h1 class="ml-3 font-bold text-3xl">
+        {{ melistoneName }}
+    </h1>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addProject" class="flex items-center justify-center gap-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -79,7 +79,7 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h3>{{item.tasks.length}}/{{ doneTasks }}</h3>
+                                        <h3>{{ doneTasks }}/{{item.tasks.length}}</h3>
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-center gap-2">
@@ -326,6 +326,7 @@ const editOrder_by = ref('');
 const editResults = ref('');
 const editStart_date = ref('');
 const editWorks = ref('');
+const melistoneName = ref('');
 const editisloading = ref(false);
 const milestone_id = router.currentRoute.value.params.slug;
 const project_id = router.currentRoute.value.params.id;
@@ -570,15 +571,34 @@ function fetchDoneTasks (){
         .then((result) => {
             if (result.status === 200) {
                 doneTasks.value = result.data;
-                console.log(result.data);
+                console.log(result.data, "Done tasks");
             }
         })
         .catch((err) => {
             console.error(err);
         });
 }
-
 fetchDoneTasks();
+
+function fetchMelistones (){
+    console.log(milestone_id);
+        axios
+        .get(`https://pm-api.essential.uz/api/milestone/show/${milestone_id}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                melistoneName.value = result.data[0].name;
+            }
+            console.log(melistoneName.value);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+fetchMelistones();
 
 </script>
 <style></style>

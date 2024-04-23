@@ -39,7 +39,7 @@
     <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
         <loading></loading>
     </section>
-    <section :class="isloading ? 'container flex flex-wrap items-center  gap-2' : 'hidden'">
+    <section :class="isloading ? 'w-full container flex flex-wrap items-center  gap-2' : 'hidden'">
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center gap-2">
                 <div :class="card_table ? 'container flex flex-wrap gap-2' : 'hidden'">
@@ -75,7 +75,7 @@
                                         </span>
                                         <span class="flex items-center justify-center gap-1">
                                             <i class="pi pi-verified"></i>
-                                            <h2>{{ item.tasks.length }}</h2>/{{ doneTasks }}
+                                            {{ doneTasks }}/{{ item.tasks.length }}
                                         </span>
                                     </div>
                                     <span class="flex items-center justify-center gap-1">
