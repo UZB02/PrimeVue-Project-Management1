@@ -191,7 +191,7 @@
         </Dialog>
         <!-- End Modal Delet -->
         <!-- Begin Edit Modal -->
-        <Dialog v-model:visible="editModal" header="Edit Profile" class="w-[70%]">
+        <Dialog v-model:visible="editModal" header="Edit Sprint" class="w-[70%]">
             <div class="p-[1px] pt-0 text-center w-full">
                 <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
                     <div class="grid gap-2 md:grid-cols-2">
@@ -563,7 +563,7 @@ const tableFunction = () => {
 
 function fetchDoneTasks (){
     axios
-        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&sprint_id=22`, {
+        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&sprint_id=${project_id}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }

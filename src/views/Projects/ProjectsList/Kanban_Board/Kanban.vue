@@ -19,16 +19,21 @@
             <draggable drag-class="drag" :data-id="column.id"  ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns" >
               <div  v-for="(item, itemKey) in tasks" :key="itemKey" :class="column.id === item.column_id ? 'block' : 'hidden'"
                 >
-                <div @click="modalEdit(item)" class="tasks_board shadow border flex flex-col flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
-                    <div class="h-10 flex items-center">{{ item.title }}</div>
+                <div  class="tasks_board shadow border flex flex-col flex-wrap justify-between overflow-auto p-1 rounded"  v-if="column.id === item.column_id" >
+                    <div @click="modalEdit(item)" class="h-10 flex items-center">{{ item.title }}</div>
                     <div id="actions" class="flex items-center justify-center gap-2">
                       <i @click="modalEdit(item)" id="edit"  class="editTask pi pi-pencil cursor-pointer"></i>
                       <i id="delite" @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
                     </div>
-                    <span>
+                    <div class="w-full flex items-center justify-between">
+                        <span>
                         <i class="pi pi-user text-sm"></i>
-                        <span v-for="user in item.performers" :key="user.id" class="text-sm">{{ user.id }}</span>
+                        <span   class="text-sm">{{ item.performers.length }}</span>
                     </span>
+                    <span>
+                        <i @click="addPerformer(item.id)" class="pi pi-user-plus text-sm"></i>
+                    </span>
+                    </div>
                 </div>
               </div>
             </draggable>
@@ -44,7 +49,7 @@
       </section>
     </main>
             <!-- Begin ADD Modal -->
-        <Dialog v-model:visible="addModal" header="ADD Profile" class="w-[70%]">
+        <Dialog v-model:visible="addModal" header="ADD task" class="w-[70%]">
             <div class="p-[1px] pt-0 text-center w-full">
                 <form @submit.prevent="AddTask()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
                     <div class="grid gap-2 md:grid-cols-2">
@@ -121,6 +126,7 @@
                                 <span class="bg-slate-300 w-8 h-8 rounded-full p-3 cursor-pointer"></span>
                             </div>
                         </div> -->
+                        <i @click="addPerformer(tasks.id)" class="pi pi-user-plus"></i>
                     </div>
                     <span class="w-full flex items-center justify-end gap-2">
                         <button
@@ -158,7 +164,7 @@
         </Dialog>
         <!-- End ADD Modal -->
             <!-- Begin Edit Modal -->
-        <Dialog v-model:visible="editModal" header="Edit Profile" class="w-[70%]">
+        <Dialog v-model:visible="editModal" header="Edit task" class="w-[70%]">
             <div class="p-[1px] pt-0 text-center w-full">
                 <form @submit.prevent="editTask()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
                     <div class="grid gap-2 md:grid-cols-2">
@@ -296,6 +302,35 @@
             </div>
         </Dialog>
         <!-- End Modal Delet -->
+           <!-- Begin Modal Add Performers -->
+        <Dialog v-model:visible="modalAddPerformer" header="Add performer" :style="{ width: '25rem' }">
+            <div class="p-2 pt-0 text-center">
+            
+                <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Performer qo'shish {{ taskId }}</h3>
+                <button @click="deletTask" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                    <span :class="deletisloading ? 'block' : 'hidden'">
+                        <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+                            <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
+                                <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                            </svg>
+                            <span class="text-xl font-medium text-white">Loading...</span>
+                        </div>
+                    </span>
+                    <span :class="deletisloading ? 'hidden' : 'block text-xl'">O'chirish</span>
+                </button>
+                <button @click="modalAddPerformer = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
+                    Bekor qilish
+                </button>
+            </div>
+        </Dialog>
+        <!-- End Modal Add Performers -->
     <!-- <Charts/> -->
   </div>
     </section>
@@ -315,6 +350,7 @@ const milestone_id=router.currentRoute.value.params.slug
 const sprint_id=router.currentRoute.value.params.sprint_id
 console.log(sprint_id);
 
+const modalAddPerformer=ref(false)
 const loading = ref(false);
 const columns = ref()
 const tasks=ref()
@@ -357,9 +393,11 @@ const editdealine_end_date=ref()
 //     console.log(tasks_id.value);
 // })
 
-// function addPerformer(id){
-//     console.log(taskId.value);
-// }
+function addPerformer(id){
+    modalAddPerformer.value=true
+    taskId.value=id
+    console.log(taskId.value);
+}
 
 function modalAddTask(id){
   addModal.value=true

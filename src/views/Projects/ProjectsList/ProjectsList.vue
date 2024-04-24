@@ -181,7 +181,7 @@
         </Dialog>
         <!-- End Modal Delet -->
         <!-- Begin Edit Modal -->
-        <Dialog v-model:visible="editModal" header="Edit Profile" class="w-[70%]">
+        <Dialog v-model:visible="editModal" header="Edit Project" class="w-[70%]">
             <div class="p-1 pt-0  w-full">
                 <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col  gap-3 p-6">
                     <div class="grid gap-3 md:grid-cols-2 w-full">

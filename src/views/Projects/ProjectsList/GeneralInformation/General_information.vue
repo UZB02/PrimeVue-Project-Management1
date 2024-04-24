@@ -3,8 +3,7 @@
         ID <span class="font-bold text-2xl text-red-500">{{ project_id }} </span> ga tegishli Proekt haqida Umumiy Ma'lumotlar
     </h1> -->
     <section class="flex flex-col gap-3">
-        <div class="info flex flex-col gap-3">
-            <div class="top flex items-center justify-between">
+         <div class="top flex items-center justify-between">
                 <div class="text">
                     <h1 class="font-bold text-5xl">{{ data.name }}</h1>
                     <h2 class="text-5xl font-medium font-sans text-gray-400">{{ data.prefix }}</h2>
@@ -13,7 +12,8 @@
                     <img :src="logoUrl" alt="Logo" height="20" class="mr-2" />
                 </div>
             </div>
-            <div class="card">
+        <div class="info flex items-center justify-between gap-3">
+            <div class="card w-1/2">
                 <TabView class="tabview-custom">
                     <TabPanel>
                         <template #header>
@@ -27,6 +27,7 @@
                         </p>
                     </TabPanel>
                 </TabView>
+                
                 <!-- <span class="flex items-center justify-end">
                     <span class="flex items-center justify-center gap-2">
                         <i class="pi pi-file-edit text-xl text-gray-500 cursor-pointer"></i>
@@ -36,16 +37,6 @@
             </div>
         </div>
         <div class="flex items-center justify-center">
-            <div class="flex items-center justify-between card w-[30%] mt-5">
-                <span class="flex items-center justify-center gap-2 flex-col w-1/2">
-                    <h2 class="font-bold">USD</h2>
-                    <h4 class="font-medium">5000$</h4>
-                </span>
-                <span class="flex items-center justify-center gap-2 flex-col w-1/2">
-                    <h2 class="font-bold">USD</h2>
-                    <h4 class="font-medium">{{ data.unit_value }} so'm</h4>
-                </span>
-            </div>
             <div class="card w-full flex items-center justify-between">
                 <div class="time w-full flex items-center justify-between gap-4">
                     <span class="flex flex-col gap-2">
@@ -74,6 +65,16 @@
                 </div>
             </div>
         </div>
+           <div class="flex items-center justify-between card w-1/2 mt-5">
+                <span class="flex items-center justify-center gap-2 flex-col w-1/2">
+                    <h2 class="font-bold">USD</h2>
+                    <h4 class="font-medium">5000$</h4>
+                </span>
+                <span class="flex items-center justify-center gap-2 flex-col w-1/2">
+                    <h2 class="font-bold">USD</h2>
+                    <h4 class="font-medium">{{ data.unit_value }} so'm</h4>
+                </span>
+            </div>
     </section>
 </template>
 <script setup>
