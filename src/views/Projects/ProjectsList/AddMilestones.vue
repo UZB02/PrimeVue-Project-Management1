@@ -64,6 +64,24 @@
                         />
                     </div>
                     <div>
+                        <label for="startT" class="block mb-2 font-medium text-gray-900 dark:text-white">Bosqichning amalda boshlash sanasi </label>
+                        <input
+                            type="datetime-local"
+                            v-model="factual_start_date"
+                            id="startT"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label for="startT" class="block mb-2 font-medium text-gray-900 dark:text-white">Bosqichning amalda tugash sanasi </label>
+                        <input
+                            type="datetime-local"
+                            v-model="factual_end_date"
+                            id="startT"
+                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                    <div>
                         <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
                         <input
                             type="date"
@@ -132,6 +150,8 @@ const about = ref('');
 const color = ref('');
 const start_date = ref('');
 const end_date = ref('');
+const factual_start_date = ref('');
+const factual_end_date = ref('');
 const project_id=router.currentRoute.value.params.id
 console.log(project_id);
 // const milestone_files = ref('');
@@ -176,7 +196,9 @@ const addproject = () => {
                 start_date: start_date.value,
                 end_date: end_date.value,
                 color: color.value,
-                project_id: project_id
+                project_id: project_id,
+                factual_start_date: factual_start_date.value,
+                factual_end_date: factual_end_date.value
             },
             {
                 headers: {
