@@ -44,7 +44,7 @@
       </section>
     </main>
             <!-- Begin ADD Modal -->
-        <Dialog v-model:visible="addModal" header="Edit Profile" class="w-[70%]">
+        <Dialog v-model:visible="addModal" header="ADD Profile" class="w-[70%]">
             <div class="p-[1px] pt-0 text-center w-full">
                 <form @submit.prevent="AddTask()" typeof="submit" class="w-full flex flex-col gap-3 p-5">
                     <div class="grid gap-2 md:grid-cols-2">
