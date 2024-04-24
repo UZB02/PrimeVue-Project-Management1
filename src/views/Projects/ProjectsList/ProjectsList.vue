@@ -584,7 +584,7 @@ const tableFunction = () => {
 
 function fetchDoneTasks (){
     axios
-        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=102`, {
+        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=1`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
