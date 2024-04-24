@@ -96,7 +96,7 @@
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
                                     <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
-                                <span class="text-sm">{{ Math.round(doneTasks*100/item.tasks.length) }}%</span>
+                                <span class="text-sm">{{ item.tasks.length ? Math.round(doneTasks*100/item.tasks.length) : 0 }}%</span>
                             </div>
                         </span>
                     </div>
@@ -145,7 +145,7 @@
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
                                             <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">{{Math.round(doneTasks*100/item.tasks.length)}}%</span>
+                                        <span class="text-sm">{{item.tasks.length ? Math.round(doneTasks*100/item.tasks.length) : 0 }}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
