@@ -13,26 +13,6 @@
                     <img :src="logoUrl" alt="Logo" height="20" class="mr-2" />
                 </div>
             </div>
-            <!-- <div class="persons flex items-center justify-between flex-wrap">
-                <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%]">
-                    <img src="https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13" class="w-32 card-img h-32 rounded-[50%]" alt="" />
-                    <h1 class="font-bold">Yevgeni</h1>
-                    <h4 class="text-center">Loyihani yaratgan tizim foydalanuvchisi</h4>
-                    <h5 class="text-gray-500 font-italic">+99890-123-45-67</h5>
-                </div>
-                <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%]">
-                    <img src="https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13" class="w-32 card-img h-32 rounded-[50%]" alt="" />
-                    <h1 class="font-bold">Jhonsn</h1>
-                    <h4 class="text-center">Loyiha menedjeri</h4>
-                    <h5 class="text-gray-500 font-italic">+99890-123-45-67</h5>
-                </div>
-                <div class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 shadow rounded-xl p-3 w-[19%]">
-                    <img src="https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13" class="w-32 card-img h-32 rounded-[50%]" alt="" />
-                    <h1 class="font-bold">Alex</h1>
-                    <h4 class="text-center">Loyiha egasi</h4>
-                    <h5 class="text-gray-500 font-italic">+99890-123-45-67</h5>
-                </div>
-            </div> -->
             <div class="card">
                 <TabView class="tabview-custom">
                     <TabPanel>
@@ -43,18 +23,16 @@
                             </div>
                         </template>
                         <p class="m-0">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                            laborum.
+                           {{ data.description }}
                         </p>
                     </TabPanel>
                 </TabView>
-                <span class="flex items-center justify-end">
+                <!-- <span class="flex items-center justify-end">
                     <span class="flex items-center justify-center gap-2">
                         <i class="pi pi-file-edit text-xl text-gray-500 cursor-pointer"></i>
                         <i class="pi pi-copy text-xl text-gray-500 cursor-pointer"></i>
                     </span>
-                </span>
+                </span> -->
             </div>
         </div>
         <div class="flex items-center justify-center">
@@ -65,7 +43,7 @@
                 </span>
                 <span class="flex items-center justify-center gap-2 flex-col w-1/2">
                     <h2 class="font-bold">USD</h2>
-                    <h4 class="font-medium">{{ data.budget }} so'm</h4>
+                    <h4 class="font-medium">{{ data.unit_value }} so'm</h4>
                 </span>
             </div>
             <div class="card w-full flex items-center justify-between">
@@ -83,7 +61,7 @@
                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
                             <div :style="`width:${Math.round((doneTasks * 100) / allTasks)}%`" :class="`score rounded-xl bg-green-500 h-2`"></div>
                         </span>
-                        <span class="text-sm">{{ Math.round((doneTasks * 100) / allTasks) }}%</span>
+                        <span class="text-sm">{{ allTasks ? Math.round((doneTasks * 100) / allTasks) : 0 }}%</span>
                     </span>
                     <span class="flex items-center justify-center gap-2">
                         <i class="pi pi-file flex items-center justify-center gap-1"><h2 class="font-sans font-medium text-sm text-gray-500">{{ allTasks }}</h2></i>
@@ -112,6 +90,7 @@ const created_at = ref();
 const end_date = ref();
 const doneTasks = ref({});
 const allTasks = ref({});
+const discriptions = ref({});
 
 function fetchData() {
     axios
@@ -125,7 +104,8 @@ function fetchData() {
             created_at.value = result.data[0].created_at.slice(0, 10);
             end_date.value = result.data[0].end_date.slice(0, 10);
             allTasks.value = result.data[0].tasks.length;
-            console.log(created_at.value);
+            // discriptions.value = result.data[0].description;
+            // console.log(created_at.value);
             console.log(data.value);
             // console.log(obj);
             // console.log(result.data.find(item => item.id === project_id.value));

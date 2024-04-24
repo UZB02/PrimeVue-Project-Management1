@@ -1,4 +1,7 @@
 <template>
+     <h1 class="ml-3 font-bold text-3xl">
+        {{ proektName }}
+    </h1>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addPerformers"
@@ -389,6 +392,7 @@ console.log(project_id.value);
 const performers_id=ref('')
 const deletModal = ref(false);
 const loadingDel = ref(false);
+const proektName = ref();
 
 
 const gotoPerformersInfo=(id)=>{
@@ -521,5 +525,23 @@ const cardFunction = () => {
 const tableFunction = () => {
     card_table.value = false
 }
+function fetchProekts (){
+        axios
+        .get(`https://pm-api.essential.uz/api/project/show/${project_id.value}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            if (result.status === 200) {
+                proektName.value = result.data[0].name;
+            }
+            console.log(proektName.value);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+fetchProekts();
 </script>
 <style></style>
