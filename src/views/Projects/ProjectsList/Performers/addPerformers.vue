@@ -32,7 +32,14 @@
                                 </select>
                             </div>
 
-                            <div class="relative">
+                            <div class="relative flex flex-row-reverse items-center justify-center gap-1">
+                                <button
+                                    @click="cancel()"
+                                    type="button"
+                                    class="text-white w-full flex items-center justify-center gap-2 bg-red-500 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg  px-5 py-3 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 text-xl"
+                                >
+                                   Cancel
+                                </button>
                                 <button
                                     @click="addUserRol"
                                     type="button"
@@ -260,6 +267,10 @@ const userRolsid = ref('');
 const users = ref({});
 
 const isloading = ref(false);
+
+const cancel = (()=>{
+    router.push(`/projects_list/${project_id.value}/performers`)
+})
 
 const addUserRol = () => {
     if(user.value == '' || status.value == '' || usersrolid.value == '') {
