@@ -67,6 +67,15 @@
                                 class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
+                        <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Ijrochisi tomonidan ijrodan olinish vaqto</label>
+                            <input
+                                type="datetime-local"
+                                v-model="dealine_end_date"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
                         <div class="flex flex-col">
                             <label for="visitors" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Topshiriq holati </label>
                            <select v-model="status" id="" class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -83,6 +92,16 @@
                                 class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
+                            <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Ijrochi qo'shish</label>
+                           <select
+                                    v-model="users"
+                                    class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                >
+                                    <option v-for="performer in performers" :value="performer.id" class="p-3">{{ performer.user.fio }}</option>
+                                </select>
+                          
+                        </div>
                            <div class="w-full">
                             <label for="last_name" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Umimiy Ma'lumot</label>
                             <textarea
@@ -92,16 +111,6 @@
                                 class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Umumiy yozilgan maulmot..."
                             ></textarea>
-                        </div>
-                           <div>
-                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Ijrochi qo'shish</label>
-                           <select
-                                    v-model="users"
-                                    class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
-                                >
-                                    <option v-for="performer in performers" :value="performer.id" class="p-3">{{ performer.user.fio }}</option>
-                                </select>
-                          
                         </div>
                          <!-- <div class="w-full">
                             <label for="performers" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Add Performer</label>
@@ -161,6 +170,24 @@
                                 id="first_name"
                                 class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Project Menagment"
+                            />
+                        </div>
+                        <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editCreatedDate"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Ijrochisi tomonidan ijrodan olinish vaqto</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editdealine_end_date"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
                         <div>
@@ -300,6 +327,7 @@ const editisloading=ref(false)
 const taskId=ref()
 const performers=ref([])
 const users=ref([])
+const dealine_end_date=ref('')
 
 const column_id=ref()
 const title=ref()
@@ -314,6 +342,7 @@ const editStatus=ref()
 const editCreatedDate=ref()
 const editTaskWeight=ref()
 const editId=ref()
+const editdealine_end_date=ref()
 
 // const changeTaskCardId=(()=>{
 //     let columns_id=ref([])
@@ -348,6 +377,7 @@ function modalEdit(item) {
     editCreatedDate.value = item.created_date;
     editTaskWeight.value = item.task_weight;
     editId.value = item.id;
+    editdealine_end_date.value = item.dealine_end_date;
     console.log(editId.value);
 }
 
@@ -375,6 +405,7 @@ function AddTask (){
               created_date: created_date.value,
               task_weight: task_weight.value,
               performer_id: users.value,
+              dealine_end_date: dealine_end_date.value
             },
             {
                 headers: {
@@ -432,7 +463,8 @@ function editTask (){
                 description: editDescription.value,
                 status: editStatus.value,
                 created_date: editCreatedDate.value,
-                task_weight: editTaskWeight.value
+                task_weight: editTaskWeight.value,
+                dealine_end_date: editdealine_end_date.value
             },
             {
                 headers: {
