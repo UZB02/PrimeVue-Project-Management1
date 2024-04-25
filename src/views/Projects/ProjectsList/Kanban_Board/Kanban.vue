@@ -12,8 +12,8 @@
      <div class="card w-full rounded-2xl p-2 flex flex-col items-center gap-3 max-h-full">
          <div class="top flex items-center justify-between w-[80%]">
           <span><h2 class="font-semibold font-mono text-xl">{{ column.name }}</h2>
-            <span class="flex items-center gap-1 "><i class="pi pi-inbox cursor-pointer"></i> <h3>{{ column.tasks.length }}</h3></span></span>
-          <i class="pi pi-ellipsis-h cursor-pointer"></i>
+           </span>
+           <span class="flex items-center gap-1 "><i class="pi pi-inbox cursor-pointer"></i> <h3>{{ column.tasks.length }}</h3></span>
          </div>
           <div class="w-full flex flex-col h-auto  overflow-scroll">
             <draggable drag-class="drag" :data-id="column.id"  ghost-class="ghost" class="w-full flex  flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns" >
@@ -38,7 +38,7 @@
               </div>
             </draggable>
           </div>
-          <div  class="w-full flex  items-center justify-between gap-3  p-2 border rounded shadow">
+          <div :class="column.id === 1 ? 'block w-full flex  items-center justify-between gap-3  p-2 border rounded shadow' : 'hidden'">
               <div @click="modalAddTask(column.id)" class="left transition p-2 w-[60%] flex items-center cursor-pointer rounded-lg  gap-3 hover:bg-slate-300">
                   <i class="pi pi-plus"></i>
                   <h2 class="font-medium font-sans">Add Task</h2>

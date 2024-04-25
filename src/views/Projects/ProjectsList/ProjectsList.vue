@@ -357,11 +357,20 @@ const editFactual_end_date=ref('');
 const editUnit_value=ref('');
 const project_id=ref('');
 const doneTasks=ref();
+const projectsId=ref([]);
+console.log(projectsId.value);
 
 const ViewPagenetion=ref(true);
 
 const currentPage = ref('');
 const totalPages = ref();
+
+// function getPerojectsId(id){
+//     for(let item of data.value){
+        
+//     }
+// }
+
 const modalDelet = (id) => {
     eId.value = id;
     deletModal.value = true;
@@ -442,7 +451,12 @@ function fetchData(page) {
             if (result.status === 200) {
                 isloading.value = true;
                 data.value = result.data.result.data;
-                console.log(result.data.result.data); 
+                console.log(result.data.result.data);
+                // for (let item of data.value) {
+                //     projectsId.value.push(item.id);
+                //     console.log(item.id); 
+                //     fetchDoneTasks(item.id);
+                // } 
                 if(result.data.result.last_page > 1){
                     totalPages.value = result.data.result.last_page;
                 }else if(result.data.result.last_page == 1){
@@ -543,6 +557,7 @@ function getProjectiId (id){
      toggle(event);
 }
 
+
 const rolsItems = ref([
     {
         label: 'Developer',
@@ -582,7 +597,8 @@ const tableFunction = () => {
     card_table.value = false;
 };
 
-function fetchDoneTasks (){
+function fetchDoneTasks (id){
+    // console.log(id,"id");
     axios
         .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=1`, {
             headers: {
@@ -591,13 +607,14 @@ function fetchDoneTasks (){
         })
         .then((result) => {
             if (result.status === 200) {
-                doneTasks.value = result.data;
-                console.log(result.data);
+                doneTasks.value=(result.data);
+                console.log(doneTasks.value,"done");
             }
         })
         .catch((err) => {
             console.error(err);
         });
+        return ;
 }
 
 fetchDoneTasks();
