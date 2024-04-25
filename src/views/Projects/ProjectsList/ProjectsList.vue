@@ -91,7 +91,7 @@
                                     <span class="bg-gray-200 flex items-center rounded-xl w-full">
                                         <div :style="{ width: `${(doneTasks*100)/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                     </span>
-                                    <span class="text-sm">{{ item.tasks.length ? Math.round((doneTasks*100)/item.tasks.length) : 0 }}%</span>
+                                    <span class="text-sm">{{ item.tasks.length ? Math.round((doneTasks*100)/item.tasks.length) : 0 }}% {{ test }}</span>
                                 </div>
                             </span>
                         </div>
@@ -358,6 +358,7 @@ const editUnit_value=ref('');
 const project_id=ref('');
 const doneTasks=ref();
 const projectsId=ref([]);
+let test=ref();
 console.log(projectsId.value);
 
 const ViewPagenetion=ref(true);
@@ -452,11 +453,9 @@ function fetchData(page) {
                 isloading.value = true;
                 data.value = result.data.result.data;
                 console.log(result.data.result.data);
-                // for (let item of data.value) {
-                //     projectsId.value.push(item.id);
-                //     console.log(item.id); 
-                //     fetchDoneTasks(item.id);
-                // } 
+                for (let item of data.value) {
+                     test.value = fetchDoneTasks(item.id);
+                } 
                 if(result.data.result.last_page > 1){
                     totalPages.value = result.data.result.last_page;
                 }else if(result.data.result.last_page == 1){
@@ -598,9 +597,9 @@ const tableFunction = () => {
 };
 
 function fetchDoneTasks (id){
-    // console.log(id,"id");
+    console.log(id,"id");
     axios
-        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=1`, {
+        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=${id}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
