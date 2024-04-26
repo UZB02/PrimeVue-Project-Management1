@@ -75,8 +75,8 @@
                                 <div class="relative w-full">
                                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Avatar</p>
                                     <input
-                                        @change="previewImage"
                                         type="file"
+                                        @change="onFileChange"
                                         class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-2 pl-3 mt-1 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -117,6 +117,7 @@ import router from '@/router';
 const rols_id = router.currentRoute.value.params.id;
 console.log(rols_id);
 
+
 const username = ref('');
 const password = ref('');
 const avatar = ref('');
@@ -124,23 +125,27 @@ const status = ref('');
 const phone = ref('');
 const fio = ref('');
 const email = ref('');
+// const formData = new FormData();
 
 const isloading = ref(false);
+const file = ref(null);
 
-const previewImage = (event) => {
-    const file = event.target.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            avatar.value = reader.result;
-            // console.log(avatar.value);
-        };
-        reader.readAsDataURL(file);
-    }
+const onFileChange = (e) => {
+    file.value = e.target.files[0];
+    console.log(file.value);
 };
 
 const addUser = () => {
+     const formData = new FormData();
+    formData.append('file', file.value);
+
+    // FormData obyektining ichidagi ma'lumotlarni ko'rish
+    for (const [key, value] of formData.entries()) {
+        
+        console.log(key, value);
+    }
+       console.log( formData,"tek");
+
     isloading.value = true;
     console.log(rols_id);
     axios
@@ -154,7 +159,7 @@ const addUser = () => {
                 password: password.value,
                 user_role_id: rols_id,
                 status: status.value,
-                //   avatar: avatar.value
+                avatar: formData
             },
             {
                 headers: {
@@ -180,7 +185,7 @@ const addUser = () => {
             isloading.value = false;
             console.log(err);
         });
-    console.log(username.value,  password.value, status.value, phone.value, fio.value, email.value);
+    console.log(username.value,  password.value, status.value, phone.value, fio.value, email.value, avatar.value);
 };
 
 

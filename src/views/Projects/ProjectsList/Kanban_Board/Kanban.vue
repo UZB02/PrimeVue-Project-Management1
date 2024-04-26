@@ -23,15 +23,21 @@
                             <div drag-class="drag" :data-id="column.id" class="w-full flex flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns">
                                 <div v-for="(item, itemKey) in tasks" :key="itemKey" :class="column.id === item.column_id ? 'block' : 'hidden'">
                                     <div class="tasks_board shadow border flex flex-col flex-wrap justify-between overflow-auto p-1 rounded" v-if="column.id === item.column_id">
-                                        <div @click="modalEdit(item)" class="h-10 flex items-center cursor-pointer">{{ item.title }}</div>
+                                        <div @click="comentsMoadall(item.id)" class="h-10 flex items-center cursor-pointer">{{ item.title }}</div>
                                         <div id="actions" class="flex items-center justify-center gap-2">
                                             <i @click="modalEdit(item)" id="edit" class="editTask pi pi-pencil cursor-pointer"></i>
                                             <i id="delite" @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
                                         </div>
                                         <div class="w-full flex items-center justify-between">
-                                            <span>
-                                                <i class="pi pi-user text-sm"></i>
-                                                <span class="text-sm">{{ item.performers.length }}</span>
+                                            <span class="flex items-center justify-center gap-2">
+                                                <span>
+                                                    <i class="pi pi-user text-sm"></i>
+                                                    <span class="text-sm">{{ item.performers.length }}</span>
+                                                </span>
+                                                <!-- <span class="flex items-center justify-center gap-1">
+                                                    <i class="pi pi-comments text-sm cursor-pointer"></i>
+                                                    <span class="text-sm">{{ 0 }}</span>
+                                                </span> -->
                                             </span>
                                             <span>
                                                 <i @click="addPerformer(item.id)" class="pi pi-user-plus text-sm"></i>
@@ -243,7 +249,7 @@
                             <div>
                                 <label for="performers" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Edit Performer</label>
                                 <!-- <div v-for="performer in tasks" :key="performer.id">{{ performer.performers }}</div> -->
-                                    <select
+                                <select
                                     v-model="selectedCategory"
                                     @change="testSellect()"
                                     id=""
@@ -293,6 +299,18 @@
             </label>
         </div>
     </fieldset> -->
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="top flex items-center justify-between gap-2">
+                                <div class="left w-1"><img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" /></div>
+                                <div class="right flex w-full gap-2">
+                                    <input
+                                        type="text"
+                                        class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    />
+                                    <button class="text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">Submit</button>
+                                </div>
                             </div>
                         </div>
                         <span class="w-full flex items-center justify-end gap-2">
@@ -389,6 +407,34 @@
                 </div>
             </Dialog>
             <!-- End Modal Add Performers -->
+            <!-- Begin Modal Comentaries -->
+            <Dialog v-model:visible="comentsMoadal" header="Add performer" :style="{ width: '25rem' }">
+                <div class="p-2 pt-0 text-center">
+                    <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Performer qo'shish {{ taskId }}</h3>
+                    <button @click="deletTask" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                        <span :class="deletisloading ? 'block' : 'hidden'">
+                            <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
+                                <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
+                                    <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                    <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
+                                </svg>
+                                <span class="text-xl font-medium text-white">Loading...</span>
+                            </div>
+                        </span>
+                        <span :class="deletisloading ? 'hidden' : 'block text-xl'">O'chirish</span>
+                    </button>
+                    <button @click="comentsMoadalClose()" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
+                        Bekor qilish
+                    </button>
+                </div>
+            </Dialog>
+            <!-- End Modal Comentaries -->
             <!-- <Charts/> -->
         </div>
     </section>
@@ -410,10 +456,20 @@ console.log(sprint_id);
 const selectedCategory = ref('');
 console.log(selectedCategory.value);
 
-
 function testSellect() {
     console.log(selectedCategory.value);
 }
+
+function comentsMoadall(id) {
+    router.push(`/projects_list/${project_id}/melistone/${milestone_id}/sprint/${sprint_id}/kanban?id=${id}`);
+    comentsMoadal.value = true;
+}
+function comentsMoadalClose() {
+    router.push(`/projects_list/${project_id}/melistone/${milestone_id}/sprint/${sprint_id}/kanban`);
+    comentsMoadal.value = false;
+}
+
+const comentsMoadal = ref(false);
 
 const modalAddPerformer = ref(false);
 const loading = ref(false);
@@ -444,8 +500,6 @@ const editCreatedDate = ref();
 const editTaskWeight = ref();
 const editId = ref();
 const editdealine_end_date = ref();
-
-
 
 function addPerformer(id) {
     modalAddPerformer.value = true;

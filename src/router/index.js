@@ -79,7 +79,7 @@ const router = createRouter({
                 //     component: () => import('@/views/Projects/ProjectsList/Stages/performers.vue')
                 // },
                 {
-                    path: '/projects_list/:id/melistone/:slug/sprint/:sprint_id/kanban',
+                    path: '/projects_list/:id/melistone/:slug/sprint/:sprint_id/:kanban',
                     name: 'Kanban',
                     component: () => import('@/views/Projects/ProjectsList/Kanban_Board/Kanban.vue')
                 },
