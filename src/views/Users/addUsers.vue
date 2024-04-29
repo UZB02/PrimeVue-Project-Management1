@@ -25,7 +25,8 @@
                                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Name</p>
                                     <input
                                         v-model="username"
-                                        placeholder="John"
+                                        placeholder="Johnson"
+                                        autocomplete="additional-name"
                                         type="text"
                                         class="border placeholder-gray-400 font-medium focus:outline-none focus:border-black w-full pt-3 pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                     />
@@ -110,14 +111,16 @@
     </section>
 </template>
 <script setup>
-import { ref } from 'vue';
 import axios from 'axios';
+import { ref } from 'vue';
 import router from '@/router';
+import Swal from 'sweetalert2';
 
+// router orqali role_id ni olish
 const rols_id = router.currentRoute.value.params.id;
 console.log(rols_id);
 
-
+// Ma'lumotlar uchun refs
 const username = ref('');
 const password = ref('');
 const avatar = ref('');
@@ -125,44 +128,31 @@ const status = ref('');
 const phone = ref('');
 const fio = ref('');
 const email = ref('');
-// const formData = new FormData();
-
 const isloading = ref(false);
 const file = ref(null);
+const eys = ref(false);
 
-const onFileChange = (e) => {
-    file.value = e.target.files[0];
-    console.log(file.value);
-};
-
+// Foydalanuvchi qo'shish funksiyasi
 const addUser = () => {
-     const formData = new FormData();
-    formData.append('file', file.value);
-
-    // FormData obyektining ichidagi ma'lumotlarni ko'rish
-    for (const [key, value] of formData.entries()) {
-        
-        console.log(key, value);
-    }
-       console.log( formData,"tek");
-
+    const formData = new FormData();
+    formData.append('username', username.value);
+    formData.append('password', password.value);
+    formData.append('avatar', file.value, file.value.name);
+    formData.append('status', status.value);
+    formData.append('phone', phone.value);
+    formData.append('email', email.value);
+    formData.append('fio', fio.value);
+    formData.append('user_role_id', rols_id);
+    
     isloading.value = true;
-    console.log(rols_id);
+    
     axios
         .post(
             'https://pm-api.essential.uz/api/users/create',
-            {
-                username: username.value,
-                fio: fio.value,
-                email: email.value,
-                phone: phone.value,
-                password: password.value,
-                user_role_id: rols_id,
-                status: status.value,
-                avatar: formData
-            },
+            formData,
             {
                 headers: {
+                    "Content-Type": "multipart/form-data",
                     Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
             }
@@ -170,7 +160,7 @@ const addUser = () => {
         .then((res) => {
             if (res.status === 200) {
                 isloading.value = false;
-                 Swal.fire({
+                Swal.fire({
                     position: 'top-center',
                     icon: 'success',
                     title: `Bajarildi`,
@@ -188,7 +178,13 @@ const addUser = () => {
     console.log(username.value,  password.value, status.value, phone.value, fio.value, email.value, avatar.value);
 };
 
+// Fayl o'zgarishida ishlovchi funksiya
+const onFileChange = (e) => {
+    file.value = e.target.files[0];
+    console.log(file.value);
+};
 
+// Boshqa komponentga o'tish funksiya
 function cancel() {
     fio.value = '';
     username.value = '';
@@ -199,9 +195,10 @@ function cancel() {
     phone.value = '';
     router.push(`/rols/${rols_id}/users`)
 }
-const eys=ref(false)
-const showPassword =(()=>{
+
+// Parolni ko'rsatish/berish funksiyasi
+const showPassword = () => {
     eys.value = !eys.value
-})
+};
 </script>
 <style scoped></style>
