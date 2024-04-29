@@ -23,7 +23,7 @@
                             <div drag-class="drag" :data-id="column.id" class="w-full flex flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns">
                                 <div v-for="(item, itemKey) in tasks" :key="itemKey" :class="column.id === item.column_id ? 'block' : 'hidden'">
                                     <div class="tasks_board shadow border flex flex-col flex-wrap justify-between overflow-auto p-1 rounded" v-if="column.id === item.column_id">
-                                        <div @click="comentsMoadall(item.id)" class="h-10 flex items-center cursor-pointer">{{ item.title }}</div>
+                                        <div @click="coments(item.url)" class="h-10 flex items-center cursor-pointer">{{ item.title }}</div>
                                         <div id="actions" class="flex items-center justify-center gap-2">
                                             <i @click="modalEdit(item)" id="edit" class="editTask pi pi-pencil cursor-pointer"></i>
                                             <i id="delite" @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
@@ -449,9 +449,11 @@ import axios from 'axios';
 import router from '../../../../router';
 
 const project_id = router.currentRoute.value.params.id;
-const milestone_id = router.currentRoute.value.params.slug;
+const milestone_id = router.currentRoute.value;
 const sprint_id = router.currentRoute.value.params.sprint_id;
 console.log(sprint_id);
+
+
 
 const selectedCategory = ref('');
 console.log(selectedCategory.value);
@@ -460,13 +462,8 @@ function testSellect() {
     console.log(selectedCategory.value);
 }
 
-function comentsMoadall(id) {
-    router.push(`/projects_list/${project_id}/melistone/${milestone_id}/sprint/${sprint_id}/kanban?id=${id}`);
-    comentsMoadal.value = true;
-}
-function comentsMoadalClose() {
-    router.push(`/projects_list/${project_id}/melistone/${milestone_id}/sprint/${sprint_id}/kanban`);
-    comentsMoadal.value = false;
+function coments(url) {
+    router.push(`/projects_list/${project_id}/melistone/${milestone_id}/sprint/${sprint_id}/kanban/${url}`);
 }
 
 const comentsMoadal = ref(false);
