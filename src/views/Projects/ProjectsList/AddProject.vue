@@ -178,22 +178,25 @@ const factual_end_date = ref('');
 const unit_value = ref('');
 const project_type = ref('');
 
-function handleFileChange(event) {
-    const file = event.target.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = (e) => {
-            logo.value = e.target.result;
-            console.log(logo.value);
-        };
-
-        reader.readAsText(file);
-    }
-}
+const handleFileChange=((e)=>{
+    logo.value = e.target.files[0];
+    console.log(logo.value);
+})
 
 const addproject = () => {
+    const formData = new FormData();
+    formData.append('name', name.value);
+    formData.append('prefix', shortname.value);
+    formData.append('start_date', date_create.value);
+    formData.append('end_date', end_date.value);
+    formData.append('budget', budget.value);
+    formData.append('logo', logo.value, logo.value.name);
+    formData.append('color', color.value);
+    formData.append('description', description.value);
+    formData.append('factual_start_date', factual_start_date.value);
+    formData.append('factual_end_date', factual_end_date.value);
+    formData.append('unit_value', unit_value.value);
+    formData.append('project_type', project_type.value);
     isloading.value = true;
     if (logo.value === '' || name.value === '' || shortname.value === '' || date_create.value === '' || end_date.value === '' || budget.value === '' || color.value === '') {
         Swal.fire({
@@ -208,20 +211,7 @@ const addproject = () => {
            axios
         .post(
             'https://pm-api.essential.uz/api/project/create?name=Project1',
-            {
-                name: name.value,
-                prefix: shortname.value,
-                start_date: date_create.value,
-                end_date: end_date.value,
-                budget: budget.value,
-                logo: logo.value,
-                color: color.value,
-                description: description.value,
-                factual_start_date: factual_start_date.value,
-                factual_end_date: factual_end_date.value,
-                unit_value: unit_value.value,
-                project_type: project_type.value
-            },
+           formData,
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token')

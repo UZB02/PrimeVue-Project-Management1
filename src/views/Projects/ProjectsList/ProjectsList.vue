@@ -43,7 +43,7 @@
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center gap-2">
                 <div :class="card_table ? 'container flex flex-wrap gap-2' : 'hidden'">
-                    <div class="card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]" v-for="(item, ItemKey) in data" :key="ItemKey">
+                    <div class="card shadow-md p-3 rounded-lg w-[32%] h-[350px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]" v-for="(item, ItemKey) in data" :key="ItemKey">
                         <div class="actions flex items-center justify-between ">
                             <h2 class="font-bold text-sm text-slate-400">{{ ItemKey + 1 }}</h2>
                             <div class="svg flex items-center justify-end gap-2">
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="image">
-                            <img @click="generalinformation(item.id)" class="rounded-xl cursor-pointer w-full h-40 object-cover" src="https://avatars.mds.yandex.net/i?id=672ad595cdb990ce88658fad70c678881050887e-10809483-images-thumbs&n=13" alt="Rasm" />
+                            <img @click="generalinformation(item.id)" class="rounded-xl cursor-pointer w-full h-[200px] object-cover" :src="item.logo" alt="Rasm" />
                         </div>
                         <div class="bottom">
                             <span class="flex flex-col gap-2">
@@ -75,7 +75,7 @@
                                         </span>
                                         <span class="flex items-center justify-center gap-1">
                                             <i class="pi pi-verified"></i>
-                                            {{ doneTasks }}/{{ item.tasks.length }}
+                                           
                                         </span>
                                     </div>
                                     <span class="flex items-center justify-center gap-1">
@@ -89,9 +89,9 @@
                                 </div>
                                 <div class="w-full flex items-center justify-center gap-3">
                                     <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                        <div :style="{ width: `${(doneTasks*100)/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                        <div :style="{ width: `85%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                     </span>
-                                    <span class="text-sm">{{ item.tasks.length ? Math.round((doneTasks*100)/item.tasks.length) : 0 }}% {{ test }}</span>
+                                    <span class="text-sm"></span>
                                 </div>
                             </span>
                         </div>
@@ -139,9 +139,9 @@
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `85%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">{{ item.tasks.length ? Math.round((doneTasks*100)/item.tasks.length) : 0 }}%</span>
+                                        <span class="text-sm">%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -210,7 +210,7 @@
                         <input
                          class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 -translate-y-1 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             id="file_input"
-                            @change="editLogo"
+                            @change="changefile"
                             type="file"
                             ref="file"
                         />
@@ -366,11 +366,11 @@ const ViewPagenetion=ref(true);
 const currentPage = ref('');
 const totalPages = ref();
 
-// function getPerojectsId(id){
-//     for(let item of data.value){
-        
-//     }
-// }
+const changefile=((e)=>{
+    editLogo.value=e.target.files[0];
+    console.log(editLogo.value);
+})
+
 
 const modalDelet = (id) => {
     eId.value = id;
@@ -432,7 +432,7 @@ function modalEdit(item) {
     editCreated_at.value = data.created_at;
     editEnd_date.value = data.end_date;
     editBudget.value= data.budget;
-    editLogo.value = data.logo;
+    // editLogo.value = data.logo;
     editShortname.value = data.prefix;
     editColor.value= data.color;
     editDescription.value = data.description;
@@ -494,6 +494,20 @@ const deletProject = () => {
         });
 };
 const editProject = (id) => {
+    const formData = new FormData();
+    formData.append('logo', editLogo.value);
+    formData.append('name', editName.value);
+    formData.append('prefix', editShortname.value);
+    formData.append('start_date', editDate_create.value);
+    formData.append('end_date', editEnd_date.value);
+    formData.append('budget', editBudget.value);
+    formData.append('color', editColor.value);
+    formData.append('description', editDescription.value);
+    formData.append('factual_start_date', editFactual_start_date.value);
+    formData.append('factual_end_date', editFactual_end_date.value);
+    formData.append('unit_value', editUnit_value.value);
+    // formData.append('project_type', project_type.value);
+    
     editLoadings.value = true;
     console.log(id);
     const token = localStorage.getItem('token');
@@ -506,20 +520,7 @@ const editProject = (id) => {
     axios
         .post(
             `https://pm-api.essential.uz/api/project/${editId.value}/update`,
-            {
-                name: editName.value,
-                date_create: editDate_create.value,
-                created_at: editCreated_at.value,
-                end_date: editEnd_date.value,
-                budget: editBudget.value,
-                logo: editLogo.value,
-                color: editColor.value,
-                prefix:editShortname.value,
-                description: editDescription.value,
-                factual_start_date: editFactual_start_date.value,
-                factual_end_date: editFactual_end_date.value,
-                unit_value: editUnit_value.value
-            },
+            formData,
             { headers }
         )
         .then((result) => {

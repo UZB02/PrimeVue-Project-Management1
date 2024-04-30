@@ -79,7 +79,7 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h3>{{ doneTasks }}/{{item.tasks.length}}</h3>
+                                        <h3>{{ doneTasks }}/{{ item.tasks.length }}</h3>
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-center gap-2">
@@ -94,9 +94,9 @@
                             </div>
                             <div class="w-full flex items-center justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                    <div :style="{ width: `${(doneTasks * 100) / item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
-                                <span class="text-sm">{{ item.tasks.length ? Math.round(doneTasks*100/item.tasks.length) : 0 }}%</span>
+                                <span class="text-sm">{{ item.tasks.length ? Math.round((doneTasks * 100) / item.tasks.length) : 0 }}%</span>
                             </div>
                         </span>
                     </div>
@@ -143,9 +143,9 @@
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `${(doneTasks * 100) / item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">{{item.tasks.length ? Math.round(doneTasks*100/item.tasks.length) : 0 }}%</span>
+                                        <span class="text-sm">{{ item.tasks.length ? Math.round((doneTasks * 100) / item.tasks.length) : 0 }}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -311,7 +311,7 @@
 </template>
 <script setup>
 import loading from '@/components/loading.vue';
-import { ref, reactive , toRaw} from 'vue';
+import { ref, reactive, toRaw } from 'vue';
 import router from '@/router';
 import axios from 'axios';
 const deletModal = ref(false);
@@ -377,17 +377,17 @@ const items = ref([
         }
     }
 ]);
-const doneTasks=ref();
+const doneTasks = ref();
 
 const menu = ref();
 const eId = ref(null);
 const isloading = ref(false);
 const data = ref({});
 const sprint_id = ref('');
-function getSprint (id){
+function getSprint(id) {
     sprint_id.value = id;
     console.log(sprint_id.value);
-     toggle(event);
+    toggle(event);
 }
 
 const goKanban = (id) => {
@@ -486,7 +486,7 @@ function fetchData() {
             if (result.status === 200) {
                 isloading.value = true;
                 data.value = result.data.data;
-                doneTasks.value = result.data.data;
+                // doneTasks.value = result.data.data;
                 // for (let i = 0; i < result.data.data.length; i++) {
                 //     console.log(result.data.data[i].tasks);
                 //     allTasks.value += JSON.stringify(result.data.data[i].tasks.length);
@@ -499,6 +499,7 @@ function fetchData() {
             console.error(err);
         });
 }
+
 fetchData();
 
 const editProject = (id) => {
@@ -561,7 +562,7 @@ const tableFunction = () => {
     card_table.value = false;
 };
 
-function fetchDoneTasks (){
+function fetchDoneTasks() {
     axios
         .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&sprint_id=${project_id}`, {
             headers: {
@@ -571,7 +572,7 @@ function fetchDoneTasks (){
         .then((result) => {
             if (result.status === 200) {
                 doneTasks.value = result.data;
-                console.log(result.data, "Done tasks");
+                console.log(result.data, 'Done tasks');
             }
         })
         .catch((err) => {
@@ -580,9 +581,9 @@ function fetchDoneTasks (){
 }
 fetchDoneTasks();
 
-function fetchMelistones (){
+function fetchMelistones() {
     console.log(milestone_id);
-        axios
+    axios
         .get(`https://pm-api.essential.uz/api/milestone/show/${milestone_id}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -599,6 +600,5 @@ function fetchMelistones (){
         });
 }
 fetchMelistones();
-
 </script>
 <style></style>

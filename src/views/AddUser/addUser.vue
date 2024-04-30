@@ -84,7 +84,7 @@
                                 <div class="relative w-full">
                                     <p class="bg-white pt-0 pr-2 pb-0 pl-2 -mt-2 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute">Avatar</p>
                                     <input
-                                        @change="previewImage"
+                                        @change="handleFileChange"
                                         type="file"
                                         class="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-3 pr-3 pb-2 pl-3 mt-1 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
                                     />
@@ -131,39 +131,32 @@ const status = ref('');
 const phone = ref('');
 const fio = ref('');
 const email = ref('');
+const file = ref(null);
 
 const userRolsId = ref('');
 
 const isloading = ref(false);
 
-const previewImage = (event) => {
-    const file = event.target.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            avatar.value = reader.result;
-            // console.log(avatar.value);
-        };
-        reader.readAsDataURL(file);
-    }
+const handleFileChange = (event) => {
+     file.value = event.target.files[0];
+    console.log(file.value,file.value.name);
 };
 
 const addUser = () => {
+    const formData = new FormData();
+    formData.append('username', username.value);
+    formData.append('password', password.value);
+    formData.append('avatar', file.value, file.value.name);
+    formData.append('user_role_id', user_role_id.value);
+    formData.append('status', status.value);
+    formData.append('phone', phone.value);
+    formData.append('email', email.value);
+    formData.append('fio', fio.value);
     isloading.value = true;
     axios
         .post(
             'https://pm-api.essential.uz/api/users/create',
-            {
-                username: username.value,
-                fio: fio.value,
-                email: email.value,
-                phone: phone.value,
-                password: password.value,
-                user_role_id: user_role_id.value,
-                status: status.value,
-                //   avatar: avatar.value
-            },
+            formData,
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token')
