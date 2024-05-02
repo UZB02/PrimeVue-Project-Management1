@@ -96,7 +96,7 @@
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
                                     <div :style="`width: ${Math.round((item.done_tasks / item.all_tasks) * 100)}%`" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
-                                <span class="text-sm">{{ item.all_tasks }}/{{ item.done_tasks }}%</span>
+                                <span class="text-sm">{{item.done_tasks ? Math.round((item.done_tasks / item.all_tasks) * 100) : 0 }}%</span>
                             </div>
                         </span>
                     </div>
@@ -110,13 +110,13 @@
                     </div>
                     <ul v-for="(item, itemId) in data" :key="itemId" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
                         <li class="flex items-center justify-between align-items-center py-2 border-bottom-1 max-[900px]:w-[90%] surface-border">
-                            <div class="w-[35%] flex items-center gap-2">
+                            <div @click="goKanban(item.id)" class="w-[35%] cursor-pointer flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ itemId + 1 }}.</h1>
                                 <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
                                     <i class="pi pi-table text-xl text-blue-500"></i>
                                 </div>
 
-                                <span @click="generalinformation" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
+                                <span class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.name }}</h1>
                                     <h4 class="text-slate-400">{{ item.status }}</h4>
                                 </span>
@@ -125,7 +125,7 @@
                                 <span class="flex items-center justify-center gap-1">
                                     <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
                                 </span>
-                                <span class="flex w-1/4 items-center justify-center gap-2">
+                                <span @click="generalinformation" class="flex w-1/4 items-center justify-center gap-2">
                                     <Avatar image="https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13" size="large" shape="circle"> </Avatar>
                                     <h1 class="w-1/2 text-slate-500 font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.avatar_name }}</h1>
                                 </span>
@@ -140,12 +140,16 @@
                                     <i class="pi pi-paperclip"></i>
                                     <h3>8</h3>
                                 </span>
+                                     <span class="flex items-center justify-center gap-1">
+                                            <i class="pi pi-verified"></i>
+                                            <h2>{{ item.all_tasks }}/{{ item.done_tasks }}</h2>
+                                        </span>
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
                                             <div :style="`width: ${Math.round((item.done_tasks / item.all_tasks) * 100)}%`" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">0%</span>
+                                        <span class="text-sm">{{item.all_tasks ? Math.round((item.done_tasks / item.all_tasks) * 100) : 0}}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">

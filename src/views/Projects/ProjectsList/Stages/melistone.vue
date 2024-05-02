@@ -80,7 +80,7 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h3>0</h3>
+                                        <h3>{{ item.all_tasks }}/{{ item.done_tasks }}</h3>
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-center gap-2">
@@ -95,9 +95,9 @@
                             </div>
                             <div class="w-full flex items-center justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `${Math.round((item.done_tasks * 100) / item.all_tasks)}%}`}" class="score rounded-xl bg-green-500 h-2"></div>
+                                  <div :style="{ width: `${Math.round((item.done_tasks / item.all_tasks) * 100)}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
-                                <span class="text-sm">{{ item.all_tasks }}/{{ item.done_tasks }}%</span>
+                                <span class="text-sm">{{item.done_tasks ? Math.round((item.done_tasks / item.all_tasks) * 100) : 0 }}%</span>
                             </div>
                         </span>
                     </div>
@@ -106,7 +106,7 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium"> Topshiriq</h5>
+                        <h5 class="text-4xl font-medium">{{ data.length }} Topshiriq</h5>
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week" class="w-1/2 md:w-14rem border" />
                     </div>
                     <ul v-for="(item, itemId) in data" :key="itemId" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
@@ -141,12 +141,16 @@
                                     <i class="pi pi-paperclip"></i>
                                     <h3>8</h3>
                                 </span>
+                                     <span class="flex items-center justify-center gap-1">
+                                            <i class="pi pi-verified"></i>
+                                            <h2>{{ item.all_tasks }}/{{ item.done_tasks }}</h2>
+                                        </span>
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `0%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `${Math.round((item.done_tasks / item.all_tasks) * 100)}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">0%</span>
+                                        <span class="text-sm">{{item.done_tasks ? Math.round((item.done_tasks / item.all_tasks) * 100) : 0 }}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
