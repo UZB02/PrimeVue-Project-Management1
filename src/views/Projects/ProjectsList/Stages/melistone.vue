@@ -589,25 +589,6 @@ const tableFunction = () => {
     card_table.value = false;
 };
 
-function fetchDoneTasks (){
-    axios
-        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&melistone_id=3`, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        })
-        .then((result) => {
-            if (result.status === 200) {
-                doneTasks.value = result.data;
-                console.log(result.data);
-            }
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-}
-
-fetchDoneTasks();
 
 function fetchProekts (){
         axios
