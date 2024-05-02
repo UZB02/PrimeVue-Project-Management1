@@ -79,7 +79,7 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h3>{{ doneTasks }}/{{ item.tasks.length }}</h3>
+                                        <h3>{{ item.all_tasks }}/{{ item.done_tasks }}</h3>
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-center gap-2">
@@ -94,9 +94,9 @@
                             </div>
                             <div class="w-full flex items-center justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `${(doneTasks * 100) / item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                    <div :style="`width: ${Math.round((item.done_tasks / item.all_tasks) * 100)}%`" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
-                                <span class="text-sm">{{ item.tasks.length ? Math.round((doneTasks * 100) / item.tasks.length) : 0 }}%</span>
+                                <span class="text-sm">{{ item.all_tasks }}/{{ item.done_tasks }}%</span>
                             </div>
                         </span>
                     </div>
@@ -143,9 +143,9 @@
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `${(doneTasks * 100) / item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="`width: ${Math.round((item.done_tasks / item.all_tasks) * 100)}%`" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">{{ item.tasks.length ? Math.round((doneTasks * 100) / item.tasks.length) : 0 }}%</span>
+                                        <span class="text-sm">0%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -485,14 +485,14 @@ function fetchData() {
         .then((result) => {
             if (result.status === 200) {
                 isloading.value = true;
-                data.value = result.data.data;
+                data.value = result.data.result.data;
                 // doneTasks.value = result.data.data;
                 // for (let i = 0; i < result.data.data.length; i++) {
                 //     console.log(result.data.data[i].tasks);
                 //     allTasks.value += JSON.stringify(result.data.data[i].tasks.length);
                 // }
                 // console.log(allTasks.value);
-                console.log(result.data.data);
+                console.log(result.data.result.data);
             }
         })
         .catch((err) => {

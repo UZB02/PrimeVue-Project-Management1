@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div :class="column.id === 1 ? 'block w-full flex  items-center justify-between gap-3  p-2 border rounded shadow' : 'hidden'">
+                        <div :class="column.id ? ' w-full flex  items-center justify-between gap-3  p-2 border rounded shadow' : 'hidden'">
                             <div @click="modalAddTask(column.id)" class="left transition p-2 w-[60%] flex items-center cursor-pointer rounded-lg gap-3 hover:bg-slate-300">
                                 <i class="pi pi-plus"></i>
                                 <h2 class="font-medium font-sans">Add Task</h2>
@@ -449,7 +449,7 @@ import axios from 'axios';
 import router from '../../../../router';
 
 const project_id = router.currentRoute.value.params.id;
-const milestone_id = router.currentRoute.value;
+const milestone_id = router.currentRoute.value.params.slug;
 const sprint_id = router.currentRoute.value.params.sprint_id;
 console.log(sprint_id);
 

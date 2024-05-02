@@ -80,7 +80,7 @@
                                     </span>
                                     <span class="flex items-center justify-center gap-1">
                                         <i class="pi pi-verified"></i>
-                                        <h3>{{ doneTasks }}/{{item.tasks.length}}</h3>
+                                        <h3>0</h3>
                                     </span>
                                 </div>
                                 <div class="flex items-center justify-center gap-2">
@@ -95,9 +95,9 @@
                             </div>
                             <div class="w-full flex items-center justify-center gap-3">
                                 <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                    <div :style="{ width: `${(doneTasks*100)/item.tasks.length}%`}" class="score rounded-xl bg-green-500 h-2"></div>
+                                    <div :style="{ width: `${Math.round((item.done_tasks * 100) / item.all_tasks)}%}`}" class="score rounded-xl bg-green-500 h-2"></div>
                                 </span>
-                                <span class="text-sm">{{item.tasks.length ? Math.round((doneTasks*100)/item.tasks.length) : 0}}%</span>
+                                <span class="text-sm">{{ item.all_tasks }}/{{ item.done_tasks }}%</span>
                             </div>
                         </span>
                     </div>
@@ -106,7 +106,7 @@
             <div :class="card_table ? 'hidden' : 'list w-full max-[900px]:w-[100%]'">
                 <div class="card">
                     <div class="flex align-items-center justify-content-between mb-4">
-                        <h5 class="text-4xl font-medium">{{ data.length }} Topshiriq</h5>
+                        <h5 class="text-4xl font-medium"> Topshiriq</h5>
                         <Dropdown v-model="selectedCity" :options="cities" optionLabel="name" placeholder="This Week" class="w-1/2 md:w-14rem border" />
                     </div>
                     <ul v-for="(item, itemId) in data" :key="itemId" class="w-full p-0 mx-0 mt-0 mb-4 list-none">
@@ -144,9 +144,9 @@
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `${doneTasks*100/item.tasks.length}%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `0%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">{{item.tasks.length ? Math.round((doneTasks*100)/item.tasks.length) : 0}}%</span>
+                                        <span class="text-sm">0%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -409,11 +409,6 @@ const generalinformation = (id) => {
     router.push(`/projects_list/${project_id}/melistone/${id}/sprint`);
 };
 
-// for (const task in data) {
-//     melistoneIdForTasks[task] = task;
-// console.log(data);
-// }
-// console.log(melistoneIdForTasks.value);
 
 function getProjectiId (id){
     melistone_id.value = id;
@@ -506,7 +501,7 @@ const deletProject = () => {
 };
 function fetchData(page) {
     axios
-        .get(`https://pm-api.essential.uz/api/milestone?project_id=${project_id}&${page}`, {
+        .get(`https://pm-api.essential.uz/api/milestone?project_id=${project_id}&page=${page}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
@@ -514,11 +509,12 @@ function fetchData(page) {
         .then((result) => {
             if (result.status === 200) {
                 isloading.value = true;
-                console.log(result.data.data);
-                data.value = result.data.data;
-                if(result.data.last_page > 1){
-                    totalPages.value = result.data.last_page;
-                }else{
+                console.log(result.data.result.data);
+                data.value = result.data.result.data;
+                console.log(data.value,'ds');
+                if(result.data.result.last_page > 1){
+                    totalPages.value = result.data.result.last_page;
+                }else if(result.data.result.last_page == 1){
                     ViewPagenetion.value = false;
                 }
             }

@@ -75,7 +75,7 @@
                                         </span>
                                         <span class="flex items-center justify-center gap-1">
                                             <i class="pi pi-verified"></i>
-                                           
+                                            <h2>{{ item.all_tasks }}/{{ item.done_tasks }}</h2>
                                         </span>
                                     </div>
                                     <span class="flex items-center justify-center gap-1">
@@ -89,9 +89,9 @@
                                 </div>
                                 <div class="w-full flex items-center justify-center gap-3">
                                     <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                        <div :style="{ width: `85%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                        <div :style="{ width: `${Math.round((item.done_tasks / item.all_tasks) * 100)}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                     </span>
-                                    <span class="text-sm"></span>
+                                    <span class="text-sm">{{item.done_tasks ? Math.round((item.done_tasks / item.all_tasks) * 100) : 0 }}%</span>
                                 </div>
                             </span>
                         </div>
@@ -136,12 +136,16 @@
                                     <i class="pi pi-paperclip"></i>
                                     <h3>6</h3>
                                 </span>
+                                    <span class="flex items-center justify-center gap-1">
+                                            <i class="pi pi-verified"></i>
+                                            <h2>{{ item.all_tasks }}/{{ item.done_tasks }}</h2>
+                                        </span>
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                            <div :style="{ width: `85%` }" class="score rounded-xl bg-green-500 h-2"></div>
+                                            <div :style="{ width: `${Math.round((item.done_tasks / item.all_tasks) * 100)}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                         </span>
-                                        <span class="text-sm">%</span>
+                                        <span class="text-sm">{{ item.done_tasks ? Math.round((item.done_tasks / item.all_tasks) * 100) : 0 }}%</span>
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
@@ -453,9 +457,9 @@ function fetchData(page) {
                 isloading.value = true;
                 data.value = result.data.result.data;
                 console.log(result.data.result.data);
-                for (let item of data.value) {
-                     test.value = fetchDoneTasks(item.id);
-                } 
+                // for (let item of data.value) {
+                //      test.value = fetchDoneTasks(item.id);
+                // } 
                 if(result.data.result.last_page > 1){
                     totalPages.value = result.data.result.last_page;
                 }else if(result.data.result.last_page == 1){
@@ -597,26 +601,26 @@ const tableFunction = () => {
     card_table.value = false;
 };
 
-function fetchDoneTasks (id){
-    console.log(id,"id");
-    axios
-        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=${id}`, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        })
-        .then((result) => {
-            if (result.status === 200) {
-                doneTasks.value=(result.data);
-                console.log(doneTasks.value,"done");
-            }
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-        return ;
-}
+// function fetchDoneTasks (id){
+//     console.log(id,"id");
+//     axios
+//         .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&project_id=${id}`, {
+//             headers: {
+//                 Authorization: 'Bearer ' + localStorage.getItem('token')
+//             }
+//         })
+//         .then((result) => {
+//             if (result.status === 200) {
+//                 doneTasks.value=(result.data);
+//                 console.log(doneTasks.value,"done");
+//             }
+//         })
+//         .catch((err) => {
+//             console.error(err);
+//         });
+//         return ;
+// }
 
-fetchDoneTasks();
+// fetchDoneTasks();
 </script>
 <style scoped></style>
