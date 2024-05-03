@@ -23,7 +23,7 @@
                             <div drag-class="drag" :data-id="column.id" class="w-full flex flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns">
                                 <div v-for="(item, itemKey) in tasks" :key="itemKey" :class="column.id === item.column_id ? 'block' : 'hidden'">
                                     <div class="tasks_board shadow border flex flex-col flex-wrap justify-between overflow-auto p-1 rounded" v-if="column.id === item.column_id">
-                                        <div @click="coments(item.url)" class="h-10 flex items-center cursor-pointer">{{ item.title }}</div>
+                                        <div @click="coments(item.id)" class="h-10 flex items-center cursor-pointer">{{ item.title }}</div>
                                         <div id="actions" class="flex items-center justify-center gap-2">
                                             <i @click="modalEdit(item)" id="edit" class="editTask pi pi-pencil cursor-pointer"></i>
                                             <i id="delite" @click="modalDelet(item.id)" class="delite pi pi-trash cursor-pointer"></i>
