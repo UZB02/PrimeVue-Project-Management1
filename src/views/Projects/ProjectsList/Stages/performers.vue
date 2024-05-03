@@ -60,7 +60,7 @@
                             <h1 class="font-bold">555</h1>
                           <span class="flex items-center justify-center gap-3">
                               <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.status }}</h2>
-                            <h4 class="font-sans font-medium pb-1 text-gray-400">99</h4>
+                            <h4 class="font-sans font-medium pb-1 text-gray-400"></h4>
                           </span>
                             <h5 class="text-gray-500 font-italic">5556</h5>
                         </span>

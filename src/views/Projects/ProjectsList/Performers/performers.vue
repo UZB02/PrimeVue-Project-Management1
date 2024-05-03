@@ -58,7 +58,7 @@
                                 class="pi pi-ellipsis-h cursor-pointer"></i>
                         </div>
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
-                            <img @click="gotoPerformersInfo(item.id)" src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250"
+                            <img @click="gotoPerformersInfo(item.id)" :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
                                 class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
                             <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.fio}}</h1>
                           <span class="flex items-center justify-center gap-3">
@@ -94,7 +94,7 @@
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ itemkey + 1 }}.</h1>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
-                                    <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer" image="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" size="large" shape="circle">
+                                    <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer" :image="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" size="large" shape="circle">
                                     </Avatar>
                                 </span>
 
@@ -248,7 +248,7 @@
                         class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div class="cards w-full flex items-center justify-between">
                             <div class="w-[70%] flex items-center gap-3">
-                                <img src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" alt="" class="w-[10%]">
+                                <img :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="" class="w-16 card-img  h-16 rounded-[50%] cursor-pointer">
                                 <div class="">
                                     <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{item.fio }}</span>
                                     <div class="mt-1 text-600 text-gray-400">{{ item.name }}</div>
@@ -448,7 +448,7 @@ function fetchPerformers() {
         }
     }).then((res) => {
         comunitiCard.value = res.data;
-        console.log(res);
+        console.log(res.data);
     }).catch((err) => {
         console.log(err);
     }); 

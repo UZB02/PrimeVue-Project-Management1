@@ -7,7 +7,7 @@
                     <div class="performers flex gap-2 items-center justify-center">
                         <AvatarGroup>
                            <div class="flex items-center gap-1" v-for="item in performers">
-                             <img :src="performers.avatar" class="w-[45px] h-[45px] rounded-full" alt="">
+                             <img :src="item.perfomer.user.avatar ? item.perfomer.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" class="w-[45px] h-[45px] rounded-full" alt="">
                            </div>
                         </AvatarGroup>
                         <span @click="modalAddPerformer()" class="flex items-center justify-center gap-1 bg-blue-400 w-[45px] h-[45px] rounded-full cursor-pointer text-white">
@@ -140,16 +140,10 @@ const changePerformer = ref(false);
 const taskId = router.currentRoute.value.params.url;
 const task=ref({})
 const performers=ref({})
+const performer=ref({})
 const url = router.currentRoute.value;
 console.log(url, 88);
 
-function fetchData() {
-    axios.get(`https://vp-leads.com/wp-json/wp/v2/posts/${url.params.id}`, {
-        headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-    });
-}
 
 function fetchTask() {
     axios.get(`https://pm-api.essential.uz/api/tasks/show/${taskId}`, {
@@ -160,6 +154,10 @@ function fetchTask() {
         if(res.status === 200) {
             task.value = res.data[0]
             performers.value = res.data[0].performers
+            // for (let i = 0; i < performers.value.length; i++) {
+            //     performer.value = performers.value[i].perfomer
+            // }
+            // console.log(performer.value,6);
             console.log(performers.value,7);
             console.log(task.value,8);
         }

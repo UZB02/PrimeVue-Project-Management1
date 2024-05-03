@@ -58,7 +58,7 @@
                                      class="pi pi-ellipsis-h cursor-pointer"></i>
                              </div>
                              <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
-                                 <img @click="gotoPerformersInfo(item.id)" :src="item.avatar"
+                                 <img @click="gotoPerformersInfo(item.id)" :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
                                      class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
                                  <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.fio}}</h1>
                                <span class="flex items-center justify-center gap-3">
@@ -93,8 +93,8 @@
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ itemkey + 1 }}.</h1>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
-                                    <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer" image="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" size="large" shape="circle">
-                                    </Avatar>
+                                    <img @click="router.push(`/performersinfo`)" :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" size="large" class="w-14 card-img  h-14 rounded-[50%] cursor-pointer" />
+                                   
                                 </span>
 
                                 <span @click="generalinformation"
