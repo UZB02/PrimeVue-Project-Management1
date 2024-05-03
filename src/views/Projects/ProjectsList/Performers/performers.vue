@@ -60,12 +60,12 @@
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
                             <img @click="gotoPerformersInfo(item.id)" src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250"
                                 class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
-                            <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.user.fio}}</h1>
+                            <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.fio}}</h1>
                           <span class="flex items-center justify-center gap-3">
                               <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.status }}</h2>
-                            <h4 class="font-sans font-medium pb-1 text-gray-400 whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.user_role.name }}</h4>
+                            <h4 class="font-sans font-medium pb-1 text-gray-400 whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.name }}</h4>
                           </span>
-                            <h5 class="text-gray-500 font-italic">{{ item.user.phone }}</h5>
+                            <h5 class="text-gray-500 font-italic">{{ item.phone }}</h5>
                         </span>
                     </div>
                     <Menu ref="menu" :model="overlayMenuItems" :popup="true" />
@@ -101,8 +101,8 @@
                                 <span @click="generalinformation"
                                     class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{
-                                        item.user.fio }}</h1>
-                                    <h4 class="text-slate-400">{{ item.user_role.name }}</h4>
+                                        item.fio }}</h1>
+                                    <h4 class="text-slate-400">{{ item.name }}</h4>
                                 </span>
                             </div>
                             <div class="w-[65%] flex  gap-3  items-center justify-between">
@@ -113,7 +113,7 @@
                                 <span class="flex items-center justify-center gap-2">
                                     <i class="pi pi-calendar"></i>
                                     <span class="w-40 font-semibold">
-                                        {{ item.user.updated_at.substr(0, 10) }}
+                                        
                                     </span>
                                 </span>
 
@@ -250,8 +250,8 @@
                             <div class="w-[70%] flex items-center gap-3">
                                 <img src="https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250" alt="" class="w-[10%]">
                                 <div class="">
-                                    <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{item.user.fio }}</span>
-                                    <div class="mt-1 text-600 text-gray-400">{{ item.user_role.name }}</div>
+                                    <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{item.fio }}</span>
+                                    <div class="mt-1 text-600 text-gray-400">{{ item.name }}</div>
                                 </div>
                             </div>
                             <div class="mt-2 pr-5 md:mt-0 flex align-items-center">
@@ -448,7 +448,7 @@ function fetchPerformers() {
         }
     }).then((res) => {
         comunitiCard.value = res.data;
-        console.log(res.data);
+        console.log(res);
     }).catch((err) => {
         console.log(err);
     }); 

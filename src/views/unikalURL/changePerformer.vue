@@ -10,10 +10,10 @@
                         <li v-for="(item, itemId) in users" :key="itemId" @click="addPerformer(item.id)" class="flex items-center transition cursor-pointer active:bg-blue-200 justify-between align-items-center py-2 px-1 rounded-lg border-bottom-1 max-[900px]:w-[90%] surface-border">
                             <div class="w-full flex items-center justify-center  gap-2">
                                 <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                   <img class="w-3rem h-3rem rounded-full" :src="item.user.avatar ? item.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="">
+                                   <img class="w-3rem h-3rem rounded-full" :src="item.avatar ? item.avatar :'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="">
                                 </div>
                                 <span  class="w-full text-900 line-height-3 flex flex-col gap-2">
-                                    <h1 class="font-bold text-xl">{{ item.user.fio }}</h1>
+                                    <h1 class="font-bold text-xl">{{ item.fio }}</h1>
                                     <h4 class="text-slate-400"></h4>
                                 </span>
                             </div>
@@ -25,6 +25,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 const router = useRouter();
 
 const users=ref({});
@@ -77,6 +78,15 @@ const addPerformer = (id) => {
             }
         )
         .then((res) => {
+            if(res.status == 200) {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: `Bajarildi`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
             console.log(res);
         })
         .catch((err) => {

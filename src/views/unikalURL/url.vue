@@ -3,12 +3,11 @@
         <div class="container flex flex-col gap-4">
             <div class="top w-full flex flex-col gap-2 h-[20vh] mb-6">
                 <div class="title flex items-center justify-between">
-                    <h1 class="font-bold text-3xl">Unikal URL</h1>
+                    <h1 class="font-bold text-3xl">{{ task.title }}</h1>
                     <div class="performers flex gap-2 items-center justify-center">
                         <AvatarGroup>
-                           <div class="flex items-center gap-1">
-                             <img src="https://vp-leads.com/wp-content/uploads/2021/09/professiya-veb-analitik.jpg" class="w-[45px] h-[45px] rounded-full" alt="">
-                            <img src="https://vp-leads.com/wp-content/uploads/2021/09/professiya-veb-analitik.jpg" class="w-[45px] h-[45px] rounded-full" alt="">
+                           <div class="flex items-center gap-1" v-for="item in performers">
+                             <img :src="performers.avatar" class="w-[45px] h-[45px] rounded-full" alt="">
                            </div>
                         </AvatarGroup>
                         <span @click="modalAddPerformer()" class="flex items-center justify-center gap-1 bg-blue-400 w-[45px] h-[45px] rounded-full cursor-pointer text-white">
@@ -138,7 +137,9 @@ import axios from 'axios';
 import ChangePerformer from "../unikalURL/changePerformer.vue"
 
 const changePerformer = ref(false);
-const taskId = ref();
+const taskId = router.currentRoute.value.params.url;
+const task=ref({})
+const performers=ref({})
 const url = router.currentRoute.value;
 console.log(url, 88);
 
@@ -150,22 +151,39 @@ function fetchData() {
     });
 }
 
-function fetchPerformers() {
-    axios.get(`https://pm-api.essential.uz/api/task-performers`, 
-    {
-        task_id: taskId
-    },
-    {
+function fetchTask() {
+    axios.get(`https://pm-api.essential.uz/api/tasks/show/${taskId}`, {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }
     }).then((res) => {
-        console.log(res);
+        if(res.status === 200) {
+            task.value = res.data[0]
+            performers.value = res.data[0].performers
+            console.log(performers.value,7);
+            console.log(task.value,8);
+        }
     }).catch((err) => {
         console.log(err);
-    });
+    })
 }
-fetchPerformers()
+fetchTask()
+// function fetchPerformers() {
+//     axios.get(`https://pm-api.essential.uz/api/task-performers`, 
+//     {
+//         task_id: taskId
+//     },
+//     {
+//         headers: {
+//             Authorization: 'Bearer ' + localStorage.getItem('token')
+//         }
+//     }).then((res) => {
+//         console.log(res);
+//     }).catch((err) => {
+//         console.log(err);
+//     });
+// }
+// fetchPerformers()
 
 
 const modalAddPerformer = (()=>{
