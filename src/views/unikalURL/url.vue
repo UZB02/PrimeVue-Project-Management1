@@ -6,13 +6,38 @@
                     <h1 class="font-bold text-3xl">{{ task.title }}</h1>
                     <div class="performers flex gap-2 items-center justify-center">
                         <AvatarGroup>
-                           <div class="flex items-center gap-1" v-for="item in performers">
-                             <img :src="item.perfomer.user.avatar ? item.perfomer.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" class="w-[45px] h-[45px] rounded-full" alt="">
-                           </div>
+                            <div class="flex items-center gap-1" v-for="item in performers" @click="performersID(item.perfomer.user.id)">
+                                <img
+                                    :src="item.perfomer.user.avatar ? item.perfomer.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
+                                    class="w-[45px] h-[45px] rounded-full"
+                                    alt=""
+                                />
+                            </div>
                         </AvatarGroup>
                         <span @click="modalAddPerformer()" class="flex items-center justify-center gap-1 bg-blue-400 w-[45px] h-[45px] rounded-full cursor-pointer text-white">
                             <i class="pi pi-user-plus text-2xl"></i>
                         </span>
+                        <OverlayPanel ref="op">
+                            <div></div>
+                            <div class="bottom flex items-center gap-3 flex-wrap">
+                                <div class="action w-full flex items-center justify-end gap-2">
+                                    <i class="pi pi-pencil cursor-pointer"></i>
+                                    <i class="pi pi-trash cursor-pointer"></i>
+                                </div>
+                                <span class="flex items-center justify-center flex-col gap-2 p-3 w-full">
+                                    <img
+                                        :src="performer.avatar ? performer.avatar : `https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250`"
+                                        class="w-24 card-img h-24 rounded-[50%] cursor-pointer"
+                                        alt=""
+                                    />
+                                    <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ performer.fio }}</h1>
+                                    <span class="flex items-center justify-center gap-3">
+                                        <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ performer.status }}</h2>
+                                    </span>
+                                    <h5 class="text-gray-500 font-italic">{{ performer.phone }}</h5>
+                                </span>
+                            </div>
+                        </OverlayPanel>
                     </div>
                 </div>
                 <div class="image h-full">
@@ -20,7 +45,7 @@
                 </div>
             </div>
             <div class="bottom flex items-center justify-center gap-2">
-                <div class="border p-3 rounded-xl w-1/2">
+                <div class="border p-3 h-[400px]: rounded-xl w-1/2">
                     <div class="flex justify-content-between align-items-center mb-2">
                         <h5>Fayllar bo'limi.</h5>
                     </div>
@@ -120,54 +145,104 @@
                         </li>
                     </ScrollPanel>
                 </div>
-                <div class="comants w-1/2"></div>
+                <div class="border p-3 rounded-xl w-1/2 h-[400px]">
+                    <Coments />
+                </div>
             </div>
         </div>
     </section>
     <!--Begin Change Performe -->
-     <Dialog v-model:visible="changePerformer" header="Add Performer" class="w-[30%]">
-      <ChangePerformer />
-        </Dialog>
+    <Dialog v-model:visible="changePerformer" header="Add Performer" class="w-[30%]">
+        <ChangePerformer />
+    </Dialog>
     <!--Edit Change Performe -->
 </template>
 <script setup>
 import { ref } from 'vue';
 import router from '../../router';
 import axios from 'axios';
-import ChangePerformer from "../unikalURL/changePerformer.vue"
+import ChangePerformer from '../unikalURL/changePerformer.vue';
+import Coments from '../unikalURL/coments.vue';
 
 const changePerformer = ref(false);
 const taskId = router.currentRoute.value.params.url;
-const task=ref({})
-const performers=ref({})
-const performer=ref({})
-const url = router.currentRoute.value;
-console.log(url, 88);
+const task = ref({});
+const performers = ref({});
+const performerId = ref();
+const performer = ref({});
+
+const op = ref();
+
+const toggle = (event) => {
+    fetchPerformerShow();
+    op.value.toggle(event);
+};
+const performersID = (id) => {
+    performerId.value = id;
+    console.log(id);
+    toggle(event);
+};
+
+function fetchPerformerShow() {
+    axios
+        .get(`https://pm-api.essential.uz/api/users/show/${performerId.value}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((res) => {
+            performer.value = res.data;
+            console.log(performer.value);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+// function deletPerformer() {
+//     axios
+//         .get(`https://pm-api.essential.uz/api/task-performers/${performerId.value}/delete`, {
+//             headers: {
+//                 Authorization: 'Bearer ' + localStorage.getItem('token')
+//             }
+//         })
+//         .then((res) => {
+            
+//             console.log(res.data);
+
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//         });
+// }
+
 
 
 function fetchTask() {
-    axios.get(`https://pm-api.essential.uz/api/tasks/show/${taskId}`, {
-        headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-    }).then((res) => {
-        if(res.status === 200) {
-            task.value = res.data[0]
-            performers.value = res.data[0].performers
-            // for (let i = 0; i < performers.value.length; i++) {
-            //     performer.value = performers.value[i].perfomer
-            // }
-            // console.log(performer.value,6);
-            console.log(performers.value,7);
-            console.log(task.value,8);
-        }
-    }).catch((err) => {
-        console.log(err);
-    })
+    axios
+        .get(`https://pm-api.essential.uz/api/tasks/show/${taskId}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                task.value = res.data[0];
+                performers.value = res.data[0].performers;
+                // for (let i = 0; i < performers.value.length; i++) {
+                //     performer.value = performers.value[i].perfomer
+                // }
+                // console.log(performer.value,6);
+                console.log(performers.value, 7);
+                console.log(task.value, 8);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }
-fetchTask()
+fetchTask();
 // function fetchPerformers() {
-//     axios.get(`https://pm-api.essential.uz/api/task-performers`, 
+//     axios.get(`https://pm-api.essential.uz/api/task-performers`,
 //     {
 //         task_id: taskId
 //     },
@@ -183,9 +258,8 @@ fetchTask()
 // }
 // fetchPerformers()
 
-
-const modalAddPerformer = (()=>{
+const modalAddPerformer = () => {
     changePerformer.value = !changePerformer.value;
-})
+};
 </script>
 <style></style>
