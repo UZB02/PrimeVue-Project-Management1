@@ -34,13 +34,6 @@
                                                     <i class="pi pi-user text-sm"></i>
                                                     <span class="text-sm">{{ item.performers.length }}</span>
                                                 </span>
-                                                <!-- <span class="flex items-center justify-center gap-1">
-                                                    <i class="pi pi-comments text-sm cursor-pointer"></i>
-                                                    <span class="text-sm">{{ 0 }}</span>
-                                                </span> -->
-                                            </span>
-                                            <span>
-                                                <i @click="addPerformer(item.id)" class="pi pi-user-plus text-sm"></i>
                                             </span>
                                         </div>
                                     </div>
@@ -116,7 +109,7 @@
                                     v-model="users"
                                     class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 >
-                                    <option v-for="performer in performers" :value="performer.id" class="p-3">{{ performer.user.fio }}</option>
+                                    <option v-for="performer in performers" :value="performer.id" class="p-3">{{ performer.fio }}</option>
                                 </select>
                             </div>
                             <div class="w-full">
@@ -129,16 +122,6 @@
                                     placeholder="Umumiy yozilgan maulmot..."
                                 ></textarea>
                             </div>
-                            <!-- <div class="w-full">
-                            <label for="performers" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Add Performer</label>
-                            <div class="w-full">
-                                <span @click="addPerformer()" class="bg-slate-300 w-8 h-7 rounded-full p-3 cursor-pointer">
-                                    <i class="pi pi-plus text-white"></i>
-                                </span>
-                                <span class="bg-slate-300 w-8 h-8 rounded-full p-3 cursor-pointer"></span>
-                            </div>
-                        </div> -->
-                            <i @click="addPerformer(tasks.id)" class="pi pi-user-plus"></i>
                         </div>
                         <span class="w-full flex items-center justify-end gap-2">
                             <button
@@ -248,7 +231,6 @@
                             </div>
                             <div>
                                 <label for="performers" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Edit Performer</label>
-                                <!-- <div v-for="performer in tasks" :key="performer.id">{{ performer.performers }}</div> -->
                                 <select
                                     v-model="selectedCategory"
                                     @change="testSellect()"
@@ -257,60 +239,6 @@
                                 >
                                     <option v-for="item in columns" :value="item.id">{{ item.name }}</option>
                                 </select>
-                                <!-- <div class="flex gap-3">
-                                    <div v-for="category in columns" :key="category.id" class="flex align-items-center">
-                                        <RadioButton v-model="selectedCategory" :inputId="category.id" name="dynamic" :value="category.name" />
-                                        <label :for="category.id" class="ml-2">{{ category.name }}</label>
-                                    </div>
-                                </div> -->
-                                <!-- <fieldset class="flex items-center justify-center gap-3">
-        <div class="flex items-center mb-4">
-            <input id="country-option-1" v-model="newTasks" type="radio" name="countries" value="USA" class="border-gray-300 focus:ring-2 focus:ring-blue-300 cursor-pointer" aria-labelledby="country-option-1" aria-describedby="country-option-1">
-            <label for="country-option-1" class="text-sm cursor-pointer font-medium text-gray-900 ml-2 block">
-            New Tasks
-            </label>
-        </div>
-
-        <div class="flex items-center mb-4">
-            <input id="country-option-2" v-model="bugs" type="radio" name="countries" value="Germany" class="border-gray-300 focus:ring-2 focus:ring-blue-300 cursor-pointer" aria-labelledby="country-option-2" aria-describedby="country-option-2">
-            <label for="country-option-2" class="text-sm cursor-pointer font-medium text-gray-900 ml-2 block">
-            Bugs
-            </label>
-        </div>
-
-        <div class="flex items-center mb-4">
-            <input id="country-option-3" type="radio" name="countries" value="Spain" class="border-gray-300 focus:ring-2 focus:ring-blue-300 cursor-pointer" aria-labelledby="country-option-3" aria-describedby="country-option-3">
-            <label for="country-option-3" class="text-sm font-medium cursor-pointer text-gray-900 ml-2 block">
-           In progress
-            </label>
-        </div>
-
-        <div class="flex items-center mb-4">
-            <input id="country-option-4" type="radio" name="countries" value="United Kingdom" class=" border-gray-300 focus:ring-2 focus:ring-blue-300 cursor-pointer" aria-labelledby="country-option-4" aria-describedby="country-option-4">
-            <label for="country-option-4" class="text-sm cursor-pointer font-medium text-gray-900 ml-2 block">
-            Testing
-            </label>
-        </div>
-
-        <div class="flex items-center mb-4">
-            <input id="option-disabled" type="radio" name="countries" value="China" class=" border-gray-200 focus:ring-2 focus:ring-blue-300 cursor-pointer" aria-labelledby="option-disabled" aria-describedby="option-disabled">
-            <label for="option-disabled" class="text-sm cursor-pointer text-gray-900 font-medium ml-2 block">
-            Done
-            </label>
-        </div>
-    </fieldset> -->
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="top flex items-center justify-between gap-2">
-                                <div class="left w-1"><img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" /></div>
-                                <div class="right flex w-full gap-2">
-                                    <input
-                                        type="text"
-                                        class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    />
-                                    <button class="text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">Submit</button>
-                                </div>
                             </div>
                         </div>
                         <span class="w-full flex items-center justify-end gap-2">
@@ -379,34 +307,6 @@
                 </div>
             </Dialog>
             <!-- End Modal Delet -->
-            <!-- Begin Modal Add Performers -->
-            <Dialog v-model:visible="modalAddPerformer" header="Add performer" :style="{ width: '25rem' }">
-                <div class="p-2 pt-0 text-center">
-                    <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Performer qo'shish {{ taskId }}</h3>
-                    <button @click="deletTask" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
-                        <span :class="deletisloading ? 'block' : 'hidden'">
-                            <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
-                                <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
-                                    <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                                    <line x1="195.9" y1="60.1" x2="173.3" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                                    <line x1="224" y1="128" x2="192" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                                    <line x1="195.9" y1="195.9" x2="173.3" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                                    <line x1="128" y1="224" x2="128" y2="192" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                                    <line x1="60.1" y1="195.9" x2="82.7" y2="173.3" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                                    <line x1="32" y1="128" x2="64" y2="128" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                                    <line x1="60.1" y1="60.1" x2="82.7" y2="82.7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>
-                                </svg>
-                                <span class="text-xl font-medium text-white">Loading...</span>
-                            </div>
-                        </span>
-                        <span :class="deletisloading ? 'hidden' : 'block text-xl'">O'chirish</span>
-                    </button>
-                    <button @click="modalAddPerformer = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
-                        Bekor qilish
-                    </button>
-                </div>
-            </Dialog>
-            <!-- End Modal Add Performers -->
             <!-- Begin Modal Comentaries -->
             <Dialog v-model:visible="comentsMoadal" header="Add performer" :style="{ width: '25rem' }">
                 <div class="p-2 pt-0 text-center">
@@ -468,7 +368,6 @@ function coments(url) {
 
 const comentsMoadal = ref(false);
 
-const modalAddPerformer = ref(false);
 const loading = ref(false);
 const columns = ref();
 const tasks = ref();
@@ -498,11 +397,6 @@ const editTaskWeight = ref();
 const editId = ref();
 const editdealine_end_date = ref();
 
-function addPerformer(id) {
-    modalAddPerformer.value = true;
-    taskId.value = id;
-    console.log(taskId.value);
-}
 
 function modalAddTask(id) {
     addModal.value = true;
@@ -685,7 +579,7 @@ function fetchPerformers() {
         .then((result) => {
             if (result.status === 200) {
                 // isloading.value = true;
-                console.log(result.data);
+                console.log(result.data,'performers');
                 performers.value = result.data;
             }
         })

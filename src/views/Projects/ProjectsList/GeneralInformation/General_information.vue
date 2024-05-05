@@ -13,7 +13,7 @@
                 </div>
             </div>
         <div class="info flex items-center justify-between gap-3">
-            <div class="card w-1/2">
+            <div class="card w-full">
                 <TabView class="tabview-custom">
                     <TabPanel>
                         <template #header>

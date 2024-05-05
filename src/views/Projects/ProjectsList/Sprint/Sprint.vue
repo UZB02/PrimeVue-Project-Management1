@@ -41,10 +41,13 @@
             </span>
         </div>
     </header>
-    <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
+    <section :class="isloading ? 'container flex flex-wrap items-center justify-center gap-2' : 'hidden'">
         <loading></loading>
     </section>
-    <section :class="isloading ? 'container flex flex-wrap items-center justify-center gap-2' : 'hidden'">
+    <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
+        <h1>Error</h1>
+    </section>
+    <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap gap-2">
                 <div :class="card_table ? 'card shadow-md p-3 rounded-lg w-[32%] h-[300px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] max-[750px]:h-[300px] flex flex-col gap-2' : 'hidden'" v-for="(item, itemId) in data" :key="itemId">
@@ -321,6 +324,7 @@ import axios from 'axios';
 const deletModal = ref(false);
 const editModal = ref(false);
 const editId = ref(null);
+const error = ref(null);
 const editName = ref('');
 const editColor = ref('');
 const editAbout = ref('');
@@ -381,11 +385,10 @@ const items = ref([
         }
     }
 ]);
-const doneTasks = ref();
 
 const menu = ref();
 const eId = ref(null);
-const isloading = ref(false);
+const isloading = ref(true);
 const data = ref({});
 const sprint_id = ref('');
 function getSprint(id) {
@@ -488,19 +491,16 @@ function fetchData() {
         })
         .then((result) => {
             if (result.status === 200) {
-                isloading.value = true;
+                isloading.value = false;
                 data.value = result.data.result.data;
-                // doneTasks.value = result.data.data;
-                // for (let i = 0; i < result.data.data.length; i++) {
-                //     console.log(result.data.data[i].tasks);
-                //     allTasks.value += JSON.stringify(result.data.data[i].tasks.length);
-                // }
-                // console.log(allTasks.value);
                 console.log(result.data.result.data);
+            }
+            if(result.status !== 200) {
+                isloading.value = false;
             }
         })
         .catch((err) => {
-            console.error(err);
+            console.log(err.response.data.errors);
         });
 }
 
@@ -566,24 +566,6 @@ const tableFunction = () => {
     card_table.value = false;
 };
 
-function fetchDoneTasks() {
-    axios
-        .get(`https://pm-api.essential.uz/api/tasks/filter?order_by=5&sprint_id=${project_id}`, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        })
-        .then((result) => {
-            if (result.status === 200) {
-                doneTasks.value = result.data;
-                console.log(result.data, 'Done tasks');
-            }
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-}
-fetchDoneTasks();
 
 function fetchMelistones() {
     console.log(milestone_id);

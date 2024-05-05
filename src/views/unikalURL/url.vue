@@ -51,9 +51,10 @@
                     </div>
                     <div class="flex justify-content-between align-items-center mb-2">
                         <div class="left">
-                            <span class=""
+                            <span @click="openFileSelector" class=""
                                 ><i class="pi pi-plus bg-blue-400 pl-2 pr-2 pb-1 pt-1 rounded-lg cursor-pointer text-white flex items-center justify-center gap-2"><h2 class="font-sans text-white font-medium text-lg">Add file</h2></i></span
                             >
+                            <input ref="fileInput" type="file" style="display: none;" @change="onFileChange" />
                         </div>
                         <div class="right">
                             <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
@@ -172,6 +173,16 @@ const performerId = ref();
 const performer = ref({});
 
 const op = ref();
+const fileInput = ref(null);
+
+  const openFileSelector = () => {
+    fileInput.value.click();
+  };
+    const onFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    // Fayl bilan qaysi amalni bajaramiz
+    console.log('Tanlangan fayl:', selectedFile);
+  };
 
 const toggle = (event) => {
     fetchPerformerShow();
