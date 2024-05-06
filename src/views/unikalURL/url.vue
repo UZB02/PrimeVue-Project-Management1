@@ -93,7 +93,7 @@
         <ChangePerformer />
     </Dialog>
     <!--Edit Change Performe -->
-       <!-- Begin Modal Delet -->
+       <!-- Begin Modal AddFile -->
         <Dialog v-model:visible="modalAddFile" header="Delet Project" :style="{ width: '25rem' }">
             <div class="p-2 pt-0 text-center">
                 <span class="flex flex-col gap-2">
@@ -110,6 +110,24 @@
                 </button>
             </div>
         </Dialog>
+        <!-- End Modal AddFile -->
+       <!-- Begin Modal DeletFile -->
+        <!-- <Dialog v-model:visible="modalAddFile" header="Delet Project" :style="{ width: '25rem' }">
+            <div class="p-2 pt-0 text-center">
+                <span class="flex flex-col gap-2">
+                    <img :src="lokalSellectedFile ? lokalSellectedFile : 'https://avatars.mds.yandex.net/i?id=16b88c8f833b34fa8bcf2cfd2e256bf435b44003-4882464-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="File" class="w-full card-img h-36 object-cover rounded-md">
+                    <h1>{{ selectedFile.name }}</h1>
+                         <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6"> istaysizmi?</h3>
+                </span>
+                <button @click="addFile()" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                    <ProgressSpinner style="width: 20px; height: 20px" :class="loadingaddfile ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
+                    <span :class="loadingaddfile ? 'block' : 'hidden'">Loading...</span> <span :class="loadingaddfile ? 'hidden' : 'block'">Yuborish</span>
+                </button>
+                <button @click="modalAddFile = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
+                    Bekor qilish
+                </button>
+            </div>
+        </Dialog> -->
         <!-- End Modal Delet -->
 </template>
 <script setup>
@@ -130,6 +148,7 @@ const lokalSellectedFile=ref()
 const type=ref("tasks")
 const modalAddFile=ref(false)
 const loadingaddfile=ref(false)
+const modalDelFile=ref(false)
 
 const op = ref();
 const fileInput = ref(null);
