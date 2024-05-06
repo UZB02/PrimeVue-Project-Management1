@@ -48,35 +48,42 @@
                 <div class="border p-3 h-[400px]: rounded-xl w-1/2">
                     <div class="flex justify-content-between align-items-center mb-2">
                         <h5>Fayllar bo'limi.</h5>
+                        <span class="flex items-center justify-center gap-1 text-sm">
+                            <i class="pi pi-paperclip text-sm text-gray-400"></i>
+                            <h5 class="text-gray-400">{{ filesLength}}</h5>
+                        </span>
                     </div>
                     <div class="flex justify-content-between align-items-center mb-2">
                         <div class="left">
                             <span @click="openFileSelector" class=""
                                 ><i class="pi pi-plus bg-blue-400 pl-2 pr-2 pb-1 pt-1 rounded-lg cursor-pointer text-white flex items-center justify-center gap-2"><h2 class="font-sans text-white font-medium text-lg">Add file</h2></i></span
                             >
-                            <input ref="fileInput" type="file" style="display: none;" @change="onFileChange" />
+                            <input ref="fileInput" type="file" style="display: none" @change="onFileChange" />
                         </div>
-                        <div class="right">
+                        <!-- <div class="right">
                             <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
                                 <input type="text" class="p-2 outline-none" placeholder="Search..." />
                                 <i class="pi pi-search mr-1 cursor-pointer"></i>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <ScrollPanel style="width: 100%; height: 300px">
                         <li v-for="item in task.files" class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div class="cards w-full flex items-center justify-between">
                                 <div class="w-[70%] flex items-center gap-3 text-white">
                                     <Image :src="item.path ? item.path : `https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg`" alt="Image" width="100" preview />
-                                    <div class="">
+                                    <!-- <div class="">
                                         <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.type }}</span>
                                         <div class="mt-1 text-600">Rasm haqida ma'lumot</div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="mt-2 pr-5 md:mt-0 flex align-items-center gap-3 cursor-pointer">
-                                    <i class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i>
-                                    <i class="pi pi-trash" v-tooltip.top="`O'chirish`"></i>
-                                    <i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i>
+                                    <!-- <i class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i> -->
+                                    <i @click="modalDeleteFile(item.id)" class="pi pi-trash" v-tooltip.top="`O'chirish`"></i>
+                                    <!-- <a :href="item.path" download
+                                        ><button><i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i></button
+                                    ></a> -->
+                                    <i @click="downloadFile(item.id)" class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i>
                                 </div>
                             </div>
                         </li>
@@ -93,42 +100,45 @@
         <ChangePerformer />
     </Dialog>
     <!--Edit Change Performe -->
-       <!-- Begin Modal AddFile -->
-        <Dialog v-model:visible="modalAddFile" header="Delet Project" :style="{ width: '25rem' }">
-            <div class="p-2 pt-0 text-center">
-                <span class="flex flex-col gap-2">
-                    <img :src="lokalSellectedFile ? lokalSellectedFile : 'https://avatars.mds.yandex.net/i?id=16b88c8f833b34fa8bcf2cfd2e256bf435b44003-4882464-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="File" class="w-full card-img h-36 object-cover rounded-md">
-                    <h1>{{ selectedFile.name }}</h1>
-                         <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Yuborishni istaysizmi?</h3>
-                </span>
-                <button @click="addFile()" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
-                    <ProgressSpinner style="width: 20px; height: 20px" :class="loadingaddfile ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
-                    <span :class="loadingaddfile ? 'block' : 'hidden'">Loading...</span> <span :class="loadingaddfile ? 'hidden' : 'block'">Yuborish</span>
-                </button>
-                <button @click="modalAddFile = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
-                    Bekor qilish
-                </button>
-            </div>
-        </Dialog>
-        <!-- End Modal AddFile -->
-       <!-- Begin Modal DeletFile -->
-        <!-- <Dialog v-model:visible="modalAddFile" header="Delet Project" :style="{ width: '25rem' }">
-            <div class="p-2 pt-0 text-center">
-                <span class="flex flex-col gap-2">
-                    <img :src="lokalSellectedFile ? lokalSellectedFile : 'https://avatars.mds.yandex.net/i?id=16b88c8f833b34fa8bcf2cfd2e256bf435b44003-4882464-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="File" class="w-full card-img h-36 object-cover rounded-md">
-                    <h1>{{ selectedFile.name }}</h1>
-                         <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6"> istaysizmi?</h3>
-                </span>
-                <button @click="addFile()" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
-                    <ProgressSpinner style="width: 20px; height: 20px" :class="loadingaddfile ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
-                    <span :class="loadingaddfile ? 'block' : 'hidden'">Loading...</span> <span :class="loadingaddfile ? 'hidden' : 'block'">Yuborish</span>
-                </button>
-                <button @click="modalAddFile = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
-                    Bekor qilish
-                </button>
-            </div>
-        </Dialog> -->
-        <!-- End Modal Delet -->
+    <!-- Begin Modal AddFile -->
+    <Dialog v-model:visible="modalAddFile" header="Delet Project" :style="{ width: '25rem' }">
+        <div class="p-2 pt-0 text-center">
+            <span class="flex flex-col gap-2">
+                <img
+                    :src="lokalSellectedFile ? lokalSellectedFile : 'https://avatars.mds.yandex.net/i?id=16b88c8f833b34fa8bcf2cfd2e256bf435b44003-4882464-images-thumbs&ref=rim&n=33&w=250&h=250'"
+                    alt="File"
+                    class="w-full card-img h-36 object-cover rounded-md"
+                />
+                <h1>{{ selectedFile.name }}</h1>
+                <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Yuborishni istaysizmi?</h3>
+            </span>
+            <button @click="addFile()" class="text-white bg-blue-600 hover:bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                <ProgressSpinner style="width: 20px; height: 20px" :class="loadingaddfile ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
+                <span :class="loadingaddfile ? 'block' : 'hidden'">Loading...</span> <span :class="loadingaddfile ? 'hidden' : 'block'">Yuborish</span>
+            </button>
+            <button @click="modalAddFile = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
+                Bekor qilish
+            </button>
+        </div>
+    </Dialog>
+    <!-- End Modal AddFile -->
+    <!-- Begin Modal DeletFile -->
+    <Dialog v-model:visible="modalDelFile" header="Delet Project" :style="{ width: '25rem' }">
+        <div class="p-2 pt-0 text-center">
+            <svg class="w-20 h-20 text-red-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">O'chirishni istaysizmi?</h3>
+            <button @click="deletPerformer()" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                <ProgressSpinner style="width: 20px; height: 20px" :class="loadingaddfile ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
+                <span :class="loadingaddfile ? 'block' : 'hidden'">Loading...</span> <span :class="loadingaddfile ? 'hidden' : 'block'">O'chirish</span>
+            </button>
+            <button @click="modalAddFile = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
+                Bekor qilish
+            </button>
+        </div>
+    </Dialog>
+    <!-- End Modal Delet -->
 </template>
 <script setup>
 import { ref } from 'vue';
@@ -143,27 +153,35 @@ const task = ref({});
 const performers = ref({});
 const performerId = ref();
 const performer = ref({});
-const selectedFile=ref();
-const lokalSellectedFile=ref()
-const type=ref("tasks")
-const modalAddFile=ref(false)
-const loadingaddfile=ref(false)
-const modalDelFile=ref(false)
+const selectedFile = ref();
+const lokalSellectedFile = ref();
+const type = ref('tasks');
+const modalAddFile = ref(false);
+const loadingaddfile = ref(false);
+const modalDelFile = ref(false);
+const fileId = ref();
+const filesLength=ref()
 
 const op = ref();
 const fileInput = ref(null);
 
-  const openFileSelector = () => {
+const modalDeleteFile = (id) => {
+    fileId.value = id;
+    console.log(id);
+    modalDelFile.value = true;
+};
+
+const openFileSelector = () => {
     fileInput.value.click();
-  };
-    const onFileChange = (event) => {
-        lokalSellectedFile.value = URL.createObjectURL(event.target.files[0]);
-     selectedFile.value = event.target.files[0];
-     if(selectedFile.value){
-         modalAddFile.value = true;
-     }
+};
+const onFileChange = (event) => {
+    lokalSellectedFile.value = URL.createObjectURL(event.target.files[0]);
+    selectedFile.value = event.target.files[0];
+    if (selectedFile.value) {
+        modalAddFile.value = true;
+    }
     console.log('file', selectedFile.value);
-  };
+};
 
 const toggle = (event) => {
     fetchPerformerShow();
@@ -194,20 +212,18 @@ function addFile() {
     loadingaddfile.value = true;
     const formData = new FormData();
     formData.append('path', selectedFile.value);
-    formData.append('type',type.value);
+    formData.append('type', type.value);
     formData.append('column_id', taskId);
-           axios
-        .post(
-            'https://pm-api.essential.uz/api/files/create',
-           formData,
-            {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
+    axios
+        .post('https://pm-api.essential.uz/api/files/create', formData, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
             }
-        )
+        })
         .then((res) => {
             if (res.status === 200) {
+                modalAddFile.value = false;
+                loadingaddfile.value = false;
                 Swal.fire({
                     position: 'top-center',
                     icon: 'success',
@@ -215,32 +231,61 @@ function addFile() {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                loadingaddfile.value=false;
+                fetchTask();
             }
         })
         .catch((err) => {
             console.log(err);
-            loadingaddfile.value=false;
+            loadingaddfile.value = false;
         });
-};
-// function deletPerformer() {
-//     axios
-//         .get(`https://pm-api.essential.uz/api/task-performers/${performerId.value}/delete`, {
-//             headers: {
-//                 Authorization: 'Bearer ' + localStorage.getItem('token')
-//             }
-//         })
-//         .then((res) => {
-            
-//             console.log(res.data);
+}
 
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// }
+function deletPerformer() {
+    loadingaddfile.value = true;
+    axios
+        .delete(`https://pm-api.essential.uz/api/files/${fileId.value}/delete`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: "O'chirildi",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                loadingaddfile.value = false;
+                modalDelFile.value = false;
+                fetchTask();
+            }
+            console.log(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
-
+const downloadFile = (id) => {
+  axios.get(`https://pm-api.essential.uz/api/files/show/${id}`, {
+     headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            },
+  }).then(response => {
+    const url = window.URL.createObjectURL(new Blob([response.data.path]));
+    console.log(response.data); // Faylni URL-ga aylantiramiz
+    const link = document.createElement('a'); // Yangi <a> elementini yaratamiz
+    link.href = url; // URL-ni bog'laymiz
+    link.setAttribute('download', `${response.data.path}`); // Fayl nomini belgilaymiz
+    document.body.appendChild(link); // Dokumentga qo'shamiz
+    link.click(); // Faylni avtomatik ravishda yuklab olish uchun bosing
+    window.URL.revokeObjectURL(url); // URL-ni qaytarib olish
+  }).catch(error => {
+    console.error('Faylni yuklab olishda xatolik yuz berdi:', error);
+  });
+}
 
 function fetchTask() {
     axios
@@ -252,6 +297,7 @@ function fetchTask() {
         .then((res) => {
             if (res.status === 200) {
                 task.value = res.data[0];
+                filesLength.value = res.data[0].files.length
                 performers.value = res.data[0].performers;
                 // for (let i = 0; i < performers.value.length; i++) {
                 //     performer.value = performers.value[i].perfomer
