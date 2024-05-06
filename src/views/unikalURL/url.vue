@@ -64,76 +64,12 @@
                         </div>
                     </div>
                     <ScrollPanel style="width: 100%; height: 300px">
-                        <li class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <li v-for="item in task.files" class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div class="cards w-full flex items-center justify-between">
                                 <div class="w-[70%] flex items-center gap-3 text-white">
-                                    <Image src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" alt="Image" width="100" preview />
+                                    <Image :src="item.path ? item.path : `https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg`" alt="Image" width="100" preview />
                                     <div class="">
-                                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">rasmNomi.jpg</span>
-                                        <div class="mt-1 text-600">Rasm haqida ma'lumot</div>
-                                    </div>
-                                </div>
-                                <div class="mt-2 pr-5 md:mt-0 flex align-items-center gap-3 cursor-pointer">
-                                    <i class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i>
-                                    <i class="pi pi-trash" v-tooltip.top="`O'chirish`"></i>
-                                    <i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div class="cards w-full flex items-center justify-between">
-                                <div class="w-[70%] flex items-center gap-3 text-white">
-                                    <Image src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" alt="Image" width="100" preview />
-                                    <div class="">
-                                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">rasmNomi.jpg</span>
-                                        <div class="mt-1 text-600">Rasm haqida ma'lumot</div>
-                                    </div>
-                                </div>
-                                <div class="mt-2 pr-5 md:mt-0 flex align-items-center gap-3 cursor-pointer">
-                                    <i class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i>
-                                    <i class="pi pi-trash" v-tooltip.top="`O'chirish`"></i>
-                                    <i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div class="cards w-full flex items-center justify-between">
-                                <div class="w-[70%] flex items-center gap-3 text-white">
-                                    <Image src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" alt="Image" width="100" preview />
-                                    <div class="">
-                                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">rasmNomi.jpg</span>
-                                        <div class="mt-1 text-600">Rasm haqida ma'lumot</div>
-                                    </div>
-                                </div>
-                                <div class="mt-2 pr-5 md:mt-0 flex align-items-center gap-3 cursor-pointer">
-                                    <i class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i>
-                                    <i class="pi pi-trash" v-tooltip.top="`O'chirish`"></i>
-                                    <i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div class="cards w-full flex items-center justify-between">
-                                <div class="w-[70%] flex items-center gap-3 text-white">
-                                    <Image src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" alt="Image" width="100" preview />
-                                    <div class="">
-                                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">rasmNomi.jpg</span>
-                                        <div class="mt-1 text-600">Rasm haqida ma'lumot</div>
-                                    </div>
-                                </div>
-                                <div class="mt-2 pr-5 md:mt-0 flex align-items-center gap-3 cursor-pointer">
-                                    <i class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i>
-                                    <i class="pi pi-trash" v-tooltip.top="`O'chirish`"></i>
-                                    <i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
-                            <div class="cards w-full flex items-center justify-between">
-                                <div class="w-[70%] flex items-center gap-3 text-white">
-                                    <Image src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" alt="Image" width="100" preview />
-                                    <div class="">
-                                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">TZ.doc</span>
+                                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.type }}</span>
                                         <div class="mt-1 text-600">Rasm haqida ma'lumot</div>
                                     </div>
                                 </div>
@@ -157,6 +93,24 @@
         <ChangePerformer />
     </Dialog>
     <!--Edit Change Performe -->
+       <!-- Begin Modal Delet -->
+        <Dialog v-model:visible="modalAddFile" header="Delet Project" :style="{ width: '25rem' }">
+            <div class="p-2 pt-0 text-center">
+                <span class="flex flex-col gap-2">
+                    <img :src="lokalSellectedFile ? lokalSellectedFile : 'https://avatars.mds.yandex.net/i?id=16b88c8f833b34fa8bcf2cfd2e256bf435b44003-4882464-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="File" class="w-full card-img h-36 object-cover rounded-md">
+                    <h1>{{ selectedFile.name }}</h1>
+                         <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Yuborishni istaysizmi?</h3>
+                </span>
+                <button @click="addFile()" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                    <ProgressSpinner style="width: 20px; height: 20px" :class="loadingaddfile ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
+                    <span :class="loadingaddfile ? 'block' : 'hidden'">Loading...</span> <span :class="loadingaddfile ? 'hidden' : 'block'">Yuborish</span>
+                </button>
+                <button @click="modalAddFile = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
+                    Bekor qilish
+                </button>
+            </div>
+        </Dialog>
+        <!-- End Modal Delet -->
 </template>
 <script setup>
 import { ref } from 'vue';
@@ -171,6 +125,11 @@ const task = ref({});
 const performers = ref({});
 const performerId = ref();
 const performer = ref({});
+const selectedFile=ref();
+const lokalSellectedFile=ref()
+const type=ref("tasks")
+const modalAddFile=ref(false)
+const loadingaddfile=ref(false)
 
 const op = ref();
 const fileInput = ref(null);
@@ -179,9 +138,12 @@ const fileInput = ref(null);
     fileInput.value.click();
   };
     const onFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    // Fayl bilan qaysi amalni bajaramiz
-    console.log('Tanlangan fayl:', selectedFile);
+        lokalSellectedFile.value = URL.createObjectURL(event.target.files[0]);
+     selectedFile.value = event.target.files[0];
+     if(selectedFile.value){
+         modalAddFile.value = true;
+     }
+    console.log('file', selectedFile.value);
   };
 
 const toggle = (event) => {
@@ -209,6 +171,39 @@ function fetchPerformerShow() {
             console.log(err);
         });
 }
+function addFile() {
+    loadingaddfile.value = true;
+    const formData = new FormData();
+    formData.append('path', selectedFile.value);
+    formData.append('type',type.value);
+    formData.append('column_id', taskId);
+           axios
+        .post(
+            'https://pm-api.essential.uz/api/files/create',
+           formData,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        )
+        .then((res) => {
+            if (res.status === 200) {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Bajarildi',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                loadingaddfile.value=false;
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            loadingaddfile.value=false;
+        });
+};
 // function deletPerformer() {
 //     axios
 //         .get(`https://pm-api.essential.uz/api/task-performers/${performerId.value}/delete`, {

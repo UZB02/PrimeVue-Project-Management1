@@ -52,7 +52,7 @@
     </ScrollPanel>
     <div class="bottom flex items-center gap-2 justify-between mt-1 border-t p-1 rounded-3xl">
         <div class="left">
-            <img src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" style="width: 50px; height: 50px; border-radius: 50%;" alt="">
+            <img src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" style="width: 45px; height: 45px; border-radius: 50%;" alt="">
         </div>
         <div class="right flex items-center justify-center w-full">
             <input type="text" placeholder="Yozing" class="w-full outline-none p-2 bg-transparent " />
