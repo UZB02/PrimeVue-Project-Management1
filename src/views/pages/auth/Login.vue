@@ -3,8 +3,8 @@ import { ref, computed } from 'vue';
 import axios from 'axios';
 import router from '@/router';
 
-const email = ref('admin@gmail.com');
-const password = ref('11111111');
+const email = ref('');
+const password = ref('');
 const error = ref('');
 const error2 = ref('');
 const error3 = ref('');
