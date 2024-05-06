@@ -44,8 +44,8 @@
     <section :class="isloading ? 'container flex flex-wrap items-center justify-center gap-2' : 'hidden'">
         <loading></loading>
     </section>
-    <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
-        <h1>Error</h1>
+      <section :class="errors ? 'container h-[50vh] flex flex-wrap items-center justify-center gap-2' : 'hidden'">
+       {{ errors }}
     </section>
     <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
         <div class="container flex flex-wrap items-center justify-center gap-2">
@@ -324,7 +324,7 @@ import axios from 'axios';
 const deletModal = ref(false);
 const editModal = ref(false);
 const editId = ref(null);
-const error = ref(null);
+const errors = ref(null);
 const editName = ref('');
 const editColor = ref('');
 const editAbout = ref('');
@@ -500,6 +500,8 @@ function fetchData() {
             }
         })
         .catch((err) => {
+            isloading.value = false;
+            errors.value = err.response.data.errors;
             console.log(err.response.data.errors);
         });
 }

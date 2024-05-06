@@ -45,6 +45,9 @@
     <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
         <loading></loading>
     </section>
+      <section :class="errors ? 'container h-[50vh] flex flex-wrap items-center justify-center gap-2' : 'hidden'">
+       {{ errors }}
+    </section>
     <section :class="isloading ? 'container flex flex-wrap items-center justify-center gap-2' : 'hidden'">
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap gap-2">
@@ -351,7 +354,7 @@ const editWorks = ref('');
 const editisloading = ref(false);
 const project_id=router.currentRoute.value.params.id;
 const melistone_id=ref('');
-const doneTasks = ref();
+const errors = ref();
 const proektName=ref('');
 console.log(project_id,"stages");
 
@@ -524,6 +527,9 @@ function fetchData(page) {
             }
         })
         .catch((err) => {
+            ViewPagenetion.value = false;
+            isloading.value = true;
+            errors.value = err.response.data.errors;
             console.error(err);
         });
 }

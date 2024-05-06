@@ -94,8 +94,9 @@
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ itemkey + 1 }}.</h1>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
-                                    <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer" :image="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" size="large" shape="circle">
-                                    </Avatar>
+                                    <!-- <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer w-[40px] h-[45px] rounded-full" :image="" size="large" shape="circle">
+                                    </Avatar> -->
+                                    <img :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="Performer" class="w-[45px] h-[45px] rounded-full cursor-pointer">
                                 </span>
 
                                 <span @click="generalinformation"

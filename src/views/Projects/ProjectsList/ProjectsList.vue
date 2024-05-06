@@ -39,6 +39,9 @@
     <section :class="isloading ? 'hidden' : 'container flex flex-wrap items-center justify-center gap-2'">
         <loading></loading>
     </section>
+    <section :class="errors ? 'container h-[50vh] flex flex-wrap items-center justify-center gap-2' : 'hidden'">
+       {{ errors }}
+    </section>
     <section :class="isloading ? 'w-full container flex flex-wrap items-center  gap-2' : 'hidden'">
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center gap-2">
@@ -360,7 +363,7 @@ const editFactual_start_date=ref('');
 const editFactual_end_date=ref('');
 const editUnit_value=ref('');
 const project_id=ref('');
-const doneTasks=ref();
+const errors=ref();
 const projectsId=ref([]);
 let test=ref();
 console.log(projectsId.value);
@@ -457,9 +460,6 @@ function fetchData(page) {
                 isloading.value = true;
                 data.value = result.data.result.data;
                 console.log(result.data.result.data);
-                // for (let item of data.value) {
-                //      test.value = fetchDoneTasks(item.id);
-                // } 
                 if(result.data.result.last_page > 1){
                     totalPages.value = result.data.result.last_page;
                 }else if(result.data.result.last_page == 1){
@@ -468,7 +468,10 @@ function fetchData(page) {
             }
         })
         .catch((err) => {
-            console.error(err); // Xatoni chiqarish uchun
+             ViewPagenetion.value = false;
+            isloading.value = true;
+            errors.value = err.response.data.errors;
+            console.error(err.response.data.errors); 
         });
 }
 fetchData();

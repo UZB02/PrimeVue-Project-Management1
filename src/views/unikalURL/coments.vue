@@ -8,7 +8,7 @@
                        <img :src="item.user.avatar ? item.user.avatar :'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" style="width: 30px; height: 30px; border-radius: 50%;" alt="">
                        <span>
                         <h1 class="font-bold">{{ item.user.fio ? item.user.fio : 'Foydalanuvchi' }}</h1>
-                        <h3 class="text-sm text-gray-400">Front-End</h3>
+                        <h3 class="text-sm text-gray-400">{{ item.user.user_role?.name }}</h3>
                        </span>
             </span>
                <div class="bottom w-full">
@@ -28,14 +28,16 @@
             <img src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" style="width: 45px; height: 45px; border-radius: 50%;" alt="">
         </div>
         <div class="right flex items-center justify-center w-full">
-            <input v-model="textComment" type="text" placeholder="Yozing" class="w-full outline-none p-2 bg-transparent " />
+         <form @submit.prevent="addComment()" class="right flex items-center justify-center w-full">
+               <input v-model="textComment" type="text" placeholder="Yozing" class="w-full outline-none p-2 bg-transparent " />
             <span class="flex items-center justify-center gap-2">
                  <i class="pi pi-paperclip cursor-pointer" @click="openFileSelector"></i>
   <input ref="fileInput" type="file" style="display: none;" @change="onFileChange" />
-                <span @click="addComment()" class="flex items-center justify-center gap-2 p-2 w-[40px] transition active:scale-90 cursor-pointer h-[40px] rounded-full bg-green-500" >
+                <button type="button" @click="addComment()" class="flex items-center justify-center gap-2 p-2 w-[40px] transition active:scale-90 cursor-pointer h-[40px] rounded-full bg-green-500" >
                     <i class="pi pi-send cursor-pointer text-white"></i>
-                </span>
+                </button>
             </span>
+         </form>
         </div>
     </div>
 </template>
@@ -74,7 +76,7 @@ function  addComment(){
         })
         .then((res) => {
             if (res.status===200) {
-                textComment.value = null
+                textComment.value = ""
                 fetchTask()
             }
            console.log(res);
