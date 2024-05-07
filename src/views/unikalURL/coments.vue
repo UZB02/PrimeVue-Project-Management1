@@ -2,7 +2,7 @@
     <div class="flex justify-content-between align-items-center mb-2">
         <h5>Comentariya</h5>
     </div>
-    <ScrollPanel style="width: 100%; height: 300px" class="flex justify-between gap-2 relative">
+    <ScrollPanel style="height: 300px;" class="flex overflow-hidden justify-between gap-2 relative">
         <div v-for="(item, itemId) in comments" :key="itemId" class="left w-full mb-2 shadow bg-slate-100 p-3 py-2 flex flex-col gap-2" style="border-top-right-radius: 15px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px">
             <span class="flex realative items-center gap-2">
                 <img
@@ -28,18 +28,23 @@
                 <div :class="edittextComment.id === item.id ? `text flex items-center justify-center w-full` : `hidden`">
                     <form  class="text flex items-center justify-center w-full bg-slate-200 rounded-md">
                         <input v-model="edittextComment.text" autofocus type="text" class="w-full bg-transparent outline-none p-2" />
+                       <span class="flex items-center justify-center g-2">
+                         <button @click="()=> edittextComment.id = null" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-red-500">
+                        <i class="pi pi-times cursor-pointer text-white"></i>
+                        </button>
                         <button @click="editComment(item.id)" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-green-500">
                         <i class="pi pi-send cursor-pointer text-white"></i>
-                    </button>
+                        </button>
+                       </span>
                     </form>
                 </div>
             </div>
         </div>
     </ScrollPanel>
-    <div class="bottom flex items-center gap-2 justify-between mt-1 border-t p-1 rounded-3xl">
-        <div class="left">
+    <div class="bottom flex items-center gap-2 justify-between mt-1 border p-1 rounded-3xl">
+        <!-- <div class="left">
             <img src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" style="width: 45px; height: 45px; border-radius: 50%" alt="" />
-        </div>
+        </div> -->
         <div class="right flex items-center justify-center w-full">
             <form @submit.prevent="addComment()" class="right flex items-center justify-center w-full">
                 <input v-model="textComment" type="text" placeholder="Yozing" class="w-full outline-none p-2 bg-transparent" />
@@ -84,13 +89,11 @@ const comments = ref({});
 const modalDelcomment = ref(false);
 const commentID = ref();
 const isloading = ref(false);
-const editcomment = ref(false);
 const edittextComment=ref({})
 
 
 
 function modalEditComment(item) {
-    editcomment.value = true;
     edittextComment.value = JSON.parse(item);
     console.log(edittextComment.value);
 }
@@ -196,10 +199,10 @@ const editComment = (id) => {
             { headers }
         )
         .then((result) => {
-            console.log(edittextComment.value.text, 5);
-            fetchTask()
-            edittextComment.value.id=null
-            console.log(result, id);
+            if (result.status === 200) {
+                edittextComment.value.id=null
+                fetchTask()
+            }
         })
         .catch((error) => {
             console.error(error);

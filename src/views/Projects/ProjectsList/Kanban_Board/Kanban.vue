@@ -2,7 +2,7 @@
     <section :class="loading ? 'hidden' : 'block'">
         <Loading></Loading>
     </section>
-    <section :class="loading ? 'block w-svw' : 'hidden'">
+    <section  :class="loading ? 'block w-svw' : 'hidden'">
         <div id="app" class="font-sans">
             <!-- <header class="bg-black text-white p-2">
       <h1 class="text-2xl text-white">PM Kanban Board</h1>
