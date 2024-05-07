@@ -59,7 +59,7 @@
                         </div>
                         <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
                             <img @click="gotoPerformersInfo(item.id)" :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
-                                class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
+                                class="w-24 card-img object-cover h-24 rounded-[50%] cursor-pointer" alt="">
                             <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.fio}}</h1>
                           <span class="flex items-center justify-center gap-3">
                               <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.status }}</h2>
@@ -96,7 +96,7 @@
                                 <span class="flex w-1/4 items-center justify-center gap-2">
                                     <!-- <Avatar @click="router.push(`/performersinfo`)" class="cursor-pointer w-[40px] h-[45px] rounded-full" :image="" size="large" shape="circle">
                                     </Avatar> -->
-                                    <img :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="Performer" class="w-[45px] h-[45px] rounded-full cursor-pointer">
+                                    <img :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="Performer" class="w-[45px] h-[45px] rounded-full cursor-pointer object-cover">
                                 </span>
 
                                 <span @click="generalinformation"
@@ -249,15 +249,17 @@
                         class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div class="cards w-full flex items-center justify-between">
                             <div class="w-[70%] flex items-center gap-3">
-                                <img :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="" class="w-16 card-img  h-16 rounded-[50%] cursor-pointer">
+                                <img :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'" alt="" class="w-16 card-img  h-16 rounded-[50%] cursor-pointer object-cover">
                                 <div class="">
                                     <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{item.fio }}</span>
                                     <div class="mt-1 text-600 text-gray-400">{{ item.name }}</div>
                                 </div>
                             </div>
-                            <div class="mt-2 pr-5 md:mt-0 flex align-items-center">
+                            <div class=" flex items-center justify-center w-1/6 gap-2">
                                 <i class="pi pi-star"></i>
-                                <span class="text-orange-500 ml-3 font-medium">20</span>
+                            <div class="mt-2 pr-5 w-1/12 md:mt-0 flex items-center justify-center">
+                                <span class="w-[85%] text-orange-500 ml-3 font-medium">{{ item.ball }}</span>
+                            </div>
                             </div>
                         </div>
                     </li>
@@ -449,6 +451,7 @@ function fetchPerformers() {
         }
     }).then((res) => {
         comunitiCard.value = res.data;
+        comunitiCard.value.sort((a,b)=> a.ball + b.ball);
         console.log(res.data);
     }).catch((err) => {
         console.log(err);
