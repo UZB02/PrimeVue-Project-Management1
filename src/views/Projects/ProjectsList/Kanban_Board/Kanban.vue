@@ -22,7 +22,7 @@
                         <div class="w-full flex flex-col h-auto overflow-scroll">
                             <div drag-class="drag" :data-id="column.id" class="w-full flex flex-col gap-1 p-2 rounded" :list="columns.tasks" group="columns">
                                 <div v-for="(item, itemKey) in tasks" :key="itemKey" :class="column.id === item.column_id ? 'block' : 'hidden'">
-                                    <div class="tasks_board shadow border flex flex-col flex-wrap justify-between overflow-auto p-1 rounded" v-if="column.id === item.column_id">
+                                    <div class="tasks_board shadow border flex flex-col flex-wrap justify-between overflow-auto p-1 gap-2 rounded" v-if="column.id === item.column_id">
                                         <div @click="coments(item.id)" class="h-10 flex items-center cursor-pointer">{{ item.title }}</div>
                                         <div id="actions" class="flex items-center justify-center gap-2">
                                             <i @click="modalEdit(item)" id="edit" class="editTask pi pi-pencil cursor-pointer"></i>
@@ -33,6 +33,10 @@
                                                 <span>
                                                     <i class="pi pi-user text-sm"></i>
                                                     <span class="text-sm">{{ item.performers.length }}</span>
+                                                </span>
+                                                <span :class="item.files.length ? 'block' : 'hidden'">
+                                                    <i class="pi pi-paperclip text-sm"></i>
+                                                    <span class="text-sm">{{ item.files.length }}</span>
                                                 </span>
                                             </span>
                                         </div>
