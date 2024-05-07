@@ -365,7 +365,6 @@ const editUnit_value=ref('');
 const project_id=ref('');
 const errors=ref();
 const projectsId=ref([]);
-let test=ref();
 console.log(projectsId.value);
 
 const ViewPagenetion=ref(true);
@@ -435,11 +434,10 @@ function modalEdit(item) {
     let data = JSON.parse(item);
     editId.value = data.id;
     editName.value = data.name;
-   editDate_create.value= data.date_create;
+    editDate_create.value= data.date_create;
     editCreated_at.value = data.created_at;
     editEnd_date.value = data.end_date;
     editBudget.value= data.budget;
-    // editLogo.value = data.logo;
     editShortname.value = data.prefix;
     editColor.value= data.color;
     editDescription.value = data.description;

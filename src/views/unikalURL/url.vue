@@ -70,12 +70,11 @@
                     <ScrollPanel style="width: 100%; height: 300px">
                         <li v-for="item in task.files" class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div class="cards w-full flex items-center justify-between">
-                                <div class="w-[70%] flex items-center gap-3 text-white">
-                                    <Image :src="item.path ? item.path : `https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg`" alt="Image" width="100" preview />
-                                    <!-- <div class="">
-                                        <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.type }}</span>
-                                        <div class="mt-1 text-600">Rasm haqida ma'lumot</div>
-                                    </div> -->
+                                <div class="w-[100%] flex  gap-2 text-white">
+                                    <Image :src="item.path ? item.path : `https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg`" alt="Image" width="100" style="border-radius: 10px" preview />
+                                    <div class="">
+                                        <span class="text-900 mr-2 w-full font-bold mb-1 md:mb-0">{{ item.name }}</span>
+                                    </div>
                                 </div>
                                 <div class="mt-2 pr-5 md:mt-0 flex align-items-center gap-3 cursor-pointer">
                                     <!-- <i class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i> -->
@@ -109,7 +108,7 @@
                     alt="File"
                     class="w-full card-img h-36 object-cover rounded-md"
                 />
-                <h1>{{ selectedFile.name }}</h1>
+                <h1><input type="text" v-model="fileName" placeholder="Fayl nomini kiriting" class="w-full  border-gray-300  p-2 border-x  outline-none" autofocus style="border-bottom: 2px solid #E5E7EB;" /></h1>
                 <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Yuborishni istaysizmi?</h3>
             </span>
             <button @click="addFile()" class="text-white bg-blue-600 hover:bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
@@ -161,6 +160,7 @@ const loadingaddfile = ref(false);
 const modalDelFile = ref(false);
 const fileId = ref();
 const filesLength=ref()
+const fileName = ref();
 
 const op = ref();
 const fileInput = ref(null);
@@ -214,6 +214,7 @@ function addFile() {
     formData.append('path', selectedFile.value);
     formData.append('type', type.value);
     formData.append('column_id', taskId);
+    formData.append('name', fileName.value);
     axios
         .post('https://pm-api.essential.uz/api/files/create', formData, {
             headers: {
@@ -224,6 +225,7 @@ function addFile() {
             if (res.status === 200) {
                 modalAddFile.value = false;
                 loadingaddfile.value = false;
+                fileName.value = '';
                 Swal.fire({
                     position: 'top-center',
                     icon: 'success',
