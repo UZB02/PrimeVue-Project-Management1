@@ -1,354 +1,3 @@
-<script setup>
-import { onMounted, reactive, ref, watch } from 'vue';
-import ProductService from '@/service/ProductService';
-import { useLayout } from '@/layout/composables/layout';
-
-const selectedCity = ref();
-const cities = ref([
-    { name: 'This Week', code: 'TW' },
-    { name: 'To Day', code: 'TD' },
-    { name: 'Last Week', code: 'LW' },
-    { name: 'Last Day', code: 'LD' },
-    { name: 'This Month', code: 'TM' }
-]);
-const data = ref([
-    {
-        name: "Task Completed",
-        number: 8,
-        svg: 'pi pi-star text-blue-500 text-xl',
-        statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_2_65)">
-<path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
-</g>
-<defs>
-<filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="7"/>
-<feGaussianBlur stdDeviation="4"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
-</filter>
-</defs>
-</svg>
-`,
-    },
-    {
-        name: "New Task",
-        number: 10,
-        svg: 'pi pi-star text-blue-500 text-xl',
-        statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_2_65)">
-<path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
-</g>
-<defs>
-<filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="7"/>
-<feGaussianBlur stdDeviation="4"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
-</filter>
-</defs>
-</svg>
-`,
-    },
-    {
-        name: "Task Done",
-        number: 15,
-        svg: 'pi pi-star text-blue-500 text-xl',
-        statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_2_65)">
-<path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
-</g>
-<defs>
-<filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="7"/>
-<feGaussianBlur stdDeviation="4"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
-</filter>
-</defs>
-</svg>
-`,
-    },
-//     {
-//         name: "Orders",
-//         number: 2,
-//         svg: 'pi pi-star text-blue-500 text-xl',
-//         statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-// <g filter="url(#filter0_d_2_65)">
-// <path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
-// </g>
-// <defs>
-// <filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-// <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-// <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-// <feOffset dy="7"/>
-// <feGaussianBlur stdDeviation="4"/>
-// <feComposite in2="hardAlpha" operator="out"/>
-// <feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
-// <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
-// <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
-// </filter>
-// </defs>
-// </svg>
-// `,
-//     },
-])
-const comment = ([
-    {
-        img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXksdu3aWAj1aBuoU5l7yOPx7SMr3Ee7HnAp7u4-TaJg&s`,
-        message: `Bu O'zgarmas test uchun sharx`,
-    },
-    {
-        img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXksdu3aWAj1aBuoU5l7yOPx7SMr3Ee7HnAp7u4-TaJg&s`,
-        message: `Bu ikkinchi O'zgarmas test uchun sharx`,
-    },
-])
-const comuniti = ref([
-    {
-        img: `https://avatars.mds.yandex.net/i?id=c96f74047facf42a702af4f3c4707ad8eff4552f-5324799-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `Alex Jordan`,
-        position: `Front-End Developer `,
-        points: `50`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=b8f1fb2dd1dea71d1e91e47ee84ce44844dae807-7020937-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `Muhsinbek Mirzamatov`,
-        position: `Front-End Developer `,
-        points: `47`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=cfb61e705cbc7609562b986b936f4431-4361307-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `Javohir Bozorboyev`,
-        position: `Front-End Developer `,
-        points: `40`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=0fd3e6f94eb22e51a43738500fb93d89caf13d6b-9264723-images-thumbs&ref=rim&n=33&w=235&h=250`,
-        name: `Javohir Bozorboyev`,
-        position: `Front-End Developer `,
-        points: `34`,
-    },
-])
-const comunitiCard = ref([
-    {
-        img: `https://avatars.mds.yandex.net/i?id=ee81aed641f0e39576f73c988ba5dd89d07c3dd0-8071172-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `John's`,
-        rols: `Front-End Developer`,
-        tell: `+99893-123-45-67`
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13`,
-        name: `John's`,
-        rols: `Back-End Developer`,
-        tell: `+99893-123-45-67`
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=8ca5af00308aefc9251d900bc01f1533-4964375-images-thumbs&n=13`,
-        name: `John's`,
-        rols: `UX Designer`,
-        tell: `+99893-123-45-67`
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=86fc28cdbf257da6f0a95597c2365cadafb1fd73-12463617-images-thumbs&n=13`,
-        name: `John's`,
-        rols: `Testter`,
-        tell: `+99893-123-45-67`
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=acbfee42774c5aa3e27945f662baf23aeb608c8b-3788438-images-thumbs&n=13`,
-        name: `John's`,
-        rols: `Front-End Developer`,
-        tell: `+99893-123-45-67`
-    },
-])
-const notifications = ref([
-    {
-        name: `Project Name`,
-        status: `Bugun kechgacha bajarilishi zarur`,
-        svg: `pi pi-bookmark`,
-        term: `12.01.2024`,
-        time:`15:30`
-    },
-    {
-        name: `Project Name`,
-        status: `Ertaga kechgacha bajarilishi zarur`,
-        svg: `pi pi-bookmark`,
-        term: `28.01.2024`,
-        time: `12:00`
-    },
-    {
-        name: `Project Name`,
-        status: `12.03.2024 gacha bajarilishi zarur`,
-        svg: `pi pi-bookmark`,
-        term: `03.02.2024`,
-        time: `13:06`
-    },
-])
-
-const table = ref([
-    {
-        name: "First Order",
-        severity: "danger",
-        coment: 10,
-        number: 3,
-        icon_value: "Danger",
-        time: "Today"
-    },
-    {
-        name: "Second Order",
-        severity: "success",
-        coment: 4,
-        number: 1,
-        icon_value: "Success",
-        time: "Last Week"
-    },
-    {
-        name: "Third Order",
-        severity: "warning",
-        coment: 8,
-        number: 2,
-        icon_value: "Warning",
-        time: "Oct 2, 2023"
-    },
-])
-
-const visible = ref(false);
-
-// const messageOpen = (item) => {
-//     for (let i = 0; i < data.length; i++) {
-//         data[i]
-//         console.log(data[i]);
-//     }
-//     console.log(data.length);
-//     message.value = !message.value;    
-// };
-
-const { isDarkTheme } = useLayout();
-
-const products = ref(null);
-const lineData = reactive({
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-        {
-            label: 'First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40],
-            fill: false,
-            backgroundColor: '#2f4860',
-            borderColor: '#2f4860',
-            tension: 0.4
-        },
-        {
-            label: 'Second Dataset',
-            data: [28, 48, 40, 19, 86, 27, 90],
-            fill: false,
-            backgroundColor: '#00bb7e',
-            borderColor: '#00bb7e',
-            tension: 0.4
-        }
-    ]
-});
-// const items = ref([
-//     { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-//     { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-// ]);
-const lineOptions = ref(null);
-const productService = new ProductService();
-
-onMounted(() => {
-    productService.getProductsSmall().then((data) => (products.value = data));
-});
-
-function changeLineData(newData) {
-    lineData = newData;
-}
-
-// const formatCurrency = (value) => {
-//     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-// };
-const applyLightTheme = () => {
-    lineOptions.value = {
-        plugins: {
-            legend: {
-                labels: {
-                    color: '#495057'
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#495057'
-                },
-                grid: {
-                    color: '#ebedef'
-                }
-            },
-            y: {
-                ticks: {
-                    color: '#495057'
-                },
-                grid: {
-                    color: '#ebedef'
-                }
-            }
-        }
-    };
-};
-
-const applyDarkTheme = () => {
-    lineOptions.value = {
-        plugins: {
-            legend: {
-                labels: {
-                    color: '#ebedef'
-                }
-            }
-        },
-        scales: {
-            x: {
-                ticks: {
-                    color: '#ebedef'
-                },
-                grid: {
-                    color: 'rgba(160, 167, 181, .3)'
-                }
-            },
-            y: {
-                ticks: {
-                    color: '#ebedef'
-                },
-                grid: {
-                    color: 'rgba(160, 167, 181, .3)'
-                }
-            }
-        }
-    };
-};
-
-watch(
-    isDarkTheme,
-    (val) => {
-        if (val) {
-            applyDarkTheme();
-        } else {
-            applyLightTheme();
-        }
-    },
-    { immediate: true }
-);
-</script>
 
 <template>
     <div class="flex flex-col">
@@ -508,8 +157,8 @@ watch(
                         <div class="bottom flex items-center gap-3 flex-wrap">
                             <div v-for="item in comunitiCard"
                                 class="card1 transition hover:scale-105 flex items-center justify-center flex-col gap-2 shadow-md rounded-xl p-3 w-[19%]">
-                                <img :src="item.img" class="w-32 card-img  h-32 rounded-[50%]" alt="">
-                                <h1 class="font-bold">{{ item.name }}</h1>
+                                <img :src="item.avatar" class="w-32 card-img  h-32 rounded-[50%]" alt="">
+                                <h1 class="font-bold">{{ item.fio }}</h1>
                                 <h4>{{ item.rols }}</h4>
                                 <h5 class="text-gray-500 font-italic">{{ item.tell }}</h5>
                             </div>
@@ -552,3 +201,324 @@ watch(
             </section>
     </div>
 </div></template>
+<script setup>
+import { onMounted, reactive, ref, watch } from 'vue';
+import ProductService from '@/service/ProductService';
+import { useLayout } from '@/layout/composables/layout';
+import axios from 'axios';
+const selectedCity = ref();
+const cities = ref([
+    { name: 'This Week', code: 'TW' },
+    { name: 'To Day', code: 'TD' },
+    { name: 'Last Week', code: 'LW' },
+    { name: 'Last Day', code: 'LD' },
+    { name: 'This Month', code: 'TM' }
+]);
+const data = ref([
+    {
+        name: "Task Completed",
+        number: 8,
+        svg: 'pi pi-star text-blue-500 text-xl',
+        statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_2_65)">
+<path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
+</g>
+<defs>
+<filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="7"/>
+<feGaussianBlur stdDeviation="4"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
+</filter>
+</defs>
+</svg>
+`,
+    },
+    {
+        name: "New Task",
+        number: 10,
+        svg: 'pi pi-star text-blue-500 text-xl',
+        statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_2_65)">
+<path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
+</g>
+<defs>
+<filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="7"/>
+<feGaussianBlur stdDeviation="4"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
+</filter>
+</defs>
+</svg>
+`,
+    },
+    {
+        name: "Task Done",
+        number: 15,
+        svg: 'pi pi-star text-blue-500 text-xl',
+        statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_2_65)">
+<path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
+</g>
+<defs>
+<filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="7"/>
+<feGaussianBlur stdDeviation="4"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
+</filter>
+</defs>
+</svg>
+`,
+    },
+
+])
+
+const comuniti = ref([
+    {
+        img: `https://avatars.mds.yandex.net/i?id=c96f74047facf42a702af4f3c4707ad8eff4552f-5324799-images-thumbs&ref=rim&n=33&w=250&h=250`,
+        name: `Alex Jordan`,
+        position: `Front-End Developer `,
+        points: `50`,
+    },
+    {
+        img: `https://avatars.mds.yandex.net/i?id=b8f1fb2dd1dea71d1e91e47ee84ce44844dae807-7020937-images-thumbs&ref=rim&n=33&w=250&h=250`,
+        name: `Muhsinbek Mirzamatov`,
+        position: `Front-End Developer `,
+        points: `47`,
+    },
+    {
+        img: `https://avatars.mds.yandex.net/i?id=cfb61e705cbc7609562b986b936f4431-4361307-images-thumbs&ref=rim&n=33&w=250&h=250`,
+        name: `Javohir Bozorboyev`,
+        position: `Front-End Developer `,
+        points: `40`,
+    },
+    {
+        img: `https://avatars.mds.yandex.net/i?id=0fd3e6f94eb22e51a43738500fb93d89caf13d6b-9264723-images-thumbs&ref=rim&n=33&w=235&h=250`,
+        name: `Javohir Bozorboyev`,
+        position: `Front-End Developer `,
+        points: `34`,
+    },
+])
+const comunitiCard = ref([
+    {
+        img: `https://avatars.mds.yandex.net/i?id=ee81aed641f0e39576f73c988ba5dd89d07c3dd0-8071172-images-thumbs&ref=rim&n=33&w=250&h=250`,
+        name: `John's`,
+        rols: `Front-End Developer`,
+        tell: `+99893-123-45-67`
+    },
+    {
+        img: `https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13`,
+        name: `John's`,
+        rols: `Back-End Developer`,
+        tell: `+99893-123-45-67`
+    },
+    {
+        img: `https://avatars.mds.yandex.net/i?id=8ca5af00308aefc9251d900bc01f1533-4964375-images-thumbs&n=13`,
+        name: `John's`,
+        rols: `UX Designer`,
+        tell: `+99893-123-45-67`
+    },
+    {
+        img: `https://avatars.mds.yandex.net/i?id=86fc28cdbf257da6f0a95597c2365cadafb1fd73-12463617-images-thumbs&n=13`,
+        name: `John's`,
+        rols: `Testter`,
+        tell: `+99893-123-45-67`
+    },
+    {
+        img: `https://avatars.mds.yandex.net/i?id=acbfee42774c5aa3e27945f662baf23aeb608c8b-3788438-images-thumbs&n=13`,
+        name: `John's`,
+        rols: `Front-End Developer`,
+        tell: `+99893-123-45-67`
+    },
+])
+const notifications = ref([
+    {
+        name: `Project Name`,
+        status: `Bugun kechgacha bajarilishi zarur`,
+        svg: `pi pi-bookmark`,
+        term: `12.01.2024`,
+        time:`15:30`
+    },
+    {
+        name: `Project Name`,
+        status: `Ertaga kechgacha bajarilishi zarur`,
+        svg: `pi pi-bookmark`,
+        term: `28.01.2024`,
+        time: `12:00`
+    },
+    {
+        name: `Project Name`,
+        status: `12.03.2024 gacha bajarilishi zarur`,
+        svg: `pi pi-bookmark`,
+        term: `03.02.2024`,
+        time: `13:06`
+    },
+])
+
+const table = ref([
+    {
+        name: "First Order",
+        severity: "danger",
+        coment: 10,
+        number: 3,
+        icon_value: "Danger",
+        time: "Today"
+    },
+    {
+        name: "Second Order",
+        severity: "success",
+        coment: 4,
+        number: 1,
+        icon_value: "Success",
+        time: "Last Week"
+    },
+    {
+        name: "Third Order",
+        severity: "warning",
+        coment: 8,
+        number: 2,
+        icon_value: "Warning",
+        time: "Oct 2, 2023"
+    },
+])
+
+const visible = ref(false);
+
+const { isDarkTheme } = useLayout();
+
+const products = ref(null);
+const lineData = reactive({
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+        {
+            label: 'First Dataset',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            backgroundColor: '#2f4860',
+            borderColor: '#2f4860',
+            tension: 0.4
+        },
+        {
+            label: 'Second Dataset',
+            data: [28, 48, 40, 19, 86, 27, 90],
+            fill: false,
+            backgroundColor: '#00bb7e',
+            borderColor: '#00bb7e',
+            tension: 0.4
+        }
+    ]
+});
+
+function fetchPerformers() {
+    axios
+    .get('https://pm-api.essential.uz/api/performers?page=1', {
+        params: {
+            project_id: 1
+        },
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((res) => {
+        comunitiCard.value = res.data;
+        comunitiCard.value.sort((a,b)=> a.ball + b.ball);
+        console.log(res.data);
+    }).catch((err) => {
+        console.log(err);
+    }); 
+}
+
+fetchPerformers();
+
+const lineOptions = ref(null);
+const productService = new ProductService();
+
+onMounted(() => {
+    productService.getProductsSmall().then((data) => (products.value = data));
+});
+
+const applyLightTheme = () => {
+    lineOptions.value = {
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#495057'
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#495057'
+                },
+                grid: {
+                    color: '#ebedef'
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#495057'
+                },
+                grid: {
+                    color: '#ebedef'
+                }
+            }
+        }
+    };
+};
+
+const applyDarkTheme = () => {
+    lineOptions.value = {
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ebedef'
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: '#ebedef'
+                },
+                grid: {
+                    color: 'rgba(160, 167, 181, .3)'
+                }
+            },
+            y: {
+                ticks: {
+                    color: '#ebedef'
+                },
+                grid: {
+                    color: 'rgba(160, 167, 181, .3)'
+                }
+            }
+        }
+    };
+};
+
+watch(
+    isDarkTheme,
+    (val) => {
+        if (val) {
+            applyDarkTheme();
+        } else {
+            applyLightTheme();
+        }
+    },
+    { immediate: true }
+);
+</script>
