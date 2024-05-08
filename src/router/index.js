@@ -19,12 +19,12 @@ const router = createRouter({
                     component: () => import('@/views/AddUser/addUser.vue')
                 },
                 {
-                    path: '/',
+                    path: '/:id',
                     name: 'dashboard',
                     component: () => import('@/views/dashboards/dashboard_developer/Dashboard.vue')
                 },
                 {
-                    path: '/dashboard_manager',
+                    path: '/',
                     name: 'dashboard_manager',
                     component: () => import('@/views/dashboards/dashboard_manager/Dashboard.vue')
                 },

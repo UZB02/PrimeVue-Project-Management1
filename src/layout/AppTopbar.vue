@@ -9,14 +9,8 @@ const { layoutConfig, onMenuToggle } = useLayout();
 const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
 const router = useRouter();
-const sellectvalue = ref(null);
-const projects = ref([
-    { name: 'Project Management', code: 'PM' },
-    { name: 'Pharmacy', code: 'PH' },
-    { name: 'Ichki Ishlar', code: 'II' },
-    { name: 'MCHS', code: 'MCHS' },
-    { name: 'RRR', code: 'RRR' }
-]);
+const sellectvalue = ref();
+const projects = ref({});
 const items = ref([
     {
         label: 'Profile',
@@ -69,6 +63,26 @@ const items = ref([
     }
 ]);
 const menu = ref();
+const changeProekt=(()=>{
+    console.log(sellectvalue.value);
+    router.push(`/${sellectvalue.value}`);
+})
+function fetchData(page) {
+    axios
+        .get(`https://pm-api.essential.uz/api/project?page=${page}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            projects.value=result.data.result.data
+          console.log(result.data.result.data);
+        })
+        .catch((err) => {
+            console.error(err); 
+        });
+}
+fetchData();
 
 const toggle = (event) => {
     menu.value.toggle(event);
@@ -143,8 +157,9 @@ const isOutsideClicked = (event) => {
         </div>
         <div class="right flex items-center w-1/2 gap-2">
             <div class="w-full flex items-center justify-end">
-                <Dropdown id="dropdown" v-model="sellectvalue" :options="projects" optionLabel="name"
-                    class="p-invalid border w-1/3" placeholder="Project Management" />
+               <select @change="changeProekt" v-model="sellectvalue" class="border font-medium placeholder-gray-400 focus:outline-none focus:border-black w-1/3 pt-3 cursor-pointer pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" placeholder="Change Proekt">
+                                        <option v-for="item in projects" :value="item.id">{{ item.name }}</option>
+                                    </select>
             </div>
             <div class="layout-topbar-menu" :class="topbarMenuClasses">
                 <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button">

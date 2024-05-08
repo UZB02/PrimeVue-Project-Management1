@@ -1,9 +1,12 @@
 
 <template>
+    <header class="w-full flex py-2">
+     <h1 class="ml-3 font-bold text-3xl">{{ proects.name }}</h1>
+    </header>
     <div class="flex flex-col">
-        <div class="top flex items-center justify-around">
+        <div class="top flex items-center justify-around g-5">
             <div v-for="item in data"
-                class="w-1/4 h-52  cursor-pointer transition hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
+                class="h-52  cursor-pointer transition hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
                 data-aos="flip-right">
                 <div class="top flex w-full items-center justify-between border-b-2 pb-1">
                     <div class="left flex items-center justify-center gap-4">
@@ -91,20 +94,22 @@
                             <h5>Ijrochilar reyting tizimi ma’lumoti paneli. </h5>
                         </div>
                         <ul class="list-none flex flex-col p-0 m-0">
-                            <li v-for="item in comuniti"
+                            <li v-for="item in comunitiCard"
                                 class="flex flex-column border-b p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div class="cards w-full flex items-center justify-between">
                                     <div class="w-[70%] flex items-center gap-3">
-                                        <img :src="item.img" alt="" class="w-[15%]">
+                                        <img :src="item.avatar" alt="" class="w-[40px] h-[40px] rounded-full object-cover">
                                         <div class="">
-                                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.name }}</span>
+                                            <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ item.fio }}</span>
                                             <div class="mt-1 text-600">{{ item.position }}</div>
                                         </div>
                                     </div>
-                                    <div class="mt-2 pr-5 md:mt-0 flex align-items-center">
-                                        <i class="pi pi-star"></i>
-                                        <span class="text-orange-500 ml-3 font-medium">{{ item.points }}</span>
-                                    </div>
+                                      <div class=" flex items-center justify-center w-1/6 gap-2">
+                                <i class="pi pi-star"></i>
+                            <div class="mt-2 pr-5 w-1/12 md:mt-0 flex items-center justify-center">
+                                <span class="w-[85%] text-orange-500 ml-3 font-medium">{{ item.ball }}</span>
+                            </div>
+                            </div>
                                 </div>
                             </li>
                         </ul>
@@ -200,13 +205,17 @@
                 </div>
             </section>
     </div>
-</div></template>
+</div>
+</template>
 <script setup>
 import { onMounted, reactive, ref, watch } from 'vue';
 import ProductService from '@/service/ProductService';
 import { useLayout } from '@/layout/composables/layout';
 import axios from 'axios';
+import router from '../../../router';
 const selectedCity = ref();
+const project_id=router.currentRoute.value.params.id
+console.log(project_id);
 const cities = ref([
     { name: 'This Week', code: 'TW' },
     { name: 'To Day', code: 'TD' },
@@ -284,8 +293,32 @@ const data = ref([
 </svg>
 `,
     },
+    {
+        name: "Task Done",
+        number: 15,
+        svg: 'pi pi-star text-blue-500 text-xl',
+        statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_2_65)">
+<path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
+</g>
+<defs>
+<filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="7"/>
+<feGaussianBlur stdDeviation="4"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
+</filter>
+</defs>
+</svg>
+`,
+    },
 
 ])
+const proects=ref({})
 
 const comuniti = ref([
     {
@@ -314,36 +347,6 @@ const comuniti = ref([
     },
 ])
 const comunitiCard = ref([
-    {
-        img: `https://avatars.mds.yandex.net/i?id=ee81aed641f0e39576f73c988ba5dd89d07c3dd0-8071172-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `John's`,
-        rols: `Front-End Developer`,
-        tell: `+99893-123-45-67`
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=82fb8729097624976e07a7f71da36ea4119b821a-11516533-images-thumbs&n=13`,
-        name: `John's`,
-        rols: `Back-End Developer`,
-        tell: `+99893-123-45-67`
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=8ca5af00308aefc9251d900bc01f1533-4964375-images-thumbs&n=13`,
-        name: `John's`,
-        rols: `UX Designer`,
-        tell: `+99893-123-45-67`
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=86fc28cdbf257da6f0a95597c2365cadafb1fd73-12463617-images-thumbs&n=13`,
-        name: `John's`,
-        rols: `Testter`,
-        tell: `+99893-123-45-67`
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=acbfee42774c5aa3e27945f662baf23aeb608c8b-3788438-images-thumbs&n=13`,
-        name: `John's`,
-        rols: `Front-End Developer`,
-        tell: `+99893-123-45-67`
-    },
 ])
 const notifications = ref([
     {
@@ -423,11 +426,27 @@ const lineData = reactive({
     ]
 });
 
+function fetchData(page) {
+    axios
+        .get(`https://pm-api.essential.uz/api/project?page=${page}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((result) => {
+            proects.value=result.data.result.data[0]
+        })
+        .catch((err) => {
+            console.error(err); 
+        });
+}
+fetchData();
+
 function fetchPerformers() {
     axios
     .get('https://pm-api.essential.uz/api/performers?page=1', {
         params: {
-            project_id: 1
+            project_id: project_id
         },
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')
