@@ -157,7 +157,7 @@ const isOutsideClicked = (event) => {
         </div>
         <div class="right flex items-center w-1/2 gap-2">
             <div class="w-full flex items-center justify-end">
-               <select @change="changeProekt" v-model="sellectvalue" class="border font-medium placeholder-gray-400 focus:outline-none focus:border-black w-1/3 pt-3 cursor-pointer pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" placeholder="Change Proekt">
+               <select @change="changeProekt" v-model="sellectvalue" class="border font-medium placeholder-gray-400 focus:outline-none focus:border-black w-1/3 pt-3 cursor-pointer pr-3 pb-3 pl-3 mt-2 mr-0 mb-0 ml-0 text-base block bg-white border-gray-300 rounded-md" :placeholder="sellectvalue">
                                         <option v-for="item in projects" :value="item.id">{{ item.name }}</option>
                                     </select>
             </div>

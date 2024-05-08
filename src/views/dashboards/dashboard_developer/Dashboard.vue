@@ -4,9 +4,9 @@
      <h1 class="ml-3 font-bold text-3xl">{{ proects.name }}</h1>
     </header>
     <div class="flex flex-col">
-        <div class="top flex items-center justify-around g-5">
+        <div class="top flex items-center justify-between gap-2 ">
             <div v-for="item in data"
-                class="h-52  cursor-pointer transition hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
+                class="h-52 cursor-pointer transition hover:scale-105 shadow-md border flex gap-5 flex-col p-4 rounded-xl"
                 data-aos="flip-right">
                 <div class="top flex w-full items-center justify-between border-b-2 pb-1">
                     <div class="left flex items-center justify-center gap-4">
@@ -216,6 +216,11 @@ import router from '../../../router';
 const selectedCity = ref();
 const project_id=router.currentRoute.value.params.id
 console.log(project_id);
+const done_tasks = ref();
+const new_tasks = ref();
+const testing=ref();
+const bugs=ref();
+const inProgress=ref();
 const cities = ref([
     { name: 'This Week', code: 'TW' },
     { name: 'To Day', code: 'TD' },
@@ -225,8 +230,8 @@ const cities = ref([
 ]);
 const data = ref([
     {
-        name: "Task Completed",
-        number: 8,
+        name: "New Tasks",
+        number: new_tasks,
         svg: 'pi pi-star text-blue-500 text-xl',
         statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2_65)">
@@ -248,8 +253,8 @@ const data = ref([
 `,
     },
     {
-        name: "New Task",
-        number: 10,
+        name: "Bugs",
+        number: bugs,
         svg: 'pi pi-star text-blue-500 text-xl',
         statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2_65)">
@@ -271,8 +276,8 @@ const data = ref([
 `,
     },
     {
-        name: "Task Done",
-        number: 15,
+        name: "In Progress",
+        number: inProgress,
         svg: 'pi pi-star text-blue-500 text-xl',
         statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2_65)">
@@ -294,8 +299,31 @@ const data = ref([
 `,
     },
     {
-        name: "Task Done",
-        number: 15,
+        name: "Testing",
+        number: testing,
+        svg: 'pi pi-star text-blue-500 text-xl',
+        statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_2_65)">
+<path d="M9 45.7573C9.43233 45.9655 10.2525 46.3237 15.2624 41.7925C21.5248 36.1285 27.2178 32.1638 33.4802 37.2613C39.7426 42.3589 43.7277 54.8196 51.698 51.4213C59.6683 48.0229 62.5149 22.535 72.1931 19.1367C81.8713 15.7383 88.1337 35.5622 94.9653 24.8006C101.797 14.0391 109.198 0.445683 114.322 2.14487C118.421 3.50422 122.482 9.13046 124 11.7737" stroke="#1EA7FF" stroke-width="2"/>
+</g>
+<defs>
+<filter id="filter0_d_2_65" x="0.565918" y="-0.00146484" width="132.301" height="68.0015" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="7"/>
+<feGaussianBlur stdDeviation="4"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.117647 0 0 0 0 0.654902 0 0 0 0 1 0 0 0 0.4 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_65"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_65" result="shape"/>
+</filter>
+</defs>
+</svg>
+`,
+    },
+    {
+        name: "Done",
+        number: done_tasks,
         svg: 'pi pi-star text-blue-500 text-xl',
         statstik_svg: `<svg width="133" height="68" viewBox="0 0 133 68" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_2_65)">
@@ -320,32 +348,7 @@ const data = ref([
 ])
 const proects=ref({})
 
-const comuniti = ref([
-    {
-        img: `https://avatars.mds.yandex.net/i?id=c96f74047facf42a702af4f3c4707ad8eff4552f-5324799-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `Alex Jordan`,
-        position: `Front-End Developer `,
-        points: `50`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=b8f1fb2dd1dea71d1e91e47ee84ce44844dae807-7020937-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `Muhsinbek Mirzamatov`,
-        position: `Front-End Developer `,
-        points: `47`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=cfb61e705cbc7609562b986b936f4431-4361307-images-thumbs&ref=rim&n=33&w=250&h=250`,
-        name: `Javohir Bozorboyev`,
-        position: `Front-End Developer `,
-        points: `40`,
-    },
-    {
-        img: `https://avatars.mds.yandex.net/i?id=0fd3e6f94eb22e51a43738500fb93d89caf13d6b-9264723-images-thumbs&ref=rim&n=33&w=235&h=250`,
-        name: `Javohir Bozorboyev`,
-        position: `Front-End Developer `,
-        points: `34`,
-    },
-])
+
 const comunitiCard = ref([
 ])
 const notifications = ref([
@@ -461,6 +464,29 @@ function fetchPerformers() {
 }
 
 fetchPerformers();
+function fetchTasks() {
+    axios
+    .get(`https://pm-api.essential.uz/api/tasks/filter?project_id=${project_id}`, {
+        params: {
+            project_id: project_id
+        },
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((res) => {
+        done_tasks.value = res.data.Done
+        bugs.value = res.data.Bugs
+        testing.value=res.data.Testing
+        new_tasks.value = res.data.New_Tasks
+        inProgress.value = res.data.In_progress
+        console.log(done_tasks.value);
+        console.log(res.data);
+    }).catch((err) => {
+        console.log(err);
+    }); 
+}
+
+fetchTasks();
 
 const lineOptions = ref(null);
 const productService = new ProductService();
