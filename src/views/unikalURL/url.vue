@@ -50,7 +50,7 @@
                         <h5>Fayllar bo'limi.</h5>
                         <span class="flex items-center justify-center gap-1 text-sm">
                             <i class="pi pi-paperclip text-sm text-gray-400"></i>
-                            <h5 class="text-gray-400">{{ filesLength}}</h5>
+                            <h5 class="text-gray-400">{{ filesLength }}</h5>
                         </span>
                     </div>
                     <div class="flex justify-content-between align-items-center mb-2">
@@ -70,14 +70,27 @@
                     <ScrollPanel style="width: 100%; height: 300px">
                         <li v-for="item in task.files" class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div class="cards w-full flex items-center justify-between">
-                                <div class="w-[100%] flex  gap-2 text-white">
+                                <div class="w-[100%] flex gap-2 text-white">
                                     <Image :src="item.path ? item.path : `https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg`" alt="Image" width="100" style="border-radius: 10px" preview />
                                     <div class="">
-                                        <span class="text-900 mr-2 w-full font-bold mb-1 md:mb-0">{{ item.name }}</span>
+                                        <span :class="editFile.id === item.id ? `hidden` : `text-900 mr-2 w-full font-bold mb-1 md:mb-0`">{{ item.name }}</span>
+                                        <div :class="editFile.id === item.id ? `text flex items-center justify-center w-full` : `hidden`">
+                                            <form class="text flex items-center justify-center w-full border-b rounded-md">
+                                                <input v-model="editFile.name" autofocus type="text" class="w-full bg-transparent text-black outline-none font-bold p-2" />
+                                                <span class="flex items-center justify-center gap-2">
+                                                    <button @click="() => (editFile.id = null)" type="button" class="flex items-center justify-center gap-2 p-2 w-[20px] transition active:scale-90 cursor-pointer h-[20px] rounded-full bg-red-500">
+                                                        <i class="pi pi-times cursor-pointer text-white"></i>
+                                                    </button>
+                                                    <button @click="editfile(item.id)" type="button" class="flex items-center justify-center gap-2 p-2 w-[20px] transition active:scale-90 cursor-pointer h-[20px] rounded-full bg-green-500">
+                                                        <i class="pi pi-check cursor-pointer text-white"></i>
+                                                    </button>
+                                                </span>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mt-2 pr-5 md:mt-0 flex align-items-center gap-3 cursor-pointer">
-                                    <!-- <i class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i> -->
+                                    <i @click="modalEditFile(JSON.stringify(item))" class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i>
                                     <i @click="modalDeleteFile(item.id)" class="pi pi-trash" v-tooltip.top="`O'chirish`"></i>
                                     <!-- <a :href="item.path" download
                                         ><button><i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i></button
@@ -108,7 +121,7 @@
                     alt="File"
                     class="w-full card-img h-36 object-cover rounded-md"
                 />
-                <h1><input type="text" v-model="fileName" placeholder="Fayl nomini kiriting" class="w-full  border-gray-300  p-2 border-x  outline-none" autofocus style="border-bottom: 2px solid #E5E7EB;" /></h1>
+                <h1><input type="text" v-model="fileName" placeholder="Fayl nomini kiriting" class="w-full border-gray-300 p-2 border-x outline-none" autofocus style="border-bottom: 2px solid #e5e7eb" /></h1>
                 <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Yuborishni istaysizmi?</h3>
             </span>
             <button @click="addFile()" class="text-white bg-blue-600 hover:bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
@@ -159,8 +172,9 @@ const modalAddFile = ref(false);
 const loadingaddfile = ref(false);
 const modalDelFile = ref(false);
 const fileId = ref();
-const filesLength=ref()
+const filesLength = ref();
 const fileName = ref();
+const editFile = ref({});
 
 const op = ref();
 const fileInput = ref(null);
@@ -169,6 +183,39 @@ const modalDeleteFile = (id) => {
     fileId.value = id;
     console.log(id);
     modalDelFile.value = true;
+};
+function modalEditFile(item) {
+    editFile.value = JSON.parse(item);
+    console.log(editFile.value);
+}
+
+const editfile = (id) => {
+    console.log(id);
+    console.log(editFile.value.name);
+    const token = localStorage.getItem('token');
+    const headers = {
+        Accept: '*/*',
+        'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+        Authorization: `Bearer ${token}`
+    };
+
+    axios
+        .post(
+            `https://pm-api.essential.uz/api/files/${id}/update`,
+            {
+                name: editFile.value.name
+            },
+            { headers }
+        )
+        .then((result) => {
+            if (result.status === 200) {
+                editFile.value.id = null;
+                fetchTask();
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 };
 
 const openFileSelector = () => {
@@ -271,23 +318,26 @@ function deletPerformer() {
 }
 
 const downloadFile = (id) => {
-  axios.get(`https://pm-api.essential.uz/api/files/show/${id}`, {
-     headers: {
+    axios
+        .get(`https://pm-api.essential.uz/api/files/show/${id}`, {
+            headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
-            },
-  }).then(response => {
-    const url = window.URL.createObjectURL(new Blob([response.data.path]));
-    console.log(response.data); // Faylni URL-ga aylantiramiz
-    const link = document.createElement('a'); // Yangi <a> elementini yaratamiz
-    link.href = url; // URL-ni bog'laymiz
-    link.setAttribute('download', `${response.data.path}`); // Fayl nomini belgilaymiz
-    document.body.appendChild(link); // Dokumentga qo'shamiz
-    link.click(); // Faylni avtomatik ravishda yuklab olish uchun bosing
-    window.URL.revokeObjectURL(url); // URL-ni qaytarib olish
-  }).catch(error => {
-    console.error('Faylni yuklab olishda xatolik yuz berdi:', error);
-  });
-}
+            }
+        })
+        .then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data.path]));
+            console.log(response.data); // Faylni URL-ga aylantiramiz
+            const link = document.createElement('a'); // Yangi <a> elementini yaratamiz
+            link.href = url; // URL-ni bog'laymiz
+            link.setAttribute('download', `${response.data.path}`); // Fayl nomini belgilaymiz
+            document.body.appendChild(link); // Dokumentga qo'shamiz
+            link.click(); // Faylni avtomatik ravishda yuklab olish uchun bosing
+            window.URL.revokeObjectURL(url); // URL-ni qaytarib olish
+        })
+        .catch((error) => {
+            console.error('Faylni yuklab olishda xatolik yuz berdi:', error);
+        });
+};
 
 function fetchTask() {
     axios
@@ -299,7 +349,7 @@ function fetchTask() {
         .then((res) => {
             if (res.status === 200) {
                 task.value = res.data[0];
-                filesLength.value = res.data[0].files.length
+                filesLength.value = res.data[0].files.length;
                 performers.value = res.data[0].performers;
                 // for (let i = 0; i < performers.value.length; i++) {
                 //     performer.value = performers.value[i].perfomer

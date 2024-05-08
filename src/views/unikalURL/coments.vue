@@ -69,7 +69,7 @@
                 <ProgressSpinner style="width: 20px; height: 20px" :class="isloading ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
                 <span :class="isloading ? 'block' : 'hidden'">Loading...</span> <span :class="isloading ? 'hidden' : 'block'">O'chirish</span>
             </button>
-            <button @click="modalAddFile = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
+            <button @click="modalDelcomment = false" class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center">
                 Bekor qilish
             </button>
         </div>
@@ -179,7 +179,7 @@ function deletComment() {
             console.log(err);
         });
 }
-deletComment()
+
 
 const editComment = (id) => {
     console.log(id);
