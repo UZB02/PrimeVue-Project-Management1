@@ -79,7 +79,7 @@
                                 />
                             </div>
                             <div>
-                                <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">Ijrochisi tomonidan ijrodan olinish vaqto</label>
+                                <label for="startT" class="block mb-2 text-start font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan tugash sanasi</label>
                                 <input
                                     type="datetime-local"
                                     v-model="dealine_end_date"
@@ -442,10 +442,10 @@ function AddTask() {
                 title: title.value,
                 description: description.value,
                 status: status.value,
-                created_date: created_date.value,
+                deadline_begin_date: created_date.value,
                 task_weight: task_weight.value,
                 performer_id: users.value,
-                dealine_end_date: dealine_end_date.value
+                deadline_end_date: dealine_end_date.value
             },
             {
                 headers: {
