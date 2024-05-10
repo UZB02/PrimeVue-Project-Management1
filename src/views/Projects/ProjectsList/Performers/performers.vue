@@ -399,7 +399,7 @@ const proektName = ref();
 
 
 const gotoPerformersInfo=(id)=>{
-    router.push('/projects_list/:id/performers/:performers_id/performersinfo')
+    router.push(`/projects_list/${project_id.value}/performers/${id}/performersinfo`)
     console.log(id);
 }
 const modalDelet = () => {

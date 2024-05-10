@@ -71,7 +71,7 @@
                         <li v-for="item in task.files" class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div class="cards w-full flex items-center justify-between">
                                 <div class="w-[100%] flex gap-2 text-white">
-                                    <Image :src="item.path ? item.path : `https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg`" alt="Image" width="100" style="border-radius: 10px" preview />
+                                    <Image :src="item.path ? item.path : `https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg`" alt="Image" width="100" style="border-radius: 10px;" preview />
                                     <div class="">
                                         <span :class="editFile.id === item.id ? `hidden` : `text-900 mr-2 w-full font-bold mb-1 md:mb-0`">{{ item.name }}</span>
                                         <div :class="editFile.id === item.id ? `text flex items-center justify-center w-full` : `hidden`">

@@ -1,7 +1,13 @@
 <template>
-    <!-- <header class="mb-2">
-        <Map></Map>
-    </header> -->
+    <header class="mb-2 flex items-center ">
+        <img :src="user.avatar" class="w-[50px] h-[50px] rounded-full" alt="">
+       <span>
+         <h1 class="ml-3 font-bold text-3xl">
+            {{ user.fio }}
+        </h1>
+        <h3 class="ml-3 font-medium text-gray-400 text-xl">{{ perFoRmer.name }}</h3>
+       </span>
+    </header>
     <section class="flex flex-col gap-2">
         <div class="left flex gap-2 justify-between">
             <div class="card p-2 w-1/2 flex flex-col gap-3">
@@ -66,7 +72,14 @@
 import { ref, onMounted } from "vue";
 import Map from "../../../../components/map.vue"
 import Davomat from "../../../../components/gantChart.vue"
+import axios from "axios";
+import router from "../../../../router";
 
+const project_id=ref(router.currentRoute.value.params.id)
+const performer_id=ref(router.currentRoute.value.params.performers_id)
+console.log(project_id.value);
+const perFoRmer=ref({})
+const user=ref({})
 onMounted(() => {
     chartData.value = setChartData();
     chartOptions.value = setChartOptions();
@@ -108,6 +121,27 @@ const tasks = ref([
     { title: 'Topshiriq 1', content: 'Content 2', img: `https://avatars.mds.yandex.net/i?id=ea4183afac127d5142d083b2a4deee7565b4e93f-3096790-images-thumbs&n=13`, value: `45` },
     { title: 'Topshiriq 2', content: 'Content 3', img: `https://avatars.mds.yandex.net/i?id=592ac39831c51ec7f2825114cbda4faf5d349e32-10814916-images-thumbs&n=13`, value: `98` }
 ]);
+
+function fetchPerFormer() {
+    axios
+    .get(`https://pm-api.essential.uz/api/performers/show/${performer_id.value}`, {
+        params: {
+            project_id: project_id.value
+        },
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((res) => {
+        perFoRmer.value=res.data.user_role;
+        user.value=res.data.user;
+        // comunitiCard.value.sort((a,b)=> a.ball + b.ball);
+        console.log(res.data);
+    }).catch((err) => {
+        console.log(err);
+    }); 
+}
+
+fetchPerFormer();
 
 const setChartData = () => {
     const documentStyle = getComputedStyle(document.documentElement);
