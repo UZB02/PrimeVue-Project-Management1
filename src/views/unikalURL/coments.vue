@@ -2,8 +2,8 @@
     <div class="flex justify-content-between align-items-center mb-2">
         <h5>Comentariya</h5>
     </div>
-    <ScrollPanel style="height: 300px;" class="flex overflow-hidden justify-between gap-2 relative">
-        <div v-for="(item, itemId) in comments" :key="itemId" class="left w-full mb-2 shadow bg-slate-100 p-3 py-2 flex flex-col gap-2" style="border-top-right-radius: 15px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px">
+    <ScrollPanel style="height: 300px;" class="flex max-[600px]:w-full max-[1100px]:w-full overflow-hidden  justify-around gap-2 relative">
+        <div v-for="(item, itemId) in comments" :key="itemId" :class="myId === item.user_id ? `left relative w-1/2 mb-2 shadow translate-x-80 rounded-b-3xl rounded-t-3xl bg-slate-100 p-3 py-2 flex flex-col gap-2` : `left relative w-1/2 mb-2 shadow bg-slate-100 p-3 py-2 flex flex-col gap-2 rounded-b-3xl`" style="">
             <span class="flex realative items-center gap-2">
                 <img
                     :src="item.user.avatar ? item.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
@@ -14,9 +14,9 @@
                     <h1 class="font-bold">{{ item.user.fio ? item.user.fio : 'Foydalanuvchi' }}</h1>
                     <h3 class="text-sm text-gray-400">{{ item.user.user_role?.name }}</h3>
                 </span>
-                <span class="flex absolute right-6 items-center gap-2">
-                    <i @click="() => modalEditComment(JSON.stringify(item))" class="pi pi-pencil cursor-pointer"></i>
-                    <i @click="modalDeleteComment(item.id)" class="pi pi-trash cursor-pointer"></i>
+                <span :class=" myId === item.user_id ? `flex absolute right-6 items-center gap-1` : `hidden`">
+                    <i @click="() => modalEditComment(JSON.stringify(item))" class="pi pi-pencil  cursor-pointer" v-tooltip.top="'Taxrirlash'"></i>
+                    <i @click="modalDeleteComment(item.id)" class="pi pi-trash text-red-500  cursor-pointer" v-tooltip.top="`O'chirish`"></i>
                 </span>
             </span>
             <div class="bottom w-full">
@@ -41,10 +41,11 @@
             </div>
         </div>
     </ScrollPanel>
-    <div class="bottom flex items-center gap-2 justify-between mt-1 border p-1 rounded-3xl">
-        <!-- <div class="left">
-            <img src="https://primefaces.org/cdn/primevue/images/galleria/galleria10.jpg" style="width: 45px; height: 45px; border-radius: 50%" alt="" />
-        </div> -->
+  <section class="flex flex-col relative">
+      <!-- <div class="flex items-center absolute bg-red-500 justify-center w-full">
+de
+            </div> -->
+    <div class="bottom flex flex-col items-center gap-2 justify-between mt-1 border p-1 rounded-3xl">
         <div class="right flex items-center justify-center w-full">
             <form @submit.prevent="addComment()" class="right flex items-center justify-center w-full">
                 <input v-model="textComment" type="text" placeholder="Yozing" class="w-full outline-none p-2 bg-transparent" />
@@ -58,6 +59,7 @@
             </form>
         </div>
     </div>
+  </section>
     <!-- Begin Modal DeletFile -->
     <Dialog v-model:visible="modalDelcomment" header="Delet Project" :style="{ width: '25rem' }">
         <div class="p-2 pt-0 text-center">
@@ -90,11 +92,16 @@ const modalDelcomment = ref(false);
 const commentID = ref();
 const isloading = ref(false);
 const edittextComment=ref({})
+let myId=ref(parseInt(localStorage.getItem('id')));
+// console.log(myId.value,typeof myId.value);
+
 
 
 
 function modalEditComment(item) {
     edittextComment.value = JSON.parse(item);
+    textComment.value = JSON.parse(item).text;
+    console.log(textComment.value,98);
     console.log(edittextComment.value);
 }
 

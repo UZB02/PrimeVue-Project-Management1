@@ -165,7 +165,7 @@ const setChartData = () => {
                 label: 'Bajarilgan Topshiriqlar soni',
                 backgroundColor: documentStyle.getPropertyValue('--gray-500'),
                 borderColor: documentStyle.getPropertyValue('--gray-500'),
-                data: [65, 50, 70, 50, 25, 45, 23, 64, 50, 80, 83, 55]
+                data: [ 45, 50, 70, 50, 25, 45, 23, 64, 50, 80, 83, 55]
             }
         ]
     };

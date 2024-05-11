@@ -1,7 +1,5 @@
 <template>
-    <section>
-        <div class="container flex flex-col gap-4">
-            <div class="top w-full flex flex-col gap-2 h-[20vh] mb-6">
+     <div class="top w-full flex flex-col gap-2 h-[20vh] mb-20">
                 <div class="title flex items-center justify-between">
                     <h1 class="font-bold text-3xl">{{ task.title }}</h1>
                     <div class="performers flex gap-2 items-center justify-center">
@@ -44,8 +42,10 @@
                     <img class="w-full h-full object-cover rounded-lg" src="https://vp-leads.com/wp-content/uploads/2021/09/professiya-veb-analitik.jpg" alt="" />
                 </div>
             </div>
-            <div class="bottom flex items-center justify-center gap-2">
-                <div class="border p-3 h-[400px]: rounded-xl w-1/2">
+    <section>
+        <div class="container flex flex-col gap-4">
+            <div class="bottom flex items-center max-[1100px]:flex-col justify-center gap-2">
+                <div class="border p-3 h-[400px] rounded-xl w-1/2 max-[1100px]:w-full">
                     <div class="flex justify-content-between align-items-center mb-2">
                         <h5>Fayllar bo'limi.</h5>
                         <span class="flex items-center justify-center gap-1 text-sm">
@@ -67,7 +67,7 @@
                             </div>
                         </div> -->
                     </div>
-                    <ScrollPanel style="width: 100%; height: 300px">
+                    <ScrollPanel style="width: 100%; height: 305px">
                         <li v-for="item in task.files" class="flex flex-column border-b-2 p-1 flex-wrap md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div class="cards w-full flex items-center justify-between">
                                 <div class="w-[100%] flex gap-2 text-white">
@@ -93,7 +93,7 @@
                                     <i @click="modalEditFile(JSON.stringify(item))" class="pi pi-file-edit" v-tooltip.top="'Taxrirlash'"></i>
                                     <i @click="modalDeleteFile(item.id)" class="pi pi-trash" v-tooltip.top="`O'chirish`"></i>
                                     <!-- <a :href="item.path" download
-                                        ><button><i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i></button
+                                        ><button type="button"><i class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i></button
                                     ></a> -->
                                     <i @click="downloadFile(item.id)" class="pi pi-download" v-tooltip.top="'Yuklab olish'"></i>
                                 </div>
@@ -101,7 +101,7 @@
                         </li>
                     </ScrollPanel>
                 </div>
-                <div class="border p-3 rounded-xl w-1/2 h-[400px]">
+                <div class="border p-3 rounded-xl w-1/2 h-[400px] max-[1100px]:w-full">
                     <Coments />
                 </div>
             </div>

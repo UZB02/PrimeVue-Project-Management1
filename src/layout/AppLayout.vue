@@ -10,7 +10,6 @@ import router from '@/router';
 const { layoutConfig, layoutState, isSidebarActive } = useLayout();
 
 const outsideClickListener = ref(null);
-console.log(localStorage.getItem('token'));
 
     if(localStorage.getItem('token') === null){
         router.push('/auth/login');

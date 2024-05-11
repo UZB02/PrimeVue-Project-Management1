@@ -19,6 +19,8 @@ const login = async () => {
         });
         console.log(response);
         const token = response.data.result.token;
+        const id=response.data.result.user.id;
+        localStorage.setItem('id', id);
         localStorage.setItem('token', token);
         router.push('/');
 		isloading.value=false;
