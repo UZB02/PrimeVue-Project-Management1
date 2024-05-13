@@ -2,8 +2,15 @@
     <div class="flex justify-content-between align-items-center mb-2">
         <h5>Comentariya</h5>
     </div>
-    <ScrollPanel style="height: 300px;" class="flex max-[600px]:w-full max-[1100px]:w-full overflow-hidden  justify-around gap-2 relative">
-        <div v-for="(item, itemId) in comments" :key="itemId" :class="myId === item.user_id ? `left relative w-1/2 mb-2 shadow translate-x-80 rounded-b-3xl rounded-t-3xl bg-slate-100 p-3 py-2 flex flex-col gap-2` : `left relative w-1/2 mb-2 shadow bg-slate-100 p-3 py-2 flex flex-col gap-2 rounded-b-3xl`" style="">
+    <ScrollPanel style="height: 300px" class="flex max-[600px]:w-full max-[1100px]:w-full overflow-hidden justify-around gap-2 relative">
+        <div
+            v-for="(item, itemId) in comments"
+            :key="itemId"
+            :class="
+                myId === item.user_id ? `left relative w-1/2 mb-2 shadow translate-x-80 rounded-bl-3xl rounded-t-3xl bg-slate-100 p-3 py-2 flex flex-col gap-2` : `left relative w-1/2 mb-2 shadow bg-slate-100 p-3 py-2 flex flex-col gap-2 rounded-b-3xl rounded-tr-3xl`
+            "
+            style=""
+        >
             <span class="flex realative items-center gap-2">
                 <img
                     :src="item.user.avatar ? item.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
@@ -14,9 +21,9 @@
                     <h1 class="font-bold">{{ item.user.fio ? item.user.fio : 'Foydalanuvchi' }}</h1>
                     <h3 class="text-sm text-gray-400">{{ item.user.user_role?.name }}</h3>
                 </span>
-                <span :class=" myId === item.user_id ? `flex absolute right-6 items-center gap-1` : `hidden`">
-                    <i @click="() => modalEditComment(JSON.stringify(item))" class="pi pi-pencil  cursor-pointer" v-tooltip.top="'Taxrirlash'"></i>
-                    <i @click="modalDeleteComment(item.id)" class="pi pi-trash text-red-500  cursor-pointer" v-tooltip.top="`O'chirish`"></i>
+                <span :class="myId === item.user_id ? `flex absolute right-6 items-center gap-1` : `hidden`">
+                    <i @click="() => modalEditComment(JSON.stringify(item))" class="pi pi-pencil cursor-pointer" v-tooltip.top="'Taxrirlash'"></i>
+                    <i @click="modalDeleteComment(item.id)" class="pi pi-trash text-red-500 cursor-pointer" v-tooltip.top="`O'chirish`"></i>
                 </span>
             </span>
             <div class="bottom w-full">
@@ -26,40 +33,40 @@
                     </p>
                 </div>
                 <div :class="edittextComment.id === item.id ? `text flex items-center justify-center w-full` : `hidden`">
-                    <form  class="text flex items-center justify-center w-full bg-slate-200 rounded-md">
+                    <form class="text flex items-center justify-center w-full bg-slate-200 rounded-md">
                         <input v-model="edittextComment.text" autofocus type="text" class="w-full bg-transparent outline-none p-2" />
-                       <span class="flex items-center justify-center g-2">
-                         <button @click="()=> edittextComment.id = null" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-red-500">
-                        <i class="pi pi-times cursor-pointer text-white"></i>
-                        </button>
-                        <button @click="editComment(item.id)" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-green-500">
-                        <i class="pi pi-send cursor-pointer text-white"></i>
-                        </button>
-                       </span>
+                        <span class="flex items-center justify-center g-2">
+                            <button @click="() => (edittextComment.id = null)" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-red-500">
+                                <i class="pi pi-times cursor-pointer text-white"></i>
+                            </button>
+                            <button @click="editComment(item.id)" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-green-500">
+                                <i class="pi pi-send cursor-pointer text-white"></i>
+                            </button>
+                        </span>
                     </form>
                 </div>
             </div>
         </div>
     </ScrollPanel>
-  <section class="flex flex-col relative">
-      <!-- <div class="flex items-center absolute bg-red-500 justify-center w-full">
+    <section class="flex flex-col relative">
+        <!-- <div class="flex items-center absolute bg-red-500 justify-center w-full">
 de
             </div> -->
-    <div class="bottom flex flex-col items-center gap-2 justify-between mt-1 border p-1 rounded-3xl">
-        <div class="right flex items-center justify-center w-full">
-            <form @submit.prevent="addComment()" class="right flex items-center justify-center w-full">
-                <input v-model="textComment" type="text" placeholder="Yozing" class="w-full outline-none p-2 bg-transparent" />
-                <span class="flex items-center justify-center gap-2">
-                    <i class="pi pi-paperclip cursor-pointer" @click="openFileSelector"></i>
-                    <input ref="fileInput" type="file" style="display: none" @change="onFileChange" />
-                    <button type="button" @click="addComment()" class="flex items-center justify-center gap-2 p-2 w-[40px] transition active:scale-90 cursor-pointer h-[40px] rounded-full bg-green-500">
-                        <i class="pi pi-send cursor-pointer text-white"></i>
-                    </button>
-                </span>
-            </form>
+        <div class="bottom flex flex-col items-center gap-2 justify-between mt-1 border p-1 rounded-3xl">
+            <div class="right flex items-center justify-center w-full">
+                <form @submit.prevent="addComment()" class="right flex items-center justify-center w-full">
+                    <input v-model="textComment" type="text" placeholder="Yozing" class="w-full outline-none p-2 bg-transparent" />
+                    <span class="flex items-center justify-center gap-2">
+                        <i class="pi pi-paperclip cursor-pointer" @click="openFileSelector"></i>
+                        <input ref="fileInput" type="file" style="display: none" @change="onFileChange" />
+                        <button type="button" @click="addComment()" class="flex items-center justify-center gap-2 p-2 w-[40px] transition active:scale-90 cursor-pointer h-[40px] rounded-full bg-green-500">
+                            <i class="pi pi-send cursor-pointer text-white"></i>
+                        </button>
+                    </span>
+                </form>
+            </div>
         </div>
-    </div>
-  </section>
+    </section>
     <!-- Begin Modal DeletFile -->
     <Dialog v-model:visible="modalDelcomment" header="Delet Project" :style="{ width: '25rem' }">
         <div class="p-2 pt-0 text-center">
@@ -91,17 +98,17 @@ const comments = ref({});
 const modalDelcomment = ref(false);
 const commentID = ref();
 const isloading = ref(false);
-const edittextComment=ref({})
-let myId=ref(parseInt(localStorage.getItem('id')));
+const edittextComment = ref({});
+let myId = ref(parseInt(localStorage.getItem('id')));
 // console.log(myId.value,typeof myId.value);
 
-
-
+// setInterval(function () {
+//     fetchTask()
+// }, 500);
 
 function modalEditComment(item) {
     edittextComment.value = JSON.parse(item);
-    textComment.value = JSON.parse(item).text;
-    console.log(textComment.value,98);
+    // textComment.value = JSON.parse(item).text;
     console.log(edittextComment.value);
 }
 
@@ -151,8 +158,7 @@ function fetchTask() {
         .then((res) => {
             if (res.status === 200) {
                 comments.value = res.data[0].comment;
-                comments.value.sort((a,b)=> a.id - b.id);
-                console.log(comments.value, 6);
+                comments.value.sort((a, b) => a.id - b.id);
             }
         })
         .catch((err) => {
@@ -187,7 +193,6 @@ function deletComment() {
         });
 }
 
-
 const editComment = (id) => {
     console.log(id);
     const token = localStorage.getItem('token');
@@ -202,13 +207,13 @@ const editComment = (id) => {
             `https://pm-api.essential.uz/api/comments/${id}/update`,
             {
                 text: edittextComment.value.text
-            }, 
+            },
             { headers }
         )
         .then((result) => {
             if (result.status === 200) {
-                edittextComment.value.id=null
-                fetchTask()
+                edittextComment.value.id = null;
+                fetchTask();
             }
         })
         .catch((error) => {
