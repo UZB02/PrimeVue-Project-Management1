@@ -52,6 +52,9 @@ const model = ref([
        {
         items: [{ label: 'Rols', icon: 'pi pi-fw pi-users', to: '/rols' }]
     },
+       {
+        items: [{ label: 'Clients', icon: 'pi pi-fw pi-user', to: '/all_clients' }]
+    },
     // {
     //     label: 'UI Components',
     //     items: [

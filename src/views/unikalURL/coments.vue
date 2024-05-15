@@ -15,7 +15,7 @@
                 <img
                     :src="item.user.avatar ? item.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
                     style="width: 30px; height: 30px; border-radius: 50%"
-                    alt=""
+                    class="object-cover"
                 />
                 <span>
                     <h1 class="font-bold">{{ item.user.fio ? item.user.fio : 'Foydalanuvchi' }}</h1>
@@ -34,7 +34,14 @@
                 </div>
                 <div :class="edittextComment.id === item.id ? `text flex items-center justify-center w-full` : `hidden`">
                     <form class="text flex items-center justify-center w-full bg-slate-200 rounded-md">
-                        <input v-model="edittextComment.text" autofocus type="text" class="w-full bg-transparent outline-none p-2" />
+                        <!-- <input v-model="edittextComment.text" autofocus type="text" class="w-full bg-transparent outline-none p-2" /> -->
+                         <textarea
+                                id="message"
+                                rows="4"
+                                autocapitalize=""
+                                v-model="edittextComment.text"
+                                class="w-full overflow-hidden h-auto bg-transparent outline-none"
+                            ></textarea>
                         <span class="flex items-center justify-center g-2">
                             <button @click="() => (edittextComment.id = null)" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-red-500">
                                 <i class="pi pi-times cursor-pointer text-white"></i>
@@ -100,15 +107,9 @@ const commentID = ref();
 const isloading = ref(false);
 const edittextComment = ref({});
 let myId = ref(parseInt(localStorage.getItem('id')));
-// console.log(myId.value,typeof myId.value);
-
-// setInterval(function () {
-//     fetchTask()
-// }, 500);
 
 function modalEditComment(item) {
     edittextComment.value = JSON.parse(item);
-    // textComment.value = JSON.parse(item).text;
     console.log(edittextComment.value);
 }
 
@@ -201,6 +202,7 @@ const editComment = (id) => {
         'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
         Authorization: `Bearer ${token}`
     };
+    console.log(edittextComment.value.text);
 
     axios
         .post(

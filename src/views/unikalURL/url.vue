@@ -7,7 +7,7 @@
                             <div class="flex items-center gap-1" v-for="item in performers" @click="performersID(item.perfomer.user.id)">
                                 <img
                                     :src="item.perfomer.user.avatar ? item.perfomer.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
-                                    class="w-[45px] h-[45px] rounded-full"
+                                    class="w-[45px] h-[45px] object-cover rounded-full"
                                     alt=""
                                 />
                             </div>
@@ -15,17 +15,16 @@
                         <span @click="modalAddPerformer()" class="flex items-center justify-center gap-1 bg-blue-400 w-[45px] h-[45px] rounded-full cursor-pointer text-white">
                             <i class="pi pi-user-plus text-2xl"></i>
                         </span>
-                        <OverlayPanel ref="op">
-                            <div></div>
+                        <OverlayPanel ref="op" class="p-0">
                             <div class="bottom flex items-center gap-3 flex-wrap">
                                 <div class="action w-full flex items-center justify-end gap-2">
-                                    <i class="pi pi-pencil cursor-pointer"></i>
-                                    <i class="pi pi-trash cursor-pointer"></i>
+                                    <!-- <i class="pi pi-pencil cursor-pointer"></i> -->
+                                    <i @click="delePerformer(performers.id)" class="pi pi-trash cursor-pointer"></i>
                                 </div>
                                 <span class="flex items-center justify-center flex-col gap-2 p-3 w-full">
                                     <img
                                         :src="performer.avatar ? performer.avatar : `https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250`"
-                                        class="w-24 card-img h-24 rounded-[50%] cursor-pointer"
+                                        class="w-24 card-img h-24 object-cover rounded-[50%]"
                                         alt=""
                                     />
                                     <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ performer.fio }}</h1>
@@ -39,7 +38,7 @@
                     </div>
                 </div>
                 <div class="image h-full">
-                    <img class="w-full h-full object-cover rounded-lg" src="https://vp-leads.com/wp-content/uploads/2021/09/professiya-veb-analitik.jpg" alt="" />
+                    <img class="w-full h-full object-cover rounded-lg" :src="mainImage.path ? mainImage.path : `https://vp-leads.com/wp-content/uploads/2021/09/professiya-veb-analitik.jpg`" alt="" />
                 </div>
             </div>
     <section>
@@ -141,7 +140,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">O'chirishni istaysizmi?</h3>
-            <button @click="deletPerformer()" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+            <button @click="deletFile()" class="text-white bg-red-600 hover:bg-red-300 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                 <ProgressSpinner style="width: 20px; height: 20px" :class="loadingaddfile ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
                 <span :class="loadingaddfile ? 'block' : 'hidden'">Loading...</span> <span :class="loadingaddfile ? 'hidden' : 'block'">O'chirish</span>
             </button>
@@ -175,6 +174,7 @@ const fileId = ref();
 const filesLength = ref();
 const fileName = ref();
 const editFile = ref({});
+const mainImage=ref({});
 
 
 const op = ref();
@@ -290,7 +290,7 @@ function addFile() {
         });
 }
 
-function deletPerformer() {
+function deletFile() {
     loadingaddfile.value = true;
     axios
         .delete(`https://pm-api.essential.uz/api/files/${fileId.value}/delete`, {
@@ -350,12 +350,9 @@ function fetchTask() {
         .then((res) => {
             if (res.status === 200) {
                 task.value = res.data[0];
+                mainImage.value=res.data[0].files[0];
                 filesLength.value = res.data[0].files.length;
                 performers.value = res.data[0].performers;
-                // for (let i = 0; i < performers.value.length; i++) {
-                //     performer.value = performers.value[i].perfomer
-                // }
-                // console.log(performer.value,6);
                 console.log(performers.value, 7);
                 console.log(task.value, 8);
             }
@@ -365,22 +362,23 @@ function fetchTask() {
         });
 }
 fetchTask();
-// function fetchPerformers() {
-//     axios.get(`https://pm-api.essential.uz/api/task-performers`,
-//     {
-//         task_id: taskId
-//     },
-//     {
-//         headers: {
-//             Authorization: 'Bearer ' + localStorage.getItem('token')
-//         }
-//     }).then((res) => {
-//         console.log(res);
-//     }).catch((err) => {
-//         console.log(err);
-//     });
-// }
-// fetchPerformers()
+
+const delePerformer=(id)=>{
+    console.log(id);
+    axios
+   .delete(`https://pm-api.essential.uz/api/task-performers/${id}/delete`, {
+       headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+       }}).then((res) =>{
+        if(res.status===200){
+            fetchTask();
+            op.value.toggle(event)
+        }
+        console.log(res);
+       }).catch((err)=>{
+        console.log(err);
+       })
+}
 
 const modalAddPerformer = () => {
     changePerformer.value = !changePerformer.value;

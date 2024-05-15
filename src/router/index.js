@@ -39,6 +39,21 @@ const router = createRouter({
                     component: () => import('@/views/Projects/ProjectsList/ProjectsList.vue')
                 },
                 {
+                    path: '/projects_list/:id/clients',
+                    name: `Project's client`,
+                    component: () => import('@/views/Clients/clients.vue')
+                },
+                {
+                    path: '/all_clients',
+                    name: `Allclient`,
+                    component: () => import('@/views/Clients/allClients.vue')
+                },
+                {
+                    path: '/addClient',
+                    name: `Addclient`,
+                    component: () => import('@/views/Clients/addClient.vue')
+                },
+                {
                     path: '/projects_list/:id/melistone',
                     name: 'Melistone',
                     component: () => import('@/views/Projects/ProjectsList/Stages/melistone.vue')

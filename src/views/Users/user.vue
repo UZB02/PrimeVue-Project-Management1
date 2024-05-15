@@ -59,7 +59,7 @@
                              </div>
                              <span class="flex items-center justify-center flex-col gap-2  p-3 w-full">
                                  <img @click="gotoPerformersInfo(item.id)" :src="item.avatar ? item.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
-                                     class="w-24 card-img  h-24 rounded-[50%] cursor-pointer" alt="">
+                                     class="w-24 card-img object-cover h-24 rounded-[50%] cursor-pointer" alt="">
                                  <h1 class="font-bold whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.fio}}</h1>
                                <span class="flex items-center justify-center gap-3">
                                    <h2 class="font-sans font-medium bg-green-300 text-white pl-3 pr-3 pb-1 rounded">{{ item.status }}</h2>
@@ -243,6 +243,7 @@ function fetchUsers() {
         }
         console.log(res.data);
         users.value = res.data;
+        users.value.sort((a,b)=>a.id-b.id)
     }).catch((err) => {
         console.log(err);
     })
