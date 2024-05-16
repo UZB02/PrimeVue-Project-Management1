@@ -4,7 +4,7 @@
             <div class="w-full mt-5 mr-0 mb-0 ml-0 relative z-10 lg:mt-0 lg:w-5/12">
                 <form @submit.prevent="addUser()">
                     <div class="flex flex-col w-full gap-2 items-start justify-start pt-5 pr-6 pb-4 pl-6 bg-white shadow-2xl rounded-xl relative z-10">
-                        <p class="w-full text-4xl font-bold text-center leading-snug">Add Client</p>
+                        <p class="w-full text-4xl font-bold text-center leading-snug">Edit Client</p>
                         <div class="w-full mt-2 mr-0 mb-0 ml-0 relative space-y-8">
                             <span class="flex items-center justify-between gap-3">
                                 <div class="relative w-full">
