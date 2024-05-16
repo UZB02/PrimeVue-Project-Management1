@@ -1,17 +1,15 @@
 <template>
     <!-- <TopNavMap></TopNavMap> -->
-    <h1 class="ml-3 font-bold text-3xl">
-        Projects Bo'limi
-    </h1>
+    <h1 class="ml-3 font-bold text-3xl">Projects Bo'limi</h1>
     <header class="w-full flex items-center justify-center">
         <div class="w-[96%] flex items-center justify-between pb-3 pt-2">
             <button @click="addProject" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i class="pi pi-plus"></i> ADD Project</button>
             <!-- <h2 class="font-semibold">Loyihaning umumiy ma’lumotlarini ko’rish</h2> -->
             <span class="flex items-center justify-center gap-3 p-input-icon-right">
-                        <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
-                            <input type="text" class="p-2 outline-none" placeholder="Search...">
-                            <i class="pi pi-search mr-1 cursor-pointer"></i>
-                        </div>
+                <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
+                    <input type="text" class="p-2 outline-none" placeholder="Search..." />
+                    <i class="pi pi-search mr-1 cursor-pointer"></i>
+                </div>
                 <button type="button" @click="rolsToggle" aria-haspopup="true" aria-controls="overlay_menu" class="p-link layout-topbar-button">
                     <i class="pi pi-user"></i>
                 </button>
@@ -40,14 +38,14 @@
         <loading></loading>
     </section>
     <section :class="errors ? 'container h-[50vh] flex flex-wrap items-center justify-center gap-2' : 'hidden'">
-       {{ errors }}
+        {{ errors }}
     </section>
     <section :class="isloading ? 'w-full container flex flex-wrap items-center  gap-2' : 'hidden'">
         <div class="container flex flex-wrap items-center justify-center gap-2">
             <div class="container flex flex-wrap justify-center gap-2">
                 <div :class="card_table ? 'container flex flex-wrap gap-2' : 'hidden'">
-                    <div class="card  shadow-md p-3 rounded-lg w-[32%] h-[350px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[300px]" v-for="(item, ItemKey) in data" :key="ItemKey">
-                        <div class="actions flex items-center justify-between ">
+                    <div class="card shadow-md p-3 rounded-lg w-[32%] h-[350px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[350px]" v-for="(item, ItemKey) in data" :key="ItemKey">
+                        <div class="actions flex items-center justify-between">
                             <h2 class="font-bold text-sm text-slate-400">{{ ItemKey + 1 }}</h2>
                             <div class="svg flex items-center justify-end gap-2">
                                 <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
@@ -94,7 +92,7 @@
                                     <span class="bg-gray-200 flex items-center rounded-xl w-full">
                                         <div :style="{ width: `${Math.round((item.done_tasks / item.all_tasks) * 100)}%` }" class="score rounded-xl bg-green-500 h-2"></div>
                                     </span>
-                                    <span class="text-sm">{{item.done_tasks ? Math.round((item.done_tasks / item.all_tasks) * 100) : 0 }}%</span>
+                                    <span class="text-sm">{{ item.done_tasks ? Math.round((item.done_tasks / item.all_tasks) * 100) : 0 }}%</span>
                                 </div>
                             </span>
                         </div>
@@ -112,7 +110,7 @@
                             <div class="w-[35%] flex items-center gap-2">
                                 <h1 class="font-bold text-gray-500">{{ ItemKey + 1 }}.</h1>
                                 <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                    <i  class="pi pi-qrcode text-xl text-blue-500"></i>
+                                    <i class="pi pi-qrcode text-xl text-blue-500"></i>
                                 </div>
 
                                 <span @click="generalinformation(item.id)" class="w-[70%] cursor-pointer text-900 line-height-3 flex flex-col gap-2">
@@ -122,7 +120,7 @@
                             </div>
                             <div class="w-[65%] flex gap-3 items-center justify-center">
                                 <span class="flex items-center justify-center gap-1">
-                                      <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
+                                    <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: #${item.color}`"></div>
                                 </span>
                                 <span class="flex w-1/4 items-center justify-center gap-2">
                                     <Avatar image="https://avatars.mds.yandex.net/i?id=738b728f5728fc4d9b1bb45e0c787450ab62c59b-10705627-images-thumbs&n=13" size="large" shape="circle"> </Avatar>
@@ -139,10 +137,10 @@
                                     <i class="pi pi-paperclip"></i>
                                     <h3>6</h3>
                                 </span>
-                                    <span class="flex items-center justify-center gap-1">
-                                            <i class="pi pi-verified"></i>
-                                            <h2>{{ item.all_tasks }}/{{ item.done_tasks }}</h2>
-                                        </span>
+                                <span class="flex items-center justify-center gap-1">
+                                    <i class="pi pi-verified"></i>
+                                    <h2>{{ item.all_tasks }}/{{ item.done_tasks }}</h2>
+                                </span>
                                 <span class="w-1/4 flex flex-col items-center justify-center gap-1">
                                     <div class="w-full flex items-center justify-center gap-3">
                                         <span class="bg-gray-200 flex items-center rounded-xl w-full">
@@ -152,7 +150,7 @@
                                     </div>
                                 </span>
                                 <div class="actions flex items-center justify-center gap-3">
-                               <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
+                                    <i v-tooltip.top="'Taxrirlash'" class="pi pi-pencil cursor-pointer" @click="() => modalEdit(JSON.stringify(item))"></i>
                                     <i v-tooltip.top="`O'chirish`" class="pi pi-trash cursor-pointer" @click="modalDelet(item.id)"></i>
                                     <i @click="getProjectiId(item.id)" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                                 </div>
@@ -162,12 +160,12 @@
                 </div>
             </div>
             <!-- Begin Pagenetion comp -->
-              <span :class="ViewPagenetion ? 'block' : 'hidden'">
+            <span :class="ViewPagenetion ? 'block' : 'hidden'">
                 <Pagenetion :currentPage="currentPage" :totalPages="totalPages" @goToPage="fetchData" />
-              </span>
-               <!-- End Pagenetion comp -->
+            </span>
+            <!-- End Pagenetion comp -->
         </div>
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class=" translate-y-2">
+        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" class="translate-y-2">
             <Menu :model="items" />
         </Menu>
         <!-- Begin Modal Delet -->
@@ -189,132 +187,143 @@
         <!-- End Modal Delet -->
         <!-- Begin Edit Modal -->
         <Dialog v-model:visible="editModal" header="Edit Project" class="w-[70%]">
-            <div class="p-1 pt-0  w-full">
-                <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col  gap-3 p-6">
+            <div class="p-1 pt-0 w-full">
+                <form @submit.prevent="editProject()" typeof="submit" class="w-full flex flex-col gap-3 p-6">
                     <div class="grid gap-3 md:grid-cols-2 w-full">
-                    <div class="w-full">
-                        <label for="first_name" class="block mb-2  font-medium text-gray-900 dark:text-white">Loyiha nomi</label>
-                        <input
-                            v-model="editName"
-                            type="text"
-                            id="first_name"
-                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Project Menagment"
-                        />
+                        <div class="w-full">
+                            <label for="first_name" class="block mb-2 font-medium text-gray-900 dark:text-white">Loyiha nomi</label>
+                            <input
+                                v-model="editName"
+                                type="text"
+                                id="first_name"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Project Menagment"
+                            />
+                        </div>
+                        <div class="w-full">
+                            <label for="last_name" class="block mb-2 font-medium text-gray-900 dark:text-white">Loyiha nomi qisqartmasi</label>
+                            <input
+                                v-model="editShortname"
+                                type="text"
+                                id="last_name"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="PM"
+                            />
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-medium text-gray-900 dark:text-gray-300" for="file_input">Logo</label>
+                            <input
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 -translate-y-1 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                id="file_input"
+                                @change="changefile"
+                                type="file"
+                                ref="file"
+                            />
+                        </div>
+                        <div>
+                            <label for="visitors" class="block mb-2 font-medium text-gray-900 dark:text-white">Client</label>
+                            <select
+                                name=""
+                                v-model="editClient"
+                                id=""
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
+                                <option v-for="item in clients" :value="item.id">{{ editClient?.id === item.id ? item.name : item.name }}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="startT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
+                            <input
+                                type="datetime-local"
+                                v-model="editDate_create"
+                                id="startT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
+                            <input
+                                type="date"
+                                v-model="editEnd_date"
+                                id="EndT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning haqiqatdan start berilgan sanasi</label>
+                            <input
+                                type="date"
+                                v-model="editFactual_start_date"
+                                id="EndT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning haqiqatdan tugagan sanasi</label>
+                            <input
+                                type="date"
+                                v-model="editFactual_end_date"
+                                id="EndT"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning so'mdagi qiymati</label>
+                            <input
+                                type="number"
+                                v-model="editUnit_value"
+                                id="summ"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="500 000"
+                                min="0"
+                            />
+                        </div>
+                        <div>
+                            <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihanin ralizatsiyasiga ajratilgan summa</label>
+                            <input
+                                type="number"
+                                v-model="editBudget"
+                                id="summ"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="500 000"
+                                min="0"
+                            />
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="visitors" class="block mb-2 font-medium text-gray-900 dark:text-white">loyiha belgilangan rangi </label>
+                            <span class="flex items-center justify-center"> <ColorPicker v-model="editColor" /></span>
+                        </div>
+                        <div>
+                            <label for="visitors" class="block mb-2 font-medium text-gray-900 dark:text-white">loyiha tipi </label>
+                            <select
+                                name=""
+                                v-model="editType"
+                                id=""
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
+                                <option value="manolith">Manolith</option>
+                                <option value="subsystem">Sub-sytem</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="about" class="block mb-2 font-medium text-gray-900 dark:text-white">Ushbu loyiha haqida ma'lumot</label>
+                            <textarea
+                                id="about"
+                                rows="4"
+                                v-model="editDescription"
+                                class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Bosqich haqida umumiy ma'lumot..."
+                            ></textarea>
+                        </div>
                     </div>
-                    <div class="w-full">
-                        <label for="last_name" class="block mb-2 font-medium text-gray-900 dark:text-white">Loyiha nomi qisqartmasi</label>
-                        <input
-                            v-model="editShortname"
-                            type="text"
-                            id="last_name"
-                           class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="PM"
-                        />
-                    </div>
-                    <div>
-                        <label class="block mb-2  font-medium text-gray-900 dark:text-gray-300" for="file_input">Logo</label>
-                        <input
-                         class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 -translate-y-1 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            id="file_input"
-                            @change="changefile"
-                            type="file"
-                            ref="file"
-                        />
-                    </div>
-                    <div>
-                        <label for="startT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihani rejalashtirilgan start sanasi</label>
-                        <input
-                            type="datetime-local"
-                            v-model="editDate_create"
-                            id="startT"
-                           class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        />
-                    </div>
-                    <div>
-                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning rejalashtirilgan tugash sanasi</label>
-                        <input
-                            type="date"
-                            v-model="editEnd_date"
-                            id="EndT"
-                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        />
-                    </div>
-                    <div>
-                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning haqiqatdan start berilgan sanasi</label>
-                        <input
-                            type="date"
-                            v-model="editFactual_start_date"
-                            id="EndT"
-                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        />
-                    </div>
-                    <div>
-                        <label for="EndT" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning haqiqatdan tugagan sanasi</label>
-                        <input
-                            type="date"
-                            v-model="editFactual_end_date"
-                            id="EndT"
-                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        />
-                    </div>
-                    <div>
-                        <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihaning so'mdagi qiymati</label>
-                        <input
-                            type="number"
-                            v-model="editUnit_value"
-                            id="summ"
-                             class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="500 000"
-                            min="0"
-                        />
-                    </div>
-                    <div>
-                        <label for="summ" class="block mb-2 font-medium text-gray-900 dark:text-white">loyihanin ralizatsiyasiga ajratilgan summa</label>
-                        <input
-                            type="number"
-                            v-model="editBudget"
-                            id="summ"
-                             class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="500 000"
-                            min="0"
-                        />
-                    </div>
-                    <div class="flex flex-col">
-                        <label for="visitors" class="block mb-2 font-medium text-gray-900 dark:text-white">loyiha belgilangan rangi </label>
-                        <span class="flex items-center justify-center"> <ColorPicker v-model="editColor" /></span>
-                    </div>
-                    <div>
-                           <label for="visitors" class="block mb-2 font-medium text-gray-900 dark:text-white">loyiha tipi </label>
-                        <select
-                            name=""
-                            v-model="editType"
-                            id=""
-                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
-                            <option value="manolith">Manolith</option>
-                            <option value="subsystem">Sub-sytem</option>
-                        </select>
-                    </div>
-                       <div>
-                        <label for="about" class="block mb-2 font-medium text-gray-900 dark:text-white">Ushbu loyiha haqida ma'lumot</label>
-                          <textarea
-                          id="about"
-                            rows="4"
-                            v-model="editDescription"
-                            class="border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full font-medium font-sans p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Bosqich haqida umumiy ma'lumot..."
-                        ></textarea>
-                    </div>
-                </div>
                     <span class="w-full flex gap-2">
                         <button
-                        @click="editProject()"
+                            @click="editProject()"
                             type="button"
                             class="text-white flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             <ProgressSpinner style="width: 20px; height: 20px" :class="editLoadings ? 'block' : 'hidden'" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
-                        <span :class="editLoadings ? 'block' : 'hidden'">Loading...</span> <span :class="editLoadings ? 'hidden' : 'block'">Edit</span>
+                            <span :class="editLoadings ? 'block' : 'hidden'">Loading...</span> <span :class="editLoadings ? 'hidden' : 'block'">Edit</span>
                         </button>
                         <button
                             type="button"
@@ -331,12 +340,12 @@
     </section>
 </template>
 <script setup>
-import { ref, reactive ,toRaw} from 'vue';
+import { ref, reactive, toRaw } from 'vue';
 import router from '@/router';
 import axios from 'axios';
 // import TopNavMap from '../../../components/topNavMap.vue'
 import loading from '@/components/loading.vue';
-import Pagenetion from "../../../components/pagenetion.vue"
+import Pagenetion from '../../../components/pagenetion.vue';
 
 const loadingDel = ref(false);
 const deletModal = ref(false);
@@ -350,33 +359,34 @@ const selectedCity = ref();
 const card_table = ref(true);
 const rolsMenu = ref();
 const data = ref({});
-const editName=ref('');
-const editColor=ref('');
-const editLogo=ref('');
-const editShortname=ref('');
-const editBudget=ref('');
-const editDate_create=ref('');
-const editEnd_date=ref('');
-const editCreated_at=ref('');
-const editDescription=ref('');
-const editFactual_start_date=ref('');
-const editFactual_end_date=ref('');
-const editUnit_value=ref('');
-const project_id=ref('');
-const errors=ref();
-const projectsId=ref([]);
+const clients = ref({});
+const editName = ref('');
+const editColor = ref('');
+const editLogo = ref('');
+const editShortname = ref('');
+const editBudget = ref('');
+const editDate_create = ref('');
+const editEnd_date = ref('');
+const editCreated_at = ref('');
+const editClient = ref('');
+const editDescription = ref('');
+const editFactual_start_date = ref('');
+const editFactual_end_date = ref('');
+const editUnit_value = ref('');
+const project_id = ref('');
+const errors = ref();
+const projectsId = ref([]);
 console.log(projectsId.value);
 
-const ViewPagenetion=ref(true);
+const ViewPagenetion = ref(true);
 
 const currentPage = ref('');
 const totalPages = ref();
 
-const changefile=((e)=>{
-    editLogo.value=e.target.files[0];
+const changefile = (e) => {
+    editLogo.value = e.target.files[0];
     console.log(editLogo.value);
-})
-
+};
 
 const modalDelet = (id) => {
     eId.value = id;
@@ -395,7 +405,6 @@ const items = ref([
         label: `Umumiy ma'lumotlar`,
         icon: 'pi pi-list',
         command: () => {
-  
             router.push(`/projects_list/${project_id.value}/general_information`);
         }
     },
@@ -434,16 +443,18 @@ function modalEdit(item) {
     let data = JSON.parse(item);
     editId.value = data.id;
     editName.value = data.name;
-    editDate_create.value= data.date_create;
+    editDate_create.value = data.date_create;
     editCreated_at.value = data.created_at;
     editEnd_date.value = data.end_date;
-    editBudget.value= data.budget;
+    editBudget.value = data.budget;
     editShortname.value = data.prefix;
-    editColor.value= data.color;
+    editColor.value = data.color;
     editDescription.value = data.description;
     editFactual_start_date.value = data.factual_start_date;
     editFactual_end_date.value = data.factual_end_date;
     editUnit_value.value = data.unit_value;
+    editClient.value = data.client_id;
+    editLogo.value = data.logo;
 }
 
 function fetchData(page) {
@@ -458,21 +469,40 @@ function fetchData(page) {
                 isloading.value = true;
                 data.value = result.data.result.data;
                 console.log(result.data.result.data);
-                if(result.data.result.last_page > 1){
+                if (result.data.result.last_page > 1) {
                     totalPages.value = result.data.result.last_page;
-                }else if(result.data.result.last_page == 1){
+                } else if (result.data.result.last_page == 1) {
                     ViewPagenetion.value = false;
                 }
             }
         })
         .catch((err) => {
-             ViewPagenetion.value = false;
+            ViewPagenetion.value = false;
             isloading.value = true;
             errors.value = err.response.data.errors;
-            console.error(err.response.data.errors); 
+            console.error(err.response.data.errors);
         });
 }
 fetchData();
+
+function fetchClient() {
+    axios
+        .get('https://pm-api.essential.uz/api/client', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                clients.value = res.data;
+                console.log(res.data);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+fetchClient();
 
 const deletProject = () => {
     loadingDel.value = true;
@@ -511,8 +541,9 @@ const editProject = (id) => {
     formData.append('factual_start_date', editFactual_start_date.value);
     formData.append('factual_end_date', editFactual_end_date.value);
     formData.append('unit_value', editUnit_value.value);
+    formData.append('client_id', editClient.value);
     // formData.append('project_type', project_type.value);
-    
+
     editLoadings.value = true;
     console.log(id);
     const token = localStorage.getItem('token');
@@ -523,15 +554,11 @@ const editProject = (id) => {
     };
 
     axios
-        .post(
-            `https://pm-api.essential.uz/api/project/${editId.value}/update`,
-            formData,
-            { headers }
-        )
+        .post(`https://pm-api.essential.uz/api/project/${editId.value}/update`, formData, { headers })
         .then((result) => {
             if (result.status === 200) {
-                  editModal.value = false;
-                 Swal.fire({
+                editModal.value = false;
+                Swal.fire({
                     position: 'top-center',
                     icon: 'success',
                     title: 'Taxrirlandi',
@@ -556,12 +583,11 @@ const toggle = (event) => {
     menu.value.toggle(event);
 };
 
-function getProjectiId (id){
+function getProjectiId(id) {
     project_id.value = id;
     console.log(id);
-     toggle(event);
+    toggle(event);
 }
-
 
 const rolsItems = ref([
     {
