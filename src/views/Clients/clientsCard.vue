@@ -111,6 +111,8 @@ function fetchClient() {
         .then((res) => {
             if (res.status === 200) {
                 data.value = res.data;
+                 data.value.sort((a,b)=>a.id-b.id)
+                // data.value.sort((a,b)=>{a.id-b.id})
                 console.log(res.data);
             }
         })

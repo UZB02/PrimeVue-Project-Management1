@@ -119,7 +119,7 @@
                                 </div>
                             </span>
                             <div class="relative flex gap-3">
-                                <button type="button" @click="addClient()" class="w-full inline-block pt-3 pr-3 pb-3 pl-3 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
+                                <button type="button" @click="editClient()" class="w-full inline-block pt-3 pr-3 pb-3 pl-3 text-xl font-medium text-center text-white bg-indigo-500 rounded-lg transition duration-200 hover:bg-indigo-600 ease">
                                     <span :class="isloading ? 'flex items-center justify-center' : 'hidden'">
                                         <div aria-label="Loading..." role="status" class="flex items-center justify-center space-x-2">
                                             <svg class="h-7 w-7 animate-spin stroke-white" viewBox="0 0 256 256">
@@ -209,6 +209,41 @@ function fetchClient() {
     }); 
 }
 fetchClient()
+
+const editClient=()=>{
+    isloading.value = true;
+    axios
+    .post(`https://pm-api.essential.uz/api/client/${client_id}/update`,
+    {
+        name: client.eidt_name,
+        phone: client.edit_phone,
+        address: client.edit_address,
+        email: client.edit_email,
+        website: client.edit_web_site,
+        tin: client.edit_inn,
+        coordinate_x: client.edit_addressX,
+        coordinate_y: client.edit_addressY,
+        bank_account: client.edit_bank_akaunt,
+        bank_name: client.edit_bank_name,
+        bank_tin: client.edit_bank_inn,
+        bank_mfi: client.edit_bank_mfi
+
+    },
+    {
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    }).then((res) => {
+        if (res.status === 200) {
+            isloading.value = false;
+            router.push('/all_clients');
+            console.log(res.data);
+        }
+    }).catch((err) => {
+        isloading.value = false;
+        console.log(err);
+    });
+}
 
 // const addClient = () => {
 //     if(name.value == "" || phone.value =="" || bank_name.value == "" || bank_inn.value == "" || bank_akaunt.value == "" || bank_mfi.value == "" || address.value == "" || email.value == "" || web_site.value == "" || inn.value == "" || addressX.value == "" || addressY.value == ""){
