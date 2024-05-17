@@ -55,7 +55,8 @@
                             </span>
                         </span>
                         <div class="actions flex items-center justify-center gap-3">
-                            <i v-tooltip.top="`Taxrirlash`" @click="editClient(item.id)" class="pi pi-pencil cursor-pointer"></i>
+                            <i v-tooltip.top="`Umumiy ma'lumot`" class="pi pi-eye cursor-pointer"></i>
+                            <i v-tooltip.top="`Taxrirlash`" @click="editCompany(item.id)" class="pi pi-pencil cursor-pointer"></i>
                             <i v-tooltip.top="`O'chirish`" @click="modalDelComp(item.id)" class="pi pi-trash cursor-pointer text-red-500"></i>
                         </div>
                     </div>
@@ -83,6 +84,7 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import router from '../../router';
 import axios from 'axios';
 
 const data = ref({});
@@ -133,6 +135,10 @@ const deletComp=()=>{
             loadingDel.value=false;
             console.log(err);
         });
+}
+
+const editCompany = (id) => {
+    router.push(`/edit_companys/${id}`);
 }
 </script>
 <style scoped>

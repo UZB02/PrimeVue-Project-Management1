@@ -169,18 +169,7 @@ const client=reactive({
     edit_bank_mfi:'',
 });
 
-// const eidt_name = ref('');
-// const edit_phone = ref('');
-// const edit_address = ref('');
-// const edit_email = ref('');
-// const edit_web_site = ref('');
-// const edit_inn = ref(``);
-// const edit_addressX = ref(``);
-// const edit_addressY = ref(``);
-// const edit_bank_akaunt = ref(``);
-// const edit_bank_name = ref(``);
-// const edit_bank_inn = ref(``);
-// const edit_bank_mfi = ref(``);
+
 
 function fetchClient() {
     axios
