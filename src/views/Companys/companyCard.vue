@@ -2,7 +2,7 @@
     <section>
            <div class="container flex flex-wrap justify-center gap-2">
                 <div :class="'container flex flex-wrap gap-2'">
-                    <div class="card shadow-md p-3 rounded-lg w-[32%] h-[350px] max-[1100px]:w-[45%] max-[1100px]:h-[300px] flex flex-col gap-2 max-[1030px]:w-[49%] max-[1030px]:h-[350px]">
+                    <div class="card shadow-md p-3 rounded-lg w-[32%] max-[1100px]:w-[45%]  flex flex-col gap-2 max-[1030px]:w-[49%]">
                         <div class="actions flex items-center justify-between">
                             <h2 class="font-bold text-sm text-slate-400">1</h2>
                             <div class="svg flex items-center justify-end gap-2">
@@ -11,10 +11,10 @@
                                 <i @click="getProjectiId(item.id)" aria-haspopup="true" aria-controls="overlay_menu" class="pi pi-ellipsis-h cursor-pointer"></i>
                             </div>
                         </div>
-                        <div class="image">
-                            <img @click="generalinformation(item.id)" class="rounded-xl cursor-pointer w-full h-[200px] object-cover" src="https://avatars.mds.yandex.net/i?id=672ad595cdb990ce88658fad70c678881050887e-10809483-images-thumbs&n=13" alt="Rasm" />
+                        <div class="bottom flex">
+                              <div class="image">
+                            <img class=" cursor-pointer w-20 h-20 rounded-full object-cover" src="https://avatars.mds.yandex.net/i?id=672ad595cdb990ce88658fad70c678881050887e-10809483-images-thumbs&n=13" alt="Rasm" />
                         </div>
-                        <div class="bottom">
                             <span class="flex flex-col gap-2">
                                 <div class="flex items-center justify-between">
                                     <h1 @click="generalinformation(item.id)" class="w-[80%] whitespace-nowrap overflow-hidden text-overflow-ellipsis cursor-pointer text-2xl font-bold">
@@ -36,12 +36,6 @@
                                     <span class="flex items-center justify-center gap-1">
                                         <div :style="`width: 50px; padding: 8px; border-radius: 10px; background-color: red`"></div>
                                     </span>
-                                </div>
-                                <div class="w-full flex items-center justify-center gap-3">
-                                    <span class="bg-gray-200 flex items-center rounded-xl w-full">
-                                        <div style="width: 50%;" class="score rounded-xl bg-green-500 h-2"></div>
-                                    </span>
-                                    <span class="text-sm">50%</span>
                                 </div>
                             </span>
                         </div>

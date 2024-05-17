@@ -238,7 +238,7 @@ const addCompany = () => {
         formData.append('website', website.value);
         formData.append('logo', logo.value);
         formData.append('coordinate_x', coordinate_x.value);
-        formData.append('coordinate_x', coordinate_x.value);
+        formData.append('coordinate_y', coordinate_y.value);
         formData.append('company_unique_key', company_unique_key.value);
         formData.append('director', director.value);
         formData.append('about', about.value);

@@ -9,11 +9,11 @@
                     <input type="text" class="p-2 outline-none" placeholder="Search..." />
                     <i class="pi pi-search mr-1 cursor-pointer"></i>
                 </div>
-                <span @click="cardFunction" class="hover:scale-105 flex cursor-pointer items-center justify-center gap-1">
+                <span @click="cardORtable" class="hover:scale-105 flex cursor-pointer items-center justify-center gap-1">
                     <i class="pi pi-th-large cursor-pointer" />
                     <h3 class="font-semibold">Card</h3>
                 </span>
-                <span @click="tableFunction" class="flex hover:scale-105 cursor-pointer items-center justify-center gap-1">
+                <span @click="tableORcard" class="flex hover:scale-105 cursor-pointer items-center justify-center gap-1">
                     <i class="pi pi-table cursor-pointer" />
                     <h3 class="font-semibold">Table</h3>
                 </span>
@@ -21,7 +21,8 @@
         </div>
     </header>
     <section>
-        <CompanyCard></CompanyCard>
+        <div :class="card_table ? 'block' : 'hidden'"><CompanyCard></CompanyCard></div>
+        <div :class="card_table ? 'hidden' : 'block'"><CompanyTable></CompanyTable></div>
     </section>
 </template>
 <script setup>
@@ -30,10 +31,18 @@ import router from '@/router';
 import axios from 'axios';
 import CompanyCard from '../Companys//companyCard.vue'
 import loading from '@/components/loading.vue';
+import CompanyTable from '../Companys/companysTable.vue'
 
 const data=ref({})
-const card_table = ref(true);
+const card_table = ref(false);
 const isloading = ref(true);
+
+const cardORtable=()=>{
+    card_table.value=true
+}
+const tableORcard=()=>{
+    card_table.value=false
+}
 
 const addCompany=()=>{
     router.push(`/add_companys`);

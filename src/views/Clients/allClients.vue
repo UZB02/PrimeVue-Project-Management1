@@ -4,7 +4,7 @@
             <button @click="addClient" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-1"><i class="pi pi-plus"></i> Add Client</button>
         </div>
     </header>
-    <section>
+    <section class="w-full bg-red-400 h-6">
         <ClientsCard></ClientsCard>
     </section>
 </template>
