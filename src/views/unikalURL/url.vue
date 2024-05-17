@@ -6,7 +6,7 @@
                         <AvatarGroup>
                             <div class="flex items-center gap-1" v-for="item in performers" @click="performersID(item.perfomer.user.id)">
                                 <img
-                                    :src="item.perfomer.user.avatar ? item.perfomer.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
+                                    :src="item.perfomer?.user?.avatar ? item?.perfomer?.user?.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
                                     class="w-[45px] h-[45px] object-cover rounded-full"
                                     alt=""
                                 />
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="image h-full">
-                    <img class="w-full h-full object-cover rounded-lg" :src="mainImage.path ? mainImage.path : `https://vp-leads.com/wp-content/uploads/2021/09/professiya-veb-analitik.jpg`" alt="" />
+                    <img class="w-full h-full object-cover rounded-lg" :src="mainImage?.path ? mainImage?.path : `https://vp-leads.com/wp-content/uploads/2021/09/professiya-veb-analitik.jpg`" alt="" />
                 </div>
             </div>
     <section>

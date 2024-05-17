@@ -59,6 +59,16 @@ const router = createRouter({
                     component: () => import('@/views/Clients/editClient.vue')
                 },
                 {
+                    path: '/companys',
+                    name: `Companys`,
+                    component: () => import('@/views/Companys/companys.vue')
+                },
+                {
+                    path: '/add_companys',
+                    name: `Add Companys`,
+                    component: () => import('@/views/Companys/addCompany.vue')
+                },
+                {
                     path: '/projects_list/:id/melistone',
                     name: 'Melistone',
                     component: () => import('@/views/Projects/ProjectsList/Stages/melistone.vue')

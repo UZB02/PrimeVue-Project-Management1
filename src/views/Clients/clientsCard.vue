@@ -10,7 +10,7 @@
                     </span> -->
 
                     <div class="flex items-center shadow rounded border-0 bg-purple-white justify-between">
-                        <input type="text" class="p-2 outline-none" placeholder="Search..." />
+                        <input type="text" @input="search" v-model="searchDataInput" class="p-2 outline-none" placeholder="Search..." />
                         <i class="pi pi-search mr-2 cursor-pointer"></i>
                     </div>
                 </div>
@@ -89,6 +89,7 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { watch } from 'vue';
 import axios from 'axios';
 import router from '../../router';
 const data = ref([]);
@@ -96,6 +97,34 @@ const op = ref(false);
 const deletModal = ref(false);
 const loadingDel = ref(false);
 const client_id = ref(null);
+const searchDataInput=ref('');
+
+const filteredItems = ref([]);
+
+console.log(searchDataInput.value);
+
+const search = () => {
+    const searchQuery = searchDataInput.value.toLowerCase();
+    if (!searchQuery) {
+        filteredItems.value = data.value;
+    } else {
+        filteredItems.value = data.value.filter(item =>
+            item.name.toLowerCase().includes(searchQuery) ||
+            item.phone.toLowerCase().includes(searchQuery) ||
+            item.address.toLowerCase().includes(searchQuery) ||
+            item.email.toLowerCase().includes(searchQuery) ||
+            item.website.toLowerCase().includes(searchQuery) ||
+            item.bank_name.toLowerCase().includes(searchQuery) ||
+            item.bank_tin.toLowerCase().includes(searchQuery) ||
+            item.bank_mfi.toLowerCase().includes(searchQuery)
+        );
+    }
+};
+
+// Ma'lumotlarni to'plam va foydalanish
+watch([data, searchDataInput], () => {
+    search();
+});
 
 const editClient=(id)=>{
     router.push(`/editClient/${id}`)
@@ -111,6 +140,7 @@ function fetchClient() {
         .then((res) => {
             if (res.status === 200) {
                 data.value = res.data;
+                     filteredItems.value = res.data;
                  data.value.sort((a,b)=>a.id-b.id)
                 console.log(res.data);
             }

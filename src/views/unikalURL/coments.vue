@@ -13,13 +13,13 @@
         >
             <span class="flex realative items-center gap-2">
                 <img
-                    :src="item.user.avatar ? item.user.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
+                    :src="item.user?.avatar ? item.user?.avatar : 'https://avatars.mds.yandex.net/i?id=3301a7f499e9d8287d05e084c96c5002c4852f08-10121710-images-thumbs&ref=rim&n=33&w=250&h=250'"
                     style="width: 30px; height: 30px; border-radius: 50%"
                     class="object-cover"
                 />
                 <span>
-                    <h1 class="font-bold">{{ item.user.fio ? item.user.fio : 'Foydalanuvchi' }}</h1>
-                    <h3 class="text-sm text-gray-400">{{ item.user.user_role?.name }}</h3>
+                    <h1 class="font-bold">{{ item.user?.fio ? item.user?.fio : 'Foydalanuvchi' }}</h1>
+                    <h3 class="text-sm text-gray-400">{{ item.user?.user_role?.name }}</h3>
                 </span>
                 <span :class="myId === item.user_id ? `flex absolute right-6 items-center gap-1` : `hidden`">
                     <i @click="() => modalEditComment(JSON.stringify(item))" class="pi pi-pencil cursor-pointer" v-tooltip.top="'Taxrirlash'"></i>

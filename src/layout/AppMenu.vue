@@ -55,6 +55,9 @@ const model = ref([
        {
         items: [{ label: 'Clients', icon: 'pi pi-fw pi-user', to: '/all_clients' }]
     },
+       {
+        items: [{ label: 'Companys', icon: 'pi pi-fw pi-building', to: '/companys' }]
+    },
     // {
     //     label: 'UI Components',
     //     items: [
