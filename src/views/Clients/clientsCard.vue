@@ -36,11 +36,11 @@
                             <h4 class="w-[60%] text-slate-400 whitespace-nowrap overflow-hidden text-overflow-ellipsis text-sm">{{ item.website }}</h4>
                         </span>
                         <span class="flex relative flex-col w-[200px] items-center justify-center gap-1">
-                            <span v-tooltip.top="`Bank MFI: ${item.bank_mfi}`" class="flex flex-col w-full items-center justify-center gap-1">
+                            <span  class="flex flex-col w-full items-center justify-center gap-1">
                                 <h1 class="font-sans w-[60%] text-center font-medium whitespace-nowrap overflow-hidden text-overflow-ellipsis">{{ item.bank_name }}</h1>
                             <span class="flex w-[150px] items-center justify-center gap-3">
-                                <h4 class="w-[80%] text-slate-400 whitespace-nowrap overflow-hidden text-overflow-ellipsis text-center text-sm">INN: {{ item.bank_tin }}</h4>
-                                <h4 class="w-[80%] text-slate-400 whitespace-nowrap overflow-hidden text-overflow-ellipsis text-center text-sm">MFI: {{ item.bank_mfi }}</h4>
+                                <h4 v-tooltip.top="`Bank TIN: ${item.bank_tin}`" class="w-[80%] text-slate-400 whitespace-nowrap overflow-hidden text-overflow-ellipsis text-center text-sm">INN: {{ item.bank_tin }}</h4>
+                                <h4 v-tooltip.top="`Bank MFI: ${item.bank_mfi}`" class="w-[80%] text-slate-400 whitespace-nowrap overflow-hidden text-overflow-ellipsis text-center text-sm">MFI: {{ item.bank_mfi }}</h4>
                                 
                             </span>
                                 <!-- <i class="pi pi-angle-down w-[20%]"></i> -->

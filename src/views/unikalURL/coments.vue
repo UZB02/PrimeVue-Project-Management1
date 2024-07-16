@@ -33,21 +33,20 @@
                     </p>
                 </div>
                 <div :class="edittextComment.id === item.id ? `text flex items-center justify-center w-full` : `hidden`">
-                    <form class="text flex items-center justify-center w-full bg-slate-200 rounded-md">
+                    <form class="text flex items-center justify-center p-1 w-full bg-slate-200 rounded-md">
                         <!-- <input v-model="edittextComment.text" autofocus type="text" class="w-full bg-transparent outline-none p-2" /> -->
                          <textarea
                                 id="message"
-                                rows="4"
                                 autocapitalize=""
                                 v-model="edittextComment.text"
                                 class="w-full overflow-hidden h-auto bg-transparent outline-none"
                             ></textarea>
                         <span class="flex items-center justify-center g-2">
-                            <button @click="() => (edittextComment.id = null)" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-red-500">
-                                <i class="pi pi-times cursor-pointer text-white"></i>
+                            <button @click="() => (edittextComment.id = null)" type="button" class="flex items-center justify-center gap-2 p-2 w-[25px] transition active:scale-90 cursor-pointer h-[25px] rounded-full bg-red-500">
+                                <i class="pi pi-times cursor-pointer text-white text-sm"></i>
                             </button>
-                            <button @click="editComment(item.id)" type="button" class="flex items-center justify-center gap-2 p-2 w-[30px] transition active:scale-90 cursor-pointer h-[30px] rounded-full bg-green-500">
-                                <i class="pi pi-send cursor-pointer text-white"></i>
+                            <button @click="editComment(item.id)" type="button" class="flex items-center justify-center gap-2 p-2 w-[25px] transition active:scale-90 cursor-pointer h-[25px] rounded-full bg-green-500">
+                                <i class="pi pi-send cursor-pointer text-white text-sm"></i>
                             </button>
                         </span>
                     </form>
@@ -56,9 +55,6 @@
         </div>
     </ScrollPanel>
     <section class="flex flex-col relative">
-        <!-- <div class="flex items-center absolute bg-red-500 justify-center w-full">
-de
-            </div> -->
         <div class="bottom flex flex-col items-center gap-2 justify-between mt-1 border p-1 rounded-3xl">
             <div class="right flex items-center justify-center w-full">
                 <form @submit.prevent="addComment()" class="right flex items-center justify-center w-full">

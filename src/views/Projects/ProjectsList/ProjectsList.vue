@@ -464,6 +464,7 @@ function fetchData(page) {
             }
         })
         .then((result) => {
+            console.log(result);
             if (result.status === 200) {
                 isloading.value = true;
                 data.value = result.data.result.data;
